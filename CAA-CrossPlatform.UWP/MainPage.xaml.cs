@@ -21,7 +21,7 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new CAA_CrossPlatform.App());
+            
         }
     }
 }
