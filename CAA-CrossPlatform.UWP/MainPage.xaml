@@ -21,10 +21,11 @@
                             <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutItem Text="Events"></MenuFlyoutItem>
-                        
+
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
+            <TextBlock Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="661" Foreground="#FFEE3124"/>
         </Grid>
 
     </Grid>
