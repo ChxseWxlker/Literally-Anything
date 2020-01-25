@@ -29,5 +29,10 @@ namespace CAA_CrossPlatform.UWP
 
 
         }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
