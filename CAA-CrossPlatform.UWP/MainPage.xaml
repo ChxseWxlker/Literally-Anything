@@ -25,7 +25,7 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <TextBlock Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="661" Foreground="#FFEE3124"/>
+            <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
         </Grid>
 
     </Grid>
