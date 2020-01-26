@@ -41,6 +41,9 @@ namespace CAA_CrossPlatform.UWP
         {
 
         }
-        
+        private void Events_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Events));
+        }
     }
 }

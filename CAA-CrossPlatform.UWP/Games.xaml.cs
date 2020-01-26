@@ -58,5 +58,6 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(Questions));
         }
+
     }
 }

@@ -43,5 +43,15 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(Questions));
         }
+
+        private void CreateQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(QuestionsCreate));
+        }
+
+        private void EditQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(QuestionsEdit));
+        }
     }
 }
