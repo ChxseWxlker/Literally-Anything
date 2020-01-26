@@ -92,6 +92,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events.xaml.cs">
+      <DependentUpon>Events.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EventsCreate.xaml.cs">
+      <DependentUpon>EventsCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EventsEdit.xaml.cs">
+      <DependentUpon>EventsEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Games.xaml.cs">
       <DependentUpon>Games.xaml</DependentUpon>
     </Compile>
@@ -144,6 +153,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Events.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventsCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventsEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Games.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
