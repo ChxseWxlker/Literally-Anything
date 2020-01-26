@@ -29,5 +29,34 @@ namespace CAA_CrossPlatform.UWP
 
 
         }
+
+       
+
+        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(GamesCreate));
+        }
+
+        private void EditQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(GamesEdit));
+        }
+
+        private void DelteQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void Events_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Events));
+        }
+        private void Quizes_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Games));
+        }
+        private void Questions_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Questions));
+        }
     }
 }

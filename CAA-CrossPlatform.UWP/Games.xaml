@@ -16,8 +16,8 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="LeftEdgeAlignedBottom" >
                         <MenuFlyoutSubItem Text="Games">
-                            <MenuFlyoutItem Text="Quizes"></MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Quizes" Click="Quizes_OnClick"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Questions" Click="Questions_OnClick"></MenuFlyoutItem>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutItem Text="Events"></MenuFlyoutItem>
 
@@ -26,6 +26,9 @@
             </Button>
             <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
         </Grid>
-        <TextBlock   Text="Questions" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" FontSize="60" Height="92" Width="571" Foreground="#1D60C9" Margin="463,205,0,0"/>
+        <TextBlock   Text="Quizes" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" FontSize="60" Height="92" Width="571" Foreground="#1D60C9" Margin="10,239,0,0"/>
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="975,310,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="EditQuiz" Content="Edit" Margin="975,406,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="EditQuiz_Click" />
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="DelteQuiz" Content="Delete" Margin="975,500,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="DelteQuiz_Click" />
     </Grid>
 </Page>
