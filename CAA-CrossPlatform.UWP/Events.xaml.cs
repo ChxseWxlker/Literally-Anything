@@ -26,5 +26,20 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
         }
+
+        private void CreateEvent_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventsCreate));
+        }
+
+        private void EditEvent_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventsEdit));
+        }
+
+        private void DeleteEvent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

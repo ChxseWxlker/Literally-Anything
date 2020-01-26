@@ -9,6 +9,22 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
+        <Grid Height="150" VerticalAlignment="top" Background="White" >
+            <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
+            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" >
+                <Button.Flyout>
+                    <MenuFlyout Placement="LeftEdgeAlignedBottom" >
+                        <MenuFlyoutSubItem Text="Games">
+                            <MenuFlyoutItem Text="Quizes"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutItem Text="Events"></MenuFlyoutItem>
 
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
+        </Grid>
     </Grid>
 </Page>
