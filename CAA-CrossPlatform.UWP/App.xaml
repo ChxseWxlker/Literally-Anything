@@ -5,4 +5,25 @@
     xmlns:local="using:CAA_CrossPlatform.UWP"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <!--Source: Video: C# - Designing Round Buttons in WPF: https://www.youtube.com/watch?v=Q0CbkFN_JPs&t=167s-->
+        <Style x:Key="RoundButtonTemplate" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="Foreground" Value="#1D60C9"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" BorderThickness="2" BorderBrush="#1D60C9">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                    
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
+    </Application.Resources>
+    
 </Application>
