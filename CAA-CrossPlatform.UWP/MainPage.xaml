@@ -20,7 +20,7 @@
                             <MenuFlyoutItem Text="Quizes"></MenuFlyoutItem>
                             <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutItem Text="Events"></MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
 
                     </MenuFlyout>
                 </Button.Flyout>
