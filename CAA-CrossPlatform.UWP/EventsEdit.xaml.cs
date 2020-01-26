@@ -26,5 +26,6 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
         }
+       
     }
 }

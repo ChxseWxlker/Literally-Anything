@@ -104,12 +104,24 @@
     <Compile Include="Games.xaml.cs">
       <DependentUpon>Games.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GamesCreate.xaml.cs">
+      <DependentUpon>GamesCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GamesEdit.xaml.cs">
+      <DependentUpon>GamesEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questions.xaml.cs">
       <DependentUpon>Questions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionsCreate.xaml.cs">
+      <DependentUpon>QuestionsCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionsEdit.xaml.cs">
+      <DependentUpon>QuestionsEdit.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -169,11 +181,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GamesCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GamesEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Questions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuestionsCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuestionsEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
