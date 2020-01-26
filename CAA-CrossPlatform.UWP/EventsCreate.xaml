@@ -38,6 +38,10 @@
         <ComboBox x:Name="QuizCmb" Margin="50,630,0,0" Width="296" FontSize="25"/>
         <Button x:Name="CancelBtn" Content="Cancel" Margin="550,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="CancelBtn_Click"/>
         <Button x:Name="SaveBtn" Content="Save" Margin="775,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="SaveBtn_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="750,230,0,0" Text="Trackable Information" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="35"/>
+        <TextBlock HorizontalAlignment="Left" Margin="750,230,0,0" Text="Trackable Information" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Members Only" Margin="750,270,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Numbers of Guests" HorizontalAlignment="Left" Margin="750,360,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Numbers of Adults" Margin="750,450,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Number of Children" Margin="750,540,0,0" VerticalAlignment="Top" FontSize="25"/>
     </Grid>
 </Page>

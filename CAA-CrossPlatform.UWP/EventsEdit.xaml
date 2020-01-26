@@ -26,5 +26,22 @@
             </Button>
             <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
         </Grid>
+        <TextBlock x:Name="EventNameTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Event Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+        <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Margin="50,360,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+        <TextBlock x:Name="EventLocationTB" HorizontalAlignment="Left" Margin="50,320,0,0" Text="Location" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <TextBlock x:Name="StartDateTB" HorizontalAlignment="Left" Margin="50,410,0,0" Text="Start Date" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <DatePicker x:Name="StartDateDtp" Margin="50,450,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <TextBlock x:Name="QuizTB" HorizontalAlignment="Left" Margin="50,590,0,0" Text="Quiz" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <DatePicker x:Name="EndDateDtp" Margin="50,540,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <TextBlock x:Name="EndDateTB" HorizontalAlignment="Left" Margin="50,500,0,0" Text="End Date" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <ComboBox x:Name="QuizCmb" Margin="50,630,0,0" Width="296" FontSize="25"/>
+        <Button x:Name="CancelBtn" Content="Cancel" Margin="550,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="CancelBtn_Click"/>
+        <Button x:Name="UpdateBtn" Content="Update" Margin="775,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30"/>
+        <TextBlock HorizontalAlignment="Left" Margin="750,230,0,0" Text="Trackable Information" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Members Only" Margin="750,270,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Numbers of Guests" HorizontalAlignment="Left" Margin="750,360,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Numbers of Adults" Margin="750,450,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <CheckBox Content="Number of Children" Margin="750,540,0,0" VerticalAlignment="Top" FontSize="25"/>
     </Grid>
 </Page>

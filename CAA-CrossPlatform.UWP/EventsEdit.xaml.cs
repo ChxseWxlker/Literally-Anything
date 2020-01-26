@@ -26,5 +26,10 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
         }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Events));
+        }
     }
 }

@@ -31,5 +31,9 @@
         <Button x:Name="EditEvent" Content="Edit" Margin="975,375,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="EditEvent_Click" />
         <Button x:Name="DeleteEvent" Content="Delete" Margin="975,450,0,0" Width="180" Height="50" VerticalAlignment="Top" FontSize="30" Click="DeleteEvent_Click" />
         <TextBlock x:Name="UpcomingEventsTB" HorizontalAlignment="Left" Margin="50,415,0,0" Text="Upcoming Events" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="45"/>
+        <ListBox x:Name="CurrentEventsLb" Margin="50,300,650,585"/>
+        <ListBox x:Name="UpcomingEventsLb" Margin="50,485,650,315"/>
+        <TextBlock x:Name="PastEventsTB" HorizontalAlignment="Left" Margin="50,690,0,0" Text="Past Events" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="45"/>
+        <ComboBox x:Name="PastEventsCmb" Margin="300,696,0,0" Width="550" FontSize="45"/>
     </Grid>
 </Page>
