@@ -38,5 +38,10 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(Questions));
         }
+
+        private void QuestionTB_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

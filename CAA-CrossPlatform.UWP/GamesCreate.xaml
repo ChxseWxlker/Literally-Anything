@@ -28,9 +28,10 @@
         </Grid>
 
         <TextBlock x:Name="QuizNameTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Quiz Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400" TextChanged="QuizTxt_TextChanged"/>
         <TextBlock x:Name="QuestionsTB" HorizontalAlignment="Left" Margin="50,371,0,0" Text="Select Questions" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
         <TextBox x:Name="Txt" HorizontalAlignment="Left" Margin="50,409,0,0" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <Image HorizontalAlignment="Left" Height="37" Margin="455,414,0,0" VerticalAlignment="Top" Width="39" Source="/Assets/SearchIcon.png" RenderTransformOrigin="0.477,0.282"/>
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
     </Grid>
 </Page>
