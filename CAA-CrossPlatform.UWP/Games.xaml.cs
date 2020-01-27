@@ -27,23 +27,13 @@ namespace CAA_CrossPlatform.UWP
             this.InitializeComponent();
         }
 
+
+
        private void Page_OnLoad(object sender, RoutedEventArgs e)
         {
-            List<string> testList = new List<string>();
-            testList.Add("hello");
-            testList.Add("world");
-            testList.Add("and");
-            testList.Add("all");
-            testList.Add("who");
-            testList.Add("inhabit");
-            testList.Add("it");
+            
 
-            foreach (string s in testList)
-            {
-                lstQuiz.Items.Add(s);
-               
-               //lstQuiz.Items[testList.IndexOf(s)] = "hello";
-            }
+            
             
         }
 
@@ -74,6 +64,19 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Game> games = Json.Read("game.json");
+            
+            foreach(Game g in games)
+            {
+                lstQuiz.Items.Add(g.title);
+            }
+            
+
+
+
+
+        }
     }
 }

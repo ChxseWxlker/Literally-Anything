@@ -53,5 +53,15 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(QuestionsEdit));
         }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Question> questions = Json.Read("question.json");
+
+            foreach (Question q in questions)
+            {
+                lstQuestions.Items.Add(q.name);
+            }
+        }
     }
 }
