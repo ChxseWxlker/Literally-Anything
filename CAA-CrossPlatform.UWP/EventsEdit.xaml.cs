@@ -80,6 +80,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
+            //set object properties
             gEvent.name = EventTxt.Text;
             gEvent.location = LocationTxt.Text;
             gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
@@ -89,7 +90,11 @@ namespace CAA_CrossPlatform.UWP
             gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
             gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
             gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+
+            //update json file
             Json.Edit(gEvent, "event.json");
+
+            //navigate back to events
             Frame.Navigate(typeof(Events));
         }
 
