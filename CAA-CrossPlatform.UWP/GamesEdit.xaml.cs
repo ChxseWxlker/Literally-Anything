@@ -26,6 +26,21 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            List<string> testList = new List<string>();
+            testList.Add("hello");
+            testList.Add("world");
+            testList.Add("and");
+            testList.Add("all");
+            testList.Add("who");
+            testList.Add("inhabit");
+            testList.Add("it");
+
+            
+            QuizTxt.Text = testList[Convert.ToInt32(e.Parameter.ToString())];
+        }
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));

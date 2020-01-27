@@ -25,12 +25,27 @@ namespace CAA_CrossPlatform.UWP
         public Games()
         {
             this.InitializeComponent();
-
-
-
         }
 
-       
+       private void Page_OnLoad(object sender, RoutedEventArgs e)
+        {
+            List<string> testList = new List<string>();
+            testList.Add("hello");
+            testList.Add("world");
+            testList.Add("and");
+            testList.Add("all");
+            testList.Add("who");
+            testList.Add("inhabit");
+            testList.Add("it");
+
+            foreach (string s in testList)
+            {
+                lstQuiz.Items.Add(s);
+               
+               //lstQuiz.Items[testList.IndexOf(s)] = "hello";
+            }
+            
+        }
 
         private void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
@@ -39,7 +54,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesEdit));
+            Frame.Navigate(typeof(GamesEdit), lstQuiz.SelectedIndex);
         }
 
         private void DelteQuiz_Click(object sender, RoutedEventArgs e)
@@ -59,5 +74,6 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
+        
     }
 }
