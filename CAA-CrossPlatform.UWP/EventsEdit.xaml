@@ -9,39 +9,214 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
-        <Grid Height="150" VerticalAlignment="top" Background="White" >
-            <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
-            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" >
-                <Button.Flyout>
-                    <MenuFlyout Placement="LeftEdgeAlignedBottom" >
-                        <MenuFlyoutSubItem Text="Games">
-                            <MenuFlyoutItem Text="Quizes" Click="Quizes_OnClick"></MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Questions" Click="Questions_OnClick"></MenuFlyoutItem>
-                        </MenuFlyoutSubItem>
-                        <MenuFlyoutItem Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateEventEdit">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EventNameTB.FontSize" Value="20"/>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="EventTxt.FontSize" Value="20"/>
+                        <Setter Target="EventTxt.Width" Value="250"/>
+                        <Setter Target="EventLocationTB.FontSize" Value="20"/>
+                        <Setter Target="LocationTxt.FontSize" Value="20"/>
+                        <Setter Target="StartDateTB.FontSize" Value="20"/>
+                        <Setter Target="StartDateDtp.FontSize" Value="15"/>
+                        <Setter Target="EndDateTB.FontSize" Value="20"/>
+                        <Setter Target="EndDateDtp.FontSize" Value="15"/>
+                        <Setter Target="QuizTB.FontSize" Value="20"/>
+                        <Setter Target="QuizCmb.FontSize" Value="15"/>
+                        <Setter Target="QuizCmb.Width" Value="250"/>
+                        <Setter Target="LocationTxt.Width" Value="250"/>
+                        <Setter Target="textBlock1.FontSize" Value="20"/>
+                        <Setter Target="MemberOnlyChk.FontSize" Value="20"/>
+                        <Setter Target="trackGuestChk.FontSize" Value="20"/>
+                        <Setter Target="trackAdultChk.FontSize" Value="20"/>
+                        <Setter Target="trackChildChk.FontSize" Value="20"/>
+                        <Setter Target="Form.Orientation" Value="Vertical"/>
+                        <Setter Target="CancelBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.Width" Value="130"/>
+                        <Setter Target="CancelBtn.Width" Value="130"/>
+                        <Setter Target="Menu.Width" Value="70"/>
+                        <Setter Target="Menu.Height" Value="40"/>
+                        <Setter Target="Menu.FontSize" Value="15"/>
+                        <Setter Target="textBlock.FontSize" Value="20"/>
+                        <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                        <Setter Target="CAAImg.Height" Value="60"/>
+                        <Setter Target="CAAImg.Width" Value="70"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateMiddle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="501"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EventNameTB.FontSize" Value="20"/>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="EventTxt.FontSize" Value="20"/>
+                        <Setter Target="EventTxt.Width" Value="300"/>
+                        <Setter Target="EventLocationTB.FontSize" Value="20"/>
+                        <Setter Target="LocationTxt.FontSize" Value="20"/>
+                        <Setter Target="StartDateTB.FontSize" Value="20"/>
+                        <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                        <Setter Target="EndDateTB.FontSize" Value="20"/>
+                        <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                        <Setter Target="QuizTB.FontSize" Value="20"/>
+                        <Setter Target="QuizCmb.FontSize" Value="20"/>
+                        <Setter Target="LocationTxt.Width" Value="300"/>
+                        <Setter Target="textBlock1.FontSize" Value="20"/>
+                        <Setter Target="MemberOnlyChk.FontSize" Value="20"/>
+                        <Setter Target="trackGuestChk.FontSize" Value="20"/>
+                        <Setter Target="trackAdultChk.FontSize" Value="20"/>
+                        <Setter Target="trackChildChk.FontSize" Value="20"/>
+                        <Setter Target="Form.Orientation" Value="Vertical"/>
+                        <Setter Target="Form.Margin" Value="0,0,0,10"/>
+                        <Setter Target="CancelBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.Width" Value="130"/>
+                        <Setter Target="CancelBtn.Width" Value="130"/>
+                        <Setter Target="Menu.Width" Value="90"/>
+                        <Setter Target="Menu.Height" Value="50"/>
+                        <Setter Target="textBlock.FontSize" Value="30"/>
+                        <Setter Target="CAAImg.Height" Value="70"/>
+                        <Setter Target="CAAImg.Width" Value="80"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="650"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="EventNameTB.FontSize" Value="10"/>
+                        <Setter Target="EventNameTB.FontSize" Value="20"/>
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="100"/>
+                        <Setter Target="EventTxt.FontSize" Value="20"/>
+                        <Setter Target="EventTxt.Width" Value="300"/>
+                        <Setter Target="EventLocationTB.FontSize" Value="20"/>
+                        <Setter Target="LocationTxt.FontSize" Value="20"/>
+                        <Setter Target="StartDateTB.FontSize" Value="20"/>
+                        <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                        <Setter Target="EndDateTB.FontSize" Value="20"/>
+                        <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                        <Setter Target="QuizTB.FontSize" Value="20"/>
+                        <Setter Target="QuizCmb.FontSize" Value="20"/>
+                        <Setter Target="LocationTxt.Width" Value="300"/>
+                        <Setter Target="textBlock1.FontSize" Value="20"/>
+                        <Setter Target="MemberOnlyChk.FontSize" Value="20"/>
+                        <Setter Target="trackGuestChk.FontSize" Value="20"/>
+                        <Setter Target="trackAdultChk.FontSize" Value="20"/>
+                        <Setter Target="trackChildChk.FontSize" Value="20"/>
+                        <Setter Target="CancelBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.FontSize" Value="20"/>
+                        <Setter Target="UpdateBtn.Width" Value="130"/>
+                        <Setter Target="CancelBtn.Width" Value="130"/>
+                        <Setter Target="Menu.Width" Value="100"/>
+                        <Setter Target="Menu.Height" Value="58"/>
+                        <Setter Target="textBlock.FontSize" Value="45"/>
+                        <Setter Target="CAAImg.Height" Value="100"/>
+                        <Setter Target="CAAImg.Width" Value="110"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="950"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
-        </Grid>
-        <TextBlock x:Name="EventNameTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Event Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-        <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Margin="50,360,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-        <TextBlock x:Name="EventLocationTB" HorizontalAlignment="Left" Margin="50,320,0,0" Text="Location" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBlock x:Name="StartDateTB" HorizontalAlignment="Left" Margin="50,410,0,0" Text="Start Date" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <DatePicker x:Name="StartDateDtp" Margin="50,450,0,0" VerticalAlignment="Top" FontSize="25"/>
-        <TextBlock x:Name="QuizTB" HorizontalAlignment="Left" Margin="50,590,0,0" Text="Quiz" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <DatePicker x:Name="EndDateDtp" Margin="50,540,0,0" VerticalAlignment="Top" FontSize="25"/>
-        <TextBlock x:Name="EndDateTB" HorizontalAlignment="Left" Margin="50,500,0,0" Text="End Date" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <ComboBox x:Name="QuizCmb" Margin="50,630,0,0" Width="296" FontSize="25"/>
-        <Button x:Name="CancelBtn" Content="Cancel" Margin="550,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="CancelBtn_Click"/>
-        <Button x:Name="UpdateBtn" Content="Update" Margin="775,710,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="UpdateBtn_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="750,230,0,0" Text="Trackable Information" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <CheckBox x:Name="MemberOnlyChk" Content="Members Only" Margin="750,270,0,0" VerticalAlignment="Top" FontSize="25"/>
-        <CheckBox x:Name="trackGuestChk" Content="Numbers of Guests" HorizontalAlignment="Left" Margin="750,360,0,0" VerticalAlignment="Top" FontSize="25"/>
-        <CheckBox x:Name="trackAdultChk" Content="Numbers of Adults" Margin="750,450,0,0" VerticalAlignment="Top" FontSize="25"/>
-        <CheckBox x:Name="trackChildChk" Content="Number of Children" Margin="750,540,0,0" VerticalAlignment="Top" FontSize="25"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+
+                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
+
+                    <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <Button.Flyout>
+                            <MenuFlyout Placement="LeftEdgeAlignedBottom" >
+                                <MenuFlyoutSubItem Text="Games">
+                                    <MenuFlyoutItem Text="Quizes"  Click="Quizes_OnClick"></MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                </RelativePanel>
+
+                <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
+                    <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <RelativePanel>
+                        <StackPanel x:Name="Form" Orientation="Horizontal">
+                            <StackPanel Margin="0,0,50,0">
+
+                                <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                                <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
+
+                                <TextBlock x:Name="EventLocationTB" Text="Location" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                                <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
+
+                                <TextBlock x:Name="StartDateTB" Text="Start Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0"/>
+
+                                <TextBlock x:Name="EndDateTB" Text="End Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                                <DatePicker x:Name="EndDateDtp" Margin="0,10,0,0" FontSize="25"/>
+
+                                <TextBlock x:Name="QuizTB" Text="Quiz" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                                <ComboBox x:Name="QuizCmb" Width="296" FontSize="25" Margin="0,10,0,0"/>
+
+                            </StackPanel>
+
+                            <StackPanel>
+
+                                <TextBlock x:Name="textBlock1" Text="Trackable Information" TextWrapping="Wrap" Margin="0,20,0,0" FontSize="25"/>
+
+                                <CheckBox x:Name="MemberOnlyChk" Content="Members Only" Margin="0,20,0,0" FontSize="25"/>
+
+                                <CheckBox x:Name="trackGuestChk" Content="Numbers of Guests" Margin="0,20,0,0" FontSize="25"/>
+
+                                <CheckBox x:Name="trackAdultChk" Content="Numbers of Adults" Margin="0,20,0,0" FontSize="25"/>
+
+                                <CheckBox x:Name="trackChildChk" Content="Number of Children"  Margin="0,20,0,0" FontSize="25"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0" RelativePanel.Below="Form" RelativePanel.AlignHorizontalCenterWith="Form">
+
+                            <Button x:Name="CancelBtn" Content="Cancel" Margin="0,0,20,0" Width="180" Height="50" FontSize="30" Click="CancelBtn_Click"/>
+
+                            <Button x:Name="UpdateBtn" Content="Update" Margin="20,0,0,0" Width="180" Height="50" FontSize="30" Click="UpdateBtn_Click"/>
+
+                        </StackPanel>
+                    </RelativePanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
