@@ -11,6 +11,12 @@ namespace CAA_CrossPlatform.UWP
 {
     public class Event
     {
+        public Event()
+        {
+            this.hidden = false;
+        }
+
+        //event properties
         public int id { get; set; }
         public bool hidden { get; set; }
         public string name { get; set; }
@@ -31,6 +37,12 @@ namespace CAA_CrossPlatform.UWP
 
     public class Game
     {
+        public Game()
+        {
+            this.hidden = false;
+        }
+
+        //game properties
         public int id { get; set; }
         public bool hidden { get; set; }
         public string title { get; set; }
@@ -44,6 +56,12 @@ namespace CAA_CrossPlatform.UWP
 
     public class Question
     {
+        public Question()
+        {
+            this.hidden = false;
+        }
+
+        //question properties
         public int id { get; set; }
         public bool hidden { get; set; }
         public string name { get; set; }
