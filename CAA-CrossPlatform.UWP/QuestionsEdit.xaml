@@ -36,10 +36,10 @@
         <TextBox x:Name="Answer3Txt" HorizontalAlignment="Left" Margin="50,664,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <TextBlock x:Name="Answer4TB" HorizontalAlignment="Left" Margin="50,751,0,0" Text="Answer 4:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
         <TextBox x:Name="Answer4Txt" HorizontalAlignment="Left" Margin="50,789,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-        <CheckBox  Margin="513,438,0,0" VerticalAlignment="Top" Width="21"/>
-        <CheckBox  Margin="513,552,0,0" VerticalAlignment="Top" Width="21"/>
-        <CheckBox  Margin="513,667,0,0" VerticalAlignment="Top" Width="17"/>
-        <CheckBox  Margin="513,792,0,0" VerticalAlignment="Top" Width="20"/>
+        <CheckBox  x:Name="Answer1Chk" Margin="513,438,0,0" VerticalAlignment="Top" Width="21"/>
+        <CheckBox  x:Name="Answer2Chk" Margin="513,552,0,0" VerticalAlignment="Top" Width="21"/>
+        <CheckBox  x:Name="Answer3Chk" Margin="513,667,0,0" VerticalAlignment="Top" Width="17"/>
+        <CheckBox  x:Name="Answer4Chk" Margin="513,792,0,0" VerticalAlignment="Top" Width="20"/>
         <TextBlock x:Name="CorrectTB" HorizontalAlignment="Left" Margin="492,393,0,0" Text="Correct" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
         <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="EditQuestion" Content="Edit" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="EditQuestion_Click" />
 

@@ -30,18 +30,15 @@ namespace CAA_CrossPlatform.UWP
         Question testQuestion;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
+
         {
             List<Question> questions = Json.Read("question.json");
 
             int checkID = Convert.ToInt32(e.Parameter);
 
             foreach (Question q in questions)
-            {
                 if(q.id == checkID)
-                {
                     testQuestion = q;
-                }
-            }
 
             QuestionTxt.Text = testQuestion.name;
 
@@ -92,6 +89,47 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
+            List<Question> questions = Json.Read("question.json");
+            List<string> answers = new List<string>();
+            answers.Add(Answer1Txt.Text);
+            answers.Add(Answer2Txt.Text);
+            answers.Add(Answer3Txt.Text);
+            answers.Add(Answer4Txt.Text);
+
+            foreach(Question q in questions)
+            {
+                if(q.id == testQuestion.id)
+                {
+                    q.name = testQuestion.name;
+                    q.answers = new List<string>();
+                    foreach (string a in answers)
+                    {
+                        if (a.Length > 0)
+                        {
+                            q.answers.Add(a);
+                            if (Answer1Chk.IsChecked == true && Answer1Txt.Text.Length > 0)
+                            {
+                                q.correct = Answer1Txt.Text;
+                            }
+                            else if (Answer2Chk.IsChecked == true && Answer2Txt.Text.Length > 0)
+                            {
+                                q.correct = Answer2Txt.Text;
+                            }
+                            else if (Answer3Chk.IsChecked == true && Answer3Txt.Text.Length > 0)
+                            {
+                                q.correct = Answer3Txt.Text;
+                            }
+                            else if (Answer4Chk.IsChecked == true && Answer4Txt.Text.Length > 0)
+                            {
+                                q.correct = Answer4Txt.Text;
+                            }
+
+                        }
+                    }
+                    
+                }
+            }
+            
 
         }
     }
