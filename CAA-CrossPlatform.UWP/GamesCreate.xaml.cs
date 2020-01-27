@@ -39,81 +39,36 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        dynamic readJson(string fileName)
+        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            //get file path
-            string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
+            //check json read
+            string checkList = "";
 
-            //create return object
-            dynamic jsonObj = null;
-
-            //check if file exists
-            if (File.Exists(path))
+            List<Game> games = Json.Read("game.json");
+            foreach (Game g in games)
             {
-                //read json data from file
-                var model = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(path));
-
-                //game json object
-                if (model.ToString().Substring(6, 4) == "game")
-                {
-                    jsonObj = new List<Game>();
-                    List<Game> games = new List<Game>();
-                    foreach (dynamic game in model.games)
-                    {
-                        Game g = new Game();
-                        g.id = game.id;
-                        int[] questions = new int[0];
-                        foreach(var question in game.questions)
-                        {
-                            questions
-                        }
-                        jsonObj.Add(g);
-                    }
-                }
-
-                //question json object
-                else if (model.ToString().Substring(6, 4) == "ques")
-                {
-                    
-                }
+                checkList += $"ID:{g.id}\n";
             }
 
-            return jsonObj;
-        }
+            checkList += "\n";
 
-        void writeJson(object jsonObj, string fileName)
-        {
-            string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
-            //string oldJson = readJson(fileName);
-
-            //string jsonStr = JsonConvert.SerializeObject(jsonObj);
-            //File.WriteAllText(path, jsonObj);
-        }
-
-        private void game_test()
-        {
-            Game game = new Game();
-            game.id = 1;
-            game.questions = new int[] { 1, 2 };
-            //writeJson(game, "test.json");
-        }
-
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            var objToSerialize = new RootGame();
-            objToSerialize.games = new List<Game>
+            List<Question> questions = Json.Read("question.json");
+            foreach (Question q in questions)
             {
-                new Game { id = 1, questions = new int[] { 1, 2, 3 } },
-                new Game { id = 2, questions = new int[] { 1, 2, 3 } },
-                new Game { id = 3, questions = new int[] { 1, 2, 3 } }
-            };
-            string test = JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
-            //writeJson(test, "test.json");
-            //game_test();
-            
-            int hi = readJson("test.json")[0].id;
-            new MessageDialog(hi.ToString()).ShowAsync();
-            
+                checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
+            }
+            await new MessageDialog(checkList).ShowAsync();
+
+            //check json write
+            Game game = new Game();
+            game.questions = new int[] { 1, 2, 3 };
+            Json.Write(game, "game.json");
+
+            Question question = new Question();
+            question.name = "Is json sick?";
+            question.answers = new string[] { "Yes", "No" };
+            question.correct = "Yes";
+            Json.Write(question, "question.json");
         }
 
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
