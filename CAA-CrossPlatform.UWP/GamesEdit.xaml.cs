@@ -13,59 +13,47 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class GamesEdit : Page
     {
         public GamesEdit()
         {
             this.InitializeComponent();
         }
+
         Game selectedGame;
+        List<Question> listQuestions = new List<Question>();
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //gets the selected game
+            //get current game
+            selectedGame = (Game)e.Parameter;
+
+            //get list of questions
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
-            {
-                lstQuestions.Items.Add(q.name);
-            }
-            List<Game> games = Json.Read("game.json");
-           
-            
-            QuizTxt.Text = games[Convert.ToInt32(e.Parameter)].title;
-            
-            //Checks the questions already selected
-            foreach (Object o in lstQuestions.Items)
-            {
-                foreach(int q in games[Convert.ToInt32(e.Parameter)].questions)
+                if (q.hidden == false)
                 {
-                    if(lstQuestions.Items.IndexOf(o) == q)
-                    {
-                        lstQuestions.SelectedItems.Add(o);
-                    }
+                    lstQuestions.Items.Add(q.name);
+                    listQuestions.Add(q);
+                    if (selectedGame.questions.Contains(q.id))
+                        lstQuestions.SelectedItems.Add(q.name);
                 }
-            }
-            selectedGame = games[Convert.ToInt32(e.Parameter)];
 
-
-
-
-
+            QuizTxt.Text = selectedGame.title;
         }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
@@ -73,45 +61,20 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
-            List<Game> games = Json.Read("game.json");
-            foreach (Game g in games)
-            {
-                if (g.title == selectedGame.title)
-                {
-                    g.questions = new List<int>();
-                }
-            }
-                
-            foreach(string s in lstQuestions.SelectedItems)
-            {
-                foreach(string st in lstQuestions.Items)
-                {
-                    if(s == st)
-                    {
-                         foreach(Game g in games)
-                        {
-                            if (g.title == selectedGame.title)
-                            {
-                                g.questions.Add(lstQuestions.Items.IndexOf(s));
-                            }
-                        }
-                    }
+            //create list of selected questions
+            selectedGame.questions = new List<int>();
 
-                }
-                
-            }
-            foreach (Game g in games)
-            {
-                if (g.title == selectedGame.title)
-                {
-                    g.title = QuizTxt.Text;
-                    
-                }
-            }
-            foreach (Game g in games) 
-            {
-                Json.Edit(g, "game.json");
-            }
+            foreach(string sq in lstQuestions.SelectedItems)
+                foreach (Question q in listQuestions)
+                    if (sq == q.name)
+                        selectedGame.questions.Add(q.id);
+
+            selectedGame.title = QuizTxt.Text;
+
+            //edit game object
+            Json.Edit(selectedGame, "game.json");
+
+            //redirect to game page
             Frame.Navigate(typeof(Games));
         }
     }

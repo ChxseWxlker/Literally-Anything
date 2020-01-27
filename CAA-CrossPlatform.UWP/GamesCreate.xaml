@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Loaded="Grid_Loaded">
+    <Grid>
         <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
         <Grid Height="150" VerticalAlignment="top" Background="White" >
             <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
@@ -28,7 +28,7 @@
         </Grid>
 
         <TextBlock x:Name="QuizNameTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Quiz Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400" TextChanged="QuizTxt_TextChanged"/>
+        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <TextBlock x:Name="QuestionsTB" HorizontalAlignment="Left" Margin="50,371,0,0" Text="Select Questions" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
         <TextBox x:Name="Txt" HorizontalAlignment="Left" Margin="50,409,0,0" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <Image HorizontalAlignment="Left" Height="37" Margin="455,414,0,0" VerticalAlignment="Top" Width="39" Source="/Assets/SearchIcon.png" RenderTransformOrigin="0.477,0.282"/>

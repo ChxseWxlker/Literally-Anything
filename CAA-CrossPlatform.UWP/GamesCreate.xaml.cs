@@ -22,70 +22,60 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class GamesCreate : Page
     {
+        //list of questions
+        List<Question> listQuestions = new List<Question>();
+
         public GamesCreate()
         {
             this.InitializeComponent();
+            this.Loaded += GamesCreate_Loaded;
         }
+
+        private void GamesCreate_Loaded(object sender, RoutedEventArgs e)
+        {
+            //get question list
+            List<Question> questions = Json.Read("question.json");
+            foreach (Question q in questions)
+                if (q.hidden == false)
+                {
+                    lstQuestions.Items.Add(q.name);
+                    listQuestions.Add(q);
+                }
+        }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
         }
 
-        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-           
-            //check json write
-            List<int> questionList = new List<int>();
-            foreach(string s in lstQuestions.SelectedItems)
-            {
-                foreach(string st in lstQuestions.Items)
-                {
-                    if(s == st)
-                    {
-                        questionList.Add(lstQuestions.Items.IndexOf(s));
-                    }
-                }
-                
-            }
-            
-            //Creates a mew game with the provided data
+            //create game object
             Game game = new Game();
+
+            //set object properties
+            game.questions = new List<int>();
+
+            foreach (string sq in lstQuestions.SelectedItems)
+                foreach (Question q in listQuestions)
+                    if (sq == q.name)
+                        game.questions.Add(q.id);
+
             game.title = QuizTxt.Text;
-            game.questions = questionList;
             Json.Write(game, "game.json");
 
+            //navigate back to game
             Frame.Navigate(typeof(Games));
-        }
-
-        private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            //check json read
-           
-
-            List<Game> games = Json.Read("game.json");
-            
-            List<Question> questions = Json.Read("question.json");
-            foreach(Question q in questions)
-            {
-                lstQuestions.Items.Add(q.name);
-            }
-            
-            
-
-            
         }
     }
 }

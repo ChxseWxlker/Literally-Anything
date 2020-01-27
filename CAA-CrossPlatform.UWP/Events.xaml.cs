@@ -81,65 +81,77 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(EventsCreate));
         }
 
-        private void EditEvent_Click(object sender, RoutedEventArgs e)
+        private async void EditEvent_Click(object sender, RoutedEventArgs e)
         {
-            //get the id and the current listbox in use
-            int eventID = -1;
-            if (currentLb == "current")
+            if (currentLb != "")
             {
-                foreach (Event ev in currentEvents)
-                    if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
-                        eventID = ev.id;
-            }
-            else if (currentLb == "upcoming")
-            {
-                foreach (Event ev in upcomingEvents)
-                    if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
-                        eventID = ev.id;
-            }
-            else if (currentLb == "past")
-            {
-                foreach (Event ev in pastEvents)
-                    if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
-                        eventID = ev.id;
-            }
+                //get the event and the current listbox in use
+                Event selectedEvent = new Event();
 
-            //navigate to edit page with id
-            Frame.Navigate(typeof(EventsEdit), eventID);
+                if (currentLb == "current")
+                {
+                    foreach (Event ev in currentEvents)
+                        if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
+                            selectedEvent = ev;
+                }
+
+                else if (currentLb == "upcoming")
+                {
+                    foreach (Event ev in upcomingEvents)
+                        if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
+                            selectedEvent = ev;
+                }
+
+                else if (currentLb == "past")
+                {
+                    foreach (Event ev in pastEvents)
+                        if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
+                            selectedEvent = ev;
+                }
+
+                //navigate to edit page
+                Frame.Navigate(typeof(EventsEdit), selectedEvent);
+            }
+            else
+                await new MessageDialog("Please choose an event to edit").ShowAsync();
         }
 
-        private void DeleteEvent_Click(object sender, RoutedEventArgs e)
+        private async void DeleteEvent_Click(object sender, RoutedEventArgs e)
         {
-            //get selected event from listbox
-            Event gEvent = new Event();
-            if (currentLb == "current")
+            if (currentLb != "")
             {
-                foreach (Event ev in currentEvents)
-                    if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
-                        gEvent = ev;
+                //get selected event from listbox
+                Event gEvent = new Event();
+                if (currentLb == "current")
+                {
+                    foreach (Event ev in currentEvents)
+                        if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
+                            gEvent = ev;
+                }
+
+                else if (currentLb == "upcoming")
+                {
+                    foreach (Event ev in upcomingEvents)
+                        if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
+                            gEvent = ev;
+                }
+
+                else if (currentLb == "past")
+                {
+                    foreach (Event ev in pastEvents)
+                        if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
+                            gEvent = ev;
+                }
+
+                //hide event object
+                gEvent.hidden = true;
+
+                //edit event object and reload
+                Json.Edit(gEvent, "event.json");
+                Frame.Navigate(typeof(Events));
             }
-
-            else if (currentLb == "upcoming")
-            {
-                foreach (Event ev in upcomingEvents)
-                    if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
-                        gEvent = ev;
-            }
-
-            else if (currentLb == "past")
-            {
-                foreach (Event ev in pastEvents)
-                    if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
-                        gEvent = ev;
-            }
-
-            //hide event object
-            gEvent.hidden = true;
-
-            //edit event object and reload
-            Json.Edit(gEvent, "event.json");
-            Frame.Navigate(typeof(Events));
-
+            else
+                await new MessageDialog("Please choose an event to delete").ShowAsync();
         }
 
         private void CurrentEventsLb_SelectionChanged(object sender, SelectionChangedEventArgs e)

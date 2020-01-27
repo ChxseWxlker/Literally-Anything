@@ -13,61 +13,55 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class QuestionsEdit : Page
     {
+        //create question object
+        Question selectedQuestion = new Question();
+
         public QuestionsEdit()
         {
             this.InitializeComponent();
         }
 
-        Question testQuestion;
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
-
         {
-            List<Question> questions = Json.Read("question.json");
+            //set question object
+            selectedQuestion = (Question)e.Parameter;
 
-            int checkID = Convert.ToInt32(e.Parameter);
+            //set text
+            QuizTxt.Text = selectedQuestion.name;
 
-            foreach (Question q in questions)
-                if(q.id == checkID)
-                    testQuestion = q;
-
-            QuestionTxt.Text = testQuestion.name;
-
-            for(int i = 0; i < testQuestion.answers.Count; i++)
+            for (int i = 0; i < selectedQuestion.answers.Count; i++)
             {
-                switch(i)
+                if (i == 0)
                 {
-                    case 0:
-                        Answer1Txt.Text = testQuestion.answers[i];
-                        break;
-                    case 1:
-                        Answer2Txt.Text = testQuestion.answers[i];
-                        break;
-                    case 2:
-                        Answer3Txt.Text = testQuestion.answers[i];
-                        break;
-                    case 3:
-                        Answer2Txt.Text = testQuestion.answers[i];
-                        break;
+                    Answer1Txt.Text = selectedQuestion.answers[i];
+                    Answer1CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
+                }
 
+                else if (i == 1)
+                {
+                    Answer2Txt.Text = selectedQuestion.answers[i];
+                    Answer2CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
+                }
 
+                else if (i == 2)
+                {
+                    Answer3Txt.Text = selectedQuestion.answers[i];
+                    Answer3CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
+                }
 
+                else if (i == 3)
+                {
+                    Answer4Txt.Text = selectedQuestion.answers[i];
+                    Answer4CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
                 }
             }
-            
-
         }
 
-            private void Events_OnClick(object sender, RoutedEventArgs e)
+        private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
@@ -82,55 +76,58 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void QuestionTB_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
-            List<Question> questions = Json.Read("question.json");
-            List<string> answers = new List<string>();
-            answers.Add(Answer1Txt.Text);
-            answers.Add(Answer2Txt.Text);
-            answers.Add(Answer3Txt.Text);
-            answers.Add(Answer4Txt.Text);
+            //set object properties
+            selectedQuestion.name = QuizTxt.Text;
 
-            foreach(Question q in questions)
+            selectedQuestion.answers = new List<string>();
+            selectedQuestion.correctAnswers = new List<bool>();
+
+            for (int i = 0; i < 4; i++)
             {
-                if(q.id == testQuestion.id)
+                if (i == 0)
                 {
-                    q.name = testQuestion.name;
-                    q.answers = new List<string>();
-                    foreach (string a in answers)
+                    if (Answer1Txt.Text != "")
                     {
-                        if (a.Length > 0)
-                        {
-                            q.answers.Add(a);
-                            if (Answer1Chk.IsChecked == true && Answer1Txt.Text.Length > 0)
-                            {
-                                q.correct = Answer1Txt.Text;
-                            }
-                            else if (Answer2Chk.IsChecked == true && Answer2Txt.Text.Length > 0)
-                            {
-                                q.correct = Answer2Txt.Text;
-                            }
-                            else if (Answer3Chk.IsChecked == true && Answer3Txt.Text.Length > 0)
-                            {
-                                q.correct = Answer3Txt.Text;
-                            }
-                            else if (Answer4Chk.IsChecked == true && Answer4Txt.Text.Length > 0)
-                            {
-                                q.correct = Answer4Txt.Text;
-                            }
-
-                        }
+                        selectedQuestion.answers.Add(Answer1Txt.Text);
+                        selectedQuestion.correctAnswers.Add(Answer1CorrectChk.IsChecked ?? false);
                     }
-                    
+                }
+
+                else if (i == 1)
+                {
+                    if (Answer2Txt.Text != "")
+                    {
+                        selectedQuestion.answers.Add(Answer2Txt.Text);
+                        selectedQuestion.correctAnswers.Add(Answer2CorrectChk.IsChecked ?? false);
+                    }
+                }
+
+                else if (i == 2)
+                {
+                    if (Answer3Txt.Text != "")
+                    {
+                        selectedQuestion.answers.Add(Answer3Txt.Text);
+                        selectedQuestion.correctAnswers.Add(Answer3CorrectChk.IsChecked ?? false);
+                    }
+                }
+
+                else if (i == 3)
+                {
+                    if (Answer4Txt.Text != "")
+                    {
+                        selectedQuestion.answers.Add(Answer4Txt.Text);
+                        selectedQuestion.correctAnswers.Add(Answer4CorrectChk.IsChecked ?? false);
+                    }
                 }
             }
-            
 
+            //save json object
+            Json.Edit(selectedQuestion, "question.json");
+
+            //redirect to questions page
+            Frame.Navigate(typeof(Questions));
         }
     }
 }
