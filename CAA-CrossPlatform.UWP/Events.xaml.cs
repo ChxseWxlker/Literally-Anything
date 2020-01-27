@@ -83,6 +83,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditEvent_Click(object sender, RoutedEventArgs e)
         {
+            //get the id and the current listbox in use
             int eventID = -1;
             if (currentLb == "current")
             {
@@ -103,11 +104,41 @@ namespace CAA_CrossPlatform.UWP
                         eventID = ev.id;
             }
 
+            //navigate to edit page with id
             Frame.Navigate(typeof(EventsEdit), eventID);
         }
 
         private void DeleteEvent_Click(object sender, RoutedEventArgs e)
         {
+            //get selected event from listbox
+            Event gEvent = new Event();
+            if (currentLb == "current")
+            {
+                foreach (Event ev in currentEvents)
+                    if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
+                        gEvent = ev;
+            }
+
+            else if (currentLb == "upcoming")
+            {
+                foreach (Event ev in upcomingEvents)
+                    if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
+                        gEvent = ev;
+            }
+
+            else if (currentLb == "past")
+            {
+                foreach (Event ev in pastEvents)
+                    if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
+                        gEvent = ev;
+            }
+
+            //hide event object
+            gEvent.hidden = true;
+
+            //edit event object and reload
+            Json.Edit(gEvent, "event.json");
+            Frame.Navigate(typeof(Events));
 
         }
 
