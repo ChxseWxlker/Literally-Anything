@@ -78,11 +78,10 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (g.title == selectedGame.title)
                 {
-                    g.title = QuizTxt.Text;
                     g.questions = new List<int>();
                 }
             }
-            
+                
             foreach(string s in lstQuestions.SelectedItems)
             {
                 foreach(string st in lstQuestions.Items)
@@ -100,6 +99,18 @@ namespace CAA_CrossPlatform.UWP
 
                 }
                 
+            }
+            foreach (Game g in games)
+            {
+                if (g.title == selectedGame.title)
+                {
+                    g.title = QuizTxt.Text;
+                    
+                }
+            }
+            foreach (Game g in games) 
+            {
+                Json.Edit(g, "game.json");
             }
             Frame.Navigate(typeof(Games));
         }

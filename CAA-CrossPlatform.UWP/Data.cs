@@ -199,5 +199,78 @@ namespace CAA_CrossPlatform.UWP
             string jsonStr = JsonConvert.SerializeObject(root, Formatting.Indented);
             File.WriteAllText(path, jsonStr);
         }
+        public static void Edit(dynamic jsonObj, string fileName)
+        {
+            //get file path
+            string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
+
+            //get existing model
+            dynamic model = Read(fileName);
+
+            //setup root
+            dynamic root = null;
+
+            //event json object
+            if (model.GetType().ToString().Substring(56, 4) == "Even")
+            {
+                //initialize root
+                root = new RootEvent();
+
+                //set object properties
+                root.events = model;
+                int editIndex = -1;
+                foreach (Event ev in root.events)
+                    if (ev.id == jsonObj.id)
+                        editIndex = root.events.IndexOf(ev);
+                if (editIndex != -1)
+                    root.events.RemoveAt(editIndex);
+                root.events.Insert(editIndex, jsonObj);
+            }
+
+            //game json object
+            else if (model.GetType().ToString().Substring(56, 4) == "Game")
+            {
+                //initialize root
+                root = new RootGame();
+
+                //set object properties
+                root.games = model;
+                int editIndex = -1;
+                foreach (Game g in root.games)
+                    if (g.id == jsonObj.id)
+                        editIndex = root.games.IndexOf(g);
+                if (editIndex != -1)
+                    root.games.RemoveAt(editIndex);
+                root.games.Insert(editIndex, jsonObj);
+            }
+
+            //question json object
+            else if (model.GetType().ToString().Substring(56, 4) == "Ques")
+            {
+                //initialize root
+                root = new RootQuestion();
+
+                //set object properties
+                root.questions = model;
+                int editIndex = -1;
+                foreach (Question q in root.questions)
+                    if (q.id == jsonObj.id)
+                        editIndex = root.questions.IndexOf(q);
+                if (editIndex != -1)
+                    root.questions.RemoveAt(editIndex);
+                root.questions.Insert(editIndex, jsonObj);
+            }
+
+            //json object doesn't exist
+            else
+            {
+                return;
+            }
+
+            //serialize and write to file
+            string jsonStr = JsonConvert.SerializeObject(root, Formatting.Indented);
+            File.WriteAllText(path, jsonStr);
+        }
     }
 }
+    
