@@ -41,34 +41,7 @@ namespace CAA_CrossPlatform.UWP
 
         private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            //check json read
-            string checkList = "";
-
-            List<Game> games = Json.Read("game.json");
-            foreach (Game g in games)
-            {
-                checkList += $"ID:{g.id}\n";
-            }
-
-            checkList += "\n";
             
-            List<Question> questions = Json.Read("question.json");
-            foreach (Question q in questions)
-            {
-                checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
-            }
-            await new MessageDialog(checkList).ShowAsync();
-
-            //check json write
-            Game game = new Game();
-            game.questions = new int[] { 1, 2, 3 };
-            Json.Write(game, "game.json");
-
-            Question question = new Question();
-            question.name = "Is json sick?";
-            question.answers = new string[] { "Yes", "No" };
-            question.correct = "Yes";
-            Json.Write(question, "question.json");
         }
 
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)

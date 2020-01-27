@@ -13,33 +13,66 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class EventsCreate : Page
     {
+        //create list of visible games
+        List<Game> visibleGames = new List<Game>();
+
         public EventsCreate()
         {
             this.InitializeComponent();
+            this.Loaded += EventsCreate_Loaded;
+        }
+
+        private void Events_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Events));
+        }
+
+        private void Quizes_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Games));
+        }
+
+        private void Questions_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Questions));
+        }
+
+        private void EventsCreate_Loaded(object sender, RoutedEventArgs e)
+        {
+            //get all games
+            List<Game> games = Json.Read("game.json");
+
+            //populate listbox
+            foreach (Game game in games)
+                if (game.hidden == false)
+                {
+                    QuizCmb.Items.Add(game.title);
+                    visibleGames.Add(game);
+                }
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Event gEvent = new Event();
+            gEvent.name = EventTxt.Text;
+            gEvent.location = LocationTxt.Text;
+            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
+            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
+            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
+            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
+            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
+            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+            Json.Write(gEvent, "event.json");
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
-        }
-        private void Events_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Events));
-        }
-        
+        }       
     }
 }

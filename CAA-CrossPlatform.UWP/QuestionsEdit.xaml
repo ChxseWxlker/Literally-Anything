@@ -16,8 +16,8 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="LeftEdgeAlignedBottom" >
                         <MenuFlyoutSubItem Text="Games">
-                            <MenuFlyoutItem Text="Quizes"></MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Quizes" Click="Quizes_OnClick"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Questions" Click="Questions_OnClick"></MenuFlyoutItem>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutItem Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
 

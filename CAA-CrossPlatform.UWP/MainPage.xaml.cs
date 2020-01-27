@@ -20,25 +20,21 @@ namespace CAA_CrossPlatform.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
-            
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

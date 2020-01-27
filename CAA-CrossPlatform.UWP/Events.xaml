@@ -12,14 +12,14 @@
         <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
         <Grid Height="150" VerticalAlignment="top" Background="White" >
             <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
-            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" >
+            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112">
                 <Button.Flyout>
                     <MenuFlyout Placement="LeftEdgeAlignedBottom" >
                         <MenuFlyoutSubItem Text="Games">
-                            <MenuFlyoutItem Text="Quizes"></MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Questions"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Quizes" Click="Quizes_OnClick"></MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Questions" Click="Questions_OnClick"></MenuFlyoutItem>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutItem Text="Events"></MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
 
                     </MenuFlyout>
                 </Button.Flyout>
@@ -31,9 +31,9 @@
         <Button x:Name="EditEvent" Content="Edit" Margin="975,375,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="30" Click="EditEvent_Click" />
         <Button x:Name="DeleteEvent" Content="Delete" Margin="975,450,0,0" Width="180" Height="50" VerticalAlignment="Top" FontSize="30" Click="DeleteEvent_Click" />
         <TextBlock x:Name="UpcomingEventsTB" HorizontalAlignment="Left" Margin="50,415,0,0" Text="Upcoming Events" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="45"/>
-        <ListBox x:Name="CurrentEventsLb" Margin="50,300,650,585"/>
-        <ListBox x:Name="UpcomingEventsLb" Margin="50,485,650,315"/>
+        <ListBox x:Name="CurrentEventsLb" Margin="50,300,650,585" SelectionChanged="CurrentEventsLb_SelectionChanged"/>
+        <ListBox x:Name="UpcomingEventsLb" Margin="50,485,650,315" SelectionChanged="UpcomingEventsLb_SelectionChanged"/>
         <TextBlock x:Name="PastEventsTB" HorizontalAlignment="Left" Margin="50,690,0,0" Text="Past Events" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="45"/>
-        <ComboBox x:Name="PastEventsCmb" Margin="300,696,0,0" Width="550" FontSize="45"/>
+        <ComboBox x:Name="PastEventsCmb" Margin="300,696,0,0" Width="550" FontSize="45" SelectionChanged="PastEventsCmb_SelectionChanged"/>
     </Grid>
 </Page>

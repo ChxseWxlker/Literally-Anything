@@ -13,6 +13,15 @@ namespace CAA_CrossPlatform.UWP
     {
         public int id { get; set; }
         public bool hidden { get; set; }
+        public string name { get; set; }
+        public string location { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public int game { get; set; }
+        public bool memberOnly { get; set; }
+        public bool trackGuestNum { get; set; }
+        public bool trackAdultNum { get; set; }
+        public bool trackChildNum { get; set; }
     }
 
     public class RootEvent
@@ -25,7 +34,7 @@ namespace CAA_CrossPlatform.UWP
         public int id { get; set; }
         public bool hidden { get; set; }
         public string title { get; set; }
-        public int[] questions { get; set; }
+        public List<int> questions { get; set; }
     }
 
     public class RootGame
@@ -38,7 +47,7 @@ namespace CAA_CrossPlatform.UWP
         public int id { get; set; }
         public bool hidden { get; set; }
         public string name { get; set; }
-        public string[] answers { get; set; }
+        public List<string> answers { get; set; }
         public string correct { get; set; }
     }
 
@@ -63,8 +72,29 @@ namespace CAA_CrossPlatform.UWP
                 //read json data from file
                 var model = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(path));
 
+                //event json object
+                if (model.ToString().Substring(6, 4) == "even")
+                {
+                    jsonObj = new List<Event>();
+                    foreach (dynamic gEvent in model.events)
+                    {
+                        Event e = new Event();
+                        e.id = gEvent.id;
+                        e.hidden = gEvent.hidden;
+                        e.name = gEvent.name;
+                        e.location = gEvent.location;
+                        e.startDate = gEvent.startDate;
+                        e.endDate = gEvent.endDate;
+                        e.game = gEvent.game;
+                        e.trackGuestNum = gEvent.trackGuestNum;
+                        e.trackAdultNum = gEvent.trackAdultNum;
+                        e.trackChildNum = gEvent.trackChildNum;
+                        jsonObj.Add(e);
+                    }
+                }
+
                 //game json object
-                if (model.ToString().Substring(6, 4) == "game")
+                else if (model.ToString().Substring(6, 4) == "game")
                 {
                     jsonObj = new List<Game>();
                     foreach (dynamic game in model.games)
@@ -73,11 +103,9 @@ namespace CAA_CrossPlatform.UWP
                         g.id = game.id;
                         g.hidden = game.hidden;
                         g.title = game.title;
-                        g.questions = new int[game.questions.Count];
-                        for (int i = 0; i < game.questions.Count; i++)
-                        {
-                            g.questions[i] = game.questions[i];
-                        }
+                        g.questions = new List<int>();
+                        foreach (int question in game.questions)
+                            g.questions.Add(question);
                         jsonObj.Add(g);
                     }
                 }
@@ -92,11 +120,9 @@ namespace CAA_CrossPlatform.UWP
                         q.id = question.id;
                         q.hidden = question.hidden;
                         q.name = question.name;
-                        q.answers = new string[question.answers.Count];
-                        for (int i = 0; i < question.answers.Count; i++)
-                        {
-                            q.answers[i] = question.answers[i];
-                        }
+                        q.answers = new List<string>();
+                        foreach (string answer in question.answers)
+                            q.answers.Add(answer);
                         q.correct = question.correct;
                         jsonObj.Add(q);
                     }
@@ -124,8 +150,21 @@ namespace CAA_CrossPlatform.UWP
             //setup root
             dynamic root = null;
 
+            //event json object
+            if (model.GetType().ToString().Substring(56, 4) == "Even")
+            {
+                //initialize root
+                root = new RootEvent();
+
+                //set object properties
+                root.events = model;
+                int id = root.events[root.events.Count - 1].id + 1;
+                jsonObj.id = id;
+                root.events.Add(jsonObj);
+            }
+
             //game json object
-            if (model.GetType().ToString().Substring(56, 4) == "Game")
+            else if (model.GetType().ToString().Substring(56, 4) == "Game")
             {
                 //initialize root
                 root = new RootGame();

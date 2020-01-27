@@ -219,6 +219,12 @@
   <ItemGroup>
     <Folder Include="CAA_CrossPlatform\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAA-CrossPlatform\CAA-CrossPlatform.csproj">
+      <Project>{d16b5c19-e3c7-4ec2-998d-970d42247c41}</Project>
+      <Name>CAA-CrossPlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
