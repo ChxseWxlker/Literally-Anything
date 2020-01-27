@@ -18,13 +18,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class GamesCreate : Page
     {
         public GamesCreate()
@@ -74,8 +69,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            game_test();
-            new MessageDialog(readJson("test.json")).ShowAsync();
+            var objToSerialize = new RootGame();
+            objToSerialize.games = new List<Game>
+            {
+                new Game { id = 1, questions = new int[] { 1, 2, 3 } },
+                new Game { id = 2, questions = new int[] { 1, 2, 3 } },
+                new Game { id = 3, questions = new int[] { 1, 2, 3 } }
+            };
+            string test = JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
+            //game_test();
+            new MessageDialog(test).ShowAsync();
+            
         }
 
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)

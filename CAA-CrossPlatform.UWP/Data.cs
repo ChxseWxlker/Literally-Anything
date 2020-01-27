@@ -12,6 +12,11 @@ namespace CAA_CrossPlatform.UWP
         public int[] questions { get; set; }
     }
 
+    public class RootGame
+    {
+        public List<Game> games { get; set; }
+    }
+
     public class Question
     {
         public int id { get; set; }
@@ -20,10 +25,7 @@ namespace CAA_CrossPlatform.UWP
         private int answerIndex { get; set; }
         public string correct
         {
-            get
-            {
-                return answers[answerIndex];
-            }
+            get { return answers[answerIndex]; }
             set
             {
                 for (int i = 0; i < answers.Length; i++)
@@ -33,5 +35,10 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
         }
+    }
+
+    public class RootQuestion
+    {
+        public List<Question> questions { get; set; }
     }
 }
