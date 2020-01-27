@@ -53,7 +53,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(QuestionsEdit));
+            Frame.Navigate(typeof(QuestionsEdit), lstQuestions.SelectedIndex);
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)

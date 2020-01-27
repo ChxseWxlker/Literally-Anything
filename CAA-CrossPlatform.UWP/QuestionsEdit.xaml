@@ -27,7 +27,7 @@
             <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
         </Grid>
         <TextBlock x:Name="QuestionTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Question" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" SelectionChanged="QuestionTB_SelectionChanged"/>
-        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+        <TextBox x:Name="QuestionTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <TextBlock x:Name="Answer1TB" HorizontalAlignment="Left" Margin="50,393,0,0" Text="Answer 1:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
         <TextBox x:Name="Answer1Txt" HorizontalAlignment="Left" Margin="50,431,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <TextBlock x:Name="Answer2TB" HorizontalAlignment="Left" Margin="50,507,0,0" Text="Answer 2:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
@@ -41,6 +41,7 @@
         <CheckBox  Margin="513,667,0,0" VerticalAlignment="Top" Width="17"/>
         <CheckBox  Margin="513,792,0,0" VerticalAlignment="Top" Width="20"/>
         <TextBlock x:Name="CorrectTB" HorizontalAlignment="Left" Margin="492,393,0,0" Text="Correct" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="EditQuestion" Content="Edit" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="EditQuestion_Click" />
 
     </Grid>
 </Page>
