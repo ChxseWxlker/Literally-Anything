@@ -139,7 +139,6 @@ namespace CAA_CrossPlatform.UWP
             //edit event object and reload
             Json.Edit(gEvent, "event.json");
             Frame.Navigate(typeof(Events));
-
         }
 
         private void CurrentEventsLb_SelectionChanged(object sender, SelectionChangedEventArgs e)

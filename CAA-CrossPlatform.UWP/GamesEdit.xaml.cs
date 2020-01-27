@@ -26,46 +26,49 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
         }
+
         Game selectedGame;
+        List<Question> listQuestions = new List<Question>();
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //gets the selected game
+            //get list of questions
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
-            {
-                lstQuestions.Items.Add(q.name);
-            }
+                if (q.hidden == false)
+                {
+                    lstQuestions.Items.Add(q.name);
+                    listQuestions.Add(q);
+                }
+
+            //get current game
             List<Game> games = Json.Read("game.json");
-           
+            foreach (Game g in games)
+                if (g.id == Convert.ToInt32(e.Parameter))
+                    selectedGame = g;
             
-            QuizTxt.Text = games[Convert.ToInt32(e.Parameter)].title;
+            QuizTxt.Text = selectedGame.title;
             
             //Checks the questions already selected
+            /*
             foreach (Object o in lstQuestions.Items)
-            {
-                foreach(int q in games[Convert.ToInt32(e.Parameter)].questions)
-                {
+                foreach(int q in selectedGame.questions)
                     if(lstQuestions.Items.IndexOf(o) == q)
-                    {
                         lstQuestions.SelectedItems.Add(o);
-                    }
-                }
-            }
-            selectedGame = games[Convert.ToInt32(e.Parameter)];
-
-
-
-
-
+            */
+            
         }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));

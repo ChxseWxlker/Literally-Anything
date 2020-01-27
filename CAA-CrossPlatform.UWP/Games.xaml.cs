@@ -22,19 +22,11 @@ namespace CAA_CrossPlatform.UWP
     /// </summary>
     public sealed partial class Games : Page
     {
+        List<Game> listGames = new List<Game>();
+
         public Games()
         {
             this.InitializeComponent();
-        }
-
-
-
-       private void Page_OnLoad(object sender, RoutedEventArgs e)
-        {
-            
-
-            
-            
         }
 
         private void CreateQuiz_Click(object sender, RoutedEventArgs e)
@@ -44,21 +36,36 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesEdit), lstQuiz.SelectedIndex);
+            Frame.Navigate(typeof(GamesEdit), listGames[lstQuiz.SelectedIndex].id);
         }
 
         private void DelteQuiz_Click(object sender, RoutedEventArgs e)
         {
-            
+            //get selected game from listbox
+            Game game = new Game();
+
+            foreach (Game g in listGames)
+                if (g.id == listGames[lstQuiz.SelectedIndex].id)
+                    game = g;
+
+            //hide game object
+            game.hidden = true;
+
+            //edit game object and reload
+            Json.Edit(game, "game.json");
+            Frame.Navigate(typeof(Games));
         }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
@@ -66,17 +73,15 @@ namespace CAA_CrossPlatform.UWP
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
+            //get list of games
             List<Game> games = Json.Read("game.json");
-            
-            foreach(Game g in games)
-            {
-                lstQuiz.Items.Add(g.title);
-            }
-            
 
-
-
-
+            foreach (Game g in games)
+                if (g.hidden == false)
+                {
+                    lstQuiz.Items.Add(g.title);
+                    listGames.Add(g);
+                }
         }
     }
 }

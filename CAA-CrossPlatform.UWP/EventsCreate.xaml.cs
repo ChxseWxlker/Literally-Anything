@@ -68,6 +68,9 @@ namespace CAA_CrossPlatform.UWP
             gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
             gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
             Json.Write(gEvent, "event.json");
+
+            //navigate back to events
+            Frame.Navigate(typeof(Events));
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

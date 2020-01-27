@@ -172,7 +172,7 @@ namespace CAA_CrossPlatform.UWP
             if (model.GetType().ToString().Substring(56, 4) == "Even")
             {
                 //initialize root
-                root = new RootGame();
+                root = new RootEvent();
 
                 //set object properties
                 root.events = model;
