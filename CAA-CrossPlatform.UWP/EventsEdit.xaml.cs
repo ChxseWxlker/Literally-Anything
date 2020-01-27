@@ -80,7 +80,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            gEvent.name = EventTxt.Text;
+            gEvent.location = LocationTxt.Text;
+            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
+            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
+            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
+            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
+            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
+            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+            Json.Edit(gEvent, "event.json");
+            Frame.Navigate(typeof(Events));
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
