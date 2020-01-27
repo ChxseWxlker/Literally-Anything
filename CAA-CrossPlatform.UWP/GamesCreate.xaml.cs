@@ -51,7 +51,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             checkList += "\n";
-
+            
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
             {

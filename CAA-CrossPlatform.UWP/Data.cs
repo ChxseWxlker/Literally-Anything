@@ -9,9 +9,22 @@ using Windows.Storage;
 
 namespace CAA_CrossPlatform.UWP
 {
+    public class Event
+    {
+        public int id { get; set; }
+        public bool hidden { get; set; }
+    }
+
+    public class RootEvent
+    {
+        public List<Event> events { get; set; }
+    }
+
     public class Game
     {
         public int id { get; set; }
+        public bool hidden { get; set; }
+        public string title { get; set; }
         public int[] questions { get; set; }
     }
 
@@ -23,6 +36,7 @@ namespace CAA_CrossPlatform.UWP
     public class Question
     {
         public int id { get; set; }
+        public bool hidden { get; set; }
         public string name { get; set; }
         public string[] answers { get; set; }
         public string correct { get; set; }
@@ -57,6 +71,8 @@ namespace CAA_CrossPlatform.UWP
                     {
                         Game g = new Game();
                         g.id = game.id;
+                        g.hidden = game.hidden;
+                        g.title = game.title;
                         g.questions = new int[game.questions.Count];
                         for (int i = 0; i < game.questions.Count; i++)
                         {
@@ -74,6 +90,7 @@ namespace CAA_CrossPlatform.UWP
                     {
                         Question q = new Question();
                         q.id = question.id;
+                        q.hidden = question.hidden;
                         q.name = question.name;
                         q.answers = new string[question.answers.Count];
                         for (int i = 0; i < question.answers.Count; i++)
