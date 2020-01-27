@@ -41,12 +41,51 @@ namespace CAA_CrossPlatform.UWP
 
         private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
+           
+            //check json write
+            List<int> questionList = new List<int>();
+            foreach(string s in lstQuestions.SelectedItems)
+            {
+                foreach(string st in lstQuestions.Items)
+                {
+                    if(s == st)
+                    {
+                        questionList.Add(lstQuestions.Items.IndexOf(s));
+                    }
+                }
+                
+            }
             
+            //Creates a mew game with the provided data
+            Game game = new Game();
+            game.title = QuizTxt.Text;
+            game.questions = questionList;
+            Json.Write(game, "game.json");
+
+            Frame.Navigate(typeof(Games));
         }
 
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            //check json read
+           
+
+            List<Game> games = Json.Read("game.json");
+            
+            List<Question> questions = Json.Read("question.json");
+            foreach(Question q in questions)
+            {
+                lstQuestions.Items.Add(q.name);
+            }
+            
+            
+
+            
         }
     }
 }

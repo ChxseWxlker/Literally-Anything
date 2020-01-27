@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAA-CrossPlatform.Android",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAA-CrossPlatform.iOS", "CAA-CrossPlatform.iOS\CAA-CrossPlatform.iOS.csproj", "{601F3B52-7CD9-4238-9CF0-1FD3009D05C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAA-CrossPlatform", "CAA-CrossPlatform\CAA-CrossPlatform.csproj", "{D16B5C19-E3C7-4EC2-998D-970D42247C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAA-CrossPlatform", "CAA-CrossPlatform\CAA-CrossPlatform.csproj", "{D16B5C19-E3C7-4EC2-998D-970D42247C41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

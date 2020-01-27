@@ -46,5 +46,45 @@ namespace CAA_CrossPlatform.UWP
         {
 
         }
+
+        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> answers = new List<string>();
+            answers.Add(Answer1Txt.Text);
+            answers.Add(Answer2Txt.Text);
+            answers.Add(Answer3Txt.Text);
+            answers.Add(Answer4Txt.Text);
+
+
+            Question question = new Question();
+            question.name = QuestionTxt.Text;
+            question.answers = new List<string>();
+            foreach (string a in answers)
+            {
+                if (a.Length > 0)
+                {
+                    question.answers.Add(a);
+                    
+                }
+            }
+            if(Answer1Chk.IsChecked == true && Answer1Txt.Text.Length > 0)
+            {
+                question.correct = Answer1Txt.Text;
+            }
+            else if (Answer2Chk.IsChecked == true && Answer2Txt.Text.Length > 0)
+            {
+                question.correct = Answer2Txt.Text;
+            }
+            else if (Answer3Chk.IsChecked == true && Answer3Txt.Text.Length > 0)
+            {
+                question.correct = Answer3Txt.Text;
+            }
+            else if (Answer4Chk.IsChecked == true && Answer4Txt.Text.Length > 0)
+            {
+                question.correct = Answer4Txt.Text;
+            }
+
+            Json.Write(question, "question.json");
+        }
     }
 }
