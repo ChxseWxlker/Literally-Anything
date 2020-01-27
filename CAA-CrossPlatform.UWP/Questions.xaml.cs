@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,24 +14,33 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class Questions : Page
     {
+        //get list of questions
+        List<Question> listQuestions = new List<Question>();
+
         public Questions()
         {
             this.InitializeComponent();
+            this.Loaded += Questions_Loaded;
         }
 
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        private void Questions_Loaded(object sender, RoutedEventArgs e)
         {
+            //get all questions
+            List<Question> questions = Json.Read("question.json");
 
+            //add question if visible
+            foreach (Question q in questions)
+                if (q.hidden == false)
+                {
+                    lstQuestions.Items.Add(q.name);
+                    listQuestions.Add(q);
+                }
         }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
@@ -51,18 +61,28 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(QuestionsCreate));
         }
 
-        private void EditQuestion_Click(object sender, RoutedEventArgs e)
+        private async void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(QuestionsEdit));
+            if (lstQuestions.SelectedIndex == -1)
+                await new MessageDialog("Please choose a question to edit").ShowAsync();
+            else
+                Frame.Navigate(typeof(QuestionsEdit), listQuestions[lstQuestions.SelectedIndex]);
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private async void DelteQuestion_Click(object sender, RoutedEventArgs e)
         {
-            List<Question> questions = Json.Read("question.json");
-
-            foreach (Question q in questions)
+            if (lstQuestions.SelectedIndex == -1)
+                await new MessageDialog("Please choose a question to delete").ShowAsync();
+            else
             {
-                lstQuestions.Items.Add(q.name);
+                //hide question object
+                listQuestions[lstQuestions.SelectedIndex].hidden = true;
+
+                //edit question object
+                Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
+
+                //reload page
+                Frame.Navigate(typeof(Questions));
             }
         }
     }

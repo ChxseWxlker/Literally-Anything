@@ -66,7 +66,7 @@ namespace CAA_CrossPlatform.UWP
         public bool hidden { get; set; }
         public string name { get; set; }
         public List<string> answers { get; set; }
-        public string correct { get; set; }
+        public List<bool> correctAnswers { get; set; }
     }
 
     public class RootQuestion
@@ -141,7 +141,9 @@ namespace CAA_CrossPlatform.UWP
                         q.answers = new List<string>();
                         foreach (string answer in question.answers)
                             q.answers.Add(answer);
-                        q.correct = question.correct;
+                        q.correctAnswers = new List<bool>();
+                        foreach (bool correct in question.correctAnswers)
+                            q.correctAnswers.Add(correct);
                         jsonObj.Add(q);
                     }
                 }

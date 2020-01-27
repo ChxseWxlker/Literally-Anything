@@ -13,13 +13,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class GamesEdit : Page
     {
         public GamesEdit()
@@ -32,6 +27,9 @@ namespace CAA_CrossPlatform.UWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //get current game
+            selectedGame = (Game)e.Parameter;
+
             //get list of questions
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
@@ -39,24 +37,11 @@ namespace CAA_CrossPlatform.UWP
                 {
                     lstQuestions.Items.Add(q.name);
                     listQuestions.Add(q);
+                    if (selectedGame.questions.Contains(q.id))
+                        lstQuestions.SelectedItems.Add(q.name);
                 }
 
-            //get current game
-            List<Game> games = Json.Read("game.json");
-            foreach (Game g in games)
-                if (g.id == Convert.ToInt32(e.Parameter))
-                    selectedGame = g;
-            
             QuizTxt.Text = selectedGame.title;
-            
-            //Checks the questions already selected
-            /*
-            foreach (Object o in lstQuestions.Items)
-                foreach(int q in selectedGame.questions)
-                    if(lstQuestions.Items.IndexOf(o) == q)
-                        lstQuestions.SelectedItems.Add(o);
-            */
-            
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
@@ -89,7 +74,7 @@ namespace CAA_CrossPlatform.UWP
             //edit game object
             Json.Edit(selectedGame, "game.json");
 
-            //reload game page
+            //redirect to game page
             Frame.Navigate(typeof(Games));
         }
     }
