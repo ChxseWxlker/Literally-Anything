@@ -76,45 +76,20 @@ namespace CAA_CrossPlatform.UWP
 
         private void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
-            List<Game> games = Json.Read("game.json");
-            foreach (Game g in games)
-            {
-                if (g.title == selectedGame.title)
-                {
-                    g.questions = new List<int>();
-                }
-            }
-                
-            foreach(string s in lstQuestions.SelectedItems)
-            {
-                foreach(string st in lstQuestions.Items)
-                {
-                    if(s == st)
-                    {
-                         foreach(Game g in games)
-                        {
-                            if (g.title == selectedGame.title)
-                            {
-                                g.questions.Add(lstQuestions.Items.IndexOf(s));
-                            }
-                        }
-                    }
+            //create list of selected questions
+            selectedGame.questions = new List<int>();
 
-                }
-                
-            }
-            foreach (Game g in games)
-            {
-                if (g.title == selectedGame.title)
-                {
-                    g.title = QuizTxt.Text;
-                    
-                }
-            }
-            foreach (Game g in games) 
-            {
-                Json.Edit(g, "game.json");
-            }
+            foreach(string sq in lstQuestions.SelectedItems)
+                foreach (Question q in listQuestions)
+                    if (sq == q.name)
+                        selectedGame.questions.Add(q.id);
+
+            selectedGame.title = QuizTxt.Text;
+
+            //edit game object
+            Json.Edit(selectedGame, "game.json");
+
+            //reload game page
             Frame.Navigate(typeof(Games));
         }
     }
