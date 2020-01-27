@@ -39,24 +39,55 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        string readJson(string fileName)
+        dynamic readJson(string fileName)
         {
+            //get file path
             string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
-            string jsonStr = "";
+
+            //create return object
+            dynamic jsonObj = null;
+
+            //check if file exists
             if (File.Exists(path))
             {
-                jsonStr = JsonConvert.DeserializeObject(File.ReadAllText(path)).ToString();
+                //read json data from file
+                var model = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(path));
+
+                //game json object
+                if (model.ToString().Substring(6, 4) == "game")
+                {
+                    jsonObj = new List<Game>();
+                    List<Game> games = new List<Game>();
+                    foreach (dynamic game in model.games)
+                    {
+                        Game g = new Game();
+                        g.id = game.id;
+                        int[] questions = new int[0];
+                        foreach(var question in game.questions)
+                        {
+                            questions
+                        }
+                        jsonObj.Add(g);
+                    }
+                }
+
+                //question json object
+                else if (model.ToString().Substring(6, 4) == "ques")
+                {
+                    
+                }
             }
-            return jsonStr;
+
+            return jsonObj;
         }
 
-        void writeJson(dynamic jsonObj, string fileName)
+        void writeJson(object jsonObj, string fileName)
         {
             string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
-            string oldJson = readJson(fileName);
+            //string oldJson = readJson(fileName);
 
-            string jsonStr = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(path, jsonStr);
+            //string jsonStr = JsonConvert.SerializeObject(jsonObj);
+            //File.WriteAllText(path, jsonObj);
         }
 
         private void game_test()
@@ -64,7 +95,7 @@ namespace CAA_CrossPlatform.UWP
             Game game = new Game();
             game.id = 1;
             game.questions = new int[] { 1, 2 };
-            writeJson(game, "test.json");
+            //writeJson(game, "test.json");
         }
 
         private void CreateQuiz_Click(object sender, RoutedEventArgs e)
@@ -77,8 +108,11 @@ namespace CAA_CrossPlatform.UWP
                 new Game { id = 3, questions = new int[] { 1, 2, 3 } }
             };
             string test = JsonConvert.SerializeObject(objToSerialize, Formatting.Indented);
+            //writeJson(test, "test.json");
             //game_test();
-            new MessageDialog(test).ShowAsync();
+            
+            int hi = readJson("test.json")[0].id;
+            new MessageDialog(hi.ToString()).ShowAsync();
             
         }
 
