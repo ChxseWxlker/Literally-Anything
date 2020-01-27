@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Loaded="Grid_Loaded">
         <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
         <Grid Height="150" VerticalAlignment="top" Background="White" >
             <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
@@ -33,5 +33,6 @@
         <TextBox x:Name="Txt" HorizontalAlignment="Left" Margin="50,409,0,0" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
         <Image HorizontalAlignment="Left" Height="37" Margin="455,414,0,0" VerticalAlignment="Top" Width="39" Source="/Assets/SearchIcon.png" RenderTransformOrigin="0.477,0.282"/>
         <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
+        <ListView x:Name="lstQuestions"  Margin="50,460,1050,120"  FocusVisualPrimaryBrush="#FFAEAAAA" Background="#FFBFBDBD"/>
     </Grid>
 </Page>

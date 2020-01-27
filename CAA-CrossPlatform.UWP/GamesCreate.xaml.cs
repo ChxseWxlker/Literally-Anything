@@ -39,11 +39,48 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        public async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            //check json read
-            string checkList = "";
 
+
+
+
+
+
+
+
+            //check json read
+            //string checkList = "";
+
+            //List<Game> games = Json.Read("game.json");
+            //foreach (Game g in games)
+            //{
+            //    checkList += $"ID:{g.id}\n";
+            //}
+
+            //checkList += "\n";
+            
+            //List<Question> questions = Json.Read("question.json");
+            //foreach (Question q in questions)
+            //{
+            //    checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
+            //}
+            //await new MessageDialog(checkList).ShowAsync();
+
+            ////check json write
+            //Game game = new Game();
+            //game.questions = new int[] { 1, 2, 3 };
+            //Json.Write(game, "game.json");
+
+            //Question question = new Question();
+            //question.name = "Is json sick?";
+            //question.answers = new string[] { "Yes", "No" };
+            //question.correct = "Yes";
+            //Json.Write(question, "question.json");
+        }
+        public async void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            string checkList = "";
             List<Game> games = Json.Read("game.json");
             foreach (Game g in games)
             {
@@ -51,29 +88,30 @@ namespace CAA_CrossPlatform.UWP
             }
 
             checkList += "\n";
-            
+
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
             {
                 checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
             }
-            await new MessageDialog(checkList).ShowAsync();
+           // await new MessageDialog(checkList).ShowAsync();
 
-            //check json write
-            Game game = new Game();
-            game.questions = new int[] { 1, 2, 3 };
-            Json.Write(game, "game.json");
 
-            Question question = new Question();
-            question.name = "Is json sick?";
-            question.answers = new string[] { "Yes", "No" };
-            question.correct = "Yes";
-            Json.Write(question, "question.json");
+            foreach (Question q in questions)
+            {
+                if(q.hidden == false)
+                {
+                    lstQuestions.Items.Add(q.name);
+                }
+                
+            }
+
         }
-
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
+
+        
     }
 }

@@ -30,6 +30,6 @@
         <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="975,310,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
         <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="EditQuiz" Content="Edit" Margin="975,406,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="EditQuiz_Click" />
         <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="DelteQuiz" Content="Delete" Margin="975,500,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="DelteQuiz_Click" />
-        <ListView x:Name="lstQuiz"  Margin="10,324,910,141" Background="#FFC7C7C7" BorderBrush="Black" FontSize="30"/>
+        <ListView x:Name="lstQuiz"  Margin="10,324,910,141" Background="#FFC7C7C7" BorderBrush="Black" FontSize="30" />
     </Grid>
 </Page>
