@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -290,6 +291,28 @@ namespace CAA_CrossPlatform.UWP
             //serialize and write to file
             string jsonStr = JsonConvert.SerializeObject(root, Formatting.Indented);
             File.WriteAllText(path, jsonStr);
+        }
+    }
+
+    public class Excel
+    {
+        public static async void Write()
+        {
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            folderPicker.FileTypeFilter.Add("*");
+
+            Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            try
+            {
+                StorageFile sampleFile = await folder.CreateFileAsync("sample.txt",
+                CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(sampleFile, "Swift as a shadow");
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog(ex.Message).ShowAsync();
+            }
         }
     }
 }
