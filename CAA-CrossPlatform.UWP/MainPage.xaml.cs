@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +37,26 @@ namespace CAA_CrossPlatform.UWP
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
+        }
+
+        private async void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            string file;
+            List<Event> events = await Excel.Load();
+
+
+            string eventsStr = "";
+            foreach (Event ev in events)
+            {
+                eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}";
+            }
+            
+            await new MessageDialog(eventsStr).ShowAsync();
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

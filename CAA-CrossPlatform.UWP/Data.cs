@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.UI.Popups;
 
 namespace CAA_CrossPlatform.UWP
@@ -15,6 +17,10 @@ namespace CAA_CrossPlatform.UWP
         public Event()
         {
             this.hidden = false;
+            this.memberOnly = true;
+            this.trackGuestNum = false;
+            this.trackAdultNum = false;
+            this.trackChildNum = false;
         }
 
         //event properties
@@ -335,13 +341,56 @@ namespace CAA_CrossPlatform.UWP
 
     public class Excel
     {
+        public static async Task<List<Event>> Load()
+        {
+            //create file picker
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
+            picker.FileTypeFilter.Add(".csv");
+
+            //choose file
+            var file = await picker.PickSingleFileAsync();
+
+            //create rows
+            IList<string> excelDoc = await FileIO.ReadLinesAsync(file);
+            List<string> rows = new List<string>();
+
+            //create object
+            List<Event> events = new List<Event>();
+            foreach (string row in excelDoc)
+                if (row.Length > 0 && excelDoc.IndexOf(row) > 0)
+                {
+                    //create cells
+                    string[] cells = row.Split(',');
+
+                    //add cell values to object
+                    Event ev = new Event();
+                    List<Event> jsonEvents = Json.Read("event.json");
+                    foreach (Event jEvent in jsonEvents)
+                        if (jEvent.name.ToLower().Trim() == cells[0].ToLower().Trim())
+                            ev.id = Convert.ToInt32(jEvent.id);
+                    ev.name = cells[0];
+                    ev.location = cells[1];
+                    ev.startDate = Convert.ToDateTime(cells[2]);
+                    ev.endDate = Convert.ToDateTime(cells[3]);
+                    List<Game> games = Json.Read("game.json");
+                    foreach (Game game in games)
+                        if (game.title.ToLower().Trim() == cells[4].ToLower().Trim())
+                            ev.game = Convert.ToInt32(game.id);
+                    ev.memberOnly = Convert.ToBoolean(cells[5]);
+                    events.Add(ev);
+                }
+
+            return events;
+        }
+
         public static async void Write()
         {
             var folderPicker = new Windows.Storage.Pickers.FolderPicker();
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
             folderPicker.FileTypeFilter.Add("*");
 
-            Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             try
             {
                 StorageFile sampleFile = await folder.CreateFileAsync("sample.txt",
@@ -352,6 +401,44 @@ namespace CAA_CrossPlatform.UWP
             {
                 await new MessageDialog(ex.Message).ShowAsync();
             }
+        }
+
+        public static async Task<dynamic> Read()
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
+            picker.FileTypeFilter.Add(".csv");
+
+            var file = await picker.PickSingleFileAsync();
+            string excelDoc = await FileIO.ReadTextAsync(file);
+
+            string[] rows = excelDoc.Split('\n');
+
+            List<string> items = new List<string>();
+            for (int i = 1; i < rows.Length; i++)
+            {
+                for (int x = 0; x < rows[i].Split(',').Length; x++)
+                {
+                    string[] cells = rows[i].Split(',');
+                    if (cells[x] != "")
+                        items.Add(cells[x]);
+                }
+            }
+
+            string hi = "";
+            foreach (string item in items)
+            {
+                hi += item + "\n";
+            }
+            /*
+            string[] textTest = text.Split('\n');
+            string hi = "";
+            foreach (string h in textTest)
+                if (h != "")
+                    hi += $"|{h.Replace("\n", "")}|\n";
+            */
+            await new MessageDialog(hi).ShowAsync();
+            return hi;
         }
     }
 }
