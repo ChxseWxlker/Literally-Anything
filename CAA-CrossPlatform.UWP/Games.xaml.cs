@@ -47,10 +47,6 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(GamesEdit), lstQuiz.SelectedIndex);
         }
 
-        private void DelteQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
@@ -76,6 +72,11 @@ namespace CAA_CrossPlatform.UWP
 
 
 
+
+        }
+
+        private void DeleteQuiz_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

@@ -65,5 +65,10 @@ namespace CAA_CrossPlatform.UWP
                 lstQuestions.Items.Add(q.name);
             }
         }
+
+        private void DeleteQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
