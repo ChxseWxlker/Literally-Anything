@@ -77,6 +77,39 @@ namespace CAA_CrossPlatform.UWP
 
     public class Json
     {
+        public static void Verify(string fileName)
+        {
+            string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
+            dynamic root = null;
+
+            if (!File.Exists(path))
+            {
+                if (fileName == "event.json")
+                {
+                    List<Event> events = new List<Event>();
+                    root = new RootEvent();
+                    root.events = events;
+                }
+
+                else if (fileName == "game.json")
+                {
+                    List<Game> games = new List<Game>();
+                    root = new RootGame();
+                    root.games = games;
+                }
+
+                else if (fileName == "question.json")
+                {
+                    List<Question> questions = new List<Question>();
+                    root = new RootQuestion();
+                    root.questions = questions;
+                }
+
+                string jsonStr = JsonConvert.SerializeObject(root, Formatting.Indented);
+                File.WriteAllText(path, jsonStr);
+            }
+        }
+
         public static dynamic Read(string fileName)
         {
             //get file path
@@ -179,7 +212,9 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.events = model;
-                int id = root.events[root.events.Count - 1].id + 1;
+                int id = 1;
+                if (root.events.Count != 0)
+                    id = root.events[root.events.Count - 1].id + 1;
                 jsonObj.id = id;
                 root.events.Add(jsonObj);
             }
@@ -192,7 +227,9 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.games = model;
-                int id = root.games[root.games.Count - 1].id + 1;
+                int id = 1;
+                if (root.games.Count != 0)
+                    id = root.games[root.games.Count - 1].id + 1;
                 jsonObj.id = id;
                 root.games.Add(jsonObj);
             }
@@ -205,7 +242,9 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.questions = model;
-                int id = root.questions[root.questions.Count - 1].id + 1;
+                int id = 1;
+                if (root.questions.Count != 0)
+                    id = root.questions[root.questions.Count - 1].id + 1;
                 jsonObj.id = id;
                 root.questions.Add(jsonObj);
             }
