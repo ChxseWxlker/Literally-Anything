@@ -31,6 +31,9 @@ namespace CAA_CrossPlatform.UWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //get event from previous page
+            gEvent = (Event)e.Parameter;
+
             //get all games
             List<Game> games = Json.Read("game.json");
 
@@ -42,25 +45,18 @@ namespace CAA_CrossPlatform.UWP
                     visibleGames.Add(game);
                 }
 
-            //get event from previous page
-            List<Event> events = Json.Read("event.json");
-            foreach (Event ev in events)
-                if (ev.id == Convert.ToInt32(e.Parameter))
-                    gEvent = ev;
-
             //populate info
             EventTxt.Text = gEvent.name;
             LocationTxt.Text = gEvent.location;
             StartDateDtp.SelectedDate = gEvent.startDate;
             EndDateDtp.SelectedDate = gEvent.endDate;
-            foreach (Game game in games)
-                if (game.id == gEvent.id)
-                    QuizCmb.SelectedItem = game.title;
+            foreach (Game game in visibleGames)
+                if (game.id == gEvent.game)
+                    QuizCmb.SelectedIndex = visibleGames.IndexOf(game);
             MemberOnlyChk.IsChecked = gEvent.memberOnly;
             trackGuestChk.IsChecked = gEvent.trackGuestNum;
             trackAdultChk.IsChecked = gEvent.trackAdultNum;
             trackChildChk.IsChecked = gEvent.trackChildNum;
-            
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
@@ -90,7 +86,7 @@ namespace CAA_CrossPlatform.UWP
             gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
             gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
             gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
-
+            
             //update json file
             Json.Edit(gEvent, "event.json");
 

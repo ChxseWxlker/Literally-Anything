@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_OnLoad">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
         <Grid Height="150" VerticalAlignment="top" Background="White" Loaded="Grid_Loaded" >
             <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
