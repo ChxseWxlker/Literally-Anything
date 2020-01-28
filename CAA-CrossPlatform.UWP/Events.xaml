@@ -67,7 +67,7 @@
                         <Setter Target="UpcomingEventsTB.FontSize" Value="20"/>
                         <Setter Target="UpcomingEventsLb.Width" Value="300"/>
                         <Setter Target="PastEventsTB.FontSize" Value="20"/>
-                        <Setter Target="PastEventsCmb.Width" Value="250"/>
+                        <Setter Target="PastEventsCmb.Width" Value="300"/>
                         <Setter Target="ComboBox.Orientation" Value="Vertical"/>
                         <Setter Target="PastEventsCmb.Margin" Value="0,0,0,20"/>
                         <Setter Target="rectangle.Height" Value="30"/>

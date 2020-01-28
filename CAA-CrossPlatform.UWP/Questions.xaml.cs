@@ -85,5 +85,10 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(Questions));
             }
         }
+
+        private void DeleteQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
