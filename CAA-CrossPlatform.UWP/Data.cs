@@ -199,8 +199,11 @@ namespace CAA_CrossPlatform.UWP
             return jsonObj;
         }
 
-        public static void Write(dynamic jsonObj, string fileName)
+        public static int Write(dynamic jsonObj, string fileName)
         {
+            //create id
+            int id = 1;
+
             //get file path
             string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
 
@@ -218,7 +221,6 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.events = model;
-                int id = 1;
                 if (root.events.Count != 0)
                     id = root.events[root.events.Count - 1].id + 1;
                 jsonObj.id = id;
@@ -233,7 +235,6 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.games = model;
-                int id = 1;
                 if (root.games.Count != 0)
                     id = root.games[root.games.Count - 1].id + 1;
                 jsonObj.id = id;
@@ -248,7 +249,6 @@ namespace CAA_CrossPlatform.UWP
 
                 //set object properties
                 root.questions = model;
-                int id = 1;
                 if (root.questions.Count != 0)
                     id = root.questions[root.questions.Count - 1].id + 1;
                 jsonObj.id = id;
@@ -258,12 +258,15 @@ namespace CAA_CrossPlatform.UWP
             //json object doesn't exist
             else
             {
-                return;
+                return 1;
             }
 
             //serialize and write to file
             string jsonStr = JsonConvert.SerializeObject(root, Formatting.Indented);
             File.WriteAllText(path, jsonStr);
+
+            //return id of added object
+            return id;
         }
         public static void Edit(dynamic jsonObj, string fileName)
         {
@@ -378,67 +381,32 @@ namespace CAA_CrossPlatform.UWP
                         if (game.title.ToLower().Trim() == cells[4].ToLower().Trim())
                             ev.game = Convert.ToInt32(game.id);
                     ev.memberOnly = Convert.ToBoolean(cells[5]);
+
+                    //update json if object doesn't exist
+                    if (ev.id == 0)
+                        ev.id = Json.Write(ev, "event.json");
+
+                    //add to list of events
                     events.Add(ev);
                 }
 
             return events;
         }
 
-        public static async void Write()
+        public static async void Save(List<Event> events)
         {
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-            folderPicker.FileTypeFilter.Add("*");
+            //create folder picker
+            var picker = new Windows.Storage.Pickers.FileSavePicker();
+            picker.FileTypeChoices.Add("Microsoft Excel Comma Separated Values File", new string[] { ".csv" });
 
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            try
-            {
-                StorageFile sampleFile = await folder.CreateFileAsync("sample.txt",
-                CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(sampleFile, "Swift as a shadow");
-            }
-            catch (Exception ex)
-            {
-                await new MessageDialog(ex.Message).ShowAsync();
-            }
-        }
+            //convert object to row
+            string eventText = "Name,Location,Start Date,End Date,Quiz,Member Only\n";
+            foreach (Event e in events)
+                eventText += $"{e.name},{e.location},{e.startDate.ToString("yyyy-MM-dd")},{e.endDate.ToString("yyyy-MM-dd")},{e.game},{e.memberOnly}\n";
 
-        public static async Task<dynamic> Read()
-        {
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
-            picker.FileTypeFilter.Add(".csv");
-
-            var file = await picker.PickSingleFileAsync();
-            string excelDoc = await FileIO.ReadTextAsync(file);
-
-            string[] rows = excelDoc.Split('\n');
-
-            List<string> items = new List<string>();
-            for (int i = 1; i < rows.Length; i++)
-            {
-                for (int x = 0; x < rows[i].Split(',').Length; x++)
-                {
-                    string[] cells = rows[i].Split(',');
-                    if (cells[x] != "")
-                        items.Add(cells[x]);
-                }
-            }
-
-            string hi = "";
-            foreach (string item in items)
-            {
-                hi += item + "\n";
-            }
-            /*
-            string[] textTest = text.Split('\n');
-            string hi = "";
-            foreach (string h in textTest)
-                if (h != "")
-                    hi += $"|{h.Replace("\n", "")}|\n";
-            */
-            await new MessageDialog(hi).ShowAsync();
-            return hi;
+            //save to file
+            StorageFile file = await picker.PickSaveFileAsync();
+            await FileIO.WriteTextAsync(file, eventText);
         }
     }
 }
