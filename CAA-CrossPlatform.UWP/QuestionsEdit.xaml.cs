@@ -130,12 +130,12 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void CancelQuestion_Click(object sender, RoutedEventArgs e)
+        private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+
         }
 
-        private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
+        private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
 
         }

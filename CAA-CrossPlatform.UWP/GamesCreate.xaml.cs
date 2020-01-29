@@ -58,8 +58,42 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
+            //get list of games
+            List<Game> games = Json.Read("game.json");
+
+            //validation
+            foreach (Game g in games)
+            {
+                //validate title
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
+                {
+                    await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    return;
+                }
+                else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to reactivate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //reactivate game
+                    if ((int)choice.Id == 1)
+                    {
+                        g.hidden = false;
+                        Json.Edit(g, "game.json");
+                        Frame.Navigate(typeof(Games));
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
+            }
+
             //create game object
             Game game = new Game();
 
@@ -72,6 +106,8 @@ namespace CAA_CrossPlatform.UWP
                         game.questions.Add(q.id);
 
             game.title = QuizTxt.Text;
+
+            //save to json
             Json.Write(game, "game.json");
 
             //navigate back to game

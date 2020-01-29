@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -55,9 +58,46 @@ namespace CAA_CrossPlatform.UWP
                 }
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private async void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            //get list of events
+            List<Event> events = Json.Read("event.json");
+
+            //validation
+            foreach (Event ev in events)
+            {
+                //validate name
+                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == false)
+                {
+                    await new MessageDialog("That event already exists, please enter different name").ShowAsync();
+                    return;
+                }
+                else if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to reactivate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //reactivate game
+                    if ((int)choice.Id == 1)
+                    {
+                        ev.hidden = false;
+                        Json.Edit(ev, "event.json");
+                        Frame.Navigate(typeof(Events));
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
+            }
+
+            //create event object
             Event gEvent = new Event();
+
+            //set object properties
             gEvent.name = EventTxt.Text;
             gEvent.location = LocationTxt.Text;
             gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
@@ -67,6 +107,8 @@ namespace CAA_CrossPlatform.UWP
             gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
             gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
             gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+
+            //save json to file
             Json.Write(gEvent, "event.json");
 
             //navigate back to events

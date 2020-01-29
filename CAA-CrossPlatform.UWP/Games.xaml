@@ -30,6 +30,7 @@
                         <Setter Target="DeleteQuiz.FontSize" Value="20"/>
                         <Setter Target="lstQuiz.Width" Value="275"/>
                         <Setter Target="Form.Orientation" Value="Vertical"/>
+                        <Setter Target="Output.Margin" Value="0,0,0,0"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="Menu.Width" Value="70"/>
@@ -46,7 +47,7 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="CreateQuiz.Margin" Value="0,0,0,0"/>
+                        <Setter Target="CreateQuiz.Margin" Value="0,20,0,0"/>
                         <Setter Target="EditQuiz.Margin" Value="0,20,0,0"/>
                         <Setter Target="DeleteQuiz.Margin" Value="0,20,0,0"/>
                         <Setter Target="CreateQuiz.Width" Value="130"/>
@@ -129,36 +130,34 @@
 
                 </StackPanel>
 
-                <StackPanel Grid.Row="2" Grid.Column="1">
-                    <RelativePanel>
-                        <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
-                            <StackPanel x:Name="Output" Margin="0,0,50,0">
+                <RelativePanel Grid.Row="2" Grid.Column="1" >
+                    <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                        <StackPanel x:Name="Output" Margin="0,0,50,0">
 
-                                <TextBlock   Text="Quizes" TextWrapping="Wrap" FontSize="60"/>
+                            <TextBlock   Text="Quizes" TextWrapping="Wrap" FontSize="60"/>
 
-                                <ListView x:Name="lstQuiz"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,20" />
+                            <ListView x:Name="lstQuiz"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0" SelectionChanged="lstQuiz_SelectionChanged" />
+
+                        </StackPanel>
+
+                        <RelativePanel VerticalAlignment="Center">
+                            <StackPanel x:Name="ButtonLayout">
+
+                                <Button x:Name="CreateQuiz" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="CreateQuiz_Click" />
+
+                                <Button x:Name="EditQuiz" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="EditQuiz_Click" />
 
                             </StackPanel>
 
-                            <RelativePanel VerticalAlignment="Center">
-                                <StackPanel x:Name="ButtonLayout">
+                            <StackPanel x:Name="DeleteBtnLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
-                                    <Button x:Name="CreateQuiz" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="CreateQuiz_Click" />
+                                <Button x:Name="DeleteQuiz" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="DeleteQuiz_Click" />
 
-                                    <Button x:Name="EditQuiz" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="EditQuiz_Click" />
+                            </StackPanel>
 
-                                </StackPanel>
-
-                                <StackPanel x:Name="DeleteBtnLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
-
-                                    <Button x:Name="DeleteQuiz" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="DeleteQuiz_Click" />
-
-                                </StackPanel>
-
-                            </RelativePanel>
-                        </StackPanel>
-                    </RelativePanel>
-                </StackPanel>
+                        </RelativePanel>
+                    </StackPanel>
+                </RelativePanel>
             </Grid>
         </ScrollViewer>
     </Grid>
