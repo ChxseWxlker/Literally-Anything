@@ -38,7 +38,7 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private async void CreateQuestion_Click(object sender, RoutedEventArgs e)
+        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
             //get list of questions
             List<Question> questions = Json.Read("question.json");
@@ -135,11 +135,6 @@ namespace CAA_CrossPlatform.UWP
         }
 
         private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
 
         }

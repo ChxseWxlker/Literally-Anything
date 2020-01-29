@@ -137,7 +137,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(Questions));
         }
     }
 }

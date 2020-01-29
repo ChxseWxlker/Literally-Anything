@@ -75,15 +75,23 @@ namespace CAA_CrossPlatform.UWP
                 await new MessageDialog("Please choose a question to delete").ShowAsync();
             else
             {
-                //hide question object
-                listQuestions[lstQuestions.SelectedIndex].hidden = true;
+                var deleteConfirm = new MessageDialog("Are you sure you want to delete '" + listQuestions[lstQuestions.SelectedIndex].name + "'?"); ;
+                deleteConfirm.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(this.softDelte)));
+                deleteConfirm.Commands.Add(new UICommand("No"));
 
-                //edit question object
-                Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
-
-                //reload page
-                Frame.Navigate(typeof(Questions));
+                await deleteConfirm.ShowAsync();
             }
+        }
+        private void softDelte(IUICommand response)
+        {
+            //hide question object
+            listQuestions[lstQuestions.SelectedIndex].hidden = true;
+
+            //edit question object
+            Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
+
+            //reload page
+            Frame.Navigate(typeof(Questions));
         }
     }
 }
