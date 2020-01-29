@@ -16,8 +16,8 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="CreateQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="CancelQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
                         <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
                         <Setter Target="CreateQuiz.FontSize" Value="20"/>
@@ -46,8 +46,8 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="CreateQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="CancelQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
                         <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
                         <Setter Target="CreateQuiz.FontSize" Value="20"/>
@@ -161,9 +161,9 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="QuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
 
-                        <Button x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CancelQuiz_Click" />
+                        <Button x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
                         
-                        <Button x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CreateQuiz_Click" />
+                        <Button x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuiz_Click" />
 
 
                     </StackPanel>
