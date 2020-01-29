@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,8 +38,42 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        private async void CreateQuestion_Click(object sender, RoutedEventArgs e)
         {
+            //get list of questions
+            List<Question> questions = Json.Read("question.json");
+
+            //validation
+            foreach (Question q in questions)
+            {
+                //validate name
+                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == false)
+                {
+                    await new MessageDialog("That question already exists, please enter different name").ShowAsync();
+                    return;
+                }
+                else if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That question is hidden, would you like to reactivate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //reactivate question
+                    if ((int)choice.Id == 1)
+                    {
+                        q.hidden = false;
+                        Json.Edit(q, "question.json");
+                        Frame.Navigate(typeof(Questions));
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
+            }
+
             //create question object
             Question question = new Question();
 

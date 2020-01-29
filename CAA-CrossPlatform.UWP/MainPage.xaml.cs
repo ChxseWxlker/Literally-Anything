@@ -39,20 +39,9 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private async void btnLoad_Click(object sender, RoutedEventArgs e)
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                List<Event> events = await Excel.Load();
-                string eventsStr = "";
-                foreach (Event ev in events)
-                {
-                    eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}\n";
-                }
-
-                await new MessageDialog(eventsStr).ShowAsync();
-            }
-            catch(Exception ex) { }
+            Frame.Navigate(typeof(EventExcel));
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

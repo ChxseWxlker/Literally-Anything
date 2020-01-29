@@ -41,7 +41,7 @@
         <CheckBox x:Name="Answer3CorrectChk" Margin="513,667,0,0" VerticalAlignment="Top" Width="17"/>
         <CheckBox x:Name="Answer4CorrectChk" Margin="513,792,0,0" VerticalAlignment="Top" Width="20"/>
         <TextBlock x:Name="CorrectTB" HorizontalAlignment="Left" Margin="492,393,0,0" Text="Correct" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
+        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuestion" Content="Create" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuestion_Click" />
 
     </Grid>
 </Page>
