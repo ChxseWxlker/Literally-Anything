@@ -98,5 +98,10 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(Questions));
         }
+
+        private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

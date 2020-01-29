@@ -82,5 +82,10 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(Games));
         }
+
+        private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -79,5 +79,10 @@ namespace CAA_CrossPlatform.UWP
         {
 
         }
+
+        private void DelteQuiz_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
