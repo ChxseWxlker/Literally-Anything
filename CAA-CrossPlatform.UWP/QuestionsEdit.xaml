@@ -163,7 +163,7 @@
 
                         <TextBlock x:Name="QuestionTB" Text="Question" TextWrapping="Wrap" FontSize="25" SelectionChanged="QuizNameTB_SelectionChanged" />
 
-                        <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
+                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
                     </StackPanel>
 
@@ -175,7 +175,7 @@
 
                         <TextBox x:Name="Answer1Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
-                        <CheckBox x:Name="Answer1Chk" Margin="40,0,0,0" Width="25" MinWidth="0"/>
+                        <CheckBox x:Name="Answer1CorrectChk" Margin="40,0,0,0" Width="25" MinWidth="0"/>
 
                     </StackPanel>
 
@@ -186,7 +186,7 @@
                         <TextBox x:Name="Answer2Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
 
-                        <CheckBox x:Name="Answer2Chk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+                        <CheckBox x:Name="Answer2CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
 
                     </StackPanel>
 
@@ -196,7 +196,7 @@
 
                         <TextBox x:Name="Answer3Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
-                        <CheckBox x:Name="Answer3Chk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+                        <CheckBox x:Name="Answer3CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
 
                     </StackPanel>
 
@@ -206,7 +206,7 @@
 
                         <TextBox x:Name="Answer4Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
-                        <CheckBox  x:Name="Answer4Chk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+                        <CheckBox  x:Name="Answer4CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
 
                     </StackPanel>
 

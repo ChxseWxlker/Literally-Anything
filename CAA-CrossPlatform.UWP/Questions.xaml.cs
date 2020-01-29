@@ -69,7 +69,7 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(QuestionsEdit), listQuestions[lstQuestions.SelectedIndex]);
         }
 
-        private async void DelteQuestion_Click(object sender, RoutedEventArgs e)
+        private async void DeleteQuestion_Click(object sender, RoutedEventArgs e)
         {
             if (lstQuestions.SelectedIndex == -1)
                 await new MessageDialog("Please choose a question to delete").ShowAsync();

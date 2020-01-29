@@ -38,23 +38,6 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(GamesEdit), listGames[lstQuiz.SelectedIndex]);
         }
 
-        private async void DelteQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstQuiz.SelectedIndex == -1)
-                await new MessageDialog("Please choose a quiz to delete").ShowAsync();
-            else
-            {
-                //hide game object
-                listGames[lstQuiz.SelectedIndex].hidden = true;
-
-                //edit game object
-                Json.Edit(listGames[lstQuiz.SelectedIndex], "game.json");
-
-                //reload page
-                Frame.Navigate(typeof(Games));
-            }
-        }
-
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
@@ -81,6 +64,23 @@ namespace CAA_CrossPlatform.UWP
                     lstQuiz.Items.Add(g.title);
                     listGames.Add(g);
                 }
+        }
+
+        private async void DeleteQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstQuiz.SelectedIndex == -1)
+                await new MessageDialog("Please choose a quiz to delete").ShowAsync();
+            else
+            {
+                //hide game object
+                listGames[lstQuiz.SelectedIndex].hidden = true;
+
+                //edit game object
+                Json.Edit(listGames[lstQuiz.SelectedIndex], "game.json");
+
+                //reload page
+                Frame.Navigate(typeof(Games));
+            }
         }
     }
 }
