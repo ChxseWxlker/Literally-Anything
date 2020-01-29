@@ -83,5 +83,10 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(Games));
             }
         }
+
+        private void lstQuiz_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
