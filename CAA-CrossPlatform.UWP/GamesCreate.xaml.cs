@@ -70,6 +70,7 @@ namespace CAA_CrossPlatform.UWP
                 if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
                 {
                     await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     return;
                 }
                 else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)

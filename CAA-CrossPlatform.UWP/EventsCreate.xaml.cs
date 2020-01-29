@@ -70,6 +70,7 @@ namespace CAA_CrossPlatform.UWP
                 if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == false)
                 {
                     await new MessageDialog("That event already exists, please enter different name").ShowAsync();
+                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     return;
                 }
                 else if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)

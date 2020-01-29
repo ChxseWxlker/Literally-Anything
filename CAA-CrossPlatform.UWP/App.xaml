@@ -41,6 +41,11 @@
             </Setter>
 
         </Style>
+        <Style x:Key="ValidationFailedTemplate" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"></Setter>
+
+        </Style>
+        
     </Application.Resources>
     
 </Application>

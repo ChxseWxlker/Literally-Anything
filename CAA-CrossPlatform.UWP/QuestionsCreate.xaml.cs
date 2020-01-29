@@ -50,6 +50,7 @@ namespace CAA_CrossPlatform.UWP
                 if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == false)
                 {
                     await new MessageDialog("That question already exists, please enter different name").ShowAsync();
+                    QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     return;
                 }
                 else if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
