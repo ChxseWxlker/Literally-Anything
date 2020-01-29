@@ -86,5 +86,10 @@ namespace CAA_CrossPlatform.UWP
 
             Json.Write(question, "question.json");
         }
+
+        private void CancelQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Questions));
+        }
     }
 }

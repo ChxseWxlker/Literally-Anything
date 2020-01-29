@@ -29,6 +29,7 @@
                         <Setter Target="EditQuestion.FontSize" Value="20"/>
                         <Setter Target="DelteQuestion.FontSize" Value="20"/>
                         <Setter Target="lstQuestions.Width" Value="275"/>
+                        <Setter Target="lstQuestions.Margin" Value="0,0,0,0"/>
                         <Setter Target="Form.Orientation" Value="Vertical"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>

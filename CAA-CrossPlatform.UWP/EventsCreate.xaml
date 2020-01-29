@@ -92,7 +92,6 @@
                         <AdaptiveTrigger MinWindowWidth="650"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EventNameTB.FontSize" Value="10"/>
                         <Setter Target="EventNameTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="40"/>
                         <Setter Target="relativePanel.Height" Value="100"/>

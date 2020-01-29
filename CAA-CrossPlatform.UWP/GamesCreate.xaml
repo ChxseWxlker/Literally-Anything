@@ -8,31 +8,166 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Loaded="Grid_Loaded">
-        <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
-        <Grid Height="150" VerticalAlignment="top" Background="White" >
-            <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
-            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" >
-                <Button.Flyout>
-                    <MenuFlyout Placement="LeftEdgeAlignedBottom" >
-                        <MenuFlyoutSubItem Text="Games">
-                            <MenuFlyoutItem Text="Quizes" Click="Quizes_OnClick"></MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Questions" Click="Questions_OnClick"></MenuFlyoutItem>
-                        </MenuFlyoutSubItem>
-                        <MenuFlyoutItem Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateEventCreate">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CreateQuiz.Margin" Value="0,10,5,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Width" Value="130"/>
+                        <Setter Target="CancelQuiz.Width" Value="130"/>
+                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
+                        <Setter Target="SearchBtn.FontSize" Value="26"/>
+                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="TxtSearch.FontSize" Value="20"/>
+                        <Setter Target="TxtSearch.Width" Value="250"/>
+                        <Setter Target="lstQuestions.Width" Value="300"/>
+                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
+                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="Menu.Width" Value="70"/>
+                        <Setter Target="Menu.Height" Value="40"/>
+                        <Setter Target="Menu.FontSize" Value="15"/>
+                        <Setter Target="textBlock.FontSize" Value="20"/>
+                        <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                        <Setter Target="CAAImg.Height" Value="60"/>
+                        <Setter Target="CAAImg.Width" Value="70"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateMiddle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="550"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CreateQuiz.Margin" Value="0,10,5,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Width" Value="130"/>
+                        <Setter Target="CancelQuiz.Width" Value="130"/>
+                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
+                        <Setter Target="SearchBtn.FontSize" Value="26"/>
+                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="TxtSearch.FontSize" Value="20"/>
+                        <Setter Target="TxtSearch.Width" Value="300"/>
+                        <Setter Target="lstQuestions.Width" Value="500"/>
+                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
+                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="Menu.Width" Value="90"/>
+                        <Setter Target="Menu.Height" Value="50"/>
+                        <Setter Target="textBlock.FontSize" Value="30"/>
+                        <Setter Target="CAAImg.Height" Value="70"/>
+                        <Setter Target="CAAImg.Width" Value="80"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="100"/>
+                        <Setter Target="Menu.Width" Value="100"/>
+                        <Setter Target="Menu.Height" Value="58"/>
+                        <Setter Target="textBlock.FontSize" Value="45"/>
+                        <Setter Target="CAAImg.Height" Value="100"/>
+                        <Setter Target="CAAImg.Width" Value="110"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
-        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="QuizNameTB" HorizontalAlignment="Left" Margin="50,230,0,0" Text="Quiz Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox x:Name="QuizTxt" HorizontalAlignment="Left" Margin="50,270,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400" TextChanged="QuizTxt_TextChanged"/>
-        <TextBlock x:Name="QuestionsTB" HorizontalAlignment="Left" Margin="50,371,0,0" Text="Select Questions" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox x:Name="Txt" HorizontalAlignment="Left" Margin="50,409,0,0" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-        <Image HorizontalAlignment="Left" Height="37" Margin="455,414,0,0" VerticalAlignment="Top" Width="39" Source="/Assets/SearchIcon.png" RenderTransformOrigin="0.477,0.282"/>
-        <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="CreateQuiz" Content="Create" Margin="476,265,0,0" VerticalAlignment="Top" Height="60" Width="183" FontSize="30" Click="CreateQuiz_Click" />
-        <ListView x:Name="lstQuestions"  Margin="50,460,1050,120"  FocusVisualPrimaryBrush="#FFAEAAAA" Background="#FFBFBDBD" SelectionMode="Multiple"/>
+                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
+
+                    <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <Button.Flyout>
+                            <MenuFlyout Placement="LeftEdgeAlignedBottom" >
+                                <MenuFlyoutSubItem Text="Games">
+                                    <MenuFlyoutItem Text="Quizes"  Click="Quizes_OnClick"></MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                </RelativePanel>
+
+                <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
+
+                    <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
+
+                </StackPanel>
+
+                <RelativePanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+
+                    <StackPanel Name="QuizName" HorizontalAlignment="Left">
+
+                        <TextBlock x:Name="QuizNameTB" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
+
+                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400" TextChanged="QuizTxt_TextChanged"/>
+
+                    </StackPanel>
+
+                    <TextBlock x:Name="QuestionsTB" Text="Select Questions" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="QuizName"/>
+
+                    <StackPanel x:Name="SearchBar" Orientation="Horizontal" RelativePanel.Below="QuestionsTB">
+
+                        <TextBox x:Name="TxtSearch" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+
+                        <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" />
+
+                    </StackPanel>
+
+                    <StackPanel x:Name="QuestionsList" Orientation="Horizontal" RelativePanel.Below="SearchBar" Margin="0,20,0,0">
+
+                        <ListView x:Name="lstQuestions" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="QuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
+
+                        <Button x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CreateQuiz_Click" />
+
+                        <Button x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CancelQuiz_Click" />
+
+                    </StackPanel>
+                </RelativePanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
