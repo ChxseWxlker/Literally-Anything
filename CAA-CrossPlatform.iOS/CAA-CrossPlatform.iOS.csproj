@@ -126,5 +126,11 @@
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAA-CrossPlatform\CAA-CrossPlatform.csproj">
+      <Project>{d16b5c19-e3c7-4ec2-998d-970d42247c41}</Project>
+      <Name>CAA-CrossPlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

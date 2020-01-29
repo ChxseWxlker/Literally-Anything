@@ -22,96 +22,106 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class GamesCreate : Page
     {
+        //list of questions
+        List<Question> listQuestions = new List<Question>();
+
         public GamesCreate()
         {
             this.InitializeComponent();
+            this.Loaded += GamesCreate_Loaded;
         }
+
+        private void GamesCreate_Loaded(object sender, RoutedEventArgs e)
+        {
+            //get question list
+            List<Question> questions = Json.Read("question.json");
+            foreach (Question q in questions)
+                if (q.hidden == false)
+                {
+                    lstQuestions.Items.Add(q.name);
+                    listQuestions.Add(q);
+                }
+        }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
         }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
         }
+
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
         }
 
-        public async void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-
-
-
-
-
-
-
-
-            //check json read
-            //string checkList = "";
-
-            //List<Game> games = Json.Read("game.json");
-            //foreach (Game g in games)
-            //{
-            //    checkList += $"ID:{g.id}\n";
-            //}
-
-            //checkList += "\n";
-            
-            //List<Question> questions = Json.Read("question.json");
-            //foreach (Question q in questions)
-            //{
-            //    checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
-            //}
-            //await new MessageDialog(checkList).ShowAsync();
-
-            ////check json write
-            //Game game = new Game();
-            //game.questions = new int[] { 1, 2, 3 };
-            //Json.Write(game, "game.json");
-
-            //Question question = new Question();
-            //question.name = "Is json sick?";
-            //question.answers = new string[] { "Yes", "No" };
-            //question.correct = "Yes";
-            //Json.Write(question, "question.json");
-        }
-        public async void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            string checkList = "";
+            //get list of games
             List<Game> games = Json.Read("game.json");
+
+            //validation
             foreach (Game g in games)
             {
-                checkList += $"ID:{g.id}\n";
-            }
-
-            checkList += "\n";
-
-            List<Question> questions = Json.Read("question.json");
-            foreach (Question q in questions)
-            {
-                checkList += $"ID {q.id} | Question {q.name} | Answer {q.correct}\n";
-            }
-           // await new MessageDialog(checkList).ShowAsync();
-
-
-            foreach (Question q in questions)
-            {
-                if(q.hidden == false)
+                //validate title
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
                 {
-                    lstQuestions.Items.Add(q.name);
+                    await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    return;
                 }
-                
+                else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to reactivate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //reactivate game
+                    if ((int)choice.Id == 1)
+                    {
+                        g.hidden = false;
+                        Json.Edit(g, "game.json");
+                        Frame.Navigate(typeof(Games));
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
             }
 
+            //create game object
+            Game game = new Game();
+
+            //set object properties
+            game.questions = new List<int>();
+
+            foreach (string sq in lstQuestions.SelectedItems)
+                foreach (Question q in listQuestions)
+                    if (sq == q.name)
+                        game.questions.Add(q.id);
+
+            game.title = QuizTxt.Text;
+
+            //save to json
+            Json.Write(game, "game.json");
+
+            //navigate back to game
+            Frame.Navigate(typeof(Games));
         }
+
+        private void CancelQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Games));
+        }
+
         private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-
-        
     }
 }

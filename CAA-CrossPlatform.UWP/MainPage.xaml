@@ -13,7 +13,7 @@
         <Grid Height="200" VerticalAlignment="top" Background="#FF1D60C9" ></Grid>
         <Grid Height="150" VerticalAlignment="top" Background="White" >
             <Image HorizontalAlignment="Left" Height="130" Margin="50,0,0,0" VerticalAlignment="Center" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282"/>
-            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" Click="Button_Click" >
+            <Button Style="{StaticResource RoundButtonTemplate}" Content="Menu" Height="65" Margin="1352,0,0,0" FontSize="25" Width="112" >
                 <Button.Flyout>
                     <MenuFlyout Placement="LeftEdgeAlignedBottom" >
                         <MenuFlyoutSubItem Text="Games">
@@ -27,6 +27,8 @@
             </Button>
             <TextBlock Margin="0,0,500,0"  Text="Event Manager" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" FontSize="70" Height="92" Width="571" Foreground="#FFEE3124"/>
         </Grid>
-
+        <Button x:Name="btnLoad" Content="Load CSV" Margin="433,511,0,0" VerticalAlignment="Top" Height="76" Width="223" Click="btnLoad_Click"/>
+        <Button x:Name="btnSave" Content="Save CSV" Margin="827,512,0,0" VerticalAlignment="Top" Height="76" Width="223" Click="btnSave_Click"/>
+        <TextBlock x:Name="tbFile" HorizontalAlignment="Left" Margin="435,463,0,0" Text="File" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"/>
     </Grid>
 </forms:WindowsPage>
