@@ -16,21 +16,24 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="Input.Margin" Value="0,0,0,0"/>
                         <Setter Target="EventNameTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="EventTxt.FontSize" Value="20"/>
-                        <Setter Target="EventTxt.Width" Value="250"/>
+                        <Setter Target="EventTxt.Width" Value="300"/>
                         <Setter Target="EventLocationTB.FontSize" Value="20"/>
                         <Setter Target="LocationTxt.FontSize" Value="20"/>
                         <Setter Target="StartDateTB.FontSize" Value="20"/>
-                        <Setter Target="StartDateDtp.FontSize" Value="15"/>
+                        <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                        <Setter Target="StartDateDtp.Width" Value="300"/>
                         <Setter Target="EndDateTB.FontSize" Value="20"/>
-                        <Setter Target="EndDateDtp.FontSize" Value="15"/>
+                        <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                        <Setter Target="EndDateDtp.Width" Value="300"/>
                         <Setter Target="QuizTB.FontSize" Value="20"/>
-                        <Setter Target="QuizCmb.FontSize" Value="15"/>
-                        <Setter Target="QuizCmb.Width" Value="250"/>
-                        <Setter Target="LocationTxt.Width" Value="250"/>
+                        <Setter Target="QuizCmb.FontSize" Value="20"/>
+                        <Setter Target="QuizCmb.Width" Value="300"/>
+                        <Setter Target="LocationTxt.Width" Value="300"/>
                         <Setter Target="textBlock1.FontSize" Value="20"/>
                         <Setter Target="MemberOnlyChk.FontSize" Value="20"/>
                         <Setter Target="trackGuestChk.FontSize" Value="20"/>
@@ -173,7 +176,7 @@
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <RelativePanel>
                         <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
-                            <StackPanel Margin="0,0,50,0">
+                            <StackPanel Name="Input" Margin="0,0,50,0">
 
                                 <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
                                 <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
@@ -182,7 +185,7 @@
                                 <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
 
                                 <TextBlock x:Name="StartDateTB" Text="Start Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0"/>
+                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0" MinWidth="0"/>
 
                                 <TextBlock x:Name="EndDateTB" Text="End Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
                                 <DatePicker x:Name="EndDateDtp" Margin="0,10,0,0" FontSize="25"/>
