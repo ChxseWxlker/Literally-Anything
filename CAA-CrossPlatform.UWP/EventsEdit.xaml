@@ -211,7 +211,7 @@
 
                             <Button x:Name="CancelBtn" Content="Cancel" Margin="0,0,20,0" Width="180" Height="50" FontSize="30" Click="CancelBtn_Click"/>
 
-                            <Button x:Name="UpdateBtn" Content="Update" Margin="20,0,0,0" Width="180" Height="50" FontSize="30" Click="UpdateBtn_Click"/>
+                            <Button x:Name="UpdateBtn" Content="Save" Margin="20,0,0,0" Width="180" Height="50" FontSize="30" Click="UpdateBtn_Click"/>
 
                         </StackPanel>
                     </RelativePanel>

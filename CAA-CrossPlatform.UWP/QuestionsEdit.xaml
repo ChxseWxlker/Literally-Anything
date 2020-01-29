@@ -212,7 +212,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="Answer4" RelativePanel.AlignHorizontalCenterWithPanel="True">
 
-                        <Button x:Name="EditQuestion" Content="Edit" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="EditQuestion_Click" />
+                        <Button x:Name="EditQuestion" Content="Save" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="EditQuestion_Click" />
 
                         <Button x:Name="CancelQuestion" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CancelQuestion_Click" />
 
