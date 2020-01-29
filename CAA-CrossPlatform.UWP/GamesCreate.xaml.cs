@@ -113,5 +113,10 @@ namespace CAA_CrossPlatform.UWP
             //navigate back to game
             Frame.Navigate(typeof(Games));
         }
+
+        private void CancelQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Games));
+        }
     }
 }
