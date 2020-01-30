@@ -82,6 +82,7 @@ namespace CAA_CrossPlatform.UWP
             //validation
             if (EventTxt.Text == "")
             {
+                EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 await new MessageDialog("Please enter an event name").ShowAsync();
                 return;
             }
@@ -90,6 +91,7 @@ namespace CAA_CrossPlatform.UWP
                 //validate name
                 if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim())
                 {
+                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
                     return;
                 }

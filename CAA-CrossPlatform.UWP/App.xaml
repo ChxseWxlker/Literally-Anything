@@ -24,6 +24,28 @@
             </Setter>
             
         </Style>
+        <Style x:Key="ButtonTemplate" TargetType="Button">
+            <Setter Property="Background"  Value="#DDDDDD"></Setter>
+            <Setter Property="Foreground" Value="#1D60C9"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="6" BorderThickness="1" BorderBrush="#1D60C9" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style x:Key="ValidationFailedTemplate" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"></Setter>
+
+        </Style>
+        
     </Application.Resources>
     
 </Application>

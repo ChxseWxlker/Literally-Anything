@@ -114,6 +114,7 @@ namespace CAA_CrossPlatform.UWP
             }
             else
                 await new MessageDialog("Please choose an event to edit").ShowAsync();
+                
         }
 
         private async void DeleteEvent_Click(object sender, RoutedEventArgs e)
