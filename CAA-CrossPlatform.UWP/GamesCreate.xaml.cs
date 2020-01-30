@@ -64,6 +64,12 @@ namespace CAA_CrossPlatform.UWP
             List<Game> games = Json.Read("game.json");
 
             //validation
+            if (QuizTxt.Text == "")
+            {
+                await new MessageDialog("Please enter a quiz name").ShowAsync();
+                return;
+            }
+
             foreach (Game g in games)
             {
                 //validate title
@@ -80,7 +86,7 @@ namespace CAA_CrossPlatform.UWP
                     msg.CancelCommandIndex = 0;
                     var choice = await msg.ShowAsync();
 
-                    //reactivate game
+                    //re-activate game
                     if ((int)choice.Id == 1)
                     {
                         g.hidden = false;

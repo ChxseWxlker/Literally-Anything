@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -59,8 +60,48 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void EditQuiz_Click(object sender, RoutedEventArgs e)
+        private async void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
+            //get list of games
+            List<Game> games = Json.Read("game.json");
+
+            //validation
+            if (QuizTxt.Text == "")
+            {
+                await new MessageDialog("Please enter a quiz name").ShowAsync();
+                return;
+            }
+
+            foreach (Game g in games)
+            {
+                //validate title
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
+                {
+                    await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    return;
+                }
+                else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to reactivate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //re-activate game
+                    if ((int)choice.Id == 1)
+                    {
+                        g.hidden = false;
+                        Json.Edit(g, "game.json");
+                        Frame.Navigate(typeof(Games));
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
+            }
+
             //create list of selected questions
             selectedGame.questions = new List<int>();
 
