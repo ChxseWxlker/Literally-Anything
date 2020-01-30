@@ -188,7 +188,7 @@
                                 <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
 
                                 <TextBlock x:Name="StartDateTB" Text="Start Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0" MinWidth="0"/>
+                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0" MinWidth="0" />
 
                                 <TextBlock x:Name="EndDateTB" Text="End Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
                                 <DatePicker x:Name="EndDateDtp" Margin="0,10,0,0" FontSize="25"/>

@@ -83,6 +83,7 @@ namespace CAA_CrossPlatform.UWP
             if (EventTxt.Text == "")
             {
                 EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EventTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                 await new MessageDialog("Please enter an event name").ShowAsync();
                 return;
             }
@@ -92,21 +93,33 @@ namespace CAA_CrossPlatform.UWP
                 if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim())
                 {
                     EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    EventTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                     await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
                     return;
                 }
 
             //set object properties
-            gEvent.name = EventTxt.Text;
-            gEvent.location = LocationTxt.Text;
-            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
-            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
-            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
-            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
-            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
-            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
-            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
-            
+            try
+            {
+                gEvent.name = EventTxt.Text;
+                gEvent.location = LocationTxt.Text;
+                gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
+                gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
+                gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
+                gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+                gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
+                gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
+                gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+            }
+            catch
+            {
+                StartDateDtp.Style = (Style)Application.Current.Resources["DateValidationFailedTemplate"];
+                EndDateDtp.Style = (Style)Application.Current.Resources["DateValidationFailedTemplate"];
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                await new MessageDialog("Please select a start and end date").ShowAsync();
+                return;
+            }
             //update json file
             Json.Edit(gEvent, "event.json");
 

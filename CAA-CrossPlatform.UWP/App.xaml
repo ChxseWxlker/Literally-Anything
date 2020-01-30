@@ -45,6 +45,14 @@
             <Setter Property="Foreground" Value="Red"></Setter>
 
         </Style>
+        <Style x:Key="TxtValidationFailedTemplate" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="Red"></Setter>
+
+        </Style>
+        <Style x:Key="DateValidationFailedTemplate" TargetType="DatePicker">
+            <Setter Property="Background" Value="Red"></Setter>
+
+        </Style>
         
     </Application.Resources>
     
