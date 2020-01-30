@@ -30,6 +30,7 @@
                         <Setter Target="DelteQuestion.FontSize" Value="20"/>
                         <Setter Target="lstQuestions.Width" Value="275"/>
                         <Setter Target="lstQuestions.Margin" Value="0,0,0,0"/>
+                        <Setter Target="Output.Margin" Value="0,0,0,0"/>
                         <Setter Target="Form.Orientation" Value="Vertical"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
@@ -47,7 +48,7 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="CreateQuestion.Margin" Value="0,0,0,0"/>
+                        <Setter Target="CreateQuestion.Margin" Value="0,20,0,0"/>
                         <Setter Target="EditQuestion.Margin" Value="0,20,0,0"/>
                         <Setter Target="DelteQuestion.Margin" Value="0,20,0,0"/>
                         <Setter Target="CreateQuestion.Width" Value="130"/>

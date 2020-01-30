@@ -22,6 +22,7 @@
                         <Setter Target="CreateEvent.Margin" Value="0,10,5,0"/>
                         <Setter Target="EditEvent.Margin" Value="5,10,0,0"/>
                         <Setter Target="DeleteEvent.Margin" Value="0,10,0,0"/>
+                        <Setter Target="Output.Margin" Value="0,0,0,0"/>
                         <Setter Target="CreateEvent.Width" Value="130"/>
                         <Setter Target="EditEvent.Width" Value="130"/>
                         <Setter Target="DeleteEvent.Width" Value="130"/>
