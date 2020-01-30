@@ -130,12 +130,12 @@
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
-
+                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="3" />
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
 
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#1D60C9" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
                     <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                         <Button.Flyout>
@@ -213,9 +213,9 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="Answer4" RelativePanel.AlignHorizontalCenterWithPanel="True">
 
-                        <Button x:Name="CancelQuestion" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuestion_Click" />
+                        <Button Style="{StaticResource ButtonTemplate}" x:Name="CancelQuestion" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuestion_Click" />
 
-                        <Button x:Name="EditQuestion" Content="Save" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="EditQuestion_Click" />
+                        <Button Style="{StaticResource ButtonTemplate}" x:Name="EditQuestion" Content="Save" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="EditQuestion_Click" />
 
                     </StackPanel>
                 </RelativePanel>

@@ -103,12 +103,12 @@
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
-
+                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="3" />
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
 
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#1D60C9" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
                     <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                         <Button.Flyout>
@@ -144,15 +144,15 @@
                         <RelativePanel VerticalAlignment="Center">
                             <StackPanel x:Name="ButtonLayout">
 
-                                <Button x:Name="CreateQuiz" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="CreateQuiz_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="CreateQuiz" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="CreateQuiz_Click" />
 
-                                <Button x:Name="EditQuiz" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="EditQuiz_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="EditQuiz" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="EditQuiz_Click" />
 
                             </StackPanel>
 
                             <StackPanel x:Name="DeleteBtnLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
-                                <Button x:Name="DeleteQuiz" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="DeleteQuiz_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="DeleteQuiz" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="DeleteQuiz_Click" />
 
                             </StackPanel>
 
