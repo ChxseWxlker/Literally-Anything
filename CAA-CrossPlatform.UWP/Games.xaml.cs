@@ -84,9 +84,9 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void lstQuiz_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

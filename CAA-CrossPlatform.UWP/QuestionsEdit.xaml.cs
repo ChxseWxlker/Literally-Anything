@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,7 +32,7 @@ namespace CAA_CrossPlatform.UWP
             selectedQuestion = (Question)e.Parameter;
 
             //set text
-            QuizTxt.Text = selectedQuestion.name;
+            QuestionTxt.Text = selectedQuestion.name;
 
             for (int i = 0; i < selectedQuestion.answers.Count; i++)
             {
@@ -76,10 +77,28 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void EditQuestion_Click(object sender, RoutedEventArgs e)
+        private async void EditQuestion_Click(object sender, RoutedEventArgs e)
         {
+            //get list of questions
+            List<Question> questions = Json.Read("question.json");
+
+            //validation
+            if (QuestionTxt.Text == "")
+            {
+                await new MessageDialog("Please enter a question name").ShowAsync();
+                return;
+            }
+
+            foreach (Question q in questions)
+                //validate name
+                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim())
+                {
+                    await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
+                    return;
+                }
+
             //set object properties
-            selectedQuestion.name = QuizTxt.Text;
+            selectedQuestion.name = QuestionTxt.Text;
 
             selectedQuestion.answers = new List<string>();
             selectedQuestion.correctAnswers = new List<bool>();
@@ -130,14 +149,14 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
+            Frame.Navigate(typeof(Questions));
+        }
 
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

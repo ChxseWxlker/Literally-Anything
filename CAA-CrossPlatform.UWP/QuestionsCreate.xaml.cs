@@ -44,23 +44,29 @@ namespace CAA_CrossPlatform.UWP
             List<Question> questions = Json.Read("question.json");
 
             //validation
+            if (QuestionTxt.Text == "")
+            {
+                await new MessageDialog("Please enter a question name").ShowAsync();
+                return;
+            }
+
             foreach (Question q in questions)
             {
-                //validate name
+                //validate title
                 if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == false)
                 {
-                    await new MessageDialog("That question already exists, please enter different name").ShowAsync();
+                    await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
                     return;
                 }
-                else if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
+                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
                 {
-                    MessageDialog msg = new MessageDialog("That question is hidden, would you like to reactivate it?");
+                    MessageDialog msg = new MessageDialog("That question is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
                     msg.Commands.Add(new UICommand("No") { Id = 0 });
                     msg.CancelCommandIndex = 0;
                     var choice = await msg.ShowAsync();
 
-                    //reactivate question
+                    //re-activate game
                     if ((int)choice.Id == 1)
                     {
                         q.hidden = false;
@@ -129,19 +135,14 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void CancelQuiz_Click(object sender, RoutedEventArgs e)
+        private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Questions));
         }
 
-        private void QuizNameTB_SelectionChanged(object sender, RoutedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
-        {
-
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

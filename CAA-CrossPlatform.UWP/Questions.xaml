@@ -119,6 +119,7 @@
                                     <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>

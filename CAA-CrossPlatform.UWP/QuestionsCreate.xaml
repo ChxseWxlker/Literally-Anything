@@ -145,6 +145,7 @@
                                     <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -161,7 +162,7 @@
 
                     <StackPanel Name="Question" HorizontalAlignment="Left">
 
-                        <TextBlock x:Name="QuestionTB" Text="Question" TextWrapping="Wrap" FontSize="25" SelectionChanged="QuizNameTB_SelectionChanged" />
+                        <TextBlock x:Name="QuestionTB" Text="Question" TextWrapping="Wrap" FontSize="25"/>
 
                         <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
@@ -212,9 +213,9 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="Answer4" RelativePanel.AlignHorizontalCenterWithPanel="True">
 
-                        <Button x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
+                        <Button x:Name="CancelQuestion" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuestion_Click" />
                         
-                        <Button x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuiz_Click" />
+                        <Button x:Name="CreateQuestion" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuestion_Click" />
 
                     </StackPanel>
                 </RelativePanel>

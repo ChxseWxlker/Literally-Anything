@@ -73,34 +73,12 @@ namespace CAA_CrossPlatform.UWP
             }
 
             foreach (Game g in games)
-            {
                 //validate title
-                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim())
                 {
-                    await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
-                else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
-                {
-                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to reactivate it?");
-                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
-                    msg.Commands.Add(new UICommand("No") { Id = 0 });
-                    msg.CancelCommandIndex = 0;
-                    var choice = await msg.ShowAsync();
-
-                    //re-activate game
-                    if ((int)choice.Id == 1)
-                    {
-                        g.hidden = false;
-                        Json.Edit(g, "game.json");
-                        Frame.Navigate(typeof(Games));
-                        return;
-                    }
-
-                    else if ((int)choice.Id == 0)
-                        return;
-                }
-            }
 
             //create list of selected questions
             selectedGame.questions = new List<int>();
@@ -124,9 +102,9 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Games));
         }
 
-        private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

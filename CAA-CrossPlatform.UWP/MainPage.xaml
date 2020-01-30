@@ -109,6 +109,7 @@
                                     <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -120,19 +121,6 @@
                     <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
 
                 </StackPanel>
-
-                <RelativePanel Grid.Row="2" Grid.Column="1" >
-
-                    <TextBlock x:Name="tbFile" Text="File" TextWrapping="Wrap" FontSize="25" Margin="0,50,0,0" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-
-                    <StackPanel x:Name="Output" Orientation="Horizontal" RelativePanel.Below="tbFile" RelativePanel.AlignHorizontalCenterWith="tbFile">
-
-                        <Button x:Name="btnLoad" Height="50" Width="180" FontSize="30" Margin="0,50,25,0"  Content="Load CSV" Click="btnLoad_Click"/>
-
-                        <Button x:Name="btnSave" Height="50" Width="180" FontSize="30" Margin="25,50,0,0"  Content="Save CSV" Click="btnSave_Click"/>
-
-                    </StackPanel>
-                </RelativePanel>
             </Grid>
         </ScrollViewer>
     </Grid>

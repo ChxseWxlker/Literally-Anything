@@ -118,6 +118,7 @@
                                     <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -136,7 +137,7 @@
 
                             <TextBlock   Text="Quizes" TextWrapping="Wrap" FontSize="60"/>
 
-                            <ListView x:Name="lstQuiz"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0" SelectionChanged="lstQuiz_SelectionChanged" />
+                            <ListView x:Name="lstQuiz"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0"/>
 
                         </StackPanel>
 

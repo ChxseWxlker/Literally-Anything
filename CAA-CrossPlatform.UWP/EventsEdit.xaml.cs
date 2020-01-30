@@ -74,8 +74,26 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Events));
         }
 
-        private void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        private async void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
+            //get list of events
+            List<Event> events = Json.Read("event.json");
+
+            //validation
+            if (EventTxt.Text == "")
+            {
+                await new MessageDialog("Please enter an event name").ShowAsync();
+                return;
+            }
+
+            foreach (Event ev in events)
+                //validate name
+                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim())
+                {
+                    await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
+                    return;
+                }
+
             //set object properties
             gEvent.name = EventTxt.Text;
             gEvent.location = LocationTxt.Text;
@@ -97,6 +115,11 @@ namespace CAA_CrossPlatform.UWP
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

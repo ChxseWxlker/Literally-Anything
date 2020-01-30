@@ -174,5 +174,10 @@ namespace CAA_CrossPlatform.UWP
             CurrentEventsLb.SelectedIndex = -1;
             UpcomingEventsLb.SelectedIndex = -1;
         }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
     }
 }

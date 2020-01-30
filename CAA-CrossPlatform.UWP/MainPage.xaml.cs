@@ -39,15 +39,9 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EventExcel));
-        }
-
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            List<Event> events = Json.Read("event.json");
-            Excel.Save(events);
         }
     }
 }

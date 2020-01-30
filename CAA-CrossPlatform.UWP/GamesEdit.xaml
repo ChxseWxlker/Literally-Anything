@@ -121,6 +121,7 @@
                                     <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                                 <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
+                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -139,7 +140,7 @@
 
                         <TextBlock x:Name="QuizNameTB" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
 
-                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400" TextChanged="QuizTxt_TextChanged"/>
+                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
                     </StackPanel>
 

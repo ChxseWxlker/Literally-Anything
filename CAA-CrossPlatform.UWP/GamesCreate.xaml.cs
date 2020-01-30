@@ -75,12 +75,12 @@ namespace CAA_CrossPlatform.UWP
                 //validate title
                 if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
                 {
-                    await new MessageDialog("That quiz already exists, please enter different name").ShowAsync();
+                    await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
                 else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
-                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to reactivate it?");
+                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
                     msg.Commands.Add(new UICommand("No") { Id = 0 });
                     msg.CancelCommandIndex = 0;
@@ -125,9 +125,9 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Games));
         }
 
-        private void QuizTxt_TextChanged(object sender, TextChangedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

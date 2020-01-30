@@ -64,23 +64,29 @@ namespace CAA_CrossPlatform.UWP
             List<Event> events = Json.Read("event.json");
 
             //validation
+            if (EventTxt.Text == "")
+            {
+                await new MessageDialog("Please enter an event name").ShowAsync();
+                return;
+            }
+
             foreach (Event ev in events)
             {
                 //validate name
                 if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == false)
                 {
-                    await new MessageDialog("That event already exists, please enter different name").ShowAsync();
+                    await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
                     return;
                 }
                 else if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
                 {
-                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to reactivate it?");
+                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
                     msg.Commands.Add(new UICommand("No") { Id = 0 });
                     msg.CancelCommandIndex = 0;
                     var choice = await msg.ShowAsync();
 
-                    //reactivate game
+                    //re-activate game
                     if ((int)choice.Id == 1)
                     {
                         ev.hidden = false;
@@ -118,6 +124,11 @@ namespace CAA_CrossPlatform.UWP
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
-        }       
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
     }
 }

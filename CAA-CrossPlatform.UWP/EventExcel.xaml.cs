@@ -99,5 +99,10 @@ namespace CAA_CrossPlatform.UWP
         {
             lstEvents.SelectedIndex = -1;
         }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
     }
 }

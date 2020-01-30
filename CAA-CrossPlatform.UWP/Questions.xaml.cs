@@ -85,5 +85,10 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(Questions));
             }
         }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
     }
 }
