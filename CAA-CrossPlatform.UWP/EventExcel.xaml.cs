@@ -65,7 +65,8 @@ namespace CAA_CrossPlatform.UWP
                 eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}\n";
             }
 
-            await new MessageDialog(eventsStr).ShowAsync();
+            if (events.Count != 0)
+                await new MessageDialog(eventsStr).ShowAsync();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
