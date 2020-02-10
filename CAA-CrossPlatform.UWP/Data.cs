@@ -372,6 +372,10 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
+            //file is null
+            if (file == null)
+                return new List<Event>();
+
             //create rows
             List<string> rows = new List<string>();
 
@@ -428,6 +432,7 @@ namespace CAA_CrossPlatform.UWP
 
                 eventText += $"{e.name},{e.location},{e.startDate.ToString("yyyy-MM-dd")},{e.endDate.ToString("yyyy-MM-dd")},{gameTitle},{e.memberOnly}\n";
             }
+
             //save to file
             StorageFile file = await picker.PickSaveFileAsync();
 

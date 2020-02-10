@@ -23,7 +23,7 @@ namespace CAA_CrossPlatform.UWP
     public sealed partial class GamesCreate : Page
     {
         //list of questions
-        List<Question> listQuestions = new List<Question>();
+        static List<Question> listQuestions = new List<Question>();
 
         public GamesCreate()
         {
@@ -133,13 +133,14 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(EventExcel));
         }
+
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             lstQuestions.Items.Clear();
             foreach (Question q in listQuestions)
             {
                 if (q.name.ToLower().Trim().Contains(TxtSearch.Text.ToLower().Trim()))
-                {
+                {                    
                     lstQuestions.Items.Add(q.name);
                 }
             }
@@ -147,10 +148,8 @@ namespace CAA_CrossPlatform.UWP
 
         private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (TxtSearch.Text == "Search")
-                TxtSearch.Text = "";
+            if(TxtSearch.Text == "Search")
+            TxtSearch.Text = "";
         }
-
-        
     }
 }

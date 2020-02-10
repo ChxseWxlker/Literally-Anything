@@ -76,7 +76,7 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Game g in games)
                 //validate title
-                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim())
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
