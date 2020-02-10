@@ -58,14 +58,45 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
+            //get list of events
+            List<Event> eventsJSON = Json.Read("event.json");
             List<Event> events = await Excel.Load();
-            string eventsStr = "";
+            bool eventExist = false;
+
             foreach (Event ev in events)
-            {
-                eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}\n";
+            {                
+                foreach (Event evJ in eventsJSON) {
+                    if (ev.id == evJ.id)
+                        eventExist = true;
+                }
+                if ((ev.hidden == false) && (eventExist == false))
+                {
+                    lstEvents.Items.Add(ev.name);
+                    visibleEvents.Add(ev);
+
+                    //create event object
+                    Event gEvent = new Event();
+
+                    //set object properties
+                    gEvent.name = ev.name;
+                    gEvent.location = ev.location;
+                    gEvent.startDate = ev.startDate;
+                    gEvent.endDate = ev.endDate;
+                    gEvent.game = ev.game;
+                    gEvent.memberOnly = ev.memberOnly;
+                    gEvent.trackGuestNum = ev.trackGuestNum;
+                    gEvent.trackAdultNum = ev.trackAdultNum;
+                    gEvent.trackChildNum = ev.trackChildNum;
+
+                    //save json to file
+                    Json.Write(gEvent, "event.json");
+                }
+                eventExist = false;
             }
 
-            await new MessageDialog(eventsStr).ShowAsync();
+            /*if (events.Count != 0)
+                await new MessageDialog(eventsStr).ShowAsync();*/
+            
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
