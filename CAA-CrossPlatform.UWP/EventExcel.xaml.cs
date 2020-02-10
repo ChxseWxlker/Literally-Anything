@@ -119,6 +119,9 @@ namespace CAA_CrossPlatform.UWP
 
             //save to excel spreadsheet
             Excel.Save(selectedEvents);
+
+            //show message output
+            await new MessageDialog("Events imported").ShowAsync();
         }
 
         private void chkAllEvents_Checked(object sender, RoutedEventArgs e)

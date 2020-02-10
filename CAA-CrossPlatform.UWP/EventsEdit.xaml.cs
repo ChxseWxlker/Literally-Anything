@@ -90,7 +90,7 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Event ev in events)
                 //validate name
-                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim())
+                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
                 {
                     EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     EventTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
