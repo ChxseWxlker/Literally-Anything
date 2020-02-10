@@ -75,7 +75,7 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Game g in games)
                 //validate title
-                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim())
+                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
