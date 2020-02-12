@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -58,7 +59,9 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
+            //get events from excel sheet
             List<Event> events = await Excel.Load();
+
             string eventsStr = "";
             foreach (Event ev in events)
             {
