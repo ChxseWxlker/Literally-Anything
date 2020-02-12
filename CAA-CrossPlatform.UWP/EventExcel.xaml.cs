@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -59,17 +58,45 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            //get events from excel sheet
+            //get list of events
+            List<Event> eventsJSON = Json.Read("event.json");
             List<Event> events = await Excel.Load();
+            bool eventExist = false;
 
-            string eventsStr = "";
             foreach (Event ev in events)
-            {
-                eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}\n";
+            {                
+                foreach (Event evJ in eventsJSON) {
+                    if (ev.id == evJ.id)
+                        eventExist = true;
+                }
+                if ((ev.hidden == false) && (eventExist == false))
+                {
+                    lstEvents.Items.Add(ev.name);
+                    visibleEvents.Add(ev);
+
+                    //create event object
+                    Event gEvent = new Event();
+
+                    //set object properties
+                    gEvent.name = ev.name;
+                    gEvent.location = ev.location;
+                    gEvent.startDate = ev.startDate;
+                    gEvent.endDate = ev.endDate;
+                    gEvent.game = ev.game;
+                    gEvent.memberOnly = ev.memberOnly;
+                    gEvent.trackGuestNum = ev.trackGuestNum;
+                    gEvent.trackAdultNum = ev.trackAdultNum;
+                    gEvent.trackChildNum = ev.trackChildNum;
+
+                    //save json to file
+                    Json.Write(gEvent, "event.json");
+                }
+                eventExist = false;
             }
 
-            if (events.Count != 0)
-                await new MessageDialog(eventsStr).ShowAsync();
+            /*if (events.Count != 0)
+                await new MessageDialog(eventsStr).ShowAsync();*/
+            
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
@@ -92,6 +119,9 @@ namespace CAA_CrossPlatform.UWP
 
             //save to excel spreadsheet
             Excel.Save(selectedEvents);
+
+            //show message output
+            await new MessageDialog("Events imported").ShowAsync();
         }
 
         private void chkAllEvents_Checked(object sender, RoutedEventArgs e)

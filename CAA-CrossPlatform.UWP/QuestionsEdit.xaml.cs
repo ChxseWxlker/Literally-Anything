@@ -92,7 +92,7 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Question q in questions)
                 //validate name
-                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim())
+                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
                 {
                     QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
