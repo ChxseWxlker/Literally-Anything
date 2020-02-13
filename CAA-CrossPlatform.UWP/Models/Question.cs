@@ -20,9 +20,4 @@ namespace CAA_CrossPlatform.UWP.Models
         public string name { get; set; }
         public int GameID { get; set; }
     }
-
-    public class RootQuestion
-    {
-        public List<Question> questions { get; set; }
-    }
 }

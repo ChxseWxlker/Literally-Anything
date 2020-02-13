@@ -25,21 +25,21 @@ namespace CAA_CrossPlatform.UWP
                 if (fileName == "event.json")
                 {
                     List<Event> events = new List<Event>();
-                    root = new RootEvent();
+                    //root = new RootEvent();
                     root.events = events;
                 }
 
                 else if (fileName == "game.json")
                 {
                     List<Game> games = new List<Game>();
-                    root = new RootGame();
+                    //root = new RootGame();
                     root.games = games;
                 }
 
                 else if (fileName == "question.json")
                 {
                     List<Question> questions = new List<Question>();
-                    root = new RootQuestion();
+                    //root = new RootQuestion();
                     root.questions = questions;
                 }
 
@@ -155,7 +155,7 @@ namespace CAA_CrossPlatform.UWP
             if (model.GetType().ToString().Substring(56, 4) == "Even")
             {
                 //initialize root
-                root = new RootEvent();
+                //root = new RootEvent();
 
                 //set object properties
                 root.events = model;
@@ -169,7 +169,7 @@ namespace CAA_CrossPlatform.UWP
             else if (model.GetType().ToString().Substring(56, 4) == "Game")
             {
                 //initialize root
-                root = new RootGame();
+                //root = new RootGame();
 
                 //set object properties
                 root.games = model;
@@ -183,7 +183,7 @@ namespace CAA_CrossPlatform.UWP
             else if (model.GetType().ToString().Substring(56, 4) == "Ques")
             {
                 //initialize root
-                root = new RootQuestion();
+                //root = new RootQuestion();
 
                 //set object properties
                 root.questions = model;
@@ -223,7 +223,7 @@ namespace CAA_CrossPlatform.UWP
             if (model.GetType().ToString().Substring(56, 4) == "Even")
             {
                 //initialize root
-                root = new RootEvent();
+                //root = new RootEvent();
 
                 //set object properties
                 root.events = model;
@@ -240,7 +240,7 @@ namespace CAA_CrossPlatform.UWP
             else if (model.GetType().ToString().Substring(56, 4) == "Game")
             {
                 //initialize root
-                root = new RootGame();
+                //root = new RootGame();
 
                 //set object properties
                 root.games = model;
@@ -257,7 +257,7 @@ namespace CAA_CrossPlatform.UWP
             else if (model.GetType().ToString().Substring(56, 4) == "Ques")
             {
                 //initialize root
-                root = new RootQuestion();
+                //root = new RootQuestion();
 
                 //set object properties
                 root.questions = model;

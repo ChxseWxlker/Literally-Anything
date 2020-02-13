@@ -12,15 +12,15 @@ using CAA_CrossPlatform.UWP.Models;
 namespace CAA_CrossPlatform.UWP
 {
     //class to connect to sqlite database and fetch data
-    public class Data
+    public class Connection
     {
-        //returns a specific record or all records
-        public static async Task<dynamic> GetRecord(string Table, int? ID = null)
-        {
-            //get path for database
-            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "EventsDB.db");
-            SqliteConnection con = new SqliteConnection($"Filename={path}");
+        //get path for database
+        private static string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "EventsDB.db");
+        private static SqliteConnection con = new SqliteConnection($"Filename={path}");
 
+        //returns a specific record or all records
+        public static async Task<dynamic> Get(string Table, int? ID = null)
+        {
             //try connecting to the database
             try
             {
@@ -40,7 +40,17 @@ namespace CAA_CrossPlatform.UWP
                 //all records
                 if (ID == null)
                 {
-                    List<dynamic> records = new List<dynamic>();
+                    //get correct list of records
+                    dynamic records = null;
+                    if (Table == "Event")
+                        records = new List<Event>();
+                    else if (Table == "Game")
+                        records = new List<Game>();
+                    else if (Table == "Question")
+                        records = new List<Question>();
+                    else if (Table == "Answer")
+                        records = new List<Answer>();
+
                     while (query.Read())
                     {
                         //event table
@@ -162,6 +172,80 @@ namespace CAA_CrossPlatform.UWP
 
             //return nothing if invalid parameters
             return null;
+        }
+
+        //insert a new record
+        public static async Task<int> Insert(dynamic record)
+        {
+            //get table, fields, and values, and new id
+            string table = "";
+            string fields = "";
+            string values = "";
+            int Id = -1;
+
+            //event record
+            if (record.GetType() == typeof(Event))
+            {
+                table = "Event";
+                fields = "hidden, name, displayName, nameAbbrev, startDate, endDate, memberOnly";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', '{record.displayName}', '{record.nameAbbrev}', '{record.startDate}', '{record.endDate}', {Convert.ToInt32(record.memberOnly)}";
+            }
+
+            //game record
+            else if (record.GetType() == typeof(Game))
+            {
+                table = "Game";
+                fields = "hidden, title, EventID";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.title}', {record.EventID}";
+            }
+
+            //question record
+            else if (record.GetType() == typeof(Question))
+            {
+                table = "Question";
+                fields = "hidden, name, GameID";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', {record.GameID}";
+            }
+
+            //answer record
+            else if (record.GetType() == typeof(Answer))
+            {
+                table = "Answer";
+                fields = "hidden, name, correct, QuestionID";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', {Convert.ToInt32(record.correct)}, {record.QuestionID}";
+            }
+
+            //table doesn't exist
+            else
+                return Id;
+
+            //try connecting to the database
+            try
+            {
+                //open connection
+                con.Open();
+
+                //setup insert command
+                SqliteCommand cmd = new SqliteCommand($"INSERT INTO {table} ({fields}) VALUES ({values}); SELECT last_insert_rowid();", con);
+
+                //insert record and return id
+                Id = Convert.ToInt32(cmd.ExecuteScalar());
+
+                //close connection
+                if (con.State == System.Data.ConnectionState.Open)
+                    con.Close();
+            }
+
+            //catch errors
+            catch (Exception ex)
+            {
+                if (table == "Event" && ex.Message.Contains("UNIQUE"))
+                    await new MessageDialog("That event already exists!").ShowAsync();
+                else
+                    await new MessageDialog(ex.Message).ShowAsync();
+            }
+
+            return Id;
         }
     }
 }

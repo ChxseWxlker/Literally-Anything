@@ -62,28 +62,100 @@ namespace CAA_CrossPlatform.UWP
         private async void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             //reset validation template
-            EventNameTB.Style = new Style();
+            EventNameTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
+            StartDateTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
+            EndDateTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
 
-            //validation
+            //validate name
             if (EventTxt.Text == "")
             {
                 EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 EventTxt.Focus(FocusState.Keyboard);
                 return;
             }
+
+            //validate start date
             else if (StartDateDtp.SelectedDate == null)
             {
-                await new MessageDialog("enter a date damn").ShowAsync();
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                StartDateDtp.Focus(FocusState.Keyboard);
                 return;
             }
 
-            //navigate back to events
-            //Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+            //validate end date
+            else if (EndDateDtp.SelectedDate == null)
+            {
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateDtp.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            //validate date range
+            else if (EndDateDtp.SelectedDate <= StartDateDtp.SelectedDate)
+            {
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateDtp.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            //fix special characters for sql
+            string eventName = EventTxt.Text.Replace("'", "''");
+
+            //setup event record
+            Event ev = new Event();
+            ev.startDate = StartDateDtp.SelectedDate.Value.UtcDateTime;
+            ev.endDate = EndDateDtp.SelectedDate.Value.UtcDateTime;
+            ev.displayName = $"{eventName} {ev.startDate.Year}";
+            ev.name = eventName.Replace(" ", "") + ev.startDate.Year;
+            ev.nameAbbrev = "";
+            foreach (string word in eventName.Split(' '))
+            {
+                char[] letters = word.ToCharArray();
+                ev.nameAbbrev += char.ToUpper(letters[0]);
+            }
+            ev.nameAbbrev += $"{ev.startDate.Month.ToString("00")}{ev.startDate.Year}";
+            ev.memberOnly = MemberOnlyChk.IsChecked ?? false;
+
+            //save to database
+            ev.Id = await Connection.Insert(ev);
+            
+            //navigate away if successful
+            if (ev.Id != -1)
+                Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        private async void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Game g = new Game();
+            g.title = "Test";
+            g.EventID = 2;
+            g.Id = await Connection.Insert(g);
+
+            Question q = new Question();
+            q.name = "Test";
+            q.GameID = g.Id;
+            q.Id = await Connection.Insert(q);
+
+            Answer a1 = new Answer();
+            a1.name = "testWrong";
+            a1.correct = false;
+            a1.QuestionID = q.Id;
+            a1.Id = await Connection.Insert(a1);
+
+            Answer a2 = new Answer();
+            a2.name = "testWrong";
+            a2.correct = false;
+            a2.QuestionID = q.Id;
+            a2.Id = await Connection.Insert(a2);
+
+            Answer a3 = new Answer();
+            a3.name = "testRight";
+            a3.correct = true;
+            a3.QuestionID = q.Id;
+            a3.Id = await Connection.Insert(a3);
+
+            //Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)

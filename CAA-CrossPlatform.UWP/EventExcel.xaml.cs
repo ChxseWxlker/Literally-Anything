@@ -75,8 +75,8 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            List<dynamic> ev = await Data.GetRecord("Event");
-            Answer ev1 = await Data.GetRecord("Answer", 2);
+            List<Event> ev = await Connection.Get("Event");
+            Answer ev1 = await Connection.Get("Answer", 2);
 
             string hi = "";
             foreach (Event yo in ev)

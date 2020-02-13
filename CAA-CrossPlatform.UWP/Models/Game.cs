@@ -20,9 +20,4 @@ namespace CAA_CrossPlatform.UWP.Models
         public string title { get; set; }
         public int EventID { get; set; }
     }
-
-    public class RootGame
-    {
-        public List<Game> games { get; set; }
-    }
 }

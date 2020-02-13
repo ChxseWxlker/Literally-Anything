@@ -21,9 +21,4 @@ namespace CAA_CrossPlatform.UWP.Models
         public bool correct { get; set; }
         public int QuestionID { get; set; }
     }
-
-    public class RootAnswer
-    {
-        public List<Answer> answers { get; set; }
-    }
 }
