@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -91,21 +92,21 @@ namespace CAA_CrossPlatform.UWP
                 if (currentLb == "current")
                 {
                     foreach (Event ev in currentEvents)
-                        if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
+                        if (ev.Id == currentEvents[CurrentEventsLb.SelectedIndex].Id)
                             selectedEvent = ev;
                 }
 
                 else if (currentLb == "upcoming")
                 {
                     foreach (Event ev in upcomingEvents)
-                        if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
+                        if (ev.Id == upcomingEvents[UpcomingEventsLb.SelectedIndex].Id)
                             selectedEvent = ev;
                 }
 
                 else if (currentLb == "past")
                 {
                     foreach (Event ev in pastEvents)
-                        if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
+                        if (ev.Id == pastEvents[PastEventsCmb.SelectedIndex].Id)
                             selectedEvent = ev;
                 }
 
@@ -126,21 +127,21 @@ namespace CAA_CrossPlatform.UWP
                 if (currentLb == "current")
                 {
                     foreach (Event ev in currentEvents)
-                        if (ev.id == currentEvents[CurrentEventsLb.SelectedIndex].id)
+                        if (ev.Id == currentEvents[CurrentEventsLb.SelectedIndex].Id)
                             gEvent = ev;
                 }
 
                 else if (currentLb == "upcoming")
                 {
                     foreach (Event ev in upcomingEvents)
-                        if (ev.id == upcomingEvents[UpcomingEventsLb.SelectedIndex].id)
+                        if (ev.Id == upcomingEvents[UpcomingEventsLb.SelectedIndex].Id)
                             gEvent = ev;
                 }
 
                 else if (currentLb == "past")
                 {
                     foreach (Event ev in pastEvents)
-                        if (ev.id == pastEvents[PastEventsCmb.SelectedIndex].id)
+                        if (ev.Id == pastEvents[PastEventsCmb.SelectedIndex].Id)
                             gEvent = ev;
                 }
 

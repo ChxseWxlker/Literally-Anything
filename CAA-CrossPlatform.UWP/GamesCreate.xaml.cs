@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -106,6 +107,7 @@ namespace CAA_CrossPlatform.UWP
             Game game = new Game();
 
             //set object properties
+            /*
             game.questions = new List<int>();
 
             foreach (string sq in lstQuestions.SelectedItems)
@@ -117,7 +119,7 @@ namespace CAA_CrossPlatform.UWP
 
             //save to json
             Json.Write(game, "game.json");
-
+            */
             //navigate back to game
             Frame.Navigate(typeof(Games));
         }

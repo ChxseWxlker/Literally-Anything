@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -60,67 +61,24 @@ namespace CAA_CrossPlatform.UWP
 
         private async void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            //get list of events
-            List<Event> events = Json.Read("event.json");
+            //reset validation template
+            EventNameTB.Style = new Style();
 
             //validation
             if (EventTxt.Text == "")
             {
                 EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                await new MessageDialog("Please enter an event name").ShowAsync();
+                EventTxt.Focus(FocusState.Keyboard);
+                return;
+            }
+            else if (StartDateDtp.SelectedDate == null)
+            {
+                await new MessageDialog("enter a date damn").ShowAsync();
                 return;
             }
 
-            foreach (Event ev in events)
-            {
-                //validate name
-                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == false)
-                {
-                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
-                    return;
-                }
-                else if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
-                {
-                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to re-activate it?");
-                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
-                    msg.Commands.Add(new UICommand("No") { Id = 0 });
-                    msg.CancelCommandIndex = 0;
-                    var choice = await msg.ShowAsync();
-
-                    //re-activate game
-                    if ((int)choice.Id == 1)
-                    {
-                        ev.hidden = false;
-                        Json.Edit(ev, "event.json");
-                        Frame.Navigate(typeof(Events));
-                        return;
-                    }
-
-                    else if ((int)choice.Id == 0)
-                        return;
-                }
-            }
-
-            //create event object
-            Event gEvent = new Event();
-
-            //set object properties
-            gEvent.name = EventTxt.Text;
-            gEvent.location = LocationTxt.Text;
-            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
-            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
-            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
-            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
-            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
-            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
-            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
-
-            //save json to file
-            Json.Write(gEvent, "event.json");
-
             //navigate back to events
-            Frame.Navigate(typeof(Events));
+            //Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

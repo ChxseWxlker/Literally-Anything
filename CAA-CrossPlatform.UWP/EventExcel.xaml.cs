@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
+using Microsoft.Data.Sqlite;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -58,70 +60,31 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            //get list of events
-            List<Event> eventsJSON = Json.Read("event.json");
-            List<Event> events = await Excel.Load();
-            bool eventExist = false;
-
-            foreach (Event ev in events)
-            {                
-                foreach (Event evJ in eventsJSON) {
-                    if (ev.id == evJ.id)
-                        eventExist = true;
-                }
-                if ((ev.hidden == false) && (eventExist == false))
-                {
-                    lstEvents.Items.Add(ev.name);
-                    visibleEvents.Add(ev);
-
-                    //create event object
-                    Event gEvent = new Event();
-
-                    //set object properties
-                    gEvent.name = ev.name;
-                    gEvent.location = ev.location;
-                    gEvent.startDate = ev.startDate;
-                    gEvent.endDate = ev.endDate;
-                    gEvent.game = ev.game;
-                    gEvent.memberOnly = ev.memberOnly;
-                    gEvent.trackGuestNum = ev.trackGuestNum;
-                    gEvent.trackAdultNum = ev.trackAdultNum;
-                    gEvent.trackChildNum = ev.trackChildNum;
-
-                    //save json to file
-                    Json.Write(gEvent, "event.json");
-                }
-                eventExist = false;
+            string abbreviation = "";
+            string input = "Meet Me There: Doc Magilligan’s Irish Pub";
+            DateTime date = new DateTime(2020, 02, 04);
+            string[] strSplit = input.Split();
+            foreach (string word in strSplit)
+            {
+                char[] letters = word.ToCharArray();
+                abbreviation += char.ToUpper(letters[0]);
             }
-
-            /*if (events.Count != 0)
-                await new MessageDialog(eventsStr).ShowAsync();*/
-            
+            abbreviation += $"{date.Month}{date.Year}";
+            await new MessageDialog(abbreviation).ShowAsync();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            //validation
-            if (lstEvents.SelectedItems.Count == 0)
-            {
-                await new MessageDialog("No events selected, please choose one").ShowAsync();
-                return;
-            }
+            List<dynamic> ev = await Data.GetRecord("Event");
+            Answer ev1 = await Data.GetRecord("Answer", 2);
 
-            //create list of selected events
-            List<Event> selectedEvents = new List<Event>();
+            string hi = "";
+            foreach (Event yo in ev)
+                hi += $"{yo.Id} {yo.name}\n";
 
-            //add to events
-            foreach (string evStr in lstEvents.SelectedItems)
-                foreach (Event ev in visibleEvents)
-                    if (evStr == ev.name)
-                        selectedEvents.Add(ev);
+            await new MessageDialog(hi).ShowAsync();
 
-            //save to excel spreadsheet
-            Excel.Save(selectedEvents);
-
-            //show message output
-            await new MessageDialog("Events imported").ShowAsync();
+            await new MessageDialog(ev1.name).ShowAsync();
         }
 
         private void chkAllEvents_Checked(object sender, RoutedEventArgs e)

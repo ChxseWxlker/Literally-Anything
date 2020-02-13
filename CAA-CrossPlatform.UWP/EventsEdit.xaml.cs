@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -46,6 +47,7 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //populate info
+            /*
             EventTxt.Text = gEvent.name;
             LocationTxt.Text = gEvent.location;
             StartDateDtp.SelectedDate = gEvent.startDate;
@@ -57,6 +59,7 @@ namespace CAA_CrossPlatform.UWP
             trackGuestChk.IsChecked = gEvent.trackGuestNum;
             trackAdultChk.IsChecked = gEvent.trackAdultNum;
             trackChildChk.IsChecked = gEvent.trackChildNum;
+            */
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
@@ -95,8 +98,9 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
                     return;
                 }
-
+            
             //set object properties
+            /*
             gEvent.name = EventTxt.Text;
             gEvent.location = LocationTxt.Text;
             gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
@@ -106,7 +110,7 @@ namespace CAA_CrossPlatform.UWP
             gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
             gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
             gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
-            
+            */
             //update json file
             Json.Edit(gEvent, "event.json");
 

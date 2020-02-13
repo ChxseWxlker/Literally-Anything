@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -33,7 +34,7 @@ namespace CAA_CrossPlatform.UWP
 
             //set text
             QuestionTxt.Text = selectedQuestion.name;
-
+            /*
             for (int i = 0; i < selectedQuestion.answers.Count; i++)
             {
                 if (i == 0)
@@ -60,6 +61,7 @@ namespace CAA_CrossPlatform.UWP
                     Answer4CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
                 }
             }
+            */
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
@@ -101,7 +103,7 @@ namespace CAA_CrossPlatform.UWP
 
             //set object properties
             selectedQuestion.name = QuestionTxt.Text;
-
+            /*
             selectedQuestion.answers = new List<string>();
             selectedQuestion.correctAnswers = new List<bool>();
 
@@ -146,7 +148,7 @@ namespace CAA_CrossPlatform.UWP
 
             //save json object
             Json.Edit(selectedQuestion, "question.json");
-
+            */
             //redirect to questions page
             Frame.Navigate(typeof(Questions));
         }

@@ -43,9 +43,11 @@
         </Style>
         <Style x:Key="ValidationFailedTemplate" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Red"></Setter>
-
         </Style>
-        
+        <Style x:Key="ValidationResetTemplate" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+
     </Application.Resources>
     
 </Application>

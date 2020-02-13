@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -87,7 +88,7 @@ namespace CAA_CrossPlatform.UWP
 
             //set object properties
             question.name = QuestionTxt.Text;
-
+            /*
             question.answers = new List<string>();
             question.correctAnswers = new List<bool>();
 
@@ -132,7 +133,7 @@ namespace CAA_CrossPlatform.UWP
 
             //write json to file
             Json.Write(question, "question.json");
-
+            */
             //navigate back to question page
             Frame.Navigate(typeof(Questions));
         }

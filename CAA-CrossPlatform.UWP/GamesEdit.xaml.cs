@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -30,7 +31,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //get current game
             selectedGame = (Game)e.Parameter;
-
+            /*
             //get list of questions
             List<Question> questions = Json.Read("question.json");
             foreach (Question q in questions)
@@ -38,10 +39,10 @@ namespace CAA_CrossPlatform.UWP
                 {
                     lstQuestions.Items.Add(q.name);
                     listQuestions.Add(q);
-                    if (selectedGame.questions.Contains(q.id))
+                    if (selectedGame.questions.Contains(q.Id))
                         lstQuestions.SelectedItems.Add(q.name);
                 }
-
+                */
             QuizTxt.Text = selectedGame.title;
         }
 
@@ -81,7 +82,7 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
-
+            /*
             //create list of selected questions
             selectedGame.questions = new List<int>();
 
@@ -91,7 +92,7 @@ namespace CAA_CrossPlatform.UWP
                         selectedGame.questions.Add(q.id);
 
             selectedGame.title = QuizTxt.Text;
-
+            */
             //edit game object
             Json.Edit(selectedGame, "game.json");
 
