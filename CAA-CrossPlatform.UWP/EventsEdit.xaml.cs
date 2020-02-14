@@ -19,8 +19,10 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class EventsEdit : Page
     {
-        //create event object
-        Event gEvent;
+        //create objects
+        Event selectedEvent;
+        Game selectedGame;
+        EventGame selectedEventGame;
 
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
@@ -30,13 +32,22 @@ namespace CAA_CrossPlatform.UWP
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             //get event from previous page
-            gEvent = (Event)e.Parameter;
+            selectedEvent = (Event)e.Parameter;
 
             //get all games
-            List<Game> games = Json.Read("game.json");
+            List<Game> games = await Connection.Get("Game");
+
+            //get event game
+            List<EventGame> eventGames = await Connection.Get("EventGame");
+            foreach (EventGame eg in eventGames)
+                if (eg.EventID == selectedEvent.Id)
+                {
+                    selectedGame = await Connection.Get("Game", eg.GameID);
+                    selectedEventGame = eg;
+                }
 
             //populate listbox
             foreach (Game game in games)
@@ -47,19 +58,12 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //populate info
-            /*
-            EventTxt.Text = gEvent.name;
-            LocationTxt.Text = gEvent.location;
-            StartDateDtp.SelectedDate = gEvent.startDate;
-            EndDateDtp.SelectedDate = gEvent.endDate;
-            foreach (Game game in visibleGames)
-                if (game.id == gEvent.game)
-                    QuizCmb.SelectedIndex = visibleGames.IndexOf(game);
-            MemberOnlyChk.IsChecked = gEvent.memberOnly;
-            trackGuestChk.IsChecked = gEvent.trackGuestNum;
-            trackAdultChk.IsChecked = gEvent.trackAdultNum;
-            trackChildChk.IsChecked = gEvent.trackChildNum;
-            */
+            EventTxt.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
+            StartDateDtp.SelectedDate = selectedEvent.startDate;
+            EndDateDtp.SelectedDate = selectedEvent.endDate;
+            if (selectedGame != null)
+                QuizCmb.SelectedItem = selectedGame.title;
+            MemberOnlyChk.IsChecked = selectedEvent.memberOnly;
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
@@ -77,55 +81,86 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Events));
         }
 
-        private async void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            //get list of events
-            List<Event> events = Json.Read("event.json");
+            Frame.Navigate(typeof(EventExcel));
+        }
 
-            //validation
+        private void UpdateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //reset validation template
+            EventNameTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
+            StartDateTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
+            EndDateTB.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
+
+            //validate name
             if (EventTxt.Text == "")
             {
                 EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                await new MessageDialog("Please enter an event name").ShowAsync();
+                EventTxt.Focus(FocusState.Keyboard);
                 return;
             }
 
-            foreach (Event ev in events)
-                //validate name
-                if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
-                {
-                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
-                    return;
-                }
-            
-            //set object properties
-            /*
-            gEvent.name = EventTxt.Text;
-            gEvent.location = LocationTxt.Text;
-            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
-            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
-            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
-            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
-            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
-            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
-            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
-            */
-            //update json file
-            Json.Edit(gEvent, "event.json");
+            //validate start date
+            else if (StartDateDtp.SelectedDate == null)
+            {
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                StartDateDtp.Focus(FocusState.Keyboard);
+                return;
+            }
 
-            //navigate back to events
-            Frame.Navigate(typeof(Events));
+            //validate end date
+            else if (EndDateDtp.SelectedDate == null)
+            {
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateDtp.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            //validate date range
+            else if (EndDateDtp.SelectedDate <= StartDateDtp.SelectedDate)
+            {
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EndDateDtp.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            //fix special characters for sql
+            string eventName = EventTxt.Text.Replace("'", "''");
+
+            //setup event record
+            selectedEvent.startDate = StartDateDtp.SelectedDate.Value.UtcDateTime;
+            selectedEvent.endDate = EndDateDtp.SelectedDate.Value.UtcDateTime;
+            selectedEvent.displayName = $"{eventName} {selectedEvent.startDate.Year}";
+            selectedEvent.name = selectedEvent.displayName.Replace(" ", "");
+            selectedEvent.nameAbbrev = "";
+            foreach (string word in eventName.Split(' '))
+            {
+                char[] letters = word.ToCharArray();
+                selectedEvent.nameAbbrev += char.ToUpper(letters[0]);
+            }
+            selectedEvent.nameAbbrev += $"{selectedEvent.startDate.Month.ToString("00")}{selectedEvent.startDate.Year}";
+            selectedEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+
+            //save to database
+            Connection.Update(selectedEvent);
+
+            //setup event game record
+            if (selectedEventGame != null)
+                selectedEventGame.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
+
+            //save to database
+            if (selectedEventGame != null)
+                Connection.Update(selectedEventGame);
+
+            //navigate away
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
     }
 }

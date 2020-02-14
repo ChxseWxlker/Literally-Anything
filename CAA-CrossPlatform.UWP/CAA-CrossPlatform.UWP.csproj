@@ -89,6 +89,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApiHelper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -120,6 +121,7 @@
     </Compile>
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventGame.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

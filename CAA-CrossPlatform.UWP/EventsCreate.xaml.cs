@@ -45,10 +45,15 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void EventsCreate_Loaded(object sender, RoutedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
+
+        private async void EventsCreate_Loaded(object sender, RoutedEventArgs e)
         {
             //get all games
-            List<Game> games = Json.Read("game.json");
+            List<Game> games = await Connection.Get("Game");
 
             //populate listbox
             foreach (Game game in games)
@@ -107,7 +112,7 @@ namespace CAA_CrossPlatform.UWP
             ev.startDate = StartDateDtp.SelectedDate.Value.UtcDateTime;
             ev.endDate = EndDateDtp.SelectedDate.Value.UtcDateTime;
             ev.displayName = $"{eventName} {ev.startDate.Year}";
-            ev.name = eventName.Replace(" ", "") + ev.startDate.Year;
+            ev.name = ev.displayName.Replace(" ", "");
             ev.nameAbbrev = "";
             foreach (string word in eventName.Split(' '))
             {
@@ -119,48 +124,24 @@ namespace CAA_CrossPlatform.UWP
 
             //save to database
             ev.Id = await Connection.Insert(ev);
-            
+
+            //setup event game record
+            EventGame eg = new EventGame();
+            if (QuizCmb.SelectedIndex != -1)
+            {
+                eg.EventID = ev.Id;
+                eg.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
+                eg.Id = await Connection.Insert(eg);
+            }
+
             //navigate away if successful
-            if (ev.Id != -1)
+            if (ev.Id != -1 && eg.Id != -1)
                 Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
-        private async void CancelBtn_Click(object sender, RoutedEventArgs e)
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            Game g = new Game();
-            g.title = "Test";
-            g.EventID = 2;
-            g.Id = await Connection.Insert(g);
-
-            Question q = new Question();
-            q.name = "Test";
-            q.GameID = g.Id;
-            q.Id = await Connection.Insert(q);
-
-            Answer a1 = new Answer();
-            a1.name = "testWrong";
-            a1.correct = false;
-            a1.QuestionID = q.Id;
-            a1.Id = await Connection.Insert(a1);
-
-            Answer a2 = new Answer();
-            a2.name = "testWrong";
-            a2.correct = false;
-            a2.QuestionID = q.Id;
-            a2.Id = await Connection.Insert(a2);
-
-            Answer a3 = new Answer();
-            a3.name = "testRight";
-            a3.correct = true;
-            a3.QuestionID = q.Id;
-            a3.Id = await Connection.Insert(a3);
-
-            //Frame.Navigate(Frame.BackStack.Last().SourcePageType);
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
     }
 }

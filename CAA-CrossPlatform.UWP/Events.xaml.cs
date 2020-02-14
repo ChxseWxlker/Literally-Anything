@@ -21,16 +21,19 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class Events : Page
     {
+        //create lists of events
+        List<Event> currentEvents = new List<Event>();
+        List<Event> upcomingEvents = new List<Event>();
+        List<Event> pastEvents = new List<Event>();
+
+        //setup current listbox value
+        string currentLb = "";
+
         public Events()
         {
             this.InitializeComponent();
             this.Loaded += Events_Loaded;
         }
-
-        List<Event> currentEvents = new List<Event>();
-        List<Event> upcomingEvents = new List<Event>();
-        List<Event> pastEvents = new List<Event>();
-        string currentLb = "";
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
@@ -47,39 +50,46 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Questions));
         }
 
-        private void Events_Loaded(object sender, RoutedEventArgs e)
+        private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            //get all events
-            List<Event> events = Json.Read("event.json");
-
-            //populate current events
-            foreach (Event gEvent in events)
-                if (gEvent.startDate <= DateTime.Now && gEvent.endDate >= DateTime.Now && gEvent.hidden == false)
-                {
-                    CurrentEventsLb.Items.Add(gEvent.name);
-                    currentEvents.Add(gEvent);
-                }
-
-            //populate upcoming events
-            foreach (Event gEvent in events)
-                if (gEvent.startDate > DateTime.Now && gEvent.hidden == false)
-                {
-                    UpcomingEventsLb.Items.Add(gEvent.name);
-                    upcomingEvents.Add(gEvent);
-                }
-
-            //populate past events
-            foreach (Event gEvent in events)
-                if (gEvent.endDate < DateTime.Now && gEvent.hidden == false)
-                {
-                    PastEventsCmb.Items.Add(gEvent.name);
-                    pastEvents.Add(gEvent);
-                }
+            Frame.Navigate(typeof(EventExcel));
         }
 
         private void CreateEvent_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EventsCreate));
+        }
+
+        private async void Events_Loaded(object sender, RoutedEventArgs e)
+        {
+            //get all events
+            List<Event> events = await Connection.Get("Event");
+
+            //check all events
+            foreach (Event ev in events)
+                if (ev.hidden == false)
+                {
+                    //populate upcoming events
+                    if (ev.startDate > DateTime.Now)
+                    {
+                        UpcomingEventsLb.Items.Add(ev.displayName);
+                        upcomingEvents.Add(ev);
+                    }
+
+                    //populate past events
+                    else if (ev.endDate < DateTime.Now)
+                    {
+                        PastEventsCmb.Items.Add(ev.displayName);
+                        pastEvents.Add(ev);
+                    }
+
+                    //populate current events
+                    else
+                    {
+                        CurrentEventsLb.Items.Add(ev.displayName);
+                        currentEvents.Add(ev);
+                    }
+                }
         }
 
         private async void EditEvent_Click(object sender, RoutedEventArgs e)
@@ -123,33 +133,21 @@ namespace CAA_CrossPlatform.UWP
             if (currentLb != "")
             {
                 //get selected event from listbox
-                Event gEvent = new Event();
+                Event selectedEvent = new Event();
                 if (currentLb == "current")
-                {
-                    foreach (Event ev in currentEvents)
-                        if (ev.Id == currentEvents[CurrentEventsLb.SelectedIndex].Id)
-                            gEvent = ev;
-                }
+                    selectedEvent = currentEvents[CurrentEventsLb.SelectedIndex];
 
                 else if (currentLb == "upcoming")
-                {
-                    foreach (Event ev in upcomingEvents)
-                        if (ev.Id == upcomingEvents[UpcomingEventsLb.SelectedIndex].Id)
-                            gEvent = ev;
-                }
+                    selectedEvent = upcomingEvents[UpcomingEventsLb.SelectedIndex];
 
                 else if (currentLb == "past")
-                {
-                    foreach (Event ev in pastEvents)
-                        if (ev.Id == pastEvents[PastEventsCmb.SelectedIndex].Id)
-                            gEvent = ev;
-                }
+                    selectedEvent = pastEvents[PastEventsCmb.SelectedIndex];
 
                 //hide event object
-                gEvent.hidden = true;
+                selectedEvent.hidden = true;
 
                 //edit event object and reload
-                Json.Edit(gEvent, "event.json");
+                Connection.Update(selectedEvent);
                 Frame.Navigate(typeof(Events));
             }
             else
@@ -175,11 +173,6 @@ namespace CAA_CrossPlatform.UWP
             currentLb = "past";
             CurrentEventsLb.SelectedIndex = -1;
             UpcomingEventsLb.SelectedIndex = -1;
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

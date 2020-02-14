@@ -19,7 +19,8 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class Games : Page
     {
-        List<Game> listGames = new List<Game>();
+        //create list of visible games
+        List<Game> visibleGames = new List<Game>();
 
         public Games()
         {
@@ -27,16 +28,16 @@ namespace CAA_CrossPlatform.UWP
             this.Loaded += Games_Loaded;
         }
 
-        private void Games_Loaded(object sender, RoutedEventArgs e)
+        private async void Games_Loaded(object sender, RoutedEventArgs e)
         {
             //get list of games
-            List<Game> games = Json.Read("game.json");
+            List<Game> games = await Connection.Get("Game");
 
             foreach (Game g in games)
                 if (g.hidden == false)
                 {
                     lstQuiz.Items.Add(g.title);
-                    listGames.Add(g);
+                    visibleGames.Add(g);
                 }
         }
 
@@ -50,7 +51,12 @@ namespace CAA_CrossPlatform.UWP
             if (lstQuiz.SelectedIndex == -1)
                 await new MessageDialog("Please choose a quiz to edit").ShowAsync();
             else
-                Frame.Navigate(typeof(GamesEdit), listGames[lstQuiz.SelectedIndex]);
+                Frame.Navigate(typeof(GamesEdit), visibleGames[lstQuiz.SelectedIndex]);
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
@@ -75,19 +81,14 @@ namespace CAA_CrossPlatform.UWP
             else
             {
                 //hide game object
-                listGames[lstQuiz.SelectedIndex].hidden = true;
+                visibleGames[lstQuiz.SelectedIndex].hidden = true;
 
                 //edit game object
-                Json.Edit(listGames[lstQuiz.SelectedIndex], "game.json");
+                Connection.Update(visibleGames[lstQuiz.SelectedIndex]);
 
                 //reload page
                 Frame.Navigate(typeof(Games));
             }
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(EventExcel));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace CAA_CrossPlatform.UWP
     public sealed partial class GamesCreate : Page
     {
         //list of questions
-        static List<Question> listQuestions = new List<Question>();
+        static List<Question> visibleQuestions = new List<Question>();
 
         public GamesCreate()
         {
@@ -32,15 +32,15 @@ namespace CAA_CrossPlatform.UWP
             this.Loaded += GamesCreate_Loaded;
         }
 
-        private void GamesCreate_Loaded(object sender, RoutedEventArgs e)
+        private async void GamesCreate_Loaded(object sender, RoutedEventArgs e)
         {
             //get question list
-            List<Question> questions = Json.Read("question.json");
+            List<Question> questions = await Connection.Get("Question");
             foreach (Question q in questions)
                 if (q.hidden == false)
                 {
                     lstQuestions.Items.Add(q.name);
-                    listQuestions.Add(q);
+                    visibleQuestions.Add(q);
                 }
         }
 
@@ -62,7 +62,7 @@ namespace CAA_CrossPlatform.UWP
         private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
             //get list of games
-            List<Game> games = Json.Read("game.json");
+            List<Game> games = await Connection.Get("Game");
 
             //validation
             if (QuizTxt.Text == "")
@@ -81,6 +81,8 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
+
+                //unhide game if user chooses
                 else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to re-activate it?");
@@ -93,7 +95,7 @@ namespace CAA_CrossPlatform.UWP
                     if ((int)choice.Id == 1)
                     {
                         g.hidden = false;
-                        Json.Edit(g, "game.json");
+                        Connection.Update(g);
                         Frame.Navigate(typeof(Games));
                         return;
                     }
@@ -107,7 +109,6 @@ namespace CAA_CrossPlatform.UWP
             Game game = new Game();
 
             //set object properties
-            /*
             game.questions = new List<int>();
 
             foreach (string sq in lstQuestions.SelectedItems)
@@ -119,14 +120,14 @@ namespace CAA_CrossPlatform.UWP
 
             //save to json
             Json.Write(game, "game.json");
-            */
+            
             //navigate back to game
             Frame.Navigate(typeof(Games));
         }
 
         private void CancelQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
@@ -137,13 +138,9 @@ namespace CAA_CrossPlatform.UWP
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             lstQuestions.Items.Clear();
-            foreach (Question q in listQuestions)
-            {
+            foreach (Question q in visibleQuestions)
                 if (q.name.ToLower().Trim().Contains(TxtSearch.Text.ToLower().Trim()))
-                {                    
                     lstQuestions.Items.Add(q.name);
-                }
-            }
         }
 
         private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
