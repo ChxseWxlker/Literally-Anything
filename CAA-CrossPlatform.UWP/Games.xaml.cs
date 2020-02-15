@@ -36,7 +36,7 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game g in games)
                 if (g.hidden == false)
                 {
-                    lstQuiz.Items.Add(g.title);
+                    lstQuiz.Items.Add(g.name);
                     visibleGames.Add(g);
                 }
         }

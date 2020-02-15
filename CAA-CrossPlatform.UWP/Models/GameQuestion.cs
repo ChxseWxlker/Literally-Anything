@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CAA_CrossPlatform.UWP.Models
 {
-    public class EventGame
+    public class GameQuestion
     {
-        //event game properties
+        //question properties
         public int Id { get; set; }
-        public int EventID { get; set; }
         public int GameID { get; set; }
+        public int QuestionID { get; set; }
     }
 }

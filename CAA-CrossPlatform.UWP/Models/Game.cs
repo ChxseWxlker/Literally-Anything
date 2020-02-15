@@ -17,6 +17,6 @@ namespace CAA_CrossPlatform.UWP.Models
         //game properties
         public int Id { get; set; }
         public bool hidden { get; set; }
-        public string title { get; set; }
+        public string name { get; set; }
     }
 }

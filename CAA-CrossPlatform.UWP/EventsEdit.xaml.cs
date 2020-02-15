@@ -22,7 +22,6 @@ namespace CAA_CrossPlatform.UWP
         //create objects
         Event selectedEvent;
         Game selectedGame;
-        EventGame selectedEventGame;
 
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
@@ -40,20 +39,14 @@ namespace CAA_CrossPlatform.UWP
             //get all games
             List<Game> games = await Connection.Get("Game");
 
-            //get event game
-            List<EventGame> eventGames = await Connection.Get("EventGame");
-            foreach (EventGame eg in eventGames)
-                if (eg.EventID == selectedEvent.Id)
-                {
-                    selectedGame = await Connection.Get("Game", eg.GameID);
-                    selectedEventGame = eg;
-                }
+            //get game
+            selectedGame = await Connection.Get("Game", selectedEvent.GameID);
 
             //populate listbox
             foreach (Game game in games)
                 if (game.hidden == false)
                 {
-                    QuizCmb.Items.Add(game.title);
+                    QuizCmb.Items.Add(game.name);
                     visibleGames.Add(game);
                 }
 
@@ -62,7 +55,7 @@ namespace CAA_CrossPlatform.UWP
             StartDateDtp.SelectedDate = selectedEvent.startDate;
             EndDateDtp.SelectedDate = selectedEvent.endDate;
             if (selectedGame != null)
-                QuizCmb.SelectedItem = selectedGame.title;
+                QuizCmb.SelectedItem = selectedGame.name;
             MemberOnlyChk.IsChecked = selectedEvent.memberOnly;
         }
 
@@ -142,17 +135,10 @@ namespace CAA_CrossPlatform.UWP
             }
             selectedEvent.nameAbbrev += $"{selectedEvent.startDate.Month.ToString("00")}{selectedEvent.startDate.Year}";
             selectedEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+            selectedEvent.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
 
             //save to database
             Connection.Update(selectedEvent);
-
-            //setup event game record
-            if (selectedEventGame != null)
-                selectedEventGame.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
-
-            //save to database
-            if (selectedEventGame != null)
-                Connection.Update(selectedEventGame);
 
             //navigate away
             Frame.Navigate(Frame.BackStack.Last().SourcePageType);

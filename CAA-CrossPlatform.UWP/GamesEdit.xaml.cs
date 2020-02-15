@@ -43,7 +43,7 @@ namespace CAA_CrossPlatform.UWP
                         lstQuestions.SelectedItems.Add(q.name);
                 }
                 */
-            QuizTxt.Text = selectedGame.title;
+            QuizTxt.Text = selectedGame.name;
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
@@ -76,7 +76,7 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Game g in games)
                 //validate title
-                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();

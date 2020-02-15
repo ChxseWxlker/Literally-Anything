@@ -18,6 +18,5 @@ namespace CAA_CrossPlatform.UWP.Models
         public int Id { get; set; }
         public bool hidden { get; set; }
         public string name { get; set; }
-        public int GameID { get; set; }
     }
 }

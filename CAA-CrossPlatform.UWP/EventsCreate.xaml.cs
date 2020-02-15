@@ -50,6 +50,11 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(EventExcel));
         }
 
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+        }
+
         private async void EventsCreate_Loaded(object sender, RoutedEventArgs e)
         {
             //get all games
@@ -59,7 +64,7 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game game in games)
                 if (game.hidden == false)
                 {
-                    QuizCmb.Items.Add(game.title);
+                    QuizCmb.Items.Add(game.name);
                     visibleGames.Add(game);
                 }
         }
@@ -104,13 +109,57 @@ namespace CAA_CrossPlatform.UWP
                 return;
             }
 
+            //validate abbreviated name
+            List<Event> events = await Connection.Get("Event");
+            foreach (Event ev2 in events)
+            {
+                //get abbreviation
+                string abbreviation = "";
+                foreach (string word in EventTxt.Text.Replace("'", "''").Split(' '))
+                {
+                    char[] letters = word.ToCharArray();
+                    abbreviation += char.ToUpper(letters[0]);
+                }
+                abbreviation += $"{StartDateDtp.SelectedDate.Value.DateTime.Month.ToString("00")}{StartDateDtp.SelectedDate.Value.DateTime.Year}";
+
+                //event exists and is visible
+                if (ev2.nameAbbrev == abbreviation && ev2.hidden == false)
+                {
+                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    await new MessageDialog("That event already exists, please enter a different name or date").ShowAsync();
+                    return;
+                }
+
+                //event exists but is hidden
+                else if (ev2.nameAbbrev == abbreviation && ev2.hidden == true)
+                {
+                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to re-activate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
+
+                    //re-activate game
+                    if ((int)choice.Id == 1)
+                    {
+                        ev2.hidden = false;
+                        Connection.Update(ev2);
+                        Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+                        return;
+                    }
+
+                    else if ((int)choice.Id == 0)
+                        return;
+                }
+            }
+
             //fix special characters for sql
             string eventName = EventTxt.Text.Replace("'", "''");
 
             //setup event record
             Event ev = new Event();
-            ev.startDate = StartDateDtp.SelectedDate.Value.UtcDateTime;
-            ev.endDate = EndDateDtp.SelectedDate.Value.UtcDateTime;
+            ev.startDate = StartDateDtp.SelectedDate.Value.DateTime;
+            ev.endDate = EndDateDtp.SelectedDate.Value.DateTime;
             ev.displayName = $"{eventName} {ev.startDate.Year}";
             ev.name = ev.displayName.Replace(" ", "");
             ev.nameAbbrev = "";
@@ -121,27 +170,14 @@ namespace CAA_CrossPlatform.UWP
             }
             ev.nameAbbrev += $"{ev.startDate.Month.ToString("00")}{ev.startDate.Year}";
             ev.memberOnly = MemberOnlyChk.IsChecked ?? false;
+            ev.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
 
             //save to database
             ev.Id = await Connection.Insert(ev);
 
-            //setup event game record
-            EventGame eg = new EventGame();
-            if (QuizCmb.SelectedIndex != -1)
-            {
-                eg.EventID = ev.Id;
-                eg.GameID = visibleGames[QuizCmb.SelectedIndex].Id;
-                eg.Id = await Connection.Insert(eg);
-            }
-
             //navigate away if successful
-            if (ev.Id != -1 && eg.Id != -1)
+            if (ev.Id != -1)
                 Frame.Navigate(Frame.BackStack.Last().SourcePageType);
-        }
-
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
     }
 }

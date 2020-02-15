@@ -35,11 +35,11 @@ namespace CAA_CrossPlatform.UWP
 
                     //create event table
                     SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Event' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
-                    "'name' TEXT NOT NULL, 'displayName' TEXT NOT NULL, 'nameAbbrev' TEXT NOT NULL UNIQUE, 'startDate' TEXT NOT NULL, 'endDate' TEXT NOT NULL, 'memberOnly' " +
-                    "INTEGER NOT NULL DEFAULT 1 );" +
+                        "'name'  TEXT NOT NULL, 'displayName' TEXT NOT NULL, 'nameAbbrev' TEXT NOT NULL UNIQUE, 'startDate' TEXT NOT NULL, 'endDate' TEXT NOT NULL, 'memberOnly' " +
+                        "INTEGER NOT NULL DEFAULT 1, 'GameID' INTEGER NOT NULL, FOREIGN KEY('GameID') REFERENCES 'Game'('Id')); " +
 
                     //create game table
-                    "CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'title' TEXT NOT NULL UNIQUE, " +
+                    "CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE, " +
                     "'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
 
                     //create question table
@@ -50,9 +50,9 @@ namespace CAA_CrossPlatform.UWP
                     "CREATE TABLE 'Answer' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL, 'correct' " +
                     "INTEGER NOT NULL, 'QuestionID' INTEGER NOT NULL, FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
 
-                    //create event game table
-                    "CREATE TABLE 'EventGame' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventID' INTEGER NOT NULL, 'GameID' INTEGER NOT NULL, " +
-                    "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );", con);
+                    //create game question table
+                    "CREATE TABLE 'GameQuestion' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'GameID' INTEGER NOT NULL, 'QuestionID' INTEGER NOT NULL, " +
+                    "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );", con);
 
                     //create tables
                     cmd.ExecuteNonQuery();
@@ -105,8 +105,8 @@ namespace CAA_CrossPlatform.UWP
                         records = new List<Question>();
                     else if (Table == "Answer")
                         records = new List<Answer>();
-                    else if (Table == "EventGame")
-                        records = new List<EventGame>();
+                    else if (Table == "GameQuestion")
+                        records = new List<GameQuestion>();
 
                     while (query.Read())
                     {
@@ -122,6 +122,7 @@ namespace CAA_CrossPlatform.UWP
                             e.startDate = Convert.ToDateTime(query[5]);
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
+                            e.GameID = Convert.ToInt32(query[8]);
                             records.Add(e);
                         }
 
@@ -131,7 +132,7 @@ namespace CAA_CrossPlatform.UWP
                             Game g = new Game();
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
-                            g.title = query[2].ToString();
+                            g.name = query[2].ToString();
                             records.Add(g);
                         }
 
@@ -142,7 +143,6 @@ namespace CAA_CrossPlatform.UWP
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
                             q.name = query[2].ToString();
-                            q.GameID = Convert.ToInt32(query[3]);
                             records.Add(q);
                         }
 
@@ -158,14 +158,14 @@ namespace CAA_CrossPlatform.UWP
                             records.Add(a);
                         }
 
-                        //event game record
-                        else if (Table == "EventGame")
+                        //game question record
+                        else if (Table == "GameQuestion")
                         {
-                            EventGame eg = new EventGame();
-                            eg.Id = Convert.ToInt32(query[0]);
-                            eg.EventID = Convert.ToInt32(query[1]);
-                            eg.GameID = Convert.ToInt32(query[2]);
-                            records.Add(eg);
+                            GameQuestion gq = new GameQuestion();
+                            gq.Id = Convert.ToInt32(query[0]);
+                            gq.GameID = Convert.ToInt32(query[1]);
+                            gq.QuestionID = Convert.ToInt32(query[2]);
+                            records.Add(gq);
                         }
                     }
 
@@ -189,6 +189,7 @@ namespace CAA_CrossPlatform.UWP
                             e.startDate = Convert.ToDateTime(query[5]);
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
+                            e.GameID = Convert.ToInt32(query[8]);
                             return e;
                         }
 
@@ -198,7 +199,7 @@ namespace CAA_CrossPlatform.UWP
                             Game g = new Game();
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
-                            g.title = query[2].ToString();
+                            g.name = query[2].ToString();
                             return g;
                         }
 
@@ -209,7 +210,6 @@ namespace CAA_CrossPlatform.UWP
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
                             q.name = query[2].ToString();
-                            q.GameID = Convert.ToInt32(query[3]);
                             return q;
                         }
 
@@ -225,14 +225,14 @@ namespace CAA_CrossPlatform.UWP
                             return a;
                         }
 
-                        //event game record
-                        else if (Table == "EventGame")
+                        //game question record
+                        else if (Table == "GameQuestion")
                         {
-                            EventGame eg = new EventGame();
-                            eg.Id = Convert.ToInt32(query[0]);
-                            eg.EventID = Convert.ToInt32(query[1]);
-                            eg.GameID = Convert.ToInt32(query[2]);
-                            return eg;
+                            GameQuestion gq = new GameQuestion();
+                            gq.Id = Convert.ToInt32(query[0]);
+                            gq.GameID = Convert.ToInt32(query[1]);
+                            gq.QuestionID = Convert.ToInt32(query[2]);
+                            return gq;
                         }
                     }
 
@@ -267,8 +267,9 @@ namespace CAA_CrossPlatform.UWP
             if (record.GetType() == typeof(Event))
             {
                 table = "Event";
-                fields = "hidden, name, displayName, nameAbbrev, startDate, endDate, memberOnly";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', '{record.displayName}', '{record.nameAbbrev}', '{record.startDate}', '{record.endDate}', {Convert.ToInt32(record.memberOnly)}";
+                fields = "hidden, name, displayName, nameAbbrev, startDate, endDate, memberOnly, GameID";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', '{record.displayName}', '{record.nameAbbrev}', '{record.startDate}', '{record.endDate}', " +
+                    $"{Convert.ToInt32(record.memberOnly)}, {record.GameID}";
             }
 
             //game record
@@ -283,8 +284,8 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Question))
             {
                 table = "Question";
-                fields = "hidden, name, GameID";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', {record.GameID}";
+                fields = "hidden, name";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}'";
             }
 
             //answer record
@@ -296,11 +297,11 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //event game record
-            else if (record.GetType() == typeof(EventGame))
+            else if (record.GetType() == typeof(GameQuestion))
             {
-                table = "EventGame";
-                fields = "EventID, GameID";
-                values = $"{record.EventID}, {record.GameID}";
+                table = "GameQuestion";
+                fields = "GameID, QuestionID";
+                values = $"{record.GameID}, {record.QuestionID}";
             }
 
             //table doesn't exist
@@ -351,7 +352,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Event";
                 conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}', displayName = '{record.displayName}', nameAbbrev = '{record.nameAbbrev}', " +
-                    $"startDate = '{record.startDate}', endDate = '{record.endDate}', memberOnly = {Convert.ToInt32(record.memberOnly)}";
+                    $"startDate = '{record.startDate}', endDate = '{record.endDate}', memberOnly = {Convert.ToInt32(record.memberOnly)}, GameID = {record.GameID}";
             }
 
             //game record
@@ -365,7 +366,7 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Question))
             {
                 table = "Question";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}', GameID = {record.GameID}";
+                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}'";
             }
 
             //answer record
@@ -376,10 +377,10 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //event game record
-            else if (record.GetType() == typeof(EventGame))
+            else if (record.GetType() == typeof(GameQuestion))
             {
-                table = "EventGame";
-                conditions = $"EventID = {record.EventID}, GameID = {record.GameID}";
+                table = "GameQuestion";
+                conditions = $"GameID = {record.GameID}, QuestionID = {record.QuestionID}";
             }
 
             //table doesn't exist

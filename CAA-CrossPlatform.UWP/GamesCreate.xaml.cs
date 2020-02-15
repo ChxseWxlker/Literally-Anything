@@ -74,8 +74,8 @@ namespace CAA_CrossPlatform.UWP
 
             foreach (Game g in games)
             {
-                //validate title
-                if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
+                //validate name
+                if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
@@ -83,7 +83,7 @@ namespace CAA_CrossPlatform.UWP
                 }
 
                 //unhide game if user chooses
-                else if (g.title.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                else if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
@@ -96,7 +96,7 @@ namespace CAA_CrossPlatform.UWP
                     {
                         g.hidden = false;
                         Connection.Update(g);
-                        Frame.Navigate(typeof(Games));
+                        Frame.Navigate(Frame.BackStack.Last().SourcePageType);
                         return;
                     }
 
@@ -105,24 +105,31 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
-            //create game object
+            //setup game object
             Game game = new Game();
+            game.name = QuizTxt.Text;
 
-            //set object properties
-            game.questions = new List<int>();
+            //save to database
+            game.Id = await Connection.Insert(game);
 
-            foreach (string sq in lstQuestions.SelectedItems)
-                foreach (Question q in listQuestions)
-                    if (sq == q.name)
-                        game.questions.Add(q.id);
+            //create questions
+            foreach (Question q in visibleQuestions)
+            {
+                //question is selected
+                if (lstQuestions.SelectedItems.Contains(q.name))
+                {
+                    //create game question
+                    GameQuestion gq = new GameQuestion();
+                    gq.GameID = game.Id;
+                    gq.QuestionID = q.Id;
 
-            game.title = QuizTxt.Text;
+                    //save to database
+                    gq.Id = await Connection.Insert(gq);
+                }
+            }
 
-            //save to json
-            Json.Write(game, "game.json");
-            
             //navigate back to game
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void CancelQuiz_Click(object sender, RoutedEventArgs e)
@@ -146,7 +153,7 @@ namespace CAA_CrossPlatform.UWP
         private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if(TxtSearch.Text == "Search")
-            TxtSearch.Text = "";
+                TxtSearch.Text = "";
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace CAA_CrossPlatform.UWP.Models
 {
@@ -27,5 +25,6 @@ namespace CAA_CrossPlatform.UWP.Models
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public bool memberOnly { get; set; }
+        public int GameID { get; set; }
     }
 }
