@@ -45,6 +45,9 @@ namespace CAA_CrossPlatform.UWP
         //register
         public async Task<string> Register(string username, string password)
         {
+            //reset user
+            user = null;
+
             //reset headers
             client.DefaultRequestHeaders.Clear();
 
@@ -52,10 +55,16 @@ namespace CAA_CrossPlatform.UWP
             User u = new User();
             u.username = username;
             u.password = password;
-            int hash = $"{u.username}{u.password}".GetHashCode() * int.MaxValue;
+            int hash = $"{u.username}{u.password}".GetHashCode();
             if (hash < 0)
                 hash *= -1;
-            u.apiKey = hash.ToString().Substring(0, 10);
+            string hashStr = hash.ToString();
+            Random rng = new Random();
+            for (int i = hashStr.Length; i < 11; i++)
+            {
+                hashStr += rng.Next(0, 9);
+            }
+            u.apiKey = hashStr.Substring(0, 10);
 
             //convert to json
             string jsonObject = JsonConvert.SerializeObject(u, Formatting.None);
@@ -73,7 +82,7 @@ namespace CAA_CrossPlatform.UWP
                 client.DefaultRequestHeaders.Add("APIKey", u.apiKey);
 
                 //return welcome message
-                return $"Welcome {username}";
+                return $"Welcome {u.username}";
             }
             catch (Exception ex)
             {
@@ -85,17 +94,18 @@ namespace CAA_CrossPlatform.UWP
         //login
         public async Task<string> Login(string username, string password)
         {
+            //reset user
+            user = null;
+
             //reset headers
             client.DefaultRequestHeaders.Clear();
 
             //get users
-            var res = await client.GetStringAsync($"{server}/api/User/");
-            List<User> users = new List<User>();
-            JsonConvert.PopulateObject(res, users);
+            List<User> users = await GET("User");
 
             //check credentials
             foreach (User u in users)
-                if (u.username == username && u.password == password)
+                if (u.username.ToLower() == username.ToLower() && Encryption.CheckHashSalt(password, u.password, u.salt))
                 {
                     user = u;
                     break;
@@ -103,7 +113,7 @@ namespace CAA_CrossPlatform.UWP
 
             //user doesn't exist
             if (user == null)
-                return "The account doesn't exist or you entered invalid credentials, please try again.";
+                return "That account doesn't exist or you entered invalid credentials, please try again.";
 
             //set headers
             client.DefaultRequestHeaders.Add("username", user.username);
@@ -125,7 +135,15 @@ namespace CAA_CrossPlatform.UWP
             string address = $"{server}/api/{endpoint}/{Id}";
 
             //call api and return object(s)
-            var res = await client.GetStringAsync(address);
+            var res = "";
+            try
+            {
+                res = await client.GetStringAsync(address);
+            }
+            catch
+            {
+                return null;
+            }
 
             //setup json object
             dynamic jsonObject = null;
@@ -175,9 +193,36 @@ namespace CAA_CrossPlatform.UWP
                     jsonObject = new GameQuestion();
             }
 
+            //user object
+            else if (endpoint == "User")
+            {
+                if (Id == null)
+                    jsonObject = new List<User>();
+                else
+                    jsonObject = new User();
+            }
+
+            //tracking info object
+            else if (endpoint == "TrackingInfo")
+            {
+                if (Id == null)
+                    jsonObject = new List<User>();
+                else
+                    jsonObject = new User();
+            }
+
+            //attendance object
+            else if (endpoint == "Attendance")
+            {
+                if (Id == null)
+                    jsonObject = new List<User>();
+                else
+                    jsonObject = new User();
+            }
+
             //error
             else
-                return res;
+                return null;
 
             //populate object with json data
             JsonConvert.PopulateObject(res, jsonObject);

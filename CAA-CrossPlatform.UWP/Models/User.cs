@@ -11,6 +11,7 @@ namespace CAA_CrossPlatform.UWP.Models
         //user properties
         public int Id { get; set; }
         public string username { get; set; }
+        public string salt { get; set; }
         public string password { get; set; }
         public string apiKey { get; set; }
     }

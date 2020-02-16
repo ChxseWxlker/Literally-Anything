@@ -33,14 +33,14 @@ namespace CAA_CrossPlatform.UWP
                     //open connection
                     con.Open();
 
-                    //create event table
-                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Event' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
-                        "'name'  TEXT NOT NULL, 'displayName' TEXT NOT NULL, 'nameAbbrev' TEXT NOT NULL UNIQUE, 'startDate' TEXT NOT NULL, 'endDate' TEXT NOT NULL, 'memberOnly' " +
-                        "INTEGER NOT NULL DEFAULT 1, 'GameID' INTEGER NOT NULL, FOREIGN KEY('GameID') REFERENCES 'Game'('Id')); " +
-
                     //create game table
-                    "CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE, " +
+                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE, " +
                     "'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
+
+                    //create event table
+                    "CREATE TABLE 'Event' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
+                    "'name'  TEXT NOT NULL, 'displayName' TEXT NOT NULL, 'nameAbbrev' TEXT NOT NULL UNIQUE, 'startDate' TEXT NOT NULL, 'endDate' TEXT NOT NULL, 'memberOnly' " +
+                    "INTEGER NOT NULL DEFAULT 1, 'GameID' INTEGER NOT NULL, FOREIGN KEY('GameID') REFERENCES 'Game'('Id')); " +
 
                     //create question table
                     "CREATE TABLE 'Question' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL, 'GameID' " +
@@ -52,7 +52,15 @@ namespace CAA_CrossPlatform.UWP
 
                     //create game question table
                     "CREATE TABLE 'GameQuestion' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'GameID' INTEGER NOT NULL, 'QuestionID' INTEGER NOT NULL, " +
-                    "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );", con);
+                    "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
+
+                    //create tracking info table
+                    "CREATE TABLE 'TrackingInfo' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'item' TEXT NOT NULL, " +
+                    "'amount' INTEGER NOT NULL DEFAULT 0, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
+
+                    //create attendance table
+                    "CREATE TABLE 'Attendance' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'memberNumber' TEXT, 'arriveTime' TEXT NOT NULL, 'isMember' INTEGER, " +
+                    "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );", con);
 
                     //create tables
                     cmd.ExecuteNonQuery();
@@ -107,6 +115,10 @@ namespace CAA_CrossPlatform.UWP
                         records = new List<Answer>();
                     else if (Table == "GameQuestion")
                         records = new List<GameQuestion>();
+                    else if (Table == "TrackingInfo")
+                        records = new List<TrackingInfo>();
+                    else if (Table == "Attendance")
+                        records = new List<Attendance>();
 
                     while (query.Read())
                     {
@@ -166,6 +178,33 @@ namespace CAA_CrossPlatform.UWP
                             gq.GameID = Convert.ToInt32(query[1]);
                             gq.QuestionID = Convert.ToInt32(query[2]);
                             records.Add(gq);
+                        }
+
+                        //tracking info record
+                        else if (Table == "TrackingInfo")
+                        {
+                            TrackingInfo ti = new TrackingInfo();
+                            ti.Id = Convert.ToInt32(query[0]);
+                            ti.hidden = Convert.ToBoolean(query[1]);
+                            ti.item = query[2].ToString();
+                            ti.amount = Convert.ToInt32(query[3]);
+                            ti.EventID = Convert.ToInt32(query[4]);
+                            records.Add(ti);
+                        }
+
+                        //attendance record
+                        else if (Table == "Attendance")
+                        {
+                            Attendance a = new Attendance();
+                            a.Id = Convert.ToInt32(query[0]);
+                            a.memberNumber = query[1].ToString();
+                            a.arriveTime = Convert.ToDateTime(query[2]);
+                            a.isMember = Convert.ToBoolean(query[3]);
+                            a.phone = query[4].ToString();
+                            a.firstName = query[5].ToString();
+                            a.lastName = query[6].ToString();
+                            a.EventID = Convert.ToInt32(query[7]);
+                            records.Add(a);
                         }
                     }
 
@@ -234,6 +273,33 @@ namespace CAA_CrossPlatform.UWP
                             gq.QuestionID = Convert.ToInt32(query[2]);
                             return gq;
                         }
+
+                        //tracking info record
+                        else if (Table == "TrackingInfo")
+                        {
+                            TrackingInfo ti = new TrackingInfo();
+                            ti.Id = Convert.ToInt32(query[0]);
+                            ti.hidden = Convert.ToBoolean(query[1]);
+                            ti.item = query[2].ToString();
+                            ti.amount = Convert.ToInt32(query[3]);
+                            ti.EventID = Convert.ToInt32(query[4]);
+                            return ti;
+                        }
+
+                        //attendance record
+                        else if (Table == "Attendance")
+                        {
+                            Attendance a = new Attendance();
+                            a.Id = Convert.ToInt32(query[0]);
+                            a.memberNumber = query[1].ToString();
+                            a.arriveTime = Convert.ToDateTime(query[2]);
+                            a.isMember = Convert.ToBoolean(query[3]);
+                            a.phone = query[4].ToString();
+                            a.firstName = query[5].ToString();
+                            a.lastName = query[6].ToString();
+                            a.EventID = Convert.ToInt32(query[7]);
+                            return a;
+                        }
                     }
 
                 //close connection
@@ -296,12 +362,28 @@ namespace CAA_CrossPlatform.UWP
                 values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', {Convert.ToInt32(record.correct)}, {record.QuestionID}";
             }
 
-            //event game record
+            //game question record
             else if (record.GetType() == typeof(GameQuestion))
             {
                 table = "GameQuestion";
                 fields = "GameID, QuestionID";
                 values = $"{record.GameID}, {record.QuestionID}";
+            }
+
+            //tracking info record
+            else if (record.GetType() == typeof(TrackingInfo))
+            {
+                table = "TrackingInfo";
+                fields = "hidden, item, amount, EventID";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.item}', {record.amount}, {record.EventID}";
+            }
+
+            //attendance record
+            else if (record.GetType() == typeof(Attendance))
+            {
+                table = "Attendance";
+                fields = "memberNumber, arriveTime, isMember, phone, firstName, lastName, EventID";
+                values = $"'{record.memberNumber}', '{record.arriveTime}', {Convert.ToInt32(record.isMember)}, '{record.phone}', '{record.firstName}', '{record.lastName}', {record.EventID}";
             }
 
             //table doesn't exist
@@ -381,6 +463,21 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "GameQuestion";
                 conditions = $"GameID = {record.GameID}, QuestionID = {record.QuestionID}";
+            }
+
+            //tracking info record
+            else if (record.GetType() == typeof(TrackingInfo))
+            {
+                table = "TrackingInfo";
+                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, item = '{record.item}', amount = {record.amount}, EventID = {record.EventID}";
+            }
+
+            //attendance record
+            else if (record.GetType() == typeof(Attendance))
+            {
+                table = "Attendance";
+                conditions = $"memberNumber = '{record.memberNumber}', arriveTime = '{record.arriveTime}', isMember = {Convert.ToInt32(record.isMember)}, phone = '{record.phone}', firstName = '{record.firstName}', " +
+                    $"lastName = '{record.lastName}', EventID = {record.EventID}";
             }
 
             //table doesn't exist

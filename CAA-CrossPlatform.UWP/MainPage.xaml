@@ -100,7 +100,6 @@
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
                     <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-
                     <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                         <Button.Flyout>
                             <MenuFlyout Placement="LeftEdgeAlignedBottom" >
@@ -121,6 +120,10 @@
                     <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
 
                 </StackPanel>
+                <Button x:Name="button" Content="Register" Grid.Column="1" Margin="308,278,0,0" Grid.Row="3" VerticalAlignment="Top" Height="45" Width="109" Click="button_Click"/>
+                <Button x:Name="button_Copy" Content="Login" Grid.Column="1" Margin="439,281,0,0" Grid.Row="3" VerticalAlignment="Top" Height="45" Width="115" Click="button_Copy_Click"/>
+                <TextBox x:Name="txtUsername" Grid.Column="1" HorizontalAlignment="Left" Margin="301,191,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="241" PlaceholderText="Username"/>
+                <TextBox x:Name="txtPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="304,233,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="241" PlaceholderText="Password"/>
             </Grid>
         </ScrollViewer>
     </Grid>

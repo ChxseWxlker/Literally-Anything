@@ -25,6 +25,8 @@ namespace CAA_CrossPlatform.UWP
             this.InitializeComponent();
         }
 
+        static ApiHandler api = new ApiHandler();
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
@@ -43,6 +45,18 @@ namespace CAA_CrossPlatform.UWP
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EventExcel));
+        }
+
+        private async void button_Click(object sender, RoutedEventArgs e)
+        {
+            string res = await api.Register(txtUsername.Text, txtPassword.Text);
+            await new MessageDialog(res).ShowAsync();
+        }
+
+        private async void button_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            string res = await api.Login(txtUsername.Text, txtPassword.Text);
+            await new MessageDialog(res).ShowAsync();
         }
     }
 }
