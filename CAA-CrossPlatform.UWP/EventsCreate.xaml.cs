@@ -35,6 +35,26 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(Events));
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter != null)
+            {
+                var selections = (Dictionary<string, string>)e.Parameter;
+                EventTxt.Text = selections["name"];
+
+                if (selections["startDate"] != "")
+                    StartDateDtp.SelectedDate = Convert.ToDateTime(selections["startDate"]);
+
+                if (selections["endDate"] != "")
+                EndDateDtp.SelectedDate = Convert.ToDateTime(selections["endDate"]);
+
+                if (selections["memberOnly"] != "")
+                    MemberOnlyChk.IsChecked = Convert.ToBoolean(selections["memberOnly"]);
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Games));
@@ -178,6 +198,19 @@ namespace CAA_CrossPlatform.UWP
             //navigate away if successful
             if (ev.Id != -1)
                 Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+        }
+
+        private void btnCreateQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            //setup object with parameters to send
+            var selections = new Dictionary<string, string>
+            {
+                { "name", EventTxt.Text },
+                { "startDate", StartDateDtp.SelectedDate.ToString() },
+                { "endDate", EndDateDtp.SelectedDate.ToString() },
+                { "memberOnly", MemberOnlyChk.IsChecked.ToString() }
+            };
+            Frame.Navigate(typeof(GamesCreate), selections);
         }
     }
 }

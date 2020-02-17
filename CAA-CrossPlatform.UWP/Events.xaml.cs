@@ -154,6 +154,41 @@ namespace CAA_CrossPlatform.UWP
                 await new MessageDialog("Please choose an event to delete").ShowAsync();
         }
 
+        private async void ManageEvent_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLb != "")
+            {
+                //get the event and the current listbox in use
+                Event selectedEvent = new Event();
+
+                if (currentLb == "current")
+                {
+                    foreach (Event ev in currentEvents)
+                        if (ev.Id == currentEvents[CurrentEventsLb.SelectedIndex].Id)
+                            selectedEvent = ev;
+                }
+
+                else if (currentLb == "upcoming")
+                {
+                    foreach (Event ev in upcomingEvents)
+                        if (ev.Id == upcomingEvents[UpcomingEventsLb.SelectedIndex].Id)
+                            selectedEvent = ev;
+                }
+
+                else if (currentLb == "past")
+                {
+                    foreach (Event ev in pastEvents)
+                        if (ev.Id == pastEvents[PastEventsCmb.SelectedIndex].Id)
+                            selectedEvent = ev;
+                }
+
+                //navigate to management page
+                Frame.Navigate(typeof(EventManager), selectedEvent);
+            }
+            else
+                await new MessageDialog("Please choose an event to manage").ShowAsync();
+        }
+
         private void CurrentEventsLb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentLb = "current";

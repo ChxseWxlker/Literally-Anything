@@ -44,6 +44,14 @@ namespace CAA_CrossPlatform.UWP
                 }
         }
 
+        static dynamic selections = null;
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            selections = e.Parameter;
+
+            base.OnNavigatedTo(e);
+        }
+
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
@@ -96,7 +104,7 @@ namespace CAA_CrossPlatform.UWP
                     {
                         g.hidden = false;
                         Connection.Update(g);
-                        Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+                        Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
                         return;
                     }
 
@@ -128,13 +136,13 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
-            //navigate back to game
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+            //navigate back
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
         }
 
         private void CancelQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)

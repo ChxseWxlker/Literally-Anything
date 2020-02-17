@@ -150,7 +150,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="3" />
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
-                   
+
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
                     <TextBlock x:Name="textBlock" Margin="20,0,0,0" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FF1D60C9"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
@@ -166,49 +166,44 @@
                                 <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
-                        
+
                     </Button>
 
                 </RelativePanel>
 
                 <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
                     <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
-                    
+
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <RelativePanel>
                         <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
-                            <StackPanel Name="Input" Margin="0,0,50,0">
+                            <StackPanel x:Name="Input" Margin="0,0,50,0">
 
                                 <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
                                 <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
 
-                                <TextBlock x:Name="EventLocationTB" Text="Location" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <TextBox x:Name="LocationTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25" Width="400"/>
-
                                 <TextBlock x:Name="StartDateTB" Text="Start Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0" MinWidth="0"/>
+                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,10,0,0" MinWidth="0" Width="399"/>
 
                                 <TextBlock x:Name="EndDateTB" Text="End Date" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <DatePicker x:Name="EndDateDtp" Margin="0,10,0,0" FontSize="25"/>
+                                <DatePicker x:Name="EndDateDtp" Margin="0,10,0,0" FontSize="25" Width="399"/>
 
                                 <TextBlock x:Name="QuizTB" Text="Quiz" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-                                <ComboBox x:Name="QuizCmb" Width="296" FontSize="25" Margin="0,10,0,0"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="77*"/>
+                                        <ColumnDefinition Width="8*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnCreateQuiz" Content="➕" Height="40" Margin="259,-19,0,0" VerticalAlignment="Top" Grid.Column="1" Width="40" Click="btnCreateQuiz_Click"/>
+                                </Grid>
+                                <ComboBox x:Name="QuizCmb" Width="399" FontSize="25" Margin="0,10,0,0"/>
 
                             </StackPanel>
 
                             <StackPanel>
-
-                                <TextBlock x:Name="textBlock1" Text="Trackable Information" TextWrapping="Wrap" Margin="0,20,0,0" FontSize="25"/>
-
                                 <CheckBox x:Name="MemberOnlyChk" Content="Members Only" Margin="0,20,0,0" FontSize="25"/>
-
-                                <CheckBox x:Name="trackGuestChk" Content="Numbers of Guests" Margin="0,20,0,0" FontSize="25"/>
-
-                                <CheckBox x:Name="trackAdultChk" Content="Numbers of Adults" Margin="0,20,0,0" FontSize="25"/>
-
-                                <CheckBox x:Name="trackChildChk" Content="Number of Children"  Margin="0,20,0,0" FontSize="25"/>
                             </StackPanel>
                         </StackPanel>
 

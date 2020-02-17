@@ -95,6 +95,9 @@
     </Compile>
     <Compile Include="Connection.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="EventManager.xaml.cs">
+      <DependentUpon>EventManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Json.cs" />
     <Compile Include="Events.xaml.cs">
       <DependentUpon>Events.xaml</DependentUpon>
@@ -199,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="EventManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Events.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

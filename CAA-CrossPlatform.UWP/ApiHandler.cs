@@ -124,6 +124,16 @@ namespace CAA_CrossPlatform.UWP
             return $"Welcome {user.username}";
         }
 
+        //logout
+        public string Logout()
+        {
+            //reset headers
+            client.DefaultRequestHeaders.Clear();
+
+            //return logout message
+            return "Logged out";
+        }
+
         //get request
         public async Task<dynamic> GET(string endpoint, int? Id = null)
         {

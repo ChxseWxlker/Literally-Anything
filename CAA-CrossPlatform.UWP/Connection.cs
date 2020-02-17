@@ -342,8 +342,8 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Game))
             {
                 table = "Game";
-                fields = "hidden, title";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.title}'";
+                fields = "hidden, name";
+                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}'";
             }
 
             //question record
@@ -441,7 +441,7 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Game))
             {
                 table = "Game";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, title = '{record.title}'";
+                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}'";
             }
 
             //question record

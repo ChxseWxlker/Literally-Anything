@@ -49,7 +49,7 @@ namespace CAA_CrossPlatform.UWP
 
             if (rootFrame.Content == null)
             {
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(EventManager), e.Arguments);
             }
 
             //verify json files exist
