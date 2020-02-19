@@ -31,7 +31,7 @@ namespace CAA_CrossPlatform.UWP
         private static readonly HttpClient client = new HttpClient();
 
         //check api connection
-        private static bool CheckConnection()
+        public bool CheckConnection()
         {
             try
             {
@@ -45,9 +45,6 @@ namespace CAA_CrossPlatform.UWP
         //register
         public async Task<string> Register(string username, string password)
         {
-            //reset user
-            user = null;
-
             //reset headers
             client.DefaultRequestHeaders.Clear();
 
@@ -74,7 +71,15 @@ namespace CAA_CrossPlatform.UWP
             try
             {
                 var response = await client.PostAsync($"{server}/api/User/", content);
-                var responseString = await response.Content.ReadAsStringAsync();
+                var responseString = response.Content.ReadAsStringAsync();
+
+                //account exists
+                if (responseString.Result.Contains("already exists"))
+                    return "That username is already in use, please choose another.";
+
+                //invalid username
+                else if (responseString.Result.Contains("valid"))
+                    return "That is not a valid username, please choose another.";
 
                 //set headers
                 client.DefaultRequestHeaders.Add("username", username);
@@ -137,10 +142,6 @@ namespace CAA_CrossPlatform.UWP
         //get request
         public async Task<dynamic> GET(string endpoint, int? Id = null)
         {
-            //test connection before call
-            if (!CheckConnection())
-                return null;
-
             //setup address with endpoint
             string address = $"{server}/api/{endpoint}/{Id}";
 
@@ -216,18 +217,18 @@ namespace CAA_CrossPlatform.UWP
             else if (endpoint == "TrackingInfo")
             {
                 if (Id == null)
-                    jsonObject = new List<User>();
+                    jsonObject = new List<TrackingInfo>();
                 else
-                    jsonObject = new User();
+                    jsonObject = new TrackingInfo();
             }
 
             //attendance object
             else if (endpoint == "Attendance")
             {
                 if (Id == null)
-                    jsonObject = new List<User>();
+                    jsonObject = new List<Attendance>();
                 else
-                    jsonObject = new User();
+                    jsonObject = new Attendance();
             }
 
             //error
@@ -239,6 +240,198 @@ namespace CAA_CrossPlatform.UWP
 
             //return populated object
             return jsonObject;
+        }
+
+        //post request
+        public async Task<dynamic> POST(dynamic record)
+        {
+            //setup endpoint
+            string endpoint = "";
+
+            //event object
+            if (record.GetType() == typeof(Event))
+                endpoint = "Event";
+
+            //game object
+            else if (record.GetType() == typeof(Game))
+                endpoint = "Game";
+
+            //question object
+            else if (record.GetType() == typeof(Question))
+                endpoint = "Question";
+
+            //answer object
+            else if (record.GetType() == typeof(Answer))
+                endpoint = "Answer";
+
+            //game question object
+            else if (record.GetType() == typeof(GameQuestion))
+                endpoint = "GameQuestion";
+
+            //user object
+            else if (record.GetType() == typeof(User))
+                endpoint = "User";
+
+            //tracking info object
+            else if (record.GetType() == typeof(TrackingInfo))
+                endpoint = "TrackingInfo";
+
+            //attendance object
+            else if (record.GetType() == typeof(Attendance))
+                endpoint = "Attendance";
+
+            //error
+            else
+                return null;
+
+            //setup address with endpoint
+            string address = $"{server}/api/{endpoint}/";
+
+            //call api and return response
+            var res = new HttpResponseMessage();
+            var resStr = "";
+            try
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(record, Formatting.None), Encoding.UTF8, "application/json");
+                res = await client.PostAsync(address, content);
+                resStr = await res.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            //return message
+            return Convert.ToInt32(resStr);
+        }
+
+        //put request
+        public async Task<dynamic> PUT(dynamic record)
+        {
+            //test connection before call
+            if (!CheckConnection())
+                return null;
+
+            //setup endpoint
+            string endpoint = "";
+
+            //event object
+            if (record.GetType() == typeof(Event))
+                endpoint = "Event";
+
+            //game object
+            else if (record.GetType() == typeof(Game))
+                endpoint = "Game";
+
+            //question object
+            else if (record.GetType() == typeof(Question))
+                endpoint = "Question";
+
+            //answer object
+            else if (record.GetType() == typeof(Answer))
+                endpoint = "Answer";
+
+            //game question object
+            else if (record.GetType() == typeof(GameQuestion))
+                endpoint = "GameQuestion";
+
+            //user object
+            else if (record.GetType() == typeof(User))
+                endpoint = "User";
+
+            //tracking info object
+            else if (record.GetType() == typeof(TrackingInfo))
+                endpoint = "TrackingInfo";
+
+            //attendance object
+            else if (record.GetType() == typeof(Attendance))
+                endpoint = "Attendance";
+
+            //error
+            else
+                return null;
+
+            //setup address with endpoint
+            string address = $"{server}/api/{endpoint}/";
+
+            //call api and return response
+            var res = new HttpResponseMessage();
+            var resStr = "";
+            try
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(record, Formatting.None), Encoding.UTF8, "application/json");
+                res = await client.PutAsync(address, content);
+                resStr = await res.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            //return message
+            return resStr;
+        }
+
+        //delete request
+        public async Task<dynamic> DELETE(dynamic record)
+        {
+            //setup endpoint
+            string endpoint = "";
+
+            //event object
+            if (record.GetType() == typeof(Event))
+                endpoint = "Event";
+
+            //game object
+            else if (record.GetType() == typeof(Game))
+                endpoint = "Game";
+
+            //question object
+            else if (record.GetType() == typeof(Question))
+                endpoint = "Question";
+
+            //answer object
+            else if (record.GetType() == typeof(Answer))
+                endpoint = "Answer";
+
+            //game question object
+            else if (record.GetType() == typeof(GameQuestion))
+                endpoint = "GameQuestion";
+
+            //user object
+            else if (record.GetType() == typeof(User))
+                endpoint = "User";
+
+            //tracking info object
+            else if (record.GetType() == typeof(TrackingInfo))
+                endpoint = "TrackingInfo";
+
+            //attendance object
+            else if (record.GetType() == typeof(Attendance))
+                endpoint = "Attendance";
+
+            //error
+            else
+                return null;
+
+            //setup address with endpoint
+            string address = $"{server}/api/{endpoint}/{record.Id}";
+
+            //call api and return response
+            var res = new HttpResponseMessage();
+            var resStr = "";
+            try
+            {
+                res = await client.DeleteAsync(address);
+                resStr = await res.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            //return message
+            return resStr;
         }
     }
 }

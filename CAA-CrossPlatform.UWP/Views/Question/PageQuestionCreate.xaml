@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="CAA_CrossPlatform.UWP.GamesCreate"
+    x:Class="CAA_CrossPlatform.UWP.PageQuestionCreate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CAA_CrossPlatform.UWP"
@@ -16,20 +16,32 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="Answer1CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer2CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer3CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer4CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
                         <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
                         <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
                         <Setter Target="CreateQuiz.FontSize" Value="20"/>
-                        <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.Width" Value="300"/>
-                        <Setter Target="TxtSearch.FontSize" Value="20"/>
-                        <Setter Target="TxtSearch.Width" Value="250"/>
-                        <Setter Target="lstQuestions.Width" Value="300"/>
-                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
-                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
+                        <Setter Target="QuestionTxt.FontSize" Value="20"/>
+                        <Setter Target="QuestionTxt.Width" Value="250"/>
+                        <Setter Target="Answer1Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer1Txt.Width" Value="250"/>
+                        <Setter Target="Answer2Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer2Txt.Width" Value="250"/>
+                        <Setter Target="Answer3Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer3Txt.Width" Value="250"/>
+                        <Setter Target="Answer4Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer4Txt.Width" Value="250"/>
+                        <Setter Target="QuestionTB.FontSize" Value="20"/>
+                        <Setter Target="Answer1TB.FontSize" Value="20"/>
+                        <Setter Target="Answer2TB.FontSize" Value="20"/>
+                        <Setter Target="Answer3TB.FontSize" Value="20"/>
+                        <Setter Target="Answer4TB.FontSize" Value="20"/>
+                        <Setter Target="CorrectTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="Menu.Width" Value="70"/>
@@ -46,20 +58,32 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="Answer1CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer2CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer3CorrectChk.Margin" Value="20,0,0,0"/>
+                        <Setter Target="Answer4CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
                         <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
                         <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
                         <Setter Target="CreateQuiz.FontSize" Value="20"/>
-                        <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.Width" Value="300"/>
-                        <Setter Target="TxtSearch.FontSize" Value="20"/>
-                        <Setter Target="TxtSearch.Width" Value="300"/>
-                        <Setter Target="lstQuestions.Width" Value="500"/>
-                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
-                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
+                        <Setter Target="QuestionTxt.FontSize" Value="20"/>
+                        <Setter Target="QuestionTxt.Width" Value="300"/>
+                        <Setter Target="Answer1Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer1Txt.Width" Value="300"/>
+                        <Setter Target="Answer2Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer2Txt.Width" Value="300"/>
+                        <Setter Target="Answer3Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer3Txt.Width" Value="300"/>
+                        <Setter Target="Answer4Txt.FontSize" Value="20"/>
+                        <Setter Target="Answer4Txt.Width" Value="300"/>
+                        <Setter Target="QuestionTB.FontSize" Value="20"/>
+                        <Setter Target="Answer1TB.FontSize" Value="20"/>
+                        <Setter Target="Answer2TB.FontSize" Value="20"/>
+                        <Setter Target="Answer3TB.FontSize" Value="20"/>
+                        <Setter Target="Answer4TB.FontSize" Value="20"/>
+                        <Setter Target="CorrectTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="Menu.Width" Value="90"/>
@@ -106,12 +130,12 @@
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="3" />
+
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
 
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#1D60C9" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
                     <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                         <Button.Flyout>
@@ -136,36 +160,62 @@
 
                 <RelativePanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
 
-                    <StackPanel Name="QuizName" HorizontalAlignment="Left">
+                    <StackPanel Name="Question" HorizontalAlignment="Left">
 
-                        <TextBlock x:Name="QuizNameTB" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
+                        <TextBlock x:Name="QuestionTB" Text="Question" TextWrapping="Wrap" FontSize="25"/>
 
-                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
-
-                    </StackPanel>
-
-                    <TextBlock x:Name="QuestionsTB" Text="Select Questions" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="QuizName"/>
-
-                    <StackPanel x:Name="SearchBar" Orientation="Horizontal" RelativePanel.Below="QuestionsTB">
-
-                        <TextBox x:Name="TxtSearch" Text="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-
-                        <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
+                        <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
                     </StackPanel>
 
-                    <StackPanel x:Name="QuestionsList" Orientation="Horizontal" RelativePanel.Below="SearchBar" Margin="0,20,0,0">
+                    <TextBlock x:Name="CorrectTB" Text="Correct" TextWrapping="Wrap" FontSize="25"  RelativePanel.RightOf="Question"/>
 
-                        <ListView x:Name="lstQuestions" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
+                    <TextBlock x:Name="Answer1TB" Text="Answer 1:" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="Question"/>
+
+                    <StackPanel Name="Answer1" Orientation="Horizontal" RelativePanel.Below="Answer1TB">
+
+                        <TextBox x:Name="Answer1Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
+
+                        <CheckBox x:Name="Answer1CorrectChk" Margin="40,0,0,0" Width="25" MinWidth="0"/>
 
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="QuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                    <TextBlock x:Name="Answer2TB" Text="Answer 2:" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="Answer1"/>
 
-                        <Button  Style="{StaticResource ButtonTemplate}" x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
+                    <StackPanel x:Name="Answer2" Orientation="Horizontal" RelativePanel.Below="Answer2TB">
 
-                        <Button Style="{StaticResource ButtonTemplate}" x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuiz_Click" />
+                        <TextBox x:Name="Answer2Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
+
+                        <CheckBox x:Name="Answer2CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+
+                    </StackPanel>
+
+                    <TextBlock x:Name="Answer3TB" Text="Answer 3:" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="Answer2"/>
+
+                    <StackPanel Name="Answer3" Orientation="Horizontal" RelativePanel.Below="Answer3TB">
+
+                        <TextBox x:Name="Answer3Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
+
+                        <CheckBox x:Name="Answer3CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+
+                    </StackPanel>
+
+                    <TextBlock x:Name="Answer4TB" Text="Answer 4:" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="Answer3"/>
+
+                    <StackPanel Name="Answer4" Orientation="Horizontal" RelativePanel.Below="Answer4TB">
+
+                        <TextBox x:Name="Answer4Txt" TextWrapping="Wrap" FontSize="25" Width="400"/>
+
+                        <CheckBox  x:Name="Answer4CorrectChk" Width="25" Margin="40,0,0,0" MinWidth="0"/>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="Answer4" RelativePanel.AlignHorizontalCenterWithPanel="True">
+
+                        <Button x:Name="CancelQuestion" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuestion_Click" />
+                        
+                        <Button x:Name="CreateQuestion" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuestion_Click" />
 
                     </StackPanel>
                 </RelativePanel>

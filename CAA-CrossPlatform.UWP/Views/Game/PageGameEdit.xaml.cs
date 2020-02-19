@@ -17,9 +17,9 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class GamesEdit : Page
+    public sealed partial class PageGameEdit : Page
     {
-        public GamesEdit()
+        public PageGameEdit()
         {
             this.InitializeComponent();
         }
@@ -48,17 +48,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void EditQuiz_Click(object sender, RoutedEventArgs e)
@@ -97,17 +97,17 @@ namespace CAA_CrossPlatform.UWP
             Json.Edit(selectedGame, "game.json");
 
             //redirect to game page
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void CancelQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
     }
 }

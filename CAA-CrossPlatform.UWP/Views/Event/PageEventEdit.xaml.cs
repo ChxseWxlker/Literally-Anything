@@ -17,7 +17,7 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class EventsEdit : Page
+    public sealed partial class PageEventEdit : Page
     {
         //create objects
         Event selectedEvent;
@@ -26,7 +26,7 @@ namespace CAA_CrossPlatform.UWP
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
 
-        public EventsEdit()
+        public PageEventEdit()
         {
             this.InitializeComponent();
         }
@@ -61,22 +61,22 @@ namespace CAA_CrossPlatform.UWP
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)

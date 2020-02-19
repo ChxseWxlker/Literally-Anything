@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="CAA_CrossPlatform.UWP.GamesEdit"
+    x:Class="CAA_CrossPlatform.UWP.PageGameCreate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CAA_CrossPlatform.UWP"
@@ -16,11 +16,11 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EditQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
                         <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="EditQuiz.Width" Value="130"/>
+                        <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
-                        <Setter Target="EditQuiz.FontSize" Value="20"/>
+                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
                         <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
                         <Setter Target="QuizTxt.FontSize" Value="20"/>
@@ -46,11 +46,11 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EditQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
                         <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="EditQuiz.Width" Value="130"/>
+                        <Setter Target="CreateQuiz.Width" Value="130"/>
                         <Setter Target="CancelQuiz.Width" Value="130"/>
-                        <Setter Target="EditQuiz.FontSize" Value="20"/>
+                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
                         <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
                         <Setter Target="QuizTxt.FontSize" Value="20"/>
@@ -148,9 +148,9 @@
 
                     <StackPanel x:Name="SearchBar" Orientation="Horizontal" RelativePanel.Below="QuestionsTB">
 
-                        <TextBox x:Name="TxtSearch" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+                        <TextBox x:Name="TxtSearch" Text="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
 
-                        <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" />
+                        <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
 
                     </StackPanel>
 
@@ -162,9 +162,10 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="QuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
 
-                        <Button Style="{StaticResource ButtonTemplate}" x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
+                        <Button  Style="{StaticResource ButtonTemplate}" x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
 
-                        <Button Style="{StaticResource ButtonTemplate}" x:Name="EditQuiz" Content="Save" Width="180" Height="50" FontSize="30" Margin="25,10,25,0" Click="EditQuiz_Click" />
+                        <Button Style="{StaticResource ButtonTemplate}" x:Name="CreateQuiz" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="CreateQuiz_Click" />
+
 
                     </StackPanel>
                 </RelativePanel>

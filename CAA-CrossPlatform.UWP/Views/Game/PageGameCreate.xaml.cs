@@ -21,18 +21,18 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class GamesCreate : Page
+    public sealed partial class PageGameCreate : Page
     {
         //list of questions
         static List<Question> visibleQuestions = new List<Question>();
 
-        public GamesCreate()
+        public PageGameCreate()
         {
             this.InitializeComponent();
-            this.Loaded += GamesCreate_Loaded;
+            this.Loaded += PageGameCreate_Loaded;
         }
 
-        private async void GamesCreate_Loaded(object sender, RoutedEventArgs e)
+        private async void PageGameCreate_Loaded(object sender, RoutedEventArgs e)
         {
             //get question list
             List<Question> questions = await Connection.Get("Question");
@@ -54,17 +54,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
@@ -147,7 +147,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)

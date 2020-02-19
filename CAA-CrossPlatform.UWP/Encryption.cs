@@ -24,7 +24,7 @@ namespace CAA_CrossPlatform.UWP
         //create hash from password + salt
         public static Encryption CreateHashSalt(string password)
         {
-            byte[] saltBytes = GenerateRandomCryptographicBytes(64);
+            byte[] saltBytes = GenerateRandomCryptographicBytes();
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
             List<byte> passwordSaltBytes = new List<byte>();
             passwordSaltBytes.AddRange(passwordBytes);
@@ -34,10 +34,10 @@ namespace CAA_CrossPlatform.UWP
         }
 
         //create random salt
-        static byte[] GenerateRandomCryptographicBytes(int keyLength)
+        static byte[] GenerateRandomCryptographicBytes()
         {
             RNGCryptoServiceProvider rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            byte[] randomBytes = new byte[keyLength];
+            byte[] randomBytes = new byte[64];
             rngCryptoServiceProvider.GetBytes(randomBytes);
             return randomBytes;
         }

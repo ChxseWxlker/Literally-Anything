@@ -17,7 +17,7 @@ using Windows.UI.Popups;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class EventManager : Page
+    public sealed partial class PageEventManager : Page
     {
         //setup api
         static ApiHandler api = new ApiHandler();
@@ -25,50 +25,93 @@ namespace CAA_CrossPlatform.UWP
         //setup selected event
         Event selectedEvent;
 
-        public EventManager()
+        //setup list of trackable items
+        List<TrackingInfo> trackingInfo = new List<TrackingInfo>();
+
+        public PageEventManager()
         {
             this.InitializeComponent();
             this.Loaded += EventManager_Loaded;
         }
         
-        private void EventManager_Loaded(object sender, RoutedEventArgs e)
+        private async void EventManager_Loaded(object sender, RoutedEventArgs e)
         {
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);
 
+            //set username
+            txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
+
             //populate elements
-            //tbEventName.Text = selectedEvent.displayName;
+            lblEventName.Text = selectedEvent.displayName;
+
+            //get all tracking values
+            List<TrackingInfo> ti = await Connection.Get("TrackingInfo");
+            if (ti != null)
+                foreach (TrackingInfo t in ti)
+                    if (t.EventID == selectedEvent.Id && t.hidden == false)
+                    {
+                        //add to list
+                        trackingInfo.Add(t);
+
+                        //create label
+                        TextBlock lblTrack = new TextBlock();
+                        lblTrack.Name = $"lblTrack_{trackingPanel.Children.Count + 1}";
+                        lblTrack.Text = t.item;
+                        lblTrack.Margin = new Thickness(0, 20, 0, 0);
+                        lblTrack.TextWrapping = TextWrapping.Wrap;
+                        lblTrack.FontSize = 25;
+
+                        //create textbox
+                        TextBox txtTrack = new TextBox();
+                        txtTrack.Name = $"txtTrack_{trackingPanel.Children.Count + 1}";
+                        txtTrack.PlaceholderText = "0";
+                        txtTrack.HorizontalAlignment = HorizontalAlignment.Left;
+                        txtTrack.Margin = new Thickness(0, 5, 0, 0);
+                        txtTrack.TextWrapping = TextWrapping.Wrap;
+                        txtTrack.Height = 40;
+                        txtTrack.Width = 100;
+                        txtTrack.FontSize = 22;
+
+                        //create button
+                        Button btnTrack = new Button();
+                        btnTrack.Name = $"btnTrack_{trackingPanel.Children.Count + 1}";
+                        btnTrack.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                        btnTrack.Content = "\uE710";
+                        btnTrack.Margin = new Thickness(105, -40, 0, 0);
+                        btnTrack.Height = 40;
+                        btnTrack.Width = 40;
+
+                        //add items to panel
+                        trackingPanel.Children.Add(lblTrack);
+                        trackingPanel.Children.Add(txtTrack);
+                        trackingPanel.Children.Add(btnTrack);
+                    }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //get selected event from previous page
-            selectedEvent = new Event(); //(Event)e.Parameter;
+            selectedEvent = (Event)e.Parameter;
             base.OnNavigatedTo(e);
         }
 
-        private void btnAccount_Click(object sender, RoutedEventArgs e)
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            //do login stuff
-            if (btnAccount.Content.ToString() == "Login")
+            //prompt user
+            ContentDialog logoutDialog = new ContentDialog
             {
-                //reset values
-                txtUsername.Text = "";
-                txtPassword.Password = "";
+                Title = "Logout?",
+                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
 
-                //show popup
-                popupLogin.IsOpen = true;
+            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
 
-                //focus username
-                txtUsername.Focus(FocusState.Keyboard);
-            }
-
-            //do logout stuff
-            else
+            //log user out
+            if (logoutRes == ContentDialogResult.Primary)
             {
-                //set login button
-                btnAccount.Content = "Login";
-
                 //reset active username
                 Environment.SetEnvironmentVariable("activeUser", "");
 
@@ -78,74 +121,9 @@ namespace CAA_CrossPlatform.UWP
                 //logout
                 api.Logout();
 
-                //focus membership
-                txtMemberNum.Focus(FocusState.Keyboard);
+                //redirect to index
+                Frame.Navigate(typeof(PageIndex));
             }
-        }
-
-        private void txtPassword_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-                btnLogin_Click(sender, e);
-        }
-
-        private async void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            //login
-            string res = await api.Login(txtUsername.Text, txtPassword.Password);
-
-            //show error message
-            if (!res.Contains("Welcome"))
-            {
-                await new MessageDialog(res).ShowAsync();
-                return;
-            }
-
-            //set logout button
-            btnAccount.Content = "Logout";
-
-            //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
-
-            //update menu
-            txtAccount.Text = $"Welcome {txtUsername.Text}";
-
-            //close popup
-            popupLogin.IsOpen = false;
-
-            //focus membership
-            txtMemberNum.Focus(FocusState.Keyboard);
-        }
-
-        private async void btnRegister_Click(object sender, RoutedEventArgs e)
-        {
-            //register
-            string res = await api.Register(txtUsername.Text, txtPassword.Password);
-
-            //show error message
-            if (!res.Contains("Welcome"))
-            {
-                await new MessageDialog(res).ShowAsync();
-                return;
-            }
-
-            //set logout button
-            btnAccount.Content = "Logout";
-
-            //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
-
-            //close popup
-            popupLogin.IsOpen = false;
-
-            //focus membership
-            txtMemberNum.Focus(FocusState.Keyboard);
-        }
-
-        private void btnLoginCancel_Click(object sender, RoutedEventArgs e)
-        {
-            //close popup
-            popupLogin.IsOpen = false;
 
             //focus membership
             txtMemberNum.Focus(FocusState.Keyboard);
@@ -171,6 +149,33 @@ namespace CAA_CrossPlatform.UWP
                 //focus membership
                 txtMemberNum.Focus(FocusState.Keyboard);
             }
+        }
+
+        private void svMenu_PaneClosing(SplitView sender, object args)
+        {
+            //hide buttons
+            btnShowPane.Content = "\uE00F";
+            btnEventMenu.Visibility = Visibility.Collapsed;
+            btnGameMenu.Visibility = Visibility.Collapsed;
+            btnQuestionMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //get menu button
+            Button btn = (Button)sender;
+
+            //event
+            if (btn.Content.ToString().Contains("Event"))
+                Frame.Navigate(typeof(PageEvent));
+
+            //game
+            else if (btn.Content.ToString().Contains("Game"))
+                Frame.Navigate(typeof(PageGame));
+
+            //question
+            else if (btn.Content.ToString().Contains("Question"))
+                Frame.Navigate(typeof(PageQuestion));
         }
 
         private static bool Luhn(string digits)
@@ -268,7 +273,6 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnMemberSubmit_Click(object sender, RoutedEventArgs e)
         {
-
             //setup attendance object and set properties
             Attendance a = new Attendance();
             a.memberNumber = txtMemberNum.Text;
@@ -311,6 +315,18 @@ namespace CAA_CrossPlatform.UWP
             txtMemberNum.Focus(FocusState.Keyboard);
 
             //update recent member
+        }
+
+        private void svMenu_PaneClosed(SplitView sender, object args)
+        {
+            //focus membership
+            txtMemberNum.Focus(FocusState.Keyboard);
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.Frame.CanGoBack)
+                this.Frame.GoBack();
         }
     }
 }

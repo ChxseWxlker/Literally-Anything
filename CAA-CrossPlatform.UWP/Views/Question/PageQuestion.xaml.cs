@@ -17,18 +17,18 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class Questions : Page
+    public sealed partial class PageQuestion : Page
     {
         //get list of questions
         List<Question> listQuestions = new List<Question>();
 
-        public Questions()
+        public PageQuestion()
         {
             this.InitializeComponent();
-            this.Loaded += Questions_Loaded;
+            this.Loaded += PageQuestion_Loaded;
         }
 
-        private void Questions_Loaded(object sender, RoutedEventArgs e)
+        private void PageQuestion_Loaded(object sender, RoutedEventArgs e)
         {
             //get all questions
             List<Question> questions = Json.Read("question.json");
@@ -44,22 +44,22 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void CreateQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(QuestionsCreate));
+            Frame.Navigate(typeof(PageQuestionCreate));
         }
 
         private async void EditQuestion_Click(object sender, RoutedEventArgs e)
@@ -67,7 +67,7 @@ namespace CAA_CrossPlatform.UWP
             if (lstQuestions.SelectedIndex == -1)
                 await new MessageDialog("Please choose a question to edit").ShowAsync();
             else
-                Frame.Navigate(typeof(QuestionsEdit), listQuestions[lstQuestions.SelectedIndex]);
+                Frame.Navigate(typeof(PageQuestionEdit), listQuestions[lstQuestions.SelectedIndex]);
         }
 
         private async void DeleteQuestion_Click(object sender, RoutedEventArgs e)
@@ -83,13 +83,13 @@ namespace CAA_CrossPlatform.UWP
                 Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
 
                 //reload page
-                Frame.Navigate(typeof(Questions));
+                Frame.Navigate(typeof(PageQuestion));
             }
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
     }
 }

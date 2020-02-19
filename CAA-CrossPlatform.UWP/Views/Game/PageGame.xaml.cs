@@ -17,18 +17,18 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class Games : Page
+    public sealed partial class PageGame : Page
     {
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
 
-        public Games()
+        public PageGame()
         {
             this.InitializeComponent();
-            this.Loaded += Games_Loaded;
+            this.Loaded += PageGame_Loaded;
         }
 
-        private async void Games_Loaded(object sender, RoutedEventArgs e)
+        private async void PageGame_Loaded(object sender, RoutedEventArgs e)
         {
             //get list of games
             List<Game> games = await Connection.Get("Game");
@@ -43,7 +43,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void CreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(GamesCreate));
+            Frame.Navigate(typeof(PageGameCreate));
         }
 
         private async void EditQuiz_Click(object sender, RoutedEventArgs e)
@@ -51,27 +51,27 @@ namespace CAA_CrossPlatform.UWP
             if (lstQuiz.SelectedIndex == -1)
                 await new MessageDialog("Please choose a quiz to edit").ShowAsync();
             else
-                Frame.Navigate(typeof(GamesEdit), visibleGames[lstQuiz.SelectedIndex]);
+                Frame.Navigate(typeof(PageGameEdit), visibleGames[lstQuiz.SelectedIndex]);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void DeleteQuiz_Click(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace CAA_CrossPlatform.UWP
                 Connection.Update(visibleGames[lstQuiz.SelectedIndex]);
 
                 //reload page
-                Frame.Navigate(typeof(Games));
+                Frame.Navigate(typeof(PageGame));
             }
         }
     }

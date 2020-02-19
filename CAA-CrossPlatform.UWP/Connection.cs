@@ -14,6 +14,9 @@ namespace CAA_CrossPlatform.UWP
     //class to connect to sqlite database and fetch data
     public class Connection
     {
+        //setup api
+        static ApiHandler api = new ApiHandler();
+
         //get path for database
         private static string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "EventsDB.db");
         private static SqliteConnection con = new SqliteConnection($"Filename={path}");
@@ -81,6 +84,10 @@ namespace CAA_CrossPlatform.UWP
         //returns a specific record or all records
         public static async Task<dynamic> Get(string Table, int? Id = null)
         {
+            //use api if available
+            if (api.CheckConnection())
+                return await api.GET(Table, Id);
+
             //verify the database exists
             Verify();
 
@@ -320,6 +327,10 @@ namespace CAA_CrossPlatform.UWP
         //insert a new record
         public static async Task<int> Insert(dynamic record)
         {
+            //use api if available
+            if (api.CheckConnection())
+                return await api.POST(record);
+
             //verify the database exists
             Verify();
 
@@ -412,6 +423,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (table == "Event" && ex.Message.Contains("UNIQUE"))
                     await new MessageDialog("That event already exists!").ShowAsync();
+                else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("Invalid event!").ShowAsync();
                 else
                     await new MessageDialog(ex.Message).ShowAsync();
             }
@@ -422,6 +435,13 @@ namespace CAA_CrossPlatform.UWP
         //edit a record
         public static async void Update(dynamic record)
         {
+            //use api if available
+            if (api.CheckConnection())
+            {
+                await api.PUT(record);
+                return;
+            }
+
             //verify the database exists
             Verify();
 
@@ -511,6 +531,104 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("You need to choose a game!").ShowAsync();
                 else if (table == "Answer" && ex.Message.Contains("FOREIGN KEY"))
                     await new MessageDialog("You need to choose a question!").ShowAsync();
+                else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("Invalid event!").ShowAsync();
+
+                //unique constraints
+                else if (table == "Event" && ex.Message.Contains("UNIQUE"))
+                    await new MessageDialog("That event already exists!").ShowAsync();
+                else if (table == "Game" && ex.Message.Contains("UNIQUE"))
+                    await new MessageDialog("That game already exists!").ShowAsync();
+                else if (table == "Question" && ex.Message.Contains("UNIQUE"))
+                    await new MessageDialog("That question already exists!").ShowAsync();
+                else if (table == "Answer" && ex.Message.Contains("UNIQUE"))
+                    await new MessageDialog("That answer already exists!").ShowAsync();
+
+                //other issue
+                else
+                    await new MessageDialog(ex.Message).ShowAsync();
+            }
+        }
+
+        //edit a record
+        public static async void Delete(dynamic record)
+        {
+            //use api if available
+            if (api.CheckConnection())
+            {
+                var res = await api.DELETE(record);
+                if (res != "Deleted")
+                    await new MessageDialog(res).ShowAsync();
+                return;
+            }
+
+            //verify the database exists
+            Verify();
+
+            //setup table
+            string table = "";
+
+            //event record
+            if (record.GetType() == typeof(Event))
+                table = "Event";
+
+            //game record
+            else if (record.GetType() == typeof(Game))
+                table = "Game";
+
+            //question record
+            else if (record.GetType() == typeof(Question))
+                table = "Question";
+
+            //answer record
+            else if (record.GetType() == typeof(Answer))
+                table = "Answer";
+
+            //event game record
+            else if (record.GetType() == typeof(GameQuestion))
+                table = "GameQuestion";
+
+            //tracking info record
+            else if (record.GetType() == typeof(TrackingInfo))
+                table = "TrackingInfo";
+
+            //attendance record
+            else if (record.GetType() == typeof(Attendance))
+                table = "Attendance";
+
+            //table doesn't exist
+            else
+                return;
+
+            //try connecting to the database
+            try
+            {
+                //open connection
+                con.Open();
+
+                //setup update command
+                SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = 1 WHERE Id = {record.Id};", con);
+
+                //edit record
+                cmd.ExecuteNonQuery();
+
+                //close connection
+                if (con.State == System.Data.ConnectionState.Open)
+                    con.Close();
+            }
+
+            //catch errors
+            catch (Exception ex)
+            {
+                //foreign key constraints
+                if (table == "Game" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("You need to choose an event!").ShowAsync();
+                else if (table == "Question" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("You need to choose a game!").ShowAsync();
+                else if (table == "Answer" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("You need to choose a question!").ShowAsync();
+                else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
+                    await new MessageDialog("Invalid event!").ShowAsync();
 
                 //unique constraints
                 else if (table == "Event" && ex.Message.Contains("UNIQUE"))

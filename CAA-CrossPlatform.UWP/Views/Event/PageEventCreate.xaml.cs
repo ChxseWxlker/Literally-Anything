@@ -19,12 +19,12 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class EventsCreate : Page
+    public sealed partial class PageEventCreate : Page
     {
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
 
-        public EventsCreate()
+        public PageEventCreate()
         {
             this.InitializeComponent();
             this.Loaded += EventsCreate_Loaded;
@@ -32,7 +32,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -57,17 +57,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -210,7 +210,7 @@ namespace CAA_CrossPlatform.UWP
                 { "endDate", EndDateDtp.SelectedDate.ToString() },
                 { "memberOnly", MemberOnlyChk.IsChecked.ToString() }
             };
-            Frame.Navigate(typeof(GamesCreate), selections);
+            Frame.Navigate(typeof(PageGameCreate), selections);
         }
     }
 }

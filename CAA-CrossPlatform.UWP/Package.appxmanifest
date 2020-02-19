@@ -33,7 +33,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="CAA_CrossPlatform.UWP.App">
       <uap:VisualElements
-        DisplayName="CAA_CrossPlatform.UWP"
+        DisplayName="CAA Event Manager"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="CAA_CrossPlatform.UWP"

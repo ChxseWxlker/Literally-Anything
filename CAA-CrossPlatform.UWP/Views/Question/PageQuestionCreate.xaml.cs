@@ -17,26 +17,26 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class QuestionsCreate : Page
+    public sealed partial class PageQuestionCreate : Page
     {
-        public QuestionsCreate()
+        public PageQuestionCreate()
         {
             this.InitializeComponent();
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void CreateQuestion_Click(object sender, RoutedEventArgs e)
@@ -74,7 +74,7 @@ namespace CAA_CrossPlatform.UWP
                     {
                         q.hidden = false;
                         Json.Edit(q, "question.json");
-                        Frame.Navigate(typeof(Questions));
+                        Frame.Navigate(typeof(PageQuestion));
                         return;
                     }
 
@@ -135,17 +135,17 @@ namespace CAA_CrossPlatform.UWP
             Json.Write(question, "question.json");
             */
             //navigate back to question page
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
     }
 }

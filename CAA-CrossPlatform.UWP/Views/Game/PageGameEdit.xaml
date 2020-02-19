@@ -1,7 +1,6 @@
-﻿<forms:WindowsPage
-    x:Class="CAA_CrossPlatform.UWP.EventExcel"
+﻿<Page
+    x:Class="CAA_CrossPlatform.UWP.PageGameEdit"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:forms="using:Xamarin.Forms.Platform.UWP"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CAA_CrossPlatform.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,13 +16,20 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="btnLoad.Margin" Value="0,10,5,0"/>
-                        <Setter Target="btnSave.Margin" Value="5,10,0,0"/>
-                        <Setter Target="btnLoad.Width" Value="130"/>
-                        <Setter Target="btnSave.Width" Value="130"/>
-                        <Setter Target="btnLoad.FontSize" Value="20"/>
-                        <Setter Target="btnSave.FontSize" Value="20"/>
-                        <Setter Target="lstEvents.Width" Value="275"/>
+                        <Setter Target="EditQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
+                        <Setter Target="EditQuiz.Width" Value="130"/>
+                        <Setter Target="CancelQuiz.Width" Value="130"/>
+                        <Setter Target="EditQuiz.FontSize" Value="20"/>
+                        <Setter Target="SearchBtn.FontSize" Value="26"/>
+                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="TxtSearch.FontSize" Value="20"/>
+                        <Setter Target="TxtSearch.Width" Value="250"/>
+                        <Setter Target="lstQuestions.Width" Value="300"/>
+                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
+                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="Menu.Width" Value="70"/>
@@ -40,13 +46,20 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="btnLoad.Margin" Value="0,20,10,0"/>
-                        <Setter Target="btnSave.Margin" Value="10,20,0,0"/>
-                        <Setter Target="btnLoad.Width" Value="130"/>
-                        <Setter Target="btnSave.Width" Value="130"/>
-                        <Setter Target="btnLoad.FontSize" Value="20"/>
-                        <Setter Target="btnSave.FontSize" Value="20"/>
-                        <Setter Target="lstEvents.Width" Value="300"/>
+                        <Setter Target="EditQuiz.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
+                        <Setter Target="EditQuiz.Width" Value="130"/>
+                        <Setter Target="CancelQuiz.Width" Value="130"/>
+                        <Setter Target="EditQuiz.FontSize" Value="20"/>
+                        <Setter Target="SearchBtn.FontSize" Value="26"/>
+                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.FontSize" Value="20"/>
+                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="TxtSearch.FontSize" Value="20"/>
+                        <Setter Target="TxtSearch.Width" Value="300"/>
+                        <Setter Target="lstQuestions.Width" Value="500"/>
+                        <Setter Target="QuestionsTB.FontSize" Value="20"/>
+                        <Setter Target="QuizNameTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
                         <Setter Target="Menu.Width" Value="90"/>
@@ -121,26 +134,41 @@
 
                 </StackPanel>
 
-                <RelativePanel Grid.Row="2" Grid.Column="1" >
-                    <StackPanel x:Name="Form" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True">
-                        <StackPanel x:Name="Output" Orientation="Horizontal" HorizontalAlignment="Center">
+                <RelativePanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
 
-                            <Button  Style="{StaticResource ButtonTemplate}" x:Name="btnLoad" Height="50" Width="180" FontSize="30" Margin="0,50,25,0"  Content="Load CSV" Click="btnLoad_Click"/>
+                    <StackPanel Name="QuizName" HorizontalAlignment="Left">
 
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSave" Height="50" Width="180" FontSize="30" Margin="25,50,0,0"  Content="Save CSV" Click="btnSave_Click"/>
+                        <TextBlock x:Name="QuizNameTB" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
 
-                        </StackPanel>
+                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
-                        <StackPanel x:Name="ButtonLayout" HorizontalAlignment="Center" Orientation="Vertical">
+                    </StackPanel>
 
-                            <CheckBox x:Name="chkAllEvents" Content="All events" Checked="chkAllEvents_Checked" Unchecked="chkAllEvents_Unchecked" FontSize="25" Margin="0,10,0,0"/>
+                    <TextBlock x:Name="QuestionsTB" Text="Select Questions" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="QuizName"/>
 
-                            <ListView x:Name="lstEvents" Width="500" Height="200" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0" SelectionMode="Multiple"/>
+                    <StackPanel x:Name="SearchBar" Orientation="Horizontal" RelativePanel.Below="QuestionsTB">
 
-                        </StackPanel>
+                        <TextBox x:Name="TxtSearch" Text="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+
+                        <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" />
+
+                    </StackPanel>
+
+                    <StackPanel x:Name="QuestionsList" Orientation="Horizontal" RelativePanel.Below="SearchBar" Margin="0,20,0,0">
+
+                        <ListView x:Name="lstQuestions" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="QuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
+
+                        <Button Style="{StaticResource ButtonTemplate}" x:Name="CancelQuiz" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="CancelQuiz_Click" />
+
+                        <Button Style="{StaticResource ButtonTemplate}" x:Name="EditQuiz" Content="Save" Width="180" Height="50" FontSize="30" Margin="25,10,25,0" Click="EditQuiz_Click" />
+
                     </StackPanel>
                 </RelativePanel>
             </Grid>
         </ScrollViewer>
     </Grid>
-</forms:WindowsPage>
+</Page>

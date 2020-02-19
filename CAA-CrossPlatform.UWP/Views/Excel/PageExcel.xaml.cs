@@ -19,17 +19,17 @@ using Microsoft.Data.Sqlite;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class EventExcel
+    public sealed partial class PageExcel
     {
         List<Event> visibleEvents = new List<Event>();
 
-        public EventExcel()
+        public PageExcel()
         {
             this.InitializeComponent();
-            this.Loaded += EventExcel_Loaded;
+            this.Loaded += PageExcel_Loaded;
         }
 
-        private void EventExcel_Loaded(object sender, RoutedEventArgs e)
+        private void PageExcel_Loaded(object sender, RoutedEventArgs e)
         {
             //get all events
             List<Event> events = Json.Read("event.json");
@@ -45,17 +45,17 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
@@ -99,7 +99,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
         }
     }
 }
