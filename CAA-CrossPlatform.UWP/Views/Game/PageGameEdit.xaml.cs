@@ -24,7 +24,7 @@ namespace CAA_CrossPlatform.UWP
             this.InitializeComponent();
         }
 
-        Game selectedGame;
+        static Game selectedGame;
         List<Question> listQuestions = new List<Question>();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -70,6 +70,7 @@ namespace CAA_CrossPlatform.UWP
             if (QuizTxt.Text == "")
             {
                 QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                 await new MessageDialog("Please enter a quiz name").ShowAsync();
                 return;
             }
@@ -79,6 +80,7 @@ namespace CAA_CrossPlatform.UWP
                 if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
@@ -108,6 +110,25 @@ namespace CAA_CrossPlatform.UWP
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(PageExcel));
+        }
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            lstQuestions.Items.Clear();
+            foreach (Question q in listQuestions)
+            {
+                if (q.name.ToLower().Trim().Contains(TxtSearch.Text.ToLower().Trim()))
+                {
+                    lstQuestions.Items.Add(q.name);
+                    if (selectedGame.questions.Contains(q.id))
+                        lstQuestions.SelectedItems.Add(q.name);
+                }
+            }
+        }
+
+        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (TxtSearch.Text == "Search")
+                TxtSearch.Text = "";
         }
     }
 }
