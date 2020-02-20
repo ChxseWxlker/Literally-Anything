@@ -20,12 +20,12 @@
                         <Setter Target="Answer2CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="Answer3CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="Answer4CorrectChk.Margin" Value="20,0,0,0"/>
-                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
-                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="CreateQuiz.Width" Value="130"/>
-                        <Setter Target="CancelQuiz.Width" Value="130"/>
-                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
-                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="CreateQuestion.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuestion.Margin" Value="0,10,5,0"/>
+                        <Setter Target="CreateQuestion.Width" Value="130"/>
+                        <Setter Target="CancelQuestion.Width" Value="130"/>
+                        <Setter Target="CreateQuestion.FontSize" Value="20"/>
+                        <Setter Target="CancelQuestion.FontSize" Value="20"/>
                         <Setter Target="QuestionTxt.FontSize" Value="20"/>
                         <Setter Target="QuestionTxt.Width" Value="250"/>
                         <Setter Target="Answer1Txt.FontSize" Value="20"/>
@@ -44,13 +44,14 @@
                         <Setter Target="CorrectTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
-                        <Setter Target="Menu.Width" Value="70"/>
-                        <Setter Target="Menu.Height" Value="40"/>
-                        <Setter Target="Menu.FontSize" Value="15"/>
+                        <Setter Target="relativePanel.Grid.Column" Value="1"/>
                         <Setter Target="textBlock.FontSize" Value="20"/>
                         <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
                         <Setter Target="CAAImg.Height" Value="60"/>
                         <Setter Target="CAAImg.Width" Value="70"/>
+                        <Setter Target="btnLogout.Width" Value="70"/>
+                        <Setter Target="btnLogout.FontSize" Value="15"/>
+                        <Setter Target="btnLogout.Height" Value="35"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -62,12 +63,12 @@
                         <Setter Target="Answer2CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="Answer3CorrectChk.Margin" Value="20,0,0,0"/>
                         <Setter Target="Answer4CorrectChk.Margin" Value="20,0,0,0"/>
-                        <Setter Target="CreateQuiz.Margin" Value="5,10,0,0"/>
-                        <Setter Target="CancelQuiz.Margin" Value="0,10,5,0"/>
-                        <Setter Target="CreateQuiz.Width" Value="130"/>
-                        <Setter Target="CancelQuiz.Width" Value="130"/>
-                        <Setter Target="CreateQuiz.FontSize" Value="20"/>
-                        <Setter Target="CancelQuiz.FontSize" Value="20"/>
+                        <Setter Target="CreateQuestion.Margin" Value="5,10,0,0"/>
+                        <Setter Target="CancelQuestion.Margin" Value="0,10,5,0"/>
+                        <Setter Target="CreateQuestion.Width" Value="130"/>
+                        <Setter Target="CancelQuestion.Width" Value="130"/>
+                        <Setter Target="CreateQuestion.FontSize" Value="20"/>
+                        <Setter Target="CancelQuestion.FontSize" Value="20"/>
                         <Setter Target="QuestionTxt.FontSize" Value="20"/>
                         <Setter Target="QuestionTxt.Width" Value="300"/>
                         <Setter Target="Answer1Txt.FontSize" Value="20"/>
@@ -86,11 +87,12 @@
                         <Setter Target="CorrectTB.FontSize" Value="20"/>
                         <Setter Target="rectangle.Height" Value="30"/>
                         <Setter Target="relativePanel.Height" Value="70"/>
-                        <Setter Target="Menu.Width" Value="90"/>
-                        <Setter Target="Menu.Height" Value="50"/>
                         <Setter Target="textBlock.FontSize" Value="30"/>
                         <Setter Target="CAAImg.Height" Value="70"/>
                         <Setter Target="CAAImg.Width" Value="80"/>
+                        <Setter Target="btnLogout.Width" Value="85"/>
+                        <Setter Target="btnLogout.FontSize" Value="18"/>
+                        <Setter Target="btnLogout.Height" Value="40"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -100,8 +102,6 @@
                     <VisualState.Setters>
                         <Setter Target="rectangle.Height" Value="40"/>
                         <Setter Target="relativePanel.Height" Value="100"/>
-                        <Setter Target="Menu.Width" Value="100"/>
-                        <Setter Target="Menu.Height" Value="58"/>
                         <Setter Target="textBlock.FontSize" Value="45"/>
                         <Setter Target="CAAImg.Height" Value="100"/>
                         <Setter Target="CAAImg.Width" Value="110"/>
@@ -124,41 +124,57 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="56"/>
                     <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="90*" />
-                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
 
-                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="1">
+                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+
+                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2">
 
                     <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-                    <TextBlock x:Name="textBlock" Margin="20,0,0,0"  Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FFEE3124" RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FF1D60C9"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-                    <Button Style="{StaticResource RoundButtonTemplate}"  x:Name="Menu" Content="Menu"  Height="65" FontSize="25" Width="112" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
-                        <Button.Flyout>
-                            <MenuFlyout Placement="LeftEdgeAlignedBottom" >
-                                <MenuFlyoutSubItem Text="Games">
-                                    <MenuFlyoutItem Text="Quizes"  Click="Quizes_OnClick"></MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Questions"  Click="Questions_OnClick"></MenuFlyoutItem>
-                                </MenuFlyoutSubItem>
-                                <MenuFlyoutItem  Text="Events" Click="Events_OnClick"></MenuFlyoutItem>
-                                <MenuFlyoutItem  Text="Export/Import" Click="Export_OnClick"></MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                    <StackPanel RelativePanel.LeftOf="btnLogout" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <TextBlock x:Name="txtAccount" Text="" FontSize="20" Margin="0 0 20 0"/>
+                    </StackPanel>
+
+                    <Button x:Name="btnLogout" Content="Logout" FontSize="20" HorizontalAlignment="Right" Width="100" Height="50" Background="Gray" Click="btnLogout_Click" Margin="0,0,20,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
 
                 </RelativePanel>
 
-                <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
+                <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="4">
 
                     <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
 
                 </StackPanel>
 
-                <RelativePanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+                <SplitView x:Name="svMenu" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="56" OpenPaneLength="200" PaneClosing="svMenu_PaneClosing" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="4">
+                    <SplitView.Pane>
+                        <StackPanel Background="Gray">
+                            <Button x:Name="btnShowPane" FontFamily="Segoe MDL2 Assets" Content="&#xE00F;" Width="56" Height="50" Background="Transparent" Click="btnShowPane_Click" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnEventMenu" Content="Events" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnGameMenu" Content="Games" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnQuestionMenu" Content="Questions" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </SplitView.Pane>
+                </SplitView>
+
+                <RelativePanel Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center">
 
                     <StackPanel Name="Question" HorizontalAlignment="Left">
 
