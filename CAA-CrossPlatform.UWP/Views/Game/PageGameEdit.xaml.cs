@@ -19,12 +19,15 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageGameEdit : Page
     {
+        //setup api
+        static ApiHandler api = new ApiHandler();
+
         public PageGameEdit()
         {
             this.InitializeComponent();
         }
 
-        static Game selectedGame;
+        Game selectedGame;
         List<Question> listQuestions = new List<Question>();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -70,7 +73,6 @@ namespace CAA_CrossPlatform.UWP
             if (QuizTxt.Text == "")
             {
                 QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                 await new MessageDialog("Please enter a quiz name").ShowAsync();
                 return;
             }
@@ -80,7 +82,6 @@ namespace CAA_CrossPlatform.UWP
                 if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
                 {
                     QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
@@ -111,24 +112,81 @@ namespace CAA_CrossPlatform.UWP
         {
             Frame.Navigate(typeof(PageExcel));
         }
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+
+        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            lstQuestions.Items.Clear();
-            foreach (Question q in listQuestions)
+            //get menu button
+            Button btn = (Button)sender;
+
+            //event
+            if (btn.Content.ToString().Contains("Event"))
+                Frame.Navigate(typeof(PageEvent));
+
+            //game
+            else if (btn.Content.ToString().Contains("Game"))
+                Frame.Navigate(typeof(PageGame));
+
+            //question
+            else if (btn.Content.ToString().Contains("Question"))
+                Frame.Navigate(typeof(PageQuestion));
+        }
+
+        private void btnShowPane_Click(object sender, RoutedEventArgs e)
+        {
+            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
+            if (svMenu.IsPaneOpen)
             {
-                if (q.name.ToLower().Trim().Contains(TxtSearch.Text.ToLower().Trim()))
-                {
-                    lstQuestions.Items.Add(q.name);
-                    if (selectedGame.questions.Contains(q.id))
-                        lstQuestions.SelectedItems.Add(q.name);
-                }
+                btnShowPane.Content = "\uE00E";
+                btnEventMenu.Visibility = Visibility.Visible;
+                btnGameMenu.Visibility = Visibility.Visible;
+                btnQuestionMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnShowPane.Content = "\uE00F";
+                btnEventMenu.Visibility = Visibility.Collapsed;
+                btnGameMenu.Visibility = Visibility.Collapsed;
+                btnQuestionMenu.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
-            if (TxtSearch.Text == "Search")
-                TxtSearch.Text = "";
+            //hide buttons
+            btnShowPane.Content = "\uE00F";
+            btnEventMenu.Visibility = Visibility.Collapsed;
+            btnGameMenu.Visibility = Visibility.Collapsed;
+            btnQuestionMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //prompt user
+            ContentDialog logoutDialog = new ContentDialog
+            {
+                Title = "Logout?",
+                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
+
+            //log user out
+            if (logoutRes == ContentDialogResult.Primary)
+            {
+                //reset active username
+                Environment.SetEnvironmentVariable("activeUser", "");
+
+                //update menu
+                txtAccount.Text = "";
+
+                //logout
+                api.Logout();
+
+                //redirect to index
+                Frame.Navigate(typeof(PageIndex));
+            }
         }
     }
 }
