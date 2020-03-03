@@ -23,8 +23,8 @@
                         <Setter Target="EditQuiz.FontSize" Value="20"/>
                         <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="txtQuiz.FontSize" Value="20"/>
+                        <Setter Target="txtQuiz.Width" Value="300"/>
                         <Setter Target="TxtSearch.FontSize" Value="20"/>
                         <Setter Target="TxtSearch.Width" Value="250"/>
                         <Setter Target="lstQuestions.Width" Value="300"/>
@@ -54,8 +54,8 @@
                         <Setter Target="EditQuiz.FontSize" Value="20"/>
                         <Setter Target="SearchBtn.FontSize" Value="26"/>
                         <Setter Target="CancelQuiz.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.FontSize" Value="20"/>
-                        <Setter Target="QuizTxt.Width" Value="300"/>
+                        <Setter Target="txtQuiz.FontSize" Value="20"/>
+                        <Setter Target="txtQuiz.Width" Value="300"/>
                         <Setter Target="TxtSearch.FontSize" Value="20"/>
                         <Setter Target="TxtSearch.Width" Value="300"/>
                         <Setter Target="lstQuestions.Width" Value="500"/>
@@ -156,7 +156,7 @@
 
                         <TextBlock x:Name="QuizNameTB" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
 
-                        <TextBox x:Name="QuizTxt" TextWrapping="Wrap" FontSize="25" Width="400"/>
+                        <TextBox x:Name="txtQuiz" TextWrapping="Wrap" FontSize="25" Width="400"/>
 
                     </StackPanel>
 
@@ -172,7 +172,7 @@
 
                     <StackPanel x:Name="QuestionsList" Orientation="Horizontal" RelativePanel.Below="SearchBar" Margin="0,20,0,0">
 
-                        <ListView x:Name="lstQuestions" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
+                        <ListView x:Name="lbQuestion" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
 
                     </StackPanel>
 

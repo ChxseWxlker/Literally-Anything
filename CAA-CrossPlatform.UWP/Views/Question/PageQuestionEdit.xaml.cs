@@ -30,41 +30,49 @@ namespace CAA_CrossPlatform.UWP
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             //set question object
             selectedQuestion = (Question)e.Parameter;
 
             //set text
-            QuestionTxt.Text = selectedQuestion.name;
-            /*
-            for (int i = 0; i < selectedQuestion.answers.Count; i++)
+            txtQuestion.Text = selectedQuestion.name;
+
+            //get answers
+            List<Answer> answers = new List<Answer>();
+            foreach (Answer a in await Connection.Get("Answer"))
+                if (a.QuestionID == selectedQuestion.Id)
+                    answers.Add(a);
+
+            //create objects
+            txtAnswer.Text = answers[0].name;
+            chkCorrect.IsChecked = answers[0].correct;
+            answers.RemoveAt(0);
+            foreach (Answer a in answers)
             {
-                if (i == 0)
-                {
-                    Answer1Txt.Text = selectedQuestion.answers[i];
-                    Answer1CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
-                }
+                //create stack panel
+                StackPanel sp = new StackPanel();
+                sp.Orientation = Orientation.Horizontal;
+                sp.Margin = new Thickness(0, 40, 0, 0);
 
-                else if (i == 1)
-                {
-                    Answer2Txt.Text = selectedQuestion.answers[i];
-                    Answer2CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
-                }
+                //create textbox
+                TextBox txt = new TextBox();
+                txt.Text = a.name;
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.FontSize = 25;
+                txt.Width = 400;
 
-                else if (i == 2)
-                {
-                    Answer3Txt.Text = selectedQuestion.answers[i];
-                    Answer3CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
-                }
+                //create checkbox
+                CheckBox chk = new CheckBox();
+                chk.IsChecked = a.correct;
+                chk.Margin = new Thickness(40, 0, 0, 0);
+                chk.Width = 25;
 
-                else if (i == 3)
-                {
-                    Answer4Txt.Text = selectedQuestion.answers[i];
-                    Answer4CorrectChk.IsChecked = selectedQuestion.correctAnswers[i];
-                }
+                //append items
+                sp.Children.Add(txt);
+                sp.Children.Add(chk);
+                spAnswersPanel.Children.Add(sp);
             }
-            */
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
@@ -82,13 +90,13 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageQuestion));
         }
 
-        private async void EditQuestion_Click(object sender, RoutedEventArgs e)
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             //get list of questions
-            List<Question> questions = Json.Read("question.json");
+            List<Question> questions = await Connection.Get("Question");
 
             //validation
-            if (QuestionTxt.Text == "")
+            if (txtQuestion.Text == "")
             {
                 QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 await new MessageDialog("Please enter a question name").ShowAsync();
@@ -96,67 +104,62 @@ namespace CAA_CrossPlatform.UWP
             }
 
             foreach (Question q in questions)
-                //validate name
-                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
+            {
+                //validate title
+                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == false)
                 {
                     QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
                     return;
                 }
-
-            //set object properties
-            selectedQuestion.name = QuestionTxt.Text;
-            /*
-            selectedQuestion.answers = new List<string>();
-            selectedQuestion.correctAnswers = new List<bool>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (i == 0)
+                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == true)
                 {
-                    if (Answer1Txt.Text != "")
-                    {
-                        selectedQuestion.answers.Add(Answer1Txt.Text);
-                        selectedQuestion.correctAnswers.Add(Answer1CorrectChk.IsChecked ?? false);
-                    }
-                }
+                    MessageDialog msg = new MessageDialog("That question is hidden, would you like to re-activate it?");
+                    msg.Commands.Add(new UICommand("Yes") { Id = 1 });
+                    msg.Commands.Add(new UICommand("No") { Id = 0 });
+                    msg.CancelCommandIndex = 0;
+                    var choice = await msg.ShowAsync();
 
-                else if (i == 1)
-                {
-                    if (Answer2Txt.Text != "")
+                    //re-activate game
+                    if ((int)choice.Id == 1)
                     {
-                        selectedQuestion.answers.Add(Answer2Txt.Text);
-                        selectedQuestion.correctAnswers.Add(Answer2CorrectChk.IsChecked ?? false);
+                        q.hidden = false;
+                        Connection.Update(q);
+                        Frame.Navigate(typeof(PageQuestion));
+                        return;
                     }
-                }
 
-                else if (i == 2)
-                {
-                    if (Answer3Txt.Text != "")
-                    {
-                        selectedQuestion.answers.Add(Answer3Txt.Text);
-                        selectedQuestion.correctAnswers.Add(Answer3CorrectChk.IsChecked ?? false);
-                    }
-                }
-
-                else if (i == 3)
-                {
-                    if (Answer4Txt.Text != "")
-                    {
-                        selectedQuestion.answers.Add(Answer4Txt.Text);
-                        selectedQuestion.correctAnswers.Add(Answer4CorrectChk.IsChecked ?? false);
-                    }
+                    else if ((int)choice.Id == 0)
+                        return;
                 }
             }
 
-            //save json object
-            Json.Edit(selectedQuestion, "question.json");
-            */
-            //redirect to questions page
-            Frame.Navigate(typeof(PageQuestion));
+            //create question
+            selectedQuestion.name = txtQuestion.Text;
+            Connection.Update(selectedQuestion);
+
+            //create list of answers
+            foreach (StackPanel sp in spAnswersPanel.Children)
+            {
+                TextBox txt = (TextBox)sp.Children[0];
+                CheckBox chk = (CheckBox)sp.Children[1];
+
+                //create answer
+                if (txt.Text != "")
+                {
+                    Answer answer = new Answer();
+                    answer.name = txt.Text;
+                    answer.correct = chk.IsChecked ?? false;
+                    answer.QuestionID = selectedQuestion.Id;
+                    answer.Id = await Connection.Insert(answer);
+                }
+            }
+
+            //navigate
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
-        private void CancelQuestion_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(PageQuestion));
         }
@@ -240,6 +243,30 @@ namespace CAA_CrossPlatform.UWP
                 //redirect to index
                 Frame.Navigate(typeof(PageIndex));
             }
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //create stack panel
+            StackPanel sp = new StackPanel();
+            sp.Orientation = Orientation.Horizontal;
+            sp.Margin = new Thickness(0, 40, 0, 0);
+
+            //create textbox
+            TextBox txt = new TextBox();
+            txt.TextWrapping = TextWrapping.Wrap;
+            txt.FontSize = 25;
+            txt.Width = 400;
+
+            //create checkbox
+            CheckBox chk = new CheckBox();
+            chk.Margin = new Thickness(40, 0, 0, 0);
+            chk.Width = 25;
+
+            //append items
+            sp.Children.Add(txt);
+            sp.Children.Add(chk);
+            spAnswersPanel.Children.Add(sp);
         }
     }
 }

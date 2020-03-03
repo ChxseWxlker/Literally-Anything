@@ -31,10 +31,10 @@ namespace CAA_CrossPlatform.UWP
             this.Loaded += PageQuestion_Loaded;
         }
 
-        private void PageQuestion_Loaded(object sender, RoutedEventArgs e)
+        private async void PageQuestion_Loaded(object sender, RoutedEventArgs e)
         {
             //get all questions
-            List<Question> questions = Json.Read("question.json");
+            List<Question> questions = await Connection.Get("Question");
 
             //add question if visible
             foreach (Question q in questions)
@@ -79,20 +79,12 @@ namespace CAA_CrossPlatform.UWP
                 await new MessageDialog("Please choose a question to delete").ShowAsync();
             else
             {
-                //hide question object
-                listQuestions[lstQuestions.SelectedIndex].hidden = true;
-
-                //edit question object
-                Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
+                //delete question
+                Connection.Delete(listQuestions[lstQuestions.SelectedIndex]);
 
                 //reload page
                 Frame.Navigate(typeof(PageQuestion));
             }
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageExcel));
         }
 
         private void btnMenuItem_Click(object sender, RoutedEventArgs e)
