@@ -50,7 +50,7 @@
             <StackPanel Margin="210 230 0 0">
                 <TextBlock Text="Admission" TextWrapping="Wrap" FontSize="35"/>
 
-                <TextBlock Text="Member Number" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                <TextBlock Text="Membership Number" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
                 <TextBox x:Name="txtMemberNum" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 6209629672932001"/>
 
                 <TextBlock Text="First Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>

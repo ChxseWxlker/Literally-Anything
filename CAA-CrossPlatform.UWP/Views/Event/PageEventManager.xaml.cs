@@ -38,7 +38,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);
-
+            
             //set username
             txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
 
@@ -202,6 +202,11 @@ namespace CAA_CrossPlatform.UWP
                 //card swipe entry
                 if (txtBox.Text.Substring(0, 2) == "%B")
                 {
+                    //disable other inputs
+                    txtMemberFirst.IsEnabled = false;
+                    txtMemberLast.IsEnabled = false;
+                    txtMemberPhone.IsEnabled = false;
+
                     //setup attendance object and set properties
                     a.memberNumber = txtBox.Text.Substring(2, 16);
                     char[] lastName = txtBox.Text.Substring(19, txtBox.Text.IndexOf("/") - 19).ToLower().ToCharArray();
@@ -219,6 +224,12 @@ namespace CAA_CrossPlatform.UWP
                     if (!Luhn(a.memberNumber))
                     {
                         await new MessageDialog("Invalid card number, please try again").ShowAsync();
+
+                        //re-enable other inputs
+                        txtMemberFirst.IsEnabled = true;
+                        txtMemberLast.IsEnabled = true;
+                        txtMemberPhone.IsEnabled = true;
+
                         return;
                     }
 
@@ -236,31 +247,44 @@ namespace CAA_CrossPlatform.UWP
                         lastName[0] = char.ToUpper(lastName[0]);
                         a.lastName = new string(lastName);
                     }
+
+                    //replace first name with null
+                    else
+                        txtMemberFirst.Text = null;
+
                     if (txtMemberFirst.Text != "")
                     {
                         char[] firstName = txtMemberFirst.Text.ToLower().Trim().ToCharArray();
                         firstName[0] = char.ToUpper(firstName[0]);
                         a.firstName = new string(firstName);
                     }
+
+                    //replace last name with null
+                    else
+                        txtMemberLast.Text = null;
+
                     a.arriveTime = DateTime.Now;
-                    a.phone = txtMemberPhone.Text;
+                    a.phone = txtMemberPhone.Text.Replace("", null);
                     a.EventID = selectedEvent.Id;
 
                     //verify card number
                     if (!Luhn(a.memberNumber))
                     {
                         await new MessageDialog("Invalid card number, please try again").ShowAsync();
-                        //reset fields
-                        txtMemberNum.Text = "";
-                        txtMemberFirst.Text = "";
-                        txtMemberLast.Text = "";
-                        txtMemberPhone.Text = "";
+
+                        //focus membership
                         txtMemberNum.Focus(FocusState.Keyboard);
+
                         return;
                     }
 
                     a.Id = await Connection.Insert(a);
                 }
+
+                //re-enable other inputs
+                txtMemberFirst.IsEnabled = true;
+                txtMemberLast.IsEnabled = true;
+                txtMemberPhone.IsEnabled = true;
 
                 //reset fields
                 txtMemberNum.Text = "";
@@ -275,21 +299,31 @@ namespace CAA_CrossPlatform.UWP
         {
             //setup attendance object and set properties
             Attendance a = new Attendance();
-            a.memberNumber = txtMemberNum.Text;
+            a.memberNumber = txtMemberNum.Text.Replace("", null); ;
             if (txtMemberLast.Text != "")
             {
                 char[] lastName = txtMemberLast.Text.ToLower().Trim().ToCharArray();
                 lastName[0] = char.ToUpper(lastName[0]);
                 a.lastName = new string(lastName);
             }
+
+            //replace first name with null
+            else
+                txtMemberFirst.Text = null;
+
             if (txtMemberFirst.Text != "")
             {
                 char[] firstName = txtMemberFirst.Text.ToLower().Trim().ToCharArray();
                 firstName[0] = char.ToUpper(firstName[0]);
                 a.firstName = new string(firstName);
             }
+
+            //replace last name with null
+            else
+                txtMemberLast.Text = null;
+
             a.arriveTime = DateTime.Now;
-            a.phone = txtMemberPhone.Text;
+            a.phone = txtMemberPhone.Text.Replace("", null);
             a.EventID = selectedEvent.Id;
 
             //verify card number

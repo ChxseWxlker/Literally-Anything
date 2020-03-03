@@ -52,11 +52,6 @@ namespace CAA_CrossPlatform.UWP
                 rootFrame.Navigate(typeof(PageIndex), e.Arguments);
             }
 
-            //verify json files exist
-            Json.Verify("event.json");
-            Json.Verify("game.json");
-            Json.Verify("question.json");
-
             Window.Current.Activate();
         }
 
