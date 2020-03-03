@@ -13,29 +13,33 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class QuestionsCreate : Page
+    public sealed partial class PageQuestionCreate : Page
     {
-        public QuestionsCreate()
+        //setup api
+        static ApiHandler api = new ApiHandler();
+
+        public PageQuestionCreate()
         {
             this.InitializeComponent();
         }
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void CreateQuestion_Click(object sender, RoutedEventArgs e)
@@ -73,7 +77,7 @@ namespace CAA_CrossPlatform.UWP
                     {
                         q.hidden = false;
                         Json.Edit(q, "question.json");
-                        Frame.Navigate(typeof(Questions));
+                        Frame.Navigate(typeof(PageQuestion));
                         return;
                     }
 
@@ -87,7 +91,7 @@ namespace CAA_CrossPlatform.UWP
 
             //set object properties
             question.name = QuestionTxt.Text;
-
+            /*
             question.answers = new List<string>();
             question.correctAnswers = new List<bool>();
 
@@ -132,19 +136,95 @@ namespace CAA_CrossPlatform.UWP
 
             //write json to file
             Json.Write(question, "question.json");
-
+            */
             //navigate back to question page
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void CancelQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EventExcel));
+            Frame.Navigate(typeof(PageExcel));
+        }
+
+        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //get menu button
+            Button btn = (Button)sender;
+
+            //event
+            if (btn.Content.ToString().Contains("Event"))
+                Frame.Navigate(typeof(PageEvent));
+
+            //game
+            else if (btn.Content.ToString().Contains("Game"))
+                Frame.Navigate(typeof(PageGame));
+
+            //question
+            else if (btn.Content.ToString().Contains("Question"))
+                Frame.Navigate(typeof(PageQuestion));
+        }
+
+        private void btnShowPane_Click(object sender, RoutedEventArgs e)
+        {
+            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
+            if (svMenu.IsPaneOpen)
+            {
+                btnShowPane.Content = "\uE00E";
+                btnEventMenu.Visibility = Visibility.Visible;
+                btnGameMenu.Visibility = Visibility.Visible;
+                btnQuestionMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnShowPane.Content = "\uE00F";
+                btnEventMenu.Visibility = Visibility.Collapsed;
+                btnGameMenu.Visibility = Visibility.Collapsed;
+                btnQuestionMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            //hide buttons
+            btnShowPane.Content = "\uE00F";
+            btnEventMenu.Visibility = Visibility.Collapsed;
+            btnGameMenu.Visibility = Visibility.Collapsed;
+            btnQuestionMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //prompt user
+            ContentDialog logoutDialog = new ContentDialog
+            {
+                Title = "Logout?",
+                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
+
+            //log user out
+            if (logoutRes == ContentDialogResult.Primary)
+            {
+                //reset active username
+                Environment.SetEnvironmentVariable("activeUser", "");
+
+                //update menu
+                txtAccount.Text = "";
+
+                //logout
+                api.Logout();
+
+                //redirect to index
+                Frame.Navigate(typeof(PageIndex));
+            }
         }
     }
 }

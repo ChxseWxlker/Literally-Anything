@@ -89,43 +89,57 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApiHandler.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data.cs" />
-    <Compile Include="Events.xaml.cs">
-      <DependentUpon>Events.xaml</DependentUpon>
+    <Compile Include="Connection.cs" />
+    <Compile Include="Encryption.cs" />
+    <Compile Include="Views\Event\PageEventManager.xaml.cs">
+      <DependentUpon>PageEventManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventsCreate.xaml.cs">
-      <DependentUpon>EventsCreate.xaml</DependentUpon>
+    <Compile Include="Json.cs" />
+    <Compile Include="Views\Event\PageEvent.xaml.cs">
+      <DependentUpon>PageEvent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventsEdit.xaml.cs">
-      <DependentUpon>EventsEdit.xaml</DependentUpon>
+    <Compile Include="Views\Event\PageEventCreate.xaml.cs">
+      <DependentUpon>PageEventCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Games.xaml.cs">
-      <DependentUpon>Games.xaml</DependentUpon>
+    <Compile Include="Views\Event\PageEventEdit.xaml.cs">
+      <DependentUpon>PageEventEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamesCreate.xaml.cs">
-      <DependentUpon>GamesCreate.xaml</DependentUpon>
+    <Compile Include="Views\Game\PageGame.xaml.cs">
+      <DependentUpon>PageGame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamesEdit.xaml.cs">
-      <DependentUpon>GamesEdit.xaml</DependentUpon>
+    <Compile Include="Views\Game\PageGameCreate.xaml.cs">
+      <DependentUpon>PageGameCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventExcel.xaml.cs">
-      <DependentUpon>EventExcel.xaml</DependentUpon>
+    <Compile Include="Views\Game\PageGameEdit.xaml.cs">
+      <DependentUpon>PageGameEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Views\Excel\PageExcel.xaml.cs">
+      <DependentUpon>PageExcel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PageIndex.xaml.cs">
+      <DependentUpon>PageIndex.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Answer.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GameQuestion.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\TrackingInfo.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Questions.xaml.cs">
-      <DependentUpon>Questions.xaml</DependentUpon>
+    <Compile Include="Views\Question\PageQuestion.xaml.cs">
+      <DependentUpon>PageQuestion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="QuestionsCreate.xaml.cs">
-      <DependentUpon>QuestionsCreate.xaml</DependentUpon>
+    <Compile Include="Views\Question\PageQuestionCreate.xaml.cs">
+      <DependentUpon>PageQuestionCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="QuestionsEdit.xaml.cs">
-      <DependentUpon>QuestionsEdit.xaml</DependentUpon>
+    <Compile Include="Views\Question\PageQuestionEdit.xaml.cs">
+      <DependentUpon>PageQuestionEdit.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -188,56 +202,66 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Events.xaml">
+    <Page Include="Views\Event\PageEventManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventsCreate.xaml">
+    <Page Include="Views\Event\PageEvent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventsEdit.xaml">
+    <Page Include="Views\Event\PageEventCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Games.xaml">
+    <Page Include="Views\Event\PageEventEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GamesCreate.xaml">
+    <Page Include="Views\Game\PageGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GamesEdit.xaml">
+    <Page Include="Views\Game\PageGameCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventExcel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Questions.xaml">
+    <Page Include="Views\Game\PageGameEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="QuestionsCreate.xaml">
+    <Page Include="Views\Excel\PageExcel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PageIndex.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Question\PageQuestion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="QuestionsEdit.xaml">
+    <Page Include="Views\Question\PageQuestionCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Question\PageQuestionEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core">
+      <Version>3.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>

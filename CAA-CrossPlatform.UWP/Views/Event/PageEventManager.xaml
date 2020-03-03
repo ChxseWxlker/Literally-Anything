@@ -1,0 +1,159 @@
+﻿<Page
+    x:Class="CAA_CrossPlatform.UWP.PageEventManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CAA_CrossPlatform.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateEventCreate">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="relativePanel.Grid.Column" Value="1"/>
+                        <Setter Target="textBlock.FontSize" Value="20"/>
+                        <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                        <Setter Target="CAAImg.Height" Value="60"/>
+                        <Setter Target="CAAImg.Width" Value="70"/>
+                        <Setter Target="btnLogout.Width" Value="70"/>
+                        <Setter Target="btnLogout.FontSize" Value="15"/>
+                        <Setter Target="btnLogout.Height" Value="35"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateMiddle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="501"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="rectangle.Height" Value="30"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="textBlock.FontSize" Value="30"/>
+                        <Setter Target="CAAImg.Height" Value="70"/>
+                        <Setter Target="CAAImg.Width" Value="80"/>
+                        <Setter Target="btnLogout.Width" Value="85"/>
+                        <Setter Target="btnLogout.FontSize" Value="18"/>
+                        <Setter Target="btnLogout.Height" Value="40"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="650"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="100"/>
+                        <Setter Target="textBlock.FontSize" Value="45"/>
+                        <Setter Target="CAAImg.Height" Value="100"/>
+                        <Setter Target="CAAImg.Width" Value="110"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="950"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="56"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+
+                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2">
+
+                    <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FF1D60C9"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <StackPanel RelativePanel.LeftOf="btnLogout" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <TextBlock x:Name="txtAccount" Text="" FontSize="20" Margin="0 0 20 0"/>
+                    </StackPanel>
+
+                    <Button x:Name="btnLogout" Content="Logout" FontSize="20" HorizontalAlignment="Right" Width="100" Height="50" Background="Gray" Click="btnLogout_Click" Margin="0,0,20,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+
+                </RelativePanel>
+
+                <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="4">
+
+                    <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
+
+                </StackPanel>
+
+                <SplitView x:Name="svMenu" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="56" OpenPaneLength="200" PaneClosing="svMenu_PaneClosing" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="4">
+                    <SplitView.Pane>
+                        <StackPanel Background="Gray">
+                            <Button x:Name="btnShowPane" FontFamily="Segoe MDL2 Assets" Content="&#xE00F;" Width="56" Height="50" Background="Transparent" Click="btnShowPane_Click" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnEventMenu" Content="Events" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnGameMenu" Content="Games" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnQuestionMenu" Content="Questions" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </SplitView.Pane>
+                </SplitView>
+
+                <StackPanel Grid.Row="3" Grid.Column="2">
+                    
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Margin="0 20 0 0">
+                            <TextBlock Text="Admission" TextWrapping="Wrap" FontSize="35"/>
+
+                            <TextBlock Text="Member Number" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                            <TextBox x:Name="txtMemberNum" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 6209629672932001"/>
+
+                            <TextBlock Text="First Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                            <TextBox x:Name="txtMemberFirst" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. John"/>
+
+                            <TextBlock Text="Last Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                            <TextBox x:Name="txtMemberLast" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. Smith"/>
+
+                            <TextBlock Text="Phone" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                            <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
+
+                            <Button x:Name="btnMemberSubmit" Margin="0 20 0 0" Content="Submit" Width="100" Click="btnMemberSubmit_Click"/>
+                            <Button x:Name="btnCancel" Margin="0 20 0 0" Content="Cancel" Width="100" Click="btnCancel_Click"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="trackingPanel" Margin="20 20 0 0">
+                            <TextBlock Text="Tracking" TextWrapping="Wrap" FontSize="35"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
