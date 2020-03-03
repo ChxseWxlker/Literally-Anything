@@ -19,6 +19,9 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageQuestionCreate : Page
     {
+        //setup api
+        static ApiHandler api = new ApiHandler();
+
         public PageQuestionCreate()
         {
             this.InitializeComponent();
@@ -39,13 +42,13 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageQuestion));
         }
 
-        private async void CreateQuestion_Click(object sender, RoutedEventArgs e)
+        private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             //get list of questions
-            List<Question> questions = Json.Read("question.json");
+            List<Question> questions = await Connection.Get("Question");
 
             //validation
-            if (QuestionTxt.Text == "")
+            if (txtQuestion.Text == "")
             {
                 QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 await new MessageDialog("Please enter a question name").ShowAsync();
@@ -55,13 +58,13 @@ namespace CAA_CrossPlatform.UWP
             foreach (Question q in questions)
             {
                 //validate title
-                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == false)
+                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == false)
                 {
                     QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
                     return;
                 }
-                if (q.name.ToLower().Trim() == QuestionTxt.Text.ToLower().Trim() && q.hidden == true)
+                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == true)
                 {
                     MessageDialog msg = new MessageDialog("That question is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
@@ -73,7 +76,7 @@ namespace CAA_CrossPlatform.UWP
                     if ((int)choice.Id == 1)
                     {
                         q.hidden = false;
-                        Json.Edit(q, "question.json");
+                        Connection.Update(q);
                         Frame.Navigate(typeof(PageQuestion));
                         return;
                     }
@@ -86,66 +89,139 @@ namespace CAA_CrossPlatform.UWP
             //create question object
             Question question = new Question();
 
-            //set object properties
-            question.name = QuestionTxt.Text;
-            /*
-            question.answers = new List<string>();
-            question.correctAnswers = new List<bool>();
+            //create question
+            question.name = txtQuestion.Text;
+            question.Id = await Connection.Insert(question);
 
-            for (int i = 0; i < 4; i++)
+            //create list of answers
+            foreach (StackPanel sp in spAnswersPanel.Children)
             {
-                if (i == 0)
-                {
-                    if (Answer1Txt.Text != "")
-                    {
-                        question.answers.Add(Answer1Txt.Text);
-                        question.correctAnswers.Add(Answer1CorrectChk.IsChecked ?? false);
-                    }
-                }
+                TextBox txt = (TextBox)sp.Children[0];
+                CheckBox chk = (CheckBox)sp.Children[1];
 
-                else if (i == 1)
+                //create answer
+                if (txt.Text != "")
                 {
-                    if (Answer2Txt.Text != "")
-                    {
-                        question.answers.Add(Answer2Txt.Text);
-                        question.correctAnswers.Add(Answer2CorrectChk.IsChecked ?? false);
-                    }
-                }
-
-                else if (i == 2)
-                {
-                    if (Answer3Txt.Text != "")
-                    {
-                        question.answers.Add(Answer3Txt.Text);
-                        question.correctAnswers.Add(Answer3CorrectChk.IsChecked ?? false);
-                    }
-                }
-
-                else if (i == 3)
-                {
-                    if (Answer4Txt.Text != "")
-                    {
-                        question.answers.Add(Answer4Txt.Text);
-                        question.correctAnswers.Add(Answer4CorrectChk.IsChecked ?? false);
-                    }
+                    Answer answer = new Answer();
+                    answer.name = txt.Text;
+                    answer.correct = chk.IsChecked ?? false;
+                    answer.QuestionID = question.Id;
+                    answer.Id = await Connection.Insert(answer);
                 }
             }
 
-            //write json to file
-            Json.Write(question, "question.json");
-            */
-            //navigate back to question page
-            Frame.Navigate(typeof(PageQuestion));
+            //navigate
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
-        private void CancelQuestion_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PageQuestion));
+            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(PageExcel));
+        }
+
+        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //get menu button
+            Button btn = (Button)sender;
+
+            //event
+            if (btn.Content.ToString().Contains("Event"))
+                Frame.Navigate(typeof(PageEvent));
+
+            //game
+            else if (btn.Content.ToString().Contains("Game"))
+                Frame.Navigate(typeof(PageGame));
+
+            //question
+            else if (btn.Content.ToString().Contains("Question"))
+                Frame.Navigate(typeof(PageQuestion));
+        }
+
+        private void btnShowPane_Click(object sender, RoutedEventArgs e)
+        {
+            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
+            if (svMenu.IsPaneOpen)
+            {
+                btnShowPane.Content = "\uE00E";
+                btnEventMenu.Visibility = Visibility.Visible;
+                btnGameMenu.Visibility = Visibility.Visible;
+                btnQuestionMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnShowPane.Content = "\uE00F";
+                btnEventMenu.Visibility = Visibility.Collapsed;
+                btnGameMenu.Visibility = Visibility.Collapsed;
+                btnQuestionMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            //hide buttons
+            btnShowPane.Content = "\uE00F";
+            btnEventMenu.Visibility = Visibility.Collapsed;
+            btnGameMenu.Visibility = Visibility.Collapsed;
+            btnQuestionMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //prompt user
+            ContentDialog logoutDialog = new ContentDialog
+            {
+                Title = "Logout?",
+                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
+
+            //log user out
+            if (logoutRes == ContentDialogResult.Primary)
+            {
+                //reset active username
+                Environment.SetEnvironmentVariable("activeUser", "");
+
+                //update menu
+                txtAccount.Text = "";
+
+                //logout
+                api.Logout();
+
+                //redirect to index
+                Frame.Navigate(typeof(PageIndex));
+            }
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //create stack panel
+            StackPanel sp = new StackPanel();
+            sp.Orientation = Orientation.Horizontal;
+            sp.Margin = new Thickness(0, 40, 0, 0);
+
+            //create textbox
+            TextBox txt = new TextBox();
+            txt.TextWrapping = TextWrapping.Wrap;
+            txt.FontSize = 25;
+            txt.Width = 400;
+
+            //create checkbox
+            CheckBox chk = new CheckBox();
+            chk.Margin = new Thickness(40, 0, 0, 0);
+            chk.Width = 25;
+
+            //append items
+            sp.Children.Add(txt);
+            sp.Children.Add(chk);
+            spAnswersPanel.Children.Add(sp);
         }
     }
 }

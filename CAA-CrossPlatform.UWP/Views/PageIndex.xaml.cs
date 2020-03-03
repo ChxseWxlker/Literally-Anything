@@ -37,7 +37,7 @@ namespace CAA_CrossPlatform.UWP
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             //login
-            string res = await api.Login(txtUsername.Text, txtPassword.Password);
+            string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
 
             //show error message
             if (!res.Contains("Welcome"))

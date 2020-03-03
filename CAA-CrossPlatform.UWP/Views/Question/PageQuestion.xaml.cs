@@ -19,6 +19,9 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageQuestion : Page
     {
+        //setup api
+        static ApiHandler api = new ApiHandler();
+
         //get list of questions
         List<Question> listQuestions = new List<Question>();
 
@@ -28,10 +31,10 @@ namespace CAA_CrossPlatform.UWP
             this.Loaded += PageQuestion_Loaded;
         }
 
-        private void PageQuestion_Loaded(object sender, RoutedEventArgs e)
+        private async void PageQuestion_Loaded(object sender, RoutedEventArgs e)
         {
             //get all questions
-            List<Question> questions = Json.Read("question.json");
+            List<Question> questions = await Connection.Get("Question");
 
             //add question if visible
             foreach (Question q in questions)
@@ -76,20 +79,88 @@ namespace CAA_CrossPlatform.UWP
                 await new MessageDialog("Please choose a question to delete").ShowAsync();
             else
             {
-                //hide question object
-                listQuestions[lstQuestions.SelectedIndex].hidden = true;
-
-                //edit question object
-                Json.Edit(listQuestions[lstQuestions.SelectedIndex], "question.json");
+                //delete question
+                Connection.Delete(listQuestions[lstQuestions.SelectedIndex]);
 
                 //reload page
                 Frame.Navigate(typeof(PageQuestion));
             }
         }
 
-        private void Export_OnClick(object sender, RoutedEventArgs e)
+        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PageExcel));
+            //get menu button
+            Button btn = (Button)sender;
+
+            //event
+            if (btn.Content.ToString().Contains("Event"))
+                Frame.Navigate(typeof(PageEvent));
+
+            //game
+            else if (btn.Content.ToString().Contains("Game"))
+                Frame.Navigate(typeof(PageGame));
+
+            //question
+            else if (btn.Content.ToString().Contains("Question"))
+                Frame.Navigate(typeof(PageQuestion));
+        }
+
+        private void btnShowPane_Click(object sender, RoutedEventArgs e)
+        {
+            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
+            if (svMenu.IsPaneOpen)
+            {
+                btnShowPane.Content = "\uE00E";
+                btnEventMenu.Visibility = Visibility.Visible;
+                btnGameMenu.Visibility = Visibility.Visible;
+                btnQuestionMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnShowPane.Content = "\uE00F";
+                btnEventMenu.Visibility = Visibility.Collapsed;
+                btnGameMenu.Visibility = Visibility.Collapsed;
+                btnQuestionMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            //hide buttons
+            btnShowPane.Content = "\uE00F";
+            btnEventMenu.Visibility = Visibility.Collapsed;
+            btnGameMenu.Visibility = Visibility.Collapsed;
+            btnQuestionMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //prompt user
+            ContentDialog logoutDialog = new ContentDialog
+            {
+                Title = "Logout?",
+                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
+
+            //log user out
+            if (logoutRes == ContentDialogResult.Primary)
+            {
+                //reset active username
+                Environment.SetEnvironmentVariable("activeUser", "");
+
+                //update menu
+                txtAccount.Text = "";
+
+                //logout
+                api.Logout();
+
+                //redirect to index
+                Frame.Navigate(typeof(PageIndex));
+            }
         }
     }
 }

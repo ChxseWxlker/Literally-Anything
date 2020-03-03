@@ -609,6 +609,10 @@ namespace CAA_CrossPlatform.UWP
                 //setup update command
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = 1 WHERE Id = {record.Id};", con);
 
+                //delete many to many relationship
+                if (table == "GameQuestion")
+                    cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = {record.Id};", con);
+
                 //edit record
                 cmd.ExecuteNonQuery();
 
