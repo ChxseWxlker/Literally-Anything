@@ -32,32 +32,16 @@ namespace CAA_CrossPlatform.UWP
         //setup api
         static ApiHandler api = new ApiHandler();
 
-        private void txtPassword_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void txtLogin_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
                 btnLogin_Click(sender, e);
         }
 
-        int count = 0;
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Event ev = new Event();
-                ev.name = "MackTest2020";
-                ev.displayName = "Mack Test 2020";
-                ev.nameAbbrev = "MT032020";
-                ev.startDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                ev.endDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")).AddDays(2);
-                ev.memberOnly = true;
-                ev.GameID = 1;
-                ev.Id = await Connection.Insert(ev);
+            testFrame.Navigate();
 
-                await new MessageDialog(ev.Id.ToString()).ShowAsync();
-            }
-            catch (Exception ex) { await new MessageDialog(ex.Message).ShowAsync(); }
-            return;
-            
             //login
             string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
 
