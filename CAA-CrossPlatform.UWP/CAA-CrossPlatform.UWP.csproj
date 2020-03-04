@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\caa.png" />
+    <Content Include="Assets\caaLogo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />

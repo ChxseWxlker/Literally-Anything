@@ -40,7 +40,7 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            testFrame.Navigate();
+            //testFrame.Navigate();
 
             //login
             string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
