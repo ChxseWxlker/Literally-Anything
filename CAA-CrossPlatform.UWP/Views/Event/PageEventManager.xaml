@@ -148,9 +148,11 @@
                             <Button x:Name="btnCancel" Margin="0 20 0 0" Content="Cancel" Width="100" Click="btnCancel_Click"/>
                         </StackPanel>
 
-                        <StackPanel x:Name="trackingPanel" Margin="20 20 0 0">
+                        <StackPanel Margin="20 20 0 0">
                             <TextBlock Text="Tracking" TextWrapping="Wrap" FontSize="35"/>
                         </StackPanel>
+
+                        <StackPanel x:Name="trackingPanel" Margin="20 20 0 0"></StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Grid>

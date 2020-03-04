@@ -22,7 +22,7 @@ namespace CAA_CrossPlatform.UWP
         private static SqliteConnection con = new SqliteConnection($"Filename={path}");
 
         //checks if the database exists
-        private async static void Verify()
+        private async static Task<int> Verify()
         {
             //database doesn't exist
             if (!File.Exists(path))
@@ -59,13 +59,13 @@ namespace CAA_CrossPlatform.UWP
                     //create item table
                     "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'itemName' TEXT NOT NULL, 'valueType' TEXT);" +
 
-                    //create eventitem table
+                    //create event item table
                     "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
                     "FOREIGN KEY('EventId') REFERENCES 'Event'('Id'), FOREIGN KEY('ItemId') REFERENCES 'Item'('Id'));" +
 
-                    //create attendanceitem table
+                    //create attendance item table
                     "CREATE TABLE 'AttendanceItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'AttendanceId' INTEGER NOT NULL, 'EventItemId' INTEGER NOT NULL, " +
-                    "'Answer' TEXT NOT NULL, FOREIGN KEY('AttendanceId') REFERENCES 'Attendance'('Id'), FOREIGN KEY('EventItemId') REFERENCES 'EventItem'('Id'));" +
+                    "'Value' TEXT NOT NULL, FOREIGN KEY('AttendanceId') REFERENCES 'Attendance'('Id'), FOREIGN KEY('EventItemId') REFERENCES 'EventItem'('Id'));" +
 
                     //create attendance table
                     "CREATE TABLE 'Attendance' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'memberNumber' TEXT, 'arriveTime' TEXT NOT NULL, 'isMember' INTEGER, " +
@@ -85,13 +85,15 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog(ex.Message).ShowAsync();
                 }
             }
+
+            return 0;
         }
 
         //returns a specific record or all records
         public static async Task<dynamic> Get(string Table, int? Id = null)
         {
             //verify the database exists
-            Verify();
+            await Verify();
 
             //try connecting to the database
             try
@@ -223,7 +225,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.answer = Convert.ToInt32(query[3]);
+                            ai.value = Convert.ToInt32(query[3]);
                             records.Add(ai);
                         }
 
@@ -336,7 +338,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.answer = Convert.ToInt32(query[3]);
+                            ai.value = Convert.ToInt32(query[3]);
                             return ai;
                         }
 
@@ -375,7 +377,7 @@ namespace CAA_CrossPlatform.UWP
         public static async Task<int> Insert(dynamic record)
         {
             //verify the database exists
-            Verify();
+            await Verify();
 
             //setup table, fields, values, and new id
             string table = "";
@@ -458,10 +460,10 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(AttendanceItem))
             {
                 table = "AttendanceItem";
-                fields = "AttendanceId, EventItemId, answer";
+                fields = "AttendanceId, EventItemId, value";
                 parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
                 parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
-                parameters.Add(new SqliteParameter("@Answer", record.Answer));
+                parameters.Add(new SqliteParameter("@value", record.value));
             }
 
             //attendance record
@@ -521,7 +523,7 @@ namespace CAA_CrossPlatform.UWP
         public static async void Update(dynamic record)
         {
             //verify the database exists
-            Verify();
+            await Verify();
 
             //setup table and conditions
             string table = "";
@@ -604,10 +606,10 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(AttendanceItem))
             {
                 table = "AttendanceItem";
-                conditions = $"AttendanceId = @AttendanceId, EventItemId = @EventItemId, Answer = @Answer";
+                conditions = $"AttendanceId = @AttendanceId, EventItemId = @EventItemId, value = @value";
                 parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
                 parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
-                parameters.Add(new SqliteParameter("@Answer", record.Answer));
+                parameters.Add(new SqliteParameter("@value", record.value));
             }
 
             //attendance record
@@ -634,11 +636,12 @@ namespace CAA_CrossPlatform.UWP
             {
                 //open connection
                 con.Open();
-
+                
                 //setup update command
-                SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET {conditions} WHERE Id = {record.Id};", con);
+                SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET {conditions} WHERE Id = @id;", con);
 
                 //add parameters
+                cmd.Parameters.AddWithValue("@id", record.Id);
                 foreach (SqliteParameter parameter in parameters)
                     cmd.Parameters.AddWithValue(parameter.ParameterName, parameter.Value);
 
@@ -683,7 +686,7 @@ namespace CAA_CrossPlatform.UWP
         public static async void Delete(dynamic record)
         {
             //verify the database exists
-            Verify();
+            await Verify();
 
             //setup table
             string table = "";

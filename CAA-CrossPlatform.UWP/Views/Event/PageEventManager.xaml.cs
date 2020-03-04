@@ -44,20 +44,22 @@ namespace CAA_CrossPlatform.UWP
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
-            /*
+            
             //get all tracking values
-            List<TrackingInfo> ti = await Connection.Get("TrackingInfo");
-            if (ti != null)
-                foreach (TrackingInfo t in ti)
-                    if (t.EventID == selectedEvent.Id && t.hidden == false)
+            List<EventItem> eventItems = await Connection.Get("EventItem");
+            if (eventItems != null)
+                foreach (EventItem eventItem in eventItems)
+                    if (eventItem.EventId == selectedEvent.Id)
                     {
                         //add to list
-                        trackingInfo.Add(t);
+                        Item item = await Connection.Get("Item", eventItem.ItemId);
+
+                        //create stackpanel
+                        StackPanel spTrack = new StackPanel();
 
                         //create label
                         TextBlock lblTrack = new TextBlock();
-                        lblTrack.Name = $"lblTrack_{trackingPanel.Children.Count + 1}";
-                        lblTrack.Text = t.item;
+                        lblTrack.Text = item.name;
                         lblTrack.Margin = new Thickness(0, 20, 0, 0);
                         lblTrack.TextWrapping = TextWrapping.Wrap;
                         lblTrack.FontSize = 25;
@@ -65,7 +67,7 @@ namespace CAA_CrossPlatform.UWP
                         //create textbox
                         TextBox txtTrack = new TextBox();
                         txtTrack.Name = $"txtTrack_{trackingPanel.Children.Count + 1}";
-                        txtTrack.PlaceholderText = "0";
+                        txtTrack.Text = "0";
                         txtTrack.HorizontalAlignment = HorizontalAlignment.Left;
                         txtTrack.Margin = new Thickness(0, 5, 0, 0);
                         txtTrack.TextWrapping = TextWrapping.Wrap;
@@ -74,20 +76,55 @@ namespace CAA_CrossPlatform.UWP
                         txtTrack.FontSize = 22;
 
                         //create button
-                        Button btnTrack = new Button();
-                        btnTrack.Name = $"btnTrack_{trackingPanel.Children.Count + 1}";
-                        btnTrack.FontFamily = new FontFamily("Segoe MDL2 Assets");
-                        btnTrack.Content = "\uE710";
-                        btnTrack.Margin = new Thickness(105, -40, 0, 0);
-                        btnTrack.Height = 40;
-                        btnTrack.Width = 40;
+                        Button btnMinus = new Button();
+                        btnMinus.Name = $"btnMinus_{trackingPanel.Children.Count + 1}";
+                        btnMinus.Click += BtnControl_Click;
+                        btnMinus.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                        btnMinus.Content = "\uE738";
+                        btnMinus.Margin = new Thickness(105, -40, 0, 0);
+                        btnMinus.Height = 40;
+                        btnMinus.Width = 40;
+
+                        //create button
+                        Button btnPlus = new Button();
+                        btnPlus.Name = $"btnPlus_{trackingPanel.Children.Count + 1}";
+                        btnPlus.Click += BtnControl_Click;
+                        btnPlus.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                        btnPlus.Content = "\uE710";
+                        btnPlus.Margin = new Thickness(105, -40, 0, 0);
+                        btnPlus.Height = 40;
+                        btnPlus.Width = 40;
 
                         //add items to panel
-                        trackingPanel.Children.Add(lblTrack);
-                        trackingPanel.Children.Add(txtTrack);
-                        trackingPanel.Children.Add(btnTrack);
+                        spTrack.Children.Add(lblTrack);
+                        spTrack.Children.Add(btnMinus);
+                        spTrack.Children.Add(txtTrack);
+                        spTrack.Children.Add(btnPlus);
+                        trackingPanel.Children.Add(spTrack);
                     }
-                    */
+        }
+
+        private void BtnControl_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnCaller = (Button)sender;
+            string btn = btnCaller.Name.ToString();
+            int Id = Convert.ToInt32(btn.Substring(btn.IndexOf('_') + 1));
+            TextBox txt = null;
+            foreach (StackPanel sp in trackingPanel.Children)
+            {
+                TextBox spTxt = (TextBox)sp.Children[2];
+                if (Convert.ToInt32(spTxt.Name.Substring(spTxt.Name.IndexOf('_') + 1)) == Id)
+                    txt = spTxt;
+            }
+
+            //plus button
+            if (btn.Contains("Plus"))
+                txt.Text = (Convert.ToInt32(txt.Text) + 1).ToString();
+
+            //minus button
+            else if (btn.Contains("Minus"))
+                if (Convert.ToInt32(txt.Text) > 0)
+                    txt.Text = (Convert.ToInt32(txt.Text) - 1).ToString();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -235,6 +272,34 @@ namespace CAA_CrossPlatform.UWP
                     }
 
                     a.Id = await Connection.Insert(a);
+
+                    //create items
+                    foreach (StackPanel sp in trackingPanel.Children)
+                    {
+                        TextBlock lbl = (TextBlock)sp.Children[0];
+                        string name = lbl.Text;
+
+                        TextBox txt = (TextBox)sp.Children[2];
+                        int value = Convert.ToInt32(txt.Text);
+
+                        //create item
+                        Item item = new Item();
+                        item.name = name;
+                        item.valueType = "int";
+                        item.Id = await Connection.Insert(item);
+
+                        //create relationships
+                        EventItem eventItem = new EventItem();
+                        eventItem.EventId = selectedEvent.Id;
+                        eventItem.ItemId = item.Id;
+                        eventItem.Id = await Connection.Insert(eventItem);
+
+                        AttendanceItem attendanceItem = new AttendanceItem();
+                        attendanceItem.AttendanceId = a.Id;
+                        attendanceItem.EventItemId = eventItem.Id;
+                        attendanceItem.value = value;
+                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                    }
                 }
 
                 //manual entry
@@ -288,6 +353,11 @@ namespace CAA_CrossPlatform.UWP
                 txtMemberPhone.IsEnabled = true;
 
                 //reset fields
+                foreach (StackPanel sp in trackingPanel.Children)
+                {
+                    TextBox txt = (TextBox)sp.Children[2];
+                    txt.Text = "0";
+                }
                 txtMemberNum.Text = "";
                 txtMemberFirst.Text = "";
                 txtMemberLast.Text = "";
