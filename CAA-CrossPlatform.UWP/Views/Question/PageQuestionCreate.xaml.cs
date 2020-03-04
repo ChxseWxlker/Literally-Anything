@@ -51,6 +51,7 @@ namespace CAA_CrossPlatform.UWP
             if (txtQuestion.Text == "")
             {
                 QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                QuestionTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                 await new MessageDialog("Please enter a question name").ShowAsync();
                 return;
             }
@@ -61,6 +62,7 @@ namespace CAA_CrossPlatform.UWP
                 if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == false)
                 {
                     QuestionTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    QuestionTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                     await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
                     return;
                 }

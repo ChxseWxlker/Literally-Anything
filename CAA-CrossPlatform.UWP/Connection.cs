@@ -61,6 +61,17 @@ namespace CAA_CrossPlatform.UWP
                     "CREATE TABLE 'TrackingInfo' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'item' TEXT NOT NULL, " +
                     "'amount' INTEGER NOT NULL DEFAULT 0, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
 
+                    //create item table
+                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'itemName' TEXT NOT NULL, 'valueType' TEXT);" +
+
+                    //create eventitem table
+                    "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMEMT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
+                    "FOREIGN KEY('EventId') REFERENCES 'Event'('Id'), FOREIGN KEY('ItemId') REFERENCES 'Item'('Id'));" +
+
+                    //create attendanceitem table
+                    "CREATE TABLE 'AttendanceItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'AttendanceId' INTEGER NOT NULL, 'EventItemId' INTEGER NOT NULL, " +
+                    "'Answer' TEXT NOT NULL, FOREIGN KEY('AttendanceId') REFERENCES 'Attendance'('Id'), FOREIGN KEY('EventItemId') REFERENCES 'EventItem'('Id'));" +
+
                     //create attendance table
                     "CREATE TABLE 'Attendance' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'memberNumber' TEXT, 'arriveTime' TEXT NOT NULL, 'isMember' INTEGER, " +
                     "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );", con);
@@ -122,8 +133,12 @@ namespace CAA_CrossPlatform.UWP
                         records = new List<Answer>();
                     else if (Table == "GameQuestion")
                         records = new List<GameQuestion>();
-                    else if (Table == "TrackingInfo")
-                        records = new List<TrackingInfo>();
+                    else if (Table == "Item")
+                        records = new List<Item>();
+                    else if (Table == "EventItem")
+                        records = new List<EventItem>();
+                    else if (Table == "AttendanceItem")
+                        records = new List<AttendanceItem>();
                     else if (Table == "Attendance")
                         records = new List<Attendance>();
 
@@ -187,16 +202,35 @@ namespace CAA_CrossPlatform.UWP
                             records.Add(gq);
                         }
 
-                        //tracking info record
-                        else if (Table == "TrackingInfo")
+                        //item record
+                        else if (Table == "Item")
                         {
-                            TrackingInfo ti = new TrackingInfo();
-                            ti.Id = Convert.ToInt32(query[0]);
-                            ti.hidden = Convert.ToBoolean(query[1]);
-                            ti.item = query[2].ToString();
-                            ti.amount = Convert.ToInt32(query[3]);
-                            ti.EventID = Convert.ToInt32(query[4]);
-                            records.Add(ti);
+                            Item i = new Item();
+                            i.Id = Convert.ToInt32(query[0]);
+                            i.itemName = query[1].ToString();
+                            i.valueType = query[2].ToString();
+                            records.Add(i);
+                        }
+
+                        //EventItem record
+                        else if (Table == "EventItem")
+                        {
+                            EventItem ei = new EventItem();
+                            ei.Id = Convert.ToInt32(query[0]);
+                            ei.EventId = Convert.ToInt32(query[1]);
+                            ei.ItemId = Convert.ToInt32(query[2]);
+                            records.Add(ei);
+                        }
+
+                        //AttendanceItem record
+                        else if (Table == "AttendanceItem")
+                        {
+                            AttendanceItem ai = new AttendanceItem();
+                            ai.Id = Convert.ToInt32(query[0]);
+                            ai.AttendanceId = Convert.ToInt32(query[1]);
+                            ai.EventItemId = Convert.ToInt32(query[2]);
+                            ai.Answer = Convert.ToInt32(query[3]);
+                            records.Add(ai);
                         }
 
                         //attendance record
@@ -281,16 +315,35 @@ namespace CAA_CrossPlatform.UWP
                             return gq;
                         }
 
-                        //tracking info record
-                        else if (Table == "TrackingInfo")
+                        //item record
+                        else if (Table == "Item")
                         {
-                            TrackingInfo ti = new TrackingInfo();
-                            ti.Id = Convert.ToInt32(query[0]);
-                            ti.hidden = Convert.ToBoolean(query[1]);
-                            ti.item = query[2].ToString();
-                            ti.amount = Convert.ToInt32(query[3]);
-                            ti.EventID = Convert.ToInt32(query[4]);
-                            return ti;
+                            Item i = new Item();
+                            i.Id = Convert.ToInt32(query[0]);
+                            i.itemName = query[1].ToString();
+                            i.valueType = query[2].ToString();
+                            return i;
+                        }
+
+                        //EventItem record
+                        else if (Table == "EventItem")
+                        {
+                            EventItem ei = new EventItem();
+                            ei.Id = Convert.ToInt32(query[0]);
+                            ei.EventId = Convert.ToInt32(query[1]);
+                            ei.ItemId = Convert.ToInt32(query[2]);
+                            return ei;
+                        }
+
+                        //AttendanceItem record
+                        else if (Table == "AttendanceItem")
+                        {
+                            AttendanceItem ai = new AttendanceItem();
+                            ai.Id = Convert.ToInt32(query[0]);
+                            ai.AttendanceId = Convert.ToInt32(query[1]);
+                            ai.EventItemId = Convert.ToInt32(query[2]);
+                            ai.Answer = Convert.ToInt32(query[3]);
+                            return ai;
                         }
 
                         //attendance record
@@ -381,12 +434,28 @@ namespace CAA_CrossPlatform.UWP
                 values = $"{record.GameID}, {record.QuestionID}";
             }
 
-            //tracking info record
-            else if (record.GetType() == typeof(TrackingInfo))
+            //item record
+            else if (record.GetType() == typeof(Item))
             {
-                table = "TrackingInfo";
-                fields = "hidden, item, amount, EventID";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.item}', {record.amount}, {record.EventID}";
+                table = "Item";
+                fields = "itemName, valueType";
+                values = $"'{record.itemName}', '{record.valueType}'";
+            }
+
+            //EventItem record
+            else if (record.GetType() == typeof(EventItem))
+            {
+                table = "EventItem";
+                fields = "EventId, ItemId";
+                values = $"{Convert.ToInt32(record.EventId)}, {Convert.ToInt32(record.ItemId)}";
+            }
+
+            //AttendanceItem record
+            else if (record.GetType() == typeof(AttendanceItem))
+            {
+                table = "AttendanceItem";
+                fields = "AttendanceId, EventItemId, answer";
+                values = $"{Convert.ToInt32(record.AttendanceId)}, {Convert.ToInt32(record.EventItemId)}, '{record.Answer}'";
             }
 
             //attendance record
@@ -485,11 +554,25 @@ namespace CAA_CrossPlatform.UWP
                 conditions = $"GameID = {record.GameID}, QuestionID = {record.QuestionID}";
             }
 
-            //tracking info record
-            else if (record.GetType() == typeof(TrackingInfo))
+            //item record
+            else if (record.GetType() == typeof(Item))
             {
-                table = "TrackingInfo";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, item = '{record.item}', amount = {record.amount}, EventID = {record.EventID}";
+                table = "Item";
+                conditions = $"itemName = '{record.itemName}', valueType = '{record.valueType}'";
+            }
+
+            //EventItem record
+            else if (record.GetType() == typeof(EventItem))
+            {
+                table = "EventItem";
+                conditions = $"EventId = {Convert.ToInt32(record.EventId)}, ItemId = {Convert.ToInt32(record.ItemId)}";
+            }
+
+            //AttendanceItem record
+            else if (record.GetType() == typeof(AttendanceItem))
+            {
+                table = "AttendanceItem";
+                conditions = $"AttendanceId = {Convert.ToInt32(record.AttendanceId)}, EventItemId = {Convert.ToInt32(record.EventItemId)}, Answer = '{record.Answer}'";
             }
 
             //attendance record
@@ -588,9 +671,17 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(GameQuestion))
                 table = "GameQuestion";
 
-            //tracking info record
-            else if (record.GetType() == typeof(TrackingInfo))
-                table = "TrackingInfo";
+            //item record
+            else if (record.GetType() == typeof(Item))
+                table = "Item";
+
+            //eventItem record
+            else if (record.GetType() == typeof(EventItem))
+                table = "EventItem";
+
+            //attendanceItem record
+            else if (record.GetType() == typeof(AttendanceItem))
+                table = "AttendanceItem";
 
             //attendance record
             else if (record.GetType() == typeof(Attendance))
