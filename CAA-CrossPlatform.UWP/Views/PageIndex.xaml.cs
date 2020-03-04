@@ -23,6 +23,9 @@ namespace CAA_CrossPlatform.UWP
         public PageIndex()
         {
             this.InitializeComponent();
+
+            //setup name
+            Environment.SetEnvironmentVariable("activeUser", "Guest");
         }
 
         //setup api

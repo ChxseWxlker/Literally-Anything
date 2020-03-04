@@ -98,9 +98,7 @@
                 </RelativePanel>
 
                 <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="4">
-
-                    <Rectangle x:Name="rectangle" Fill="#FF1D60C9" Height="50"></Rectangle>
-
+                    <Rectangle Fill="#00529b" Height="50" />
                 </StackPanel>
 
                 <SplitView x:Name="svMenu" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="56" OpenPaneLength="200" PaneClosing="svMenu_PaneClosing" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="4">
