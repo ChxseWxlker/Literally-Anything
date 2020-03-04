@@ -213,15 +213,6 @@ namespace CAA_CrossPlatform.UWP
                     jsonObject = new User();
             }
 
-            //tracking info object
-            else if (endpoint == "TrackingInfo")
-            {
-                if (Id == null)
-                    jsonObject = new List<TrackingInfo>();
-                else
-                    jsonObject = new TrackingInfo();
-            }
-
             //attendance object
             else if (endpoint == "Attendance")
             {
@@ -271,10 +262,6 @@ namespace CAA_CrossPlatform.UWP
             //user object
             else if (record.GetType() == typeof(User))
                 endpoint = "User";
-
-            //tracking info object
-            else if (record.GetType() == typeof(TrackingInfo))
-                endpoint = "TrackingInfo";
 
             //attendance object
             else if (record.GetType() == typeof(Attendance))
@@ -339,10 +326,6 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(User))
                 endpoint = "User";
 
-            //tracking info object
-            else if (record.GetType() == typeof(TrackingInfo))
-                endpoint = "TrackingInfo";
-
             //attendance object
             else if (record.GetType() == typeof(Attendance))
                 endpoint = "Attendance";
@@ -401,10 +384,6 @@ namespace CAA_CrossPlatform.UWP
             //user object
             else if (record.GetType() == typeof(User))
                 endpoint = "User";
-
-            //tracking info object
-            else if (record.GetType() == typeof(TrackingInfo))
-                endpoint = "TrackingInfo";
 
             //attendance object
             else if (record.GetType() == typeof(Attendance))

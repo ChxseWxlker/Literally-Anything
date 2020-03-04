@@ -26,7 +26,7 @@ namespace CAA_CrossPlatform.UWP
         Event selectedEvent;
 
         //setup list of trackable items
-        List<TrackingInfo> trackingInfo = new List<TrackingInfo>();
+        //List<TrackingInfo> trackingInfo = new List<TrackingInfo>();
 
         public PageEventManager()
         {
@@ -44,7 +44,7 @@ namespace CAA_CrossPlatform.UWP
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
-
+            /*
             //get all tracking values
             List<TrackingInfo> ti = await Connection.Get("TrackingInfo");
             if (ti != null)
@@ -87,6 +87,7 @@ namespace CAA_CrossPlatform.UWP
                         trackingPanel.Children.Add(txtTrack);
                         trackingPanel.Children.Add(btnTrack);
                     }
+                    */
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -216,7 +217,7 @@ namespace CAA_CrossPlatform.UWP
                         .ToLower().Trim().Replace(".", "").ToCharArray();
                     firstName[0] = char.ToUpper(firstName[0]);
                     a.firstName = new string(firstName);
-                    a.arriveTime = DateTime.Now;
+                    a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     a.isMember = true;
                     a.EventID = selectedEvent.Id;
 
@@ -263,7 +264,7 @@ namespace CAA_CrossPlatform.UWP
                     else
                         txtMemberLast.Text = null;
 
-                    a.arriveTime = DateTime.Now;
+                    a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     a.phone = txtMemberPhone.Text.Replace("", null);
                     a.EventID = selectedEvent.Id;
 
@@ -322,7 +323,7 @@ namespace CAA_CrossPlatform.UWP
             else
                 txtMemberLast.Text = null;
 
-            a.arriveTime = DateTime.Now;
+            a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             a.phone = txtMemberPhone.Text.Replace("", null);
             a.EventID = selectedEvent.Id;
 

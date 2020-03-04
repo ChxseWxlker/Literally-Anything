@@ -10,7 +10,7 @@ namespace CAA_CrossPlatform.UWP.Models
     {
         //item properties
         public int Id { get; set; }
-        public string itemName { get; set; }
+        public string name { get; set; }
         public string valueType { get; set; }
     }
 }

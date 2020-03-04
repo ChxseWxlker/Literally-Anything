@@ -37,8 +37,7 @@ namespace CAA_CrossPlatform.UWP
                     con.Open();
 
                     //create game table
-                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE, " +
-                    "'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
+                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE);" +
 
                     //create event table
                     "CREATE TABLE 'Event' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
@@ -57,15 +56,11 @@ namespace CAA_CrossPlatform.UWP
                     "CREATE TABLE 'GameQuestion' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'GameID' INTEGER NOT NULL, 'QuestionID' INTEGER NOT NULL, " +
                     "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
 
-                    //create tracking info table
-                    "CREATE TABLE 'TrackingInfo' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'item' TEXT NOT NULL, " +
-                    "'amount' INTEGER NOT NULL DEFAULT 0, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );" +
-
                     //create item table
                     "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'itemName' TEXT NOT NULL, 'valueType' TEXT);" +
 
                     //create eventitem table
-                    "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMEMT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
+                    "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
                     "FOREIGN KEY('EventId') REFERENCES 'Event'('Id'), FOREIGN KEY('ItemId') REFERENCES 'Item'('Id'));" +
 
                     //create attendanceitem table
@@ -74,7 +69,7 @@ namespace CAA_CrossPlatform.UWP
 
                     //create attendance table
                     "CREATE TABLE 'Attendance' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'memberNumber' TEXT, 'arriveTime' TEXT NOT NULL, 'isMember' INTEGER, " +
-                    "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id') );", con);
+                    "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id'));", con);
 
                     //create tables
                     cmd.ExecuteNonQuery();
@@ -95,10 +90,6 @@ namespace CAA_CrossPlatform.UWP
         //returns a specific record or all records
         public static async Task<dynamic> Get(string Table, int? Id = null)
         {
-            //use api if available
-            if (api.CheckConnection())
-                return await api.GET(Table, Id);
-
             //verify the database exists
             Verify();
 
@@ -113,7 +104,10 @@ namespace CAA_CrossPlatform.UWP
 
                 //select single record
                 if (Id != null)
-                    cmd = new SqliteCommand($"SELECT * FROM {Table} WHERE Id = {Id};", con);
+                {
+                    cmd = new SqliteCommand($"SELECT * FROM {Table} WHERE Id = @id;", con);
+                    cmd.Parameters.AddWithValue("@id", Id);
+                }
 
                 //query record(s)
                 SqliteDataReader query = cmd.ExecuteReader();
@@ -207,12 +201,12 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.itemName = query[1].ToString();
+                            i.name = query[1].ToString();
                             i.valueType = query[2].ToString();
                             records.Add(i);
                         }
 
-                        //EventItem record
+                        //Event item record
                         else if (Table == "EventItem")
                         {
                             EventItem ei = new EventItem();
@@ -222,14 +216,14 @@ namespace CAA_CrossPlatform.UWP
                             records.Add(ei);
                         }
 
-                        //AttendanceItem record
+                        //Attendance item record
                         else if (Table == "AttendanceItem")
                         {
                             AttendanceItem ai = new AttendanceItem();
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.Answer = Convert.ToInt32(query[3]);
+                            ai.answer = Convert.ToInt32(query[3]);
                             records.Add(ai);
                         }
 
@@ -320,7 +314,7 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.itemName = query[1].ToString();
+                            i.name = query[1].ToString();
                             i.valueType = query[2].ToString();
                             return i;
                         }
@@ -342,7 +336,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.Answer = Convert.ToInt32(query[3]);
+                            ai.answer = Convert.ToInt32(query[3]);
                             return ai;
                         }
 
@@ -380,17 +374,13 @@ namespace CAA_CrossPlatform.UWP
         //insert a new record
         public static async Task<int> Insert(dynamic record)
         {
-            //use api if available
-            if (api.CheckConnection())
-                return await api.POST(record);
-
             //verify the database exists
             Verify();
 
             //setup table, fields, values, and new id
             string table = "";
             string fields = "";
-            string values = "";
+            List<SqliteParameter> parameters = new List<SqliteParameter>();
             int Id = -1;
 
             //event record
@@ -398,8 +388,14 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Event";
                 fields = "hidden, name, displayName, nameAbbrev, startDate, endDate, memberOnly, GameID";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', '{record.displayName}', '{record.nameAbbrev}', '{record.startDate}', '{record.endDate}', " +
-                    $"{Convert.ToInt32(record.memberOnly)}, {record.GameID}";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@displayName", record.displayName));
+                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev));
+                parameters.Add(new SqliteParameter("@startDate", record.startDate));
+                parameters.Add(new SqliteParameter("@endDate", record.endDate));
+                parameters.Add(new SqliteParameter("@memberOnly", Convert.ToInt32(record.memberOnly)));
+                parameters.Add(new SqliteParameter("@GameID", record.GameID));
             }
 
             //game record
@@ -407,7 +403,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Game";
                 fields = "hidden, name";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}'";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
             }
 
             //question record
@@ -415,7 +412,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Question";
                 fields = "hidden, name";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}'";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
             }
 
             //answer record
@@ -423,7 +421,10 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Answer";
                 fields = "hidden, name, correct, QuestionID";
-                values = $"{Convert.ToInt32(record.hidden)}, '{record.name}', {Convert.ToInt32(record.correct)}, {record.QuestionID}";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@correct", Convert.ToInt32(record.correct)));
+                parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
 
             //game question record
@@ -431,7 +432,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "GameQuestion";
                 fields = "GameID, QuestionID";
-                values = $"{record.GameID}, {record.QuestionID}";
+                parameters.Add(new SqliteParameter("@GameID", record.GameID));
+                parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
 
             //item record
@@ -439,7 +441,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Item";
                 fields = "itemName, valueType";
-                values = $"'{record.itemName}', '{record.valueType}'";
+                parameters.Add(new SqliteParameter("@itemName", record.itemName));
+                parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
             //EventItem record
@@ -447,7 +450,8 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "EventItem";
                 fields = "EventId, ItemId";
-                values = $"{Convert.ToInt32(record.EventId)}, {Convert.ToInt32(record.ItemId)}";
+                parameters.Add(new SqliteParameter("@EventId", record.EventId));
+                parameters.Add(new SqliteParameter("@ItemId", record.ItemId));
             }
 
             //AttendanceItem record
@@ -455,7 +459,9 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "AttendanceItem";
                 fields = "AttendanceId, EventItemId, answer";
-                values = $"{Convert.ToInt32(record.AttendanceId)}, {Convert.ToInt32(record.EventItemId)}, '{record.Answer}'";
+                parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
+                parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
+                parameters.Add(new SqliteParameter("@Answer", record.Answer));
             }
 
             //attendance record
@@ -463,7 +469,13 @@ namespace CAA_CrossPlatform.UWP
             {
                 table = "Attendance";
                 fields = "memberNumber, arriveTime, isMember, phone, firstName, lastName, EventID";
-                values = $"'{record.memberNumber}', '{record.arriveTime}', {Convert.ToInt32(record.isMember)}, '{record.phone}', '{record.firstName}', '{record.lastName}', {record.EventID}";
+                parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber));
+                parameters.Add(new SqliteParameter("@arriveTime", record.arriveTime));
+                parameters.Add(new SqliteParameter("@isMember", Convert.ToInt32(record.isMember)));
+                parameters.Add(new SqliteParameter("@phone", record.phone));
+                parameters.Add(new SqliteParameter("@firstName", record.firstName));
+                parameters.Add(new SqliteParameter("@lastName", record.lastName));
+                parameters.Add(new SqliteParameter("@EventID", record.EventID));
             }
 
             //table doesn't exist
@@ -477,7 +489,11 @@ namespace CAA_CrossPlatform.UWP
                 con.Open();
 
                 //setup insert command
-                SqliteCommand cmd = new SqliteCommand($"INSERT INTO {table} ({fields}) VALUES ({values}); SELECT last_insert_rowid();", con);
+                SqliteCommand cmd = new SqliteCommand($"INSERT INTO {table} ({fields}) VALUES ({fields.Insert(0, "@").Replace(", ", ", @")}); SELECT last_insert_rowid();", con);
+
+                //add parameters
+                foreach (SqliteParameter parameter in parameters)
+                    cmd.Parameters.AddWithValue(parameter.ParameterName, parameter.Value);
 
                 //insert record and return id
                 Id = Convert.ToInt32(cmd.ExecuteScalar());
@@ -504,83 +520,109 @@ namespace CAA_CrossPlatform.UWP
         //edit a record
         public static async void Update(dynamic record)
         {
-            //use api if available
-            if (api.CheckConnection())
-            {
-                await api.PUT(record);
-                return;
-            }
-
             //verify the database exists
             Verify();
 
             //setup table and conditions
             string table = "";
             string conditions = "";
+            List<SqliteParameter> parameters = new List<SqliteParameter>();
 
             //event record
             if (record.GetType() == typeof(Event))
             {
                 table = "Event";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}', displayName = '{record.displayName}', nameAbbrev = '{record.nameAbbrev}', " +
-                    $"startDate = '{record.startDate}', endDate = '{record.endDate}', memberOnly = {Convert.ToInt32(record.memberOnly)}, GameID = {record.GameID}";
+                conditions = "hidden = @hidden, name = @name, displayName = @displayName, nameAbbrev = @nameAbbrev, " +
+                    $"startDate = @startDate, endDate = @endDate, memberOnly = @memberOnly, GameID = @GameID";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@displayName", record.displayName));
+                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev));
+                parameters.Add(new SqliteParameter("@startDate", record.startDate));
+                parameters.Add(new SqliteParameter("@endDate", record.endDate));
+                parameters.Add(new SqliteParameter("@memberOnly", Convert.ToInt32(record.memberOnly)));
+                parameters.Add(new SqliteParameter("@GameID", record.GameID));
             }
 
             //game record
             else if (record.GetType() == typeof(Game))
             {
                 table = "Game";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}'";
+                conditions = $"hidden = @hidden, name = @name";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
             }
 
             //question record
             else if (record.GetType() == typeof(Question))
             {
                 table = "Question";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}'";
+                conditions = $"hidden = @hidden, name = @name";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
             }
 
             //answer record
             else if (record.GetType() == typeof(Answer))
             {
                 table = "Answer";
-                conditions = $"hidden = {Convert.ToInt32(record.hidden)}, name = '{record.name}', correct = {Convert.ToInt32(record.correct)}, QuestionID = {record.QuestionID}";
+                conditions = $"hidden = @hidden, name = @name, correct = @correct, QuestionID = @QuestionID";
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@correct", Convert.ToInt32(record.correct)));
+                parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
 
             //event game record
             else if (record.GetType() == typeof(GameQuestion))
             {
                 table = "GameQuestion";
-                conditions = $"GameID = {record.GameID}, QuestionID = {record.QuestionID}";
+                conditions = $"GameID = @GameID, QuestionID = @QuestionID";
+                parameters.Add(new SqliteParameter("@GameID", record.GameID));
+                parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
 
             //item record
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                conditions = $"itemName = '{record.itemName}', valueType = '{record.valueType}'";
+                conditions = $"itemName = @itemName, valueType = @valueType";
+                parameters.Add(new SqliteParameter("@itemName", record.itemName));
+                parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
             //EventItem record
             else if (record.GetType() == typeof(EventItem))
             {
                 table = "EventItem";
-                conditions = $"EventId = {Convert.ToInt32(record.EventId)}, ItemId = {Convert.ToInt32(record.ItemId)}";
+                conditions = $"EventId = @EventId, ItemId = @ItemId";
+                parameters.Add(new SqliteParameter("@EventId", record.EventId));
+                parameters.Add(new SqliteParameter("@ItemId", record.ItemId));
             }
 
             //AttendanceItem record
             else if (record.GetType() == typeof(AttendanceItem))
             {
                 table = "AttendanceItem";
-                conditions = $"AttendanceId = {Convert.ToInt32(record.AttendanceId)}, EventItemId = {Convert.ToInt32(record.EventItemId)}, Answer = '{record.Answer}'";
+                conditions = $"AttendanceId = @AttendanceId, EventItemId = @EventItemId, Answer = @Answer";
+                parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
+                parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
+                parameters.Add(new SqliteParameter("@Answer", record.Answer));
             }
 
             //attendance record
             else if (record.GetType() == typeof(Attendance))
             {
                 table = "Attendance";
-                conditions = $"memberNumber = '{record.memberNumber}', arriveTime = '{record.arriveTime}', isMember = {Convert.ToInt32(record.isMember)}, phone = '{record.phone}', firstName = '{record.firstName}', " +
-                    $"lastName = '{record.lastName}', EventID = {record.EventID}";
+                conditions = $"memberNumber = @memberNumber, arriveTime = @arriveTime, isMember = @isMember, phone = @phone, firstName = @firstName, " +
+                    $"lastName = @lastName, EventID = @EventID";
+                parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber));
+                parameters.Add(new SqliteParameter("@arriveTime", record.arriveTime));
+                parameters.Add(new SqliteParameter("@isMember", Convert.ToInt32(record.isMember)));
+                parameters.Add(new SqliteParameter("@phone", record.phone));
+                parameters.Add(new SqliteParameter("@firstName", record.firstName));
+                parameters.Add(new SqliteParameter("@lastName", record.lastName));
+                parameters.Add(new SqliteParameter("@EventID", record.EventID));
             }
 
             //table doesn't exist
@@ -595,6 +637,10 @@ namespace CAA_CrossPlatform.UWP
 
                 //setup update command
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET {conditions} WHERE Id = {record.Id};", con);
+
+                //add parameters
+                foreach (SqliteParameter parameter in parameters)
+                    cmd.Parameters.AddWithValue(parameter.ParameterName, parameter.Value);
 
                 //edit record
                 cmd.ExecuteNonQuery();
@@ -636,15 +682,6 @@ namespace CAA_CrossPlatform.UWP
         //edit a record
         public static async void Delete(dynamic record)
         {
-            //use api if available
-            if (api.CheckConnection())
-            {
-                var res = await api.DELETE(record);
-                if (res != "Deleted")
-                    await new MessageDialog(res).ShowAsync();
-                return;
-            }
-
             //verify the database exists
             Verify();
 
@@ -698,11 +735,15 @@ namespace CAA_CrossPlatform.UWP
                 con.Open();
 
                 //setup update command
-                SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = 1 WHERE Id = {record.Id};", con);
+                SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = @hidden WHERE Id = @id;", con);
 
                 //delete many to many relationship
                 if (table == "GameQuestion")
-                    cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = {record.Id};", con);
+                    cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = @id;", con);
+
+                //add parameters
+                cmd.Parameters.AddWithValue("@hidden", 1);
+                cmd.Parameters.AddWithValue("@id", record.Id);
 
                 //edit record
                 cmd.ExecuteNonQuery();

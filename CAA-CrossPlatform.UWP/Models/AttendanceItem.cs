@@ -12,6 +12,6 @@ namespace CAA_CrossPlatform.UWP.Models
         public int Id { get; set; }
         public int AttendanceId { get; set; }
         public int EventItemId { get; set; }
-        public int Answer { get; set; }
+        public int answer { get; set; }
     }
 }
