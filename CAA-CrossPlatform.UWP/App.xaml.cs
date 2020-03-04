@@ -53,9 +53,9 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //verify json files exist
-            Json.Verify("event.json");
-            Json.Verify("game.json");
-            Json.Verify("question.json");
+            //Json.Verify("event.json");
+            //Json.Verify("game.json");
+            //Json.Verify("question.json");
 
             Window.Current.Activate();
         }

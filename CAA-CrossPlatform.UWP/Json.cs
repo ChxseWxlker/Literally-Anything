@@ -51,7 +51,7 @@ namespace CAA_CrossPlatform.UWP
         public static dynamic Read(string fileName)
         {
             //verify json file exists
-            Verify(fileName);
+            //Verify(fileName);
 
             //get file path
             string path = ApplicationData.Current.LocalFolder.Path + @"\" + fileName;
