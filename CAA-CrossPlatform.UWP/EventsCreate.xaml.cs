@@ -64,23 +64,33 @@ namespace CAA_CrossPlatform.UWP
             List<Event> events = Json.Read("event.json");
 
             //validation
+            if (EventTxt.Text == "")
+            {
+                EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                EventTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
+                await new MessageDialog("Please enter an event name").ShowAsync();
+                return;
+            }
+
             foreach (Event ev in events)
             {
                 //validate name
                 if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == false)
                 {
-                    await new MessageDialog("That event already exists, please enter different name").ShowAsync();
+                    EventNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    EventTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
+                    await new MessageDialog("That event already exists, please enter a different name").ShowAsync();
                     return;
                 }
                 else if (ev.name.ToLower().Trim() == EventTxt.Text.ToLower().Trim() && ev.hidden == true)
                 {
-                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to reactivate it?");
+                    MessageDialog msg = new MessageDialog("That event is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
                     msg.Commands.Add(new UICommand("No") { Id = 0 });
                     msg.CancelCommandIndex = 0;
                     var choice = await msg.ShowAsync();
 
-                    //reactivate game
+                    //re-activate game
                     if ((int)choice.Id == 1)
                     {
                         ev.hidden = false;
@@ -98,15 +108,27 @@ namespace CAA_CrossPlatform.UWP
             Event gEvent = new Event();
 
             //set object properties
-            gEvent.name = EventTxt.Text;
-            gEvent.location = LocationTxt.Text;
-            gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
-            gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
-            gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
-            gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
-            gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
-            gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
-            gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+            try
+            {
+                gEvent.name = EventTxt.Text;
+                gEvent.location = LocationTxt.Text;
+                gEvent.startDate = Convert.ToDateTime(StartDateDtp.SelectedDate.ToString());
+                gEvent.endDate = Convert.ToDateTime(EndDateDtp.SelectedDate.ToString());
+                gEvent.game = visibleGames[QuizCmb.SelectedIndex].id;
+                gEvent.memberOnly = MemberOnlyChk.IsChecked ?? false;
+                gEvent.trackGuestNum = trackGuestChk.IsChecked ?? false;
+                gEvent.trackAdultNum = trackAdultChk.IsChecked ?? false;
+                gEvent.trackChildNum = trackChildChk.IsChecked ?? false;
+            }
+            catch
+            {
+                StartDateDtp.Style = (Style)Application.Current.Resources["DateValidationFailedTemplate"];
+                EndDateDtp.Style = (Style)Application.Current.Resources["DateValidationFailedTemplate"];
+                EndDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                StartDateTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                await new MessageDialog("Please select a start and end date").ShowAsync();
+                return;
+            }
 
             //save json to file
             Json.Write(gEvent, "event.json");
@@ -118,6 +140,11 @@ namespace CAA_CrossPlatform.UWP
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Events));
-        }       
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventExcel));
+        }
     }
 }

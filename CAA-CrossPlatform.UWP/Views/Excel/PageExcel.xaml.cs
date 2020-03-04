@@ -14,20 +14,22 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
+using Microsoft.Data.Sqlite;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class EventExcel
+    public sealed partial class PageExcel
     {
         List<Event> visibleEvents = new List<Event>();
 
-        public EventExcel()
+        public PageExcel()
         {
             this.InitializeComponent();
-            this.Loaded += EventExcel_Loaded;
+            this.Loaded += PageExcel_Loaded;
         }
 
-        private void EventExcel_Loaded(object sender, RoutedEventArgs e)
+        private void PageExcel_Loaded(object sender, RoutedEventArgs e)
         {
             //get all events
             List<Event> events = Json.Read("event.json");
@@ -43,51 +45,46 @@ namespace CAA_CrossPlatform.UWP
 
         private void Events_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Events));
+            Frame.Navigate(typeof(PageEvent));
         }
 
         private void Quizes_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Games));
+            Frame.Navigate(typeof(PageGame));
         }
 
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Questions));
+            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            List<Event> events = await Excel.Load();
-            string eventsStr = "";
-            foreach (Event ev in events)
+            string abbreviation = "";
+            string input = "Meet Me There: Doc Magilligan’s Irish Pub";
+            DateTime date = new DateTime(2020, 02, 04);
+            string[] strSplit = input.Split();
+            foreach (string word in strSplit)
             {
-                eventsStr += $"{ev.id} {ev.name} {ev.location} {ev.startDate} {ev.endDate} {ev.game}\n";
+                char[] letters = word.ToCharArray();
+                abbreviation += char.ToUpper(letters[0]);
             }
-
-            await new MessageDialog(eventsStr).ShowAsync();
+            abbreviation += $"{date.Month}{date.Year}";
+            await new MessageDialog(abbreviation).ShowAsync();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            //validation
-            if (lstEvents.SelectedItems.Count == 0)
-            {
-                await new MessageDialog("No events selected, please choose one").ShowAsync();
-                return;
-            }
+            List<Event> ev = await Connection.Get("Event");
+            Answer ev1 = await Connection.Get("Answer", 2);
 
-            //create list of selected events
-            List<Event> selectedEvents = new List<Event>();
+            string hi = "";
+            foreach (Event yo in ev)
+                hi += $"{yo.Id} {yo.name}\n";
 
-            //add to events
-            foreach (string evStr in lstEvents.SelectedItems)
-                foreach (Event ev in visibleEvents)
-                    if (evStr == ev.name)
-                        selectedEvents.Add(ev);
+            await new MessageDialog(hi).ShowAsync();
 
-            //save to excel spreadsheet
-            Excel.Save(selectedEvents);
+            await new MessageDialog(ev1.name).ShowAsync();
         }
 
         private void chkAllEvents_Checked(object sender, RoutedEventArgs e)
@@ -98,6 +95,11 @@ namespace CAA_CrossPlatform.UWP
         private void chkAllEvents_Unchecked(object sender, RoutedEventArgs e)
         {
             lstEvents.SelectedIndex = -1;
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(PageExcel));
         }
     }
 }
