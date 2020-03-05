@@ -7,38 +7,10 @@
 
     <Application.Resources>
         <!--Source: Video: C# - Designing Round Buttons in WPF: https://www.youtube.com/watch?v=Q0CbkFN_JPs&t=167s-->
-        <Style x:Key="RoundButtonTemplate" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"></Setter>
-            <Setter Property="Foreground" Value="#1D60C9"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="20" BorderThickness="2" BorderBrush="#1D60C9">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                            </ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-
-                </Setter.Value>
-            </Setter>
-        </Style>
         
         <Style x:Key="ButtonTemplate" TargetType="Button">
-            <Setter Property="Background"  Value="#DDDDDD"></Setter>
-            <Setter Property="Foreground" Value="#1D60C9"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="6" BorderThickness="1" BorderBrush="#1D60C9" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                            </ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background"  Value="#00529b"/>
+            <Setter Property="Foreground" Value="#fff"/>
         </Style>
         
         <Style x:Key="ValidationFailedTemplate" TargetType="TextBlock">
