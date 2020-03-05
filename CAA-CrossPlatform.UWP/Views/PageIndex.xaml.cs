@@ -30,53 +30,53 @@ namespace CAA_CrossPlatform.UWP
         }
 
         //setup api
-        static ApiHandler api = new ApiHandler();
+        //static ApiHandler api = new ApiHandler();
 
-        private void txtLogin_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-                btnLogin_Click(sender, e);
-        }
+        //private void txtLogin_KeyDown(object sender, KeyRoutedEventArgs e)
+        //{
+        //    if (e.Key == Windows.System.VirtualKey.Enter)
+        //        btnLogin_Click(sender, e);
+        //}
 
-        private async void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            //testFrame.Navigate();
+        //private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //testFrame.Navigate();
 
-            //login
-            string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
+        //    //login
+        //    string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
 
-            //show error message
-            if (!res.Contains("Welcome"))
-            {
-                await new MessageDialog(res).ShowAsync();
-                return;
-            }
+        //    //show error message
+        //    if (!res.Contains("Welcome"))
+        //    {
+        //        await new MessageDialog(res).ShowAsync();
+        //        return;
+        //    }
 
-            //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
+        //    //set active username
+        //    Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
 
-            //redirect to events
-            Frame.Navigate(typeof(PageEvent));
-        }
+        //    //redirect to events
+        //    Frame.Navigate(typeof(PageEvent));
+        //}
 
-        private async void btnRegister_Click(object sender, RoutedEventArgs e)
-        {
-            //register
-            string res = await api.Register(txtUsername.Text, txtPassword.Password);
+        //private async void btnRegister_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //register
+        //    string res = await api.Register(txtUsername.Text, txtPassword.Password);
 
-            //show error message
-            if (!res.Contains("Welcome"))
-            {
-                await new MessageDialog(res).ShowAsync();
-                return;
-            }
+        //    //show error message
+        //    if (!res.Contains("Welcome"))
+        //    {
+        //        await new MessageDialog(res).ShowAsync();
+        //        return;
+        //    }
 
-            //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
+        //    //set active username
+        //    Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
 
-            //redirect to events
-            Frame.Navigate(typeof(PageEvent));
-        }
+        //    //redirect to events
+        //    Frame.Navigate(typeof(PageEvent));
+        //}
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {

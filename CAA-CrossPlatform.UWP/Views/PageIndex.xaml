@@ -12,6 +12,175 @@
     <Page.Resources>
         <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#00529b"/>
         <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationBackItemForeground" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
+    </Page.Resources>
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateEventCreate">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="TBLogin.Margin" Value="0,10,0,0"/>
+                        <Setter Target="TBLogin.FontSize" Value="28"/>
+                        <Setter Target="TBPassword.FontSize" Value="20"/>
+                        <Setter Target="TBUsername.FontSize" Value="20"/>
+                        <Setter Target="txtUsername.FontSize" Value="20"/>
+                        <Setter Target="txtUsername.Width" Value="250"/>
+                        <Setter Target="txtPassword.FontSize" Value="20"/>
+                        <Setter Target="txtPassword.Width" Value="250"/>
+                        <Setter Target="btnLogin.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.Width" Value="100"/>
+                        <Setter Target="btnLogin.Width" Value="100"/>-->
+
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="textBlock.FontSize" Value="20"/>
+                        <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                        <Setter Target="CAAImg.Height" Value="60"/>
+                        <Setter Target="CAAImg.Width" Value="70"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateMiddle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="501"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="TBLogin.Margin" Value="0,25,0,0"/>
+                        <Setter Target="TBLogin.FontSize" Value="30"/>
+                        <Setter Target="TBPassword.FontSize" Value="22"/>
+                        <Setter Target="TBUsername.FontSize" Value="22"/>
+                        <Setter Target="txtUsername.FontSize" Value="20"/>
+                        <Setter Target="txtUsername.Width" Value="350"/>
+                        <Setter Target="txtPassword.FontSize" Value="20"/>
+                        <Setter Target="txtPassword.Width" Value="350"/>
+                        <Setter Target="btnLogin.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.Width" Value="130"/>
+                        <Setter Target="btnLogin.Width" Value="130"/>-->
+
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="70"/>
+                        <Setter Target="textBlock.FontSize" Value="30"/>
+                        <Setter Target="CAAImg.Height" Value="70"/>
+                        <Setter Target="CAAImg.Width" Value="80"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="650"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="TBLogin.Margin" Value="0,35,0,0"/>
+                        <Setter Target="TBLogin.FontSize" Value="32"/>
+                        <Setter Target="TBPassword.FontSize" Value="22"/>
+                        <Setter Target="TBUsername.FontSize" Value="22"/>
+                        <Setter Target="txtUsername.FontSize" Value="20"/>
+                        <Setter Target="txtUsername.Width" Value="400"/>
+                        <Setter Target="txtPassword.FontSize" Value="20"/>
+                        <Setter Target="txtPassword.Width" Value="400"/>
+                        <Setter Target="btnLogin.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.FontSize" Value="20"/>
+                        <Setter Target="btnRegister.Width" Value="130"/>
+                        <Setter Target="btnLogin.Width" Value="130"/>-->
+
+                        <Setter Target="rectangle.Height" Value="40"/>
+                        <Setter Target="relativePanel.Height" Value="100"/>
+                        <Setter Target="textBlock.FontSize" Value="45"/>
+                        <Setter Target="CAAImg.Height" Value="100"/>
+                        <Setter Target="CAAImg.Width" Value="110"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="950"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="56"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle x:Name="backdrop" Fill="#ccc" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+
+                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2">
+
+                    <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                    <TextBlock x:Name="textBlock" Margin="20,0,0,0" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FF1D60C9"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+                </RelativePanel>
+
+                <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="4">
+
+                    <Rectangle x:Name="rectangle" Fill="#00529b" Height="40"></Rectangle>
+
+                </StackPanel>
+
+                <NavigationView Name="NavigationView" PaneDisplayMode="LeftCompact" IsBackButtonVisible="Visible" IsSettingsVisible="False" OpenPaneLength="200" Loaded="NavigationView_Loaded"  Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="4">
+                    <NavigationView.MenuItems>
+                        <NavigationViewItem Name="btnEventPage" Content="Events" Tag="Events">
+                            <NavigationViewItem.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+
+                        <NavigationViewItem Name="btnGamePage" Content="Games" Tag="Games">
+                            <NavigationViewItem.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7FC;"/>
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </NavigationView.MenuItems>
+                </NavigationView>
+
+                <!--<StackPanel  Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="4" HorizontalAlignment="Center">
+
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock x:Name="TBLogin" Text="Login / Register" TextWrapping="Wrap" FontSize="35" Margin="0 50 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock x:Name="TBUsername"  Text="Username" TextWrapping="Wrap" FontSize="25"/>
+                        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" />
+
+                        <TextBlock x:Name="TBPassword" Text="Password" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                        <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="0 5 0 0" Height="40" Width="500" FontSize="22"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <Button x:Name="btnLogin" Height="40" Width="150" Content="Login" Margin="0,0,20,0" Foreground="#fff" Background="#00529b" Click="btnLogin_Click"/>
+
+                        <Button x:Name="btnRegister" Height="40" Width="150" Content="Register" Foreground="#fff" Background="#00529b" Click="btnRegister_Click"/>
+                    </StackPanel>
+                </StackPanel>-->
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</forms:WindowsPage>
+<!--<Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#00529b"/>
+        <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
     </Page.Resources>
@@ -69,4 +238,4 @@
             </StackPanel>
         </Grid>
     </ScrollViewer>
-</forms:WindowsPage>
+</forms:WindowsPage>-->
