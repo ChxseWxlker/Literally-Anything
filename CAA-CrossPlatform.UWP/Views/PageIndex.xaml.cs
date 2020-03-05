@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CAA_CrossPlatform.UWP.Models;
 using Microsoft.Data.Sqlite;
+using Windows.UI.ViewManagement;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -110,9 +111,9 @@ namespace CAA_CrossPlatform.UWP
         //    Frame.Navigate(typeof(PageEvent));
         //}
 
-        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        private void navMenu_Loaded(object sender, RoutedEventArgs e)
         {
-
+            navMenu.IsPaneOpen = false;
         }
     }
 }

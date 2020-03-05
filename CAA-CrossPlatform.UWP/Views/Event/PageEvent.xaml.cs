@@ -78,25 +78,21 @@ namespace CAA_CrossPlatform.UWP
                     }
                 }
 
-            if (upcomingEvents == null)
+            if (upcomingEvents.Count == 0)
             {
                 upcomingEventsLV.Visibility = Visibility.Collapsed;
-                //txtNoUpcomingEvents.Visibility = Visibility.Visible;
+                lblUpcomingEvent.Text = "There are currently upcoming events";
             }
             else
-            {
                 upcomingEventsLV.ItemsSource = upcomingEvents;
-            }
 
-            if (activeEvents == null)
+            if (activeEvents.Count == 0)
             {
                 activeEventsLV.Visibility = Visibility.Collapsed;
-                //txtNoActiveEvents.Visibility = Visibility.Visible;
+                lblActiveEvent.Text = "There are currently active events";
             }
             else
-            {
                 activeEventsLV.ItemsSource = activeEvents;
-            }
         }
 
         //private async void btnLogout_Click(object sender, RoutedEventArgs e)
@@ -317,7 +313,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (pastEvents == null)
+            if (pastEvents.Count == 0)
             {
                 pastEventsLV.Visibility = Visibility.Collapsed;
                 //txtNoPastEvents.Visibility = Visibility.Visible;
@@ -333,6 +329,7 @@ namespace CAA_CrossPlatform.UWP
             if (FilterControls.Visibility == Visibility.Visible)
             {
                 FilterControls.Visibility = Visibility.Collapsed;
+                lblNoResult.Visibility = Visibility.Visible;
             }
             else
             {

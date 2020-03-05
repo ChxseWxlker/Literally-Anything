@@ -90,7 +90,7 @@
                 <Frame Name="TemplateFrame"/>
             </Grid>
 
-            <NavigationView x:Name="navMenu" Grid.Row="1" ItemInvoked="navMenu_Invoked" BackRequested="navMenu_Back" IsSettingsVisible="False" IsPaneOpen="False" IsBackEnabled="True" OpenPaneLength="200" Loaded="NavigationView_Loaded">
+            <NavigationView x:Name="navMenu" Margin="0 -40 0 0" Grid.Row="1" ItemInvoked="navMenu_Invoked" BackRequested="navMenu_Back" IsSettingsVisible="False" IsBackEnabled="True" OpenPaneLength="200" IsPaneOpen="False" Loaded="navMenu_Loaded">
                 <NavigationView.MenuItems>
                     <NavigationViewItem Name="btnEventPage" Content="Events" Tag="Events">
                         <NavigationViewItem.Icon>
