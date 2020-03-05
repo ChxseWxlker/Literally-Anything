@@ -181,50 +181,6 @@ namespace CAA_CrossPlatform.UWP
             };
 
             ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
-
-            //log user out
-            if (logoutRes == ContentDialogResult.Primary)
-            {
-                //reset active username
-                Environment.SetEnvironmentVariable("activeUser", "");
-
-                //update menu
-                txtAccount.Text = "";
-
-                //logout
-                api.Logout();
-
-                //redirect to index
-                Frame.Navigate(typeof(PageIndex));
-            }
-        }
-
-        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
-        {
-            //hide buttons
-            btnShowPane.Content = "\uE00F";
-            btnEventMenu.Visibility = Visibility.Collapsed;
-            btnGameMenu.Visibility = Visibility.Collapsed;
-            btnQuestionMenu.Visibility = Visibility.Collapsed;
-        }
-
-        private void btnShowPane_Click(object sender, RoutedEventArgs e)
-        {
-            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
-            if (svMenu.IsPaneOpen)
-            {
-                btnShowPane.Content = "\uE00E";
-                btnEventMenu.Visibility = Visibility.Visible;
-                btnGameMenu.Visibility = Visibility.Visible;
-                btnQuestionMenu.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                btnShowPane.Content = "\uE00F";
-                btnEventMenu.Visibility = Visibility.Collapsed;
-                btnGameMenu.Visibility = Visibility.Collapsed;
-                btnQuestionMenu.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void btnMenuItem_Click(object sender, RoutedEventArgs e)
