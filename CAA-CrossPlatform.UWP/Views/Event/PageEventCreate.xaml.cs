@@ -234,34 +234,6 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(PageQuestion));
         }
 
-        private void btnShowPane_Click(object sender, RoutedEventArgs e)
-        {
-            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
-            if (svMenu.IsPaneOpen)
-            {
-                btnShowPane.Content = "\uE00E";
-                btnEventMenu.Visibility = Visibility.Visible;
-                btnGameMenu.Visibility = Visibility.Visible;
-                btnQuestionMenu.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                btnShowPane.Content = "\uE00F";
-                btnEventMenu.Visibility = Visibility.Collapsed;
-                btnGameMenu.Visibility = Visibility.Collapsed;
-                btnQuestionMenu.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void svMenu_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
-        {
-            //hide buttons
-            btnShowPane.Content = "\uE00F";
-            btnEventMenu.Visibility = Visibility.Collapsed;
-            btnGameMenu.Visibility = Visibility.Collapsed;
-            btnQuestionMenu.Visibility = Visibility.Collapsed;
-        }
-
         private async void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             //prompt user
@@ -275,21 +247,21 @@ namespace CAA_CrossPlatform.UWP
 
             ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
 
-            //log user out
-            if (logoutRes == ContentDialogResult.Primary)
-            {
-                //reset active username
-                Environment.SetEnvironmentVariable("activeUser", "");
+            ////log user out
+            //if (logoutRes == ContentDialogResult.Primary)
+            //{
+            //    //reset active username
+            //    Environment.SetEnvironmentVariable("activeUser", "");
 
-                //update menu
-                txtAccount.Text = "";
+            //    //update menu
+            //    txtAccount.Text = "";
 
-                //logout
-                api.Logout();
+            //    //logout
+            //    api.Logout();
 
-                //redirect to index
-                Frame.Navigate(typeof(PageIndex));
-            }
+            //    //redirect to index
+            //    Frame.Navigate(typeof(PageIndex));
+            //}
         }
     }
 }
