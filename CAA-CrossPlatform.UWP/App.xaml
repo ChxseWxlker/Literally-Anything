@@ -22,8 +22,8 @@
 
                 </Setter.Value>
             </Setter>
-
         </Style>
+        
         <Style x:Key="ButtonTemplate" TargetType="Button">
             <Setter Property="Background"  Value="#DDDDDD"></Setter>
             <Setter Property="Foreground" Value="#1D60C9"></Setter>
@@ -40,12 +40,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="ValidationFailedTemplate" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Red"></Setter>
         </Style>
+        
         <Style x:Key="ValidationResetTemplate" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
 
+        <Style x:Key="styleResourceKey" TargetType="NavigationView">
+            <Setter Property="Background" Value="#00529b" />
+        </Style>
+        
     </Application.Resources>
 </Application>

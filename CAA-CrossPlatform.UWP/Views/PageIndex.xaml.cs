@@ -77,5 +77,10 @@ namespace CAA_CrossPlatform.UWP
             //redirect to events
             Frame.Navigate(typeof(PageEvent));
         }
+
+        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
