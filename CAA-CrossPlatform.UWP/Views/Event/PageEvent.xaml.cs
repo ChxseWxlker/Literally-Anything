@@ -45,15 +45,12 @@ namespace CAA_CrossPlatform.UWP
             //txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
 
             //get all events
-            List<Event> events;
+            List<Event> events = new List<Event>();
             try
             {
                 events = await Connection.Get("Event");
             }
-            catch
-            {
-                events = new List<Event>();
-            }
+            catch { }
 
             //check all events
             foreach (Event ev in events)
