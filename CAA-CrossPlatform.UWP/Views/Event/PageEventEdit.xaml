@@ -127,8 +127,6 @@
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Margin="0,190,0,0"></StackPanel>
-
                 <StackPanel Grid.Row="3" Grid.Column="2">
                     <RelativePanel>
                         <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
