@@ -25,15 +25,40 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
 
-            this.Loaded += PageIndex_Loaded;
-
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
+
+            TemplateFrame.Navigate(typeof(PageEvent));
         }
 
-        private void PageIndex_Loaded(object sender, RoutedEventArgs e)
+        private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            TemplateFrame.Navigate(typeof(PageEvent));
+            string invoked = args.InvokedItem.ToString();
+
+            //check if good call
+            if (invoked != null)
+            {
+                //navigate to event page
+                if (invoked == "Events")
+                {
+                    if (TemplateFrame.SourcePageType != typeof(PageEvent))
+                        TemplateFrame.Navigate(typeof(PageEvent));
+                }
+
+                //navigate to game page
+                else if (invoked == "Games")
+                {
+                    if (TemplateFrame.SourcePageType != typeof(PageGame))
+                        TemplateFrame.Navigate(typeof(PageGame));
+                }
+            }
+        }
+
+        private void navMenu_Back(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            //previous page
+            if (TemplateFrame.CanGoBack)
+                TemplateFrame.GoBack();
         }
 
         //setup api

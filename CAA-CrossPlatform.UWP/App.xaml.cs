@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.System.Threading;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -25,12 +30,30 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            //create timer
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Tick += Timer_Tick;
+            //timer.Start();
+        }
+
+        //api purge timer
+        private async void Timer_Tick(object sender, object e)
+        {
+            try
+            {
+                Game g = new Game();
+                g.name = $"timerTest{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                g.Id = await Connection.Insert(g);
+            }
+            catch { }
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-
+            
             if (rootFrame == null)
             {
                 rootFrame = new Frame();
