@@ -25,8 +25,8 @@ namespace CAA_CrossPlatform.UWP
         //setup selected event
         Event selectedEvent;
 
-        //setup list of trackable items
-        //List<TrackingInfo> trackingInfo = new List<TrackingInfo>();
+        //list of event items
+        List<EventItem> eventItems;
 
         public PageEventManager()
         {
@@ -46,7 +46,7 @@ namespace CAA_CrossPlatform.UWP
             lblEventName.Text = selectedEvent.displayName;
             
             //get all tracking values
-            List<EventItem> eventItems = await Connection.Get("EventItem");
+            eventItems = await Connection.Get("EventItem");
             if (eventItems != null)
                 foreach (EventItem eventItem in eventItems)
                     if (eventItem.EventId == selectedEvent.Id)
@@ -125,6 +125,9 @@ namespace CAA_CrossPlatform.UWP
             else if (btn.Contains("Minus"))
                 if (Convert.ToInt32(txt.Text) > 0)
                     txt.Text = (Convert.ToInt32(txt.Text) - 1).ToString();
+
+            //focus membership
+            txtMemberNum.Focus(FocusState.Keyboard);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -202,7 +205,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //get menu button
             Button btn = (Button)sender;
-
+            
             //event
             if (btn.Content.ToString().Contains("Event"))
                 Frame.Navigate(typeof(PageEvent));
@@ -272,33 +275,22 @@ namespace CAA_CrossPlatform.UWP
                     }
 
                     a.Id = await Connection.Insert(a);
-
+                    
                     //create items
                     foreach (StackPanel sp in trackingPanel.Children)
                     {
-                        TextBlock lbl = (TextBlock)sp.Children[0];
-                        string name = lbl.Text;
-
                         TextBox txt = (TextBox)sp.Children[2];
                         int value = Convert.ToInt32(txt.Text);
 
                         //create item
-                        Item item = new Item();
-                        item.name = name;
-                        item.valueType = "int";
-                        item.Id = await Connection.Insert(item);
-
-                        //create relationships
-                        EventItem eventItem = new EventItem();
-                        eventItem.EventId = selectedEvent.Id;
-                        eventItem.ItemId = item.Id;
-                        eventItem.Id = await Connection.Insert(eventItem);
-
-                        AttendanceItem attendanceItem = new AttendanceItem();
-                        attendanceItem.AttendanceId = a.Id;
-                        attendanceItem.EventItemId = eventItem.Id;
-                        attendanceItem.value = value;
-                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        if (value > 0)
+                        {
+                            AttendanceItem attendanceItem = new AttendanceItem();
+                            attendanceItem.AttendanceId = a.Id;
+                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
+                            attendanceItem.input = value;
+                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        }
                     }
                 }
 
@@ -345,6 +337,23 @@ namespace CAA_CrossPlatform.UWP
                     }
 
                     a.Id = await Connection.Insert(a);
+
+                    //create items
+                    foreach (StackPanel sp in trackingPanel.Children)
+                    {
+                        TextBox txt = (TextBox)sp.Children[2];
+                        int value = Convert.ToInt32(txt.Text);
+
+                        //create item
+                        if (value > 0)
+                        {
+                            AttendanceItem attendanceItem = new AttendanceItem();
+                            attendanceItem.AttendanceId = a.Id;
+                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
+                            attendanceItem.input = value;
+                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        }
+                    }
                 }
 
                 //re-enable other inputs
@@ -401,30 +410,40 @@ namespace CAA_CrossPlatform.UWP
             if (!Luhn(a.memberNumber))
             {
                 await new MessageDialog("Invalid card number, please try again").ShowAsync();
-                //reset fields
-                txtMemberNum.Text = "";
-                txtMemberFirst.Text = "";
-                txtMemberLast.Text = "";
-                txtMemberPhone.Text = "";
+
                 txtMemberNum.Focus(FocusState.Keyboard);
                 return;
             }
 
             a.Id = await Connection.Insert(a);
 
+            //create items
+            foreach (StackPanel sp in trackingPanel.Children)
+            {
+                TextBox txt = (TextBox)sp.Children[2];
+                int value = Convert.ToInt32(txt.Text);
+
+                //create item
+                if (value > 0)
+                {
+                    AttendanceItem attendanceItem = new AttendanceItem();
+                    attendanceItem.AttendanceId = a.Id;
+                    attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
+                    attendanceItem.input = value;
+                    attendanceItem.Id = await Connection.Insert(attendanceItem);
+                }
+            }
+
             //reset fields
+            foreach (StackPanel sp in trackingPanel.Children)
+            {
+                TextBox txt = (TextBox)sp.Children[2];
+                txt.Text = "0";
+            }
             txtMemberNum.Text = "";
             txtMemberFirst.Text = "";
             txtMemberLast.Text = "";
             txtMemberPhone.Text = "";
-            txtMemberNum.Focus(FocusState.Keyboard);
-
-            //update recent member
-        }
-
-        private void svMenu_PaneClosed(SplitView sender, object args)
-        {
-            //focus membership
             txtMemberNum.Focus(FocusState.Keyboard);
         }
 

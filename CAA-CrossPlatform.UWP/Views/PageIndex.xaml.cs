@@ -40,8 +40,6 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            //testFrame.Navigate();
-
             //login
             string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
 
@@ -53,7 +51,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
+            Environment.SetEnvironmentVariable("activeUser", "");
 
             //redirect to events
             Frame.Navigate(typeof(PageEvent));
@@ -62,7 +60,8 @@ namespace CAA_CrossPlatform.UWP
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             //register
-            string res = await api.Register(txtUsername.Text, txtPassword.Password);
+            //string res = await api.Register(txtUsername.Text, txtPassword.Password);
+            string res = "Welcome";
 
             //show error message
             if (!res.Contains("Welcome"))
@@ -72,7 +71,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //set active username
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
+            Environment.SetEnvironmentVariable("activeUser", "");
 
             //redirect to events
             Frame.Navigate(typeof(PageEvent));
