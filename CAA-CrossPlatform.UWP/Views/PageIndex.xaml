@@ -9,15 +9,39 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#00529b"/>
+        <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
+    </Page.Resources>
+
     <ScrollViewer>
+        
         <Grid Background="#fff">
-            
-            
+
             
             <StackPanel>
                 <Rectangle Fill="#ccc" Height="100" />
-                <Rectangle Fill="#00529b" Height="50" />
+                <Rectangle Fill="#00529b" Height="40" />
             </StackPanel>
+
+            <NavigationView Name="NavigationView" Margin="0 100 0 0" PaneDisplayMode="LeftCompact" IsBackButtonVisible="Visible" IsSettingsVisible="False" OpenPaneLength="200" Loaded="NavigationView_Loaded" >
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Name="btnEventPage" Content="Events" Tag="Events">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Name="btnGamePage" Content="Games" Tag="Games">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7FC;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+            </NavigationView>
+
             <StackPanel>
                 <Image Height="91" Width="145" Source="/Assets/caaLogo.png" RenderTransformOrigin="0.477,0.282" Margin="50 5 0 0" HorizontalAlignment="Left"/>
                 <TextBlock Text="EVENT MANAGER" FontSize="50" Margin="200 -80 0 0" />
