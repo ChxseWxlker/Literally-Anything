@@ -163,94 +163,99 @@
             <StackPanel Grid.Row="0" Margin="0,190,0,0"></StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical">
-                    <StackPanel Name="ActiveEvents" Width="1000" Height="200">
+                <StackPanel Name="ActiveEvents" Width="1000" Height="200">
 
+                    <RelativePanel>
                         <TextBlock Name="ActiveEventsTB" Text="Active Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
-                        <!--<TextBlock x:Name="txtNoActiveEvents" Text="There are currently active events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
-                        <ListView Name="activeEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+
+                        <Button x:Name="btnCreateEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    </RelativePanel>
+
+                    <!--<TextBlock x:Name="txtNoActiveEvents" Text="There are currently active events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                    <ListView Name="activeEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                     ScrollViewer.HorizontalScrollMode="Enabled"                  
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     Margin="0 10 0 0" 
                                     ItemClick="ActiceEvents_ItemClick" 
                                     IsItemClickEnabled="True" 
                                     ItemTemplate="{StaticResource EventListDataTemplate}">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
-                    </StackPanel>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </StackPanel>
 
-                    <StackPanel Name="UpcomingEvents" Width="1000" Height="200">
+                <StackPanel Name="UpcomingEvents" Width="1000" Height="200">
 
-                        <TextBlock Name="UpcomingEventsTB" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
-                        <!--<TextBlock x:Name="txtNoUpcomingEvents" Text="There are currently upcoming events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
-                        <ListView x:Name="upcomingEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    <TextBlock Name="UpcomingEventsTB" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+                    <!--<TextBlock x:Name="txtNoUpcomingEvents" Text="There are currently upcoming events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                    <ListView x:Name="upcomingEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                     ScrollViewer.HorizontalScrollMode="Enabled"                  
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     Margin="0 10 0 0" 
                                     ItemClick="UpcomingEvents_ItemClick" 
                                     IsItemClickEnabled="True" 
                                     ItemTemplate="{StaticResource EventListDataTemplate}">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </StackPanel>
+
+                <StackPanel x:Name="PastEventControls" Width="1000">
+
+                    <TextBlock Name="PastEventsTB" Text="Past Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+
+                    <StackPanel x:Name="SearchControls" Orientation="Horizontal" HorizontalAlignment="Left">
+
+                        <StackPanel x:Name="SearchBar" Orientation="Horizontal">
+
+                            <TextBox x:Name="TxtSearch" PlaceholderText="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+
+                            <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="FilterBar" Orientation="Horizontal">
+
+                            <TextBlock x:Name="TBFilter" Text="Filter" FontSize="32" Margin="20 0 10 0 "/>
+
+                            <ToggleButton x:Name="FilterBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE70D;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="FilterBtn_Click"/>
+
+                        </StackPanel>
+
                     </StackPanel>
 
-                    <StackPanel x:Name="PastEventControls" Width="1000">
+                    <StackPanel x:Name="FilterControls" Background="#DDDDDD" Visibility="Collapsed" Padding="5">
 
-                        <TextBlock Name="PastEventsTB" Text="Past Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+                        <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" FontSize="25"/>
+                        <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25" Width="400"/>
 
-                        <StackPanel x:Name="SearchControls" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock x:Name="DateTB" Text="Date" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25"/>
 
-                            <StackPanel x:Name="SearchBar" Orientation="Horizontal">
+                        <StackPanel x:Name="Dates" Orientation="Horizontal">
 
-                                <TextBox x:Name="TxtSearch" PlaceholderText="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
-
-                                <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
-
+                            <StackPanel x:Name="DatesFrom" Orientation="Horizontal">
+                                <TextBlock x:Name="TBFrom" Text="From" TextWrapping="Wrap" Margin="0,5,10,0" FontSize="22"/>
+                                <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
                             </StackPanel>
 
-                            <StackPanel x:Name="FilterBar" Orientation="Horizontal">
-
-                                <TextBlock x:Name="TBFilter" Text="Filter" FontSize="32" Margin="20 0 10 0 "/>
-
-                                <ToggleButton x:Name="FilterBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE70D;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="FilterBtn_Click"/>
-
+                            <StackPanel x:Name="DatesTill" Orientation="Horizontal">
+                                <TextBlock x:Name="TBTill" Text="Till" TextWrapping="Wrap" Margin="10,5,10,0" FontSize="22"/>
+                                <DatePicker x:Name="EndDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
                             </StackPanel>
 
                         </StackPanel>
 
-                        <StackPanel x:Name="FilterControls" Background="#DDDDDD" Visibility="Collapsed" Padding="5">
+                    </StackPanel>
 
-                            <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" FontSize="25"/>
-                            <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25" Width="400"/>
-
-                            <TextBlock x:Name="DateTB" Text="Date" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25"/>
-
-                            <StackPanel x:Name="Dates" Orientation="Horizontal">
-
-                                <StackPanel x:Name="DatesFrom" Orientation="Horizontal">
-                                    <TextBlock x:Name="TBFrom" Text="From" TextWrapping="Wrap" Margin="0,5,10,0" FontSize="22"/>
-                                    <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
-                                </StackPanel>
-
-                                <StackPanel x:Name="DatesTill" Orientation="Horizontal">
-                                    <TextBlock x:Name="TBTill" Text="Till" TextWrapping="Wrap" Margin="10,5,10,0" FontSize="22"/>
-                                    <DatePicker x:Name="EndDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
-                                </StackPanel>
-
-                            </StackPanel>
-
-                        </StackPanel>
-
-                        <StackPanel Name="PastEvents" Height="160" Margin="0 0 0 50" >
-                            <!--<TextBlock x:Name="txtNoPastEvents" Text="No Past Events fit that criteria" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
-                            <ListView x:Name="pastEventsLV"
+                    <StackPanel Name="PastEvents" Height="160" Margin="0 0 0 50" >
+                        <!--<TextBlock x:Name="txtNoPastEvents" Text="No Past Events fit that criteria" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                        <ListView x:Name="pastEventsLV"
                                         ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                         ScrollViewer.HorizontalScrollMode="Enabled"                  
                                         ScrollViewer.VerticalScrollMode="Disabled"
@@ -259,20 +264,15 @@
                                         ItemClick="PastEvents_ItemClick" 
                                         IsItemClickEnabled="True" 
                                         ItemTemplate="{StaticResource EventListDataTemplate}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Background="#DDDDDD" Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-                        </StackPanel>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="#DDDDDD" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
                     </StackPanel>
                 </StackPanel>
-
-
-                <StackPanel HorizontalAlignment="Center">
-                    <Button x:Name="btnCreateEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Margin="0 0 0 0" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event"/>
-                </StackPanel>
-            </Grid>
+            </StackPanel>
+        </Grid>
         </Grid>
 </Page>

@@ -17,6 +17,52 @@
         <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
     </Page.Resources>
 
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="VisualStateEventCreate">
+            <VisualState x:Name="VisualStatePhone">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="relativePanel.Height" Value="70"/>
+                    <Setter Target="textBlock.FontSize" Value="20"/>
+                    <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                    <Setter Target="CAAImg.Height" Value="60"/>
+                    <Setter Target="CAAImg.Width" Value="70"/>
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="VisualStateMiddle">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="501"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="relativePanel.Height" Value="70"/>
+                    <Setter Target="textBlock.FontSize" Value="30"/>
+                    <Setter Target="CAAImg.Height" Value="70"/>
+                    <Setter Target="CAAImg.Width" Value="80"/>
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="VisualStateTablet">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="650"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="relativePanel.Height" Value="100"/>
+                    <Setter Target="textBlock.FontSize" Value="45"/>
+                    <Setter Target="CAAImg.Height" Value="100"/>
+                    <Setter Target="CAAImg.Width" Value="110"/>
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="VisualStateDesktop">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="950"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
