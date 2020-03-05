@@ -83,13 +83,37 @@
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="140">
                     <Image Name="CAAImg" Height="90" Margin="20 0 0 40" Source="/Assets/caaLogo.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     <TextBlock x:Name="textBlock" Margin="0 0 0 40" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#00529b"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnLoginPopup"  RelativePanel.AlignRightWithPanel="True" Width="150" FontSize="20" Content="Login/Register" Margin="25"  Height="50" Click="btnLoginPopup_Click"></Button>
                 </RelativePanel>
+                
+                
             </Grid>
 
             <Grid Grid.Row="1">
                 <Frame Name="TemplateFrame"/>
+                <RelativePanel>
+                    <Popup x:Name="popupLogin" IsOpen="False" Height="1000" Width="300" RelativePanel.AlignRightWithPanel="True"
+                       IsLightDismissEnabled="True"
+                       LightDismissOverlayMode="On">
+                        <Popup.ChildTransitions>
+                            <TransitionCollection>
+                                <PaneThemeTransition Edge="Right"></PaneThemeTransition>
+                            </TransitionCollection>
+                        </Popup.ChildTransitions>
+                        <StackPanel x:Name="panelPopup" Width="300" Background="#ccc">
+                            <TextBlock Text="Username:" FontSize="25"></TextBlock>
+                            <TextBox x:Name="txtUsername"></TextBox>
+                            <TextBlock Text="Password:" FontSize="25"></TextBlock>
+                            <TextBox x:Name="txtPassword"></TextBox>
+                            <Button Style="{StaticResource ButtonTemplate}" Width="100"  Margin="5, 10, 0, 10" x:Name="btnLogin" Content="Login"></Button>
+                            <Button Style="{StaticResource ButtonTemplate}" Width="100" Margin="5, 0, 0, 10" x:Name="btnRegister" Content="Register"></Button>
+                        </StackPanel>
+                    </Popup>
+                </RelativePanel>
             </Grid>
 
+            
+            
             <NavigationView x:Name="navMenu" Margin="0 -40 0 0" Grid.Row="1" ItemInvoked="navMenu_Invoked" BackRequested="navMenu_Back" IsSettingsVisible="False" IsBackEnabled="True" OpenPaneLength="200" IsPaneOpen="False" Loaded="navMenu_Loaded">
                 <NavigationView.MenuItems>
                     <NavigationViewItem Name="btnEventPage" Content="Events" Tag="Events">

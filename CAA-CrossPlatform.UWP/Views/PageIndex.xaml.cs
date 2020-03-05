@@ -68,10 +68,10 @@ namespace CAA_CrossPlatform.UWP
         //private void txtLogin_KeyDown(object sender, KeyRoutedEventArgs e)
         //{
         //    if (e.Key == Windows.System.VirtualKey.Enter)
-        //        btnLogin_Click(sender, e);
+        //        btnLoginPopup_Click(sender, e);
         //}
 
-        //private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        //private async void btnLoginPopup_Click(object sender, RoutedEventArgs e)
         //{
         //    //testFrame.Navigate();
 
@@ -114,6 +114,13 @@ namespace CAA_CrossPlatform.UWP
         private void navMenu_Loaded(object sender, RoutedEventArgs e)
         {
             navMenu.IsPaneOpen = false;
+        }
+
+        private void btnLoginPopup_Click(object sender, RoutedEventArgs e)
+        {
+            popupLogin.IsOpen = true;
+            popupLogin.Height = Window.Current.Bounds.Height;
+            panelPopup.Height = Window.Current.Bounds.Height;
         }
     }
 }
