@@ -29,10 +29,10 @@ namespace CAA_CrossPlatform.UWP
             this.Loaded += PageExcel_Loaded;
         }
 
-        private void PageExcel_Loaded(object sender, RoutedEventArgs e)
+        private async void PageExcel_Loaded(object sender, RoutedEventArgs e)
         {
             //get all events
-            List<Event> events = Json.Read("event.json");
+            List<Event> events = await Connection.Get("Event");
 
             //create list of visible events
             foreach (Event ev in events)

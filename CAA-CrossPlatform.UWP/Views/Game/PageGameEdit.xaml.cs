@@ -73,7 +73,7 @@ namespace CAA_CrossPlatform.UWP
         private async void EditQuiz_Click(object sender, RoutedEventArgs e)
         {
             //get list of games
-            List<Game> games = Json.Read("game.json");
+            List<Game> games = await Connection.Get("Game");
 
             //validation
             if (txtQuiz.Text == "")
