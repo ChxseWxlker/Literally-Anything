@@ -39,8 +39,8 @@ namespace CAA_CrossPlatform.UWP
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);
             
-            //set username
-            txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
+            ////set username
+            //txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
@@ -150,55 +150,8 @@ namespace CAA_CrossPlatform.UWP
 
             ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
 
-            //log user out
-            if (logoutRes == ContentDialogResult.Primary)
-            {
-                //reset active username
-                Environment.SetEnvironmentVariable("activeUser", "");
-
-                //update menu
-                txtAccount.Text = "";
-
-                //logout
-                api.Logout();
-
-                //redirect to index
-                Frame.Navigate(typeof(PageIndex));
-            }
-
             //focus membership
             txtMemberNum.Focus(FocusState.Keyboard);
-        }
-
-        private void btnShowPane_Click(object sender, RoutedEventArgs e)
-        {
-            svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
-            if (svMenu.IsPaneOpen)
-            {
-                btnShowPane.Content = "\uE00E";
-                btnEventMenu.Visibility = Visibility.Visible;
-                btnGameMenu.Visibility = Visibility.Visible;
-                btnQuestionMenu.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                btnShowPane.Content = "\uE00F";
-                btnEventMenu.Visibility = Visibility.Collapsed;
-                btnGameMenu.Visibility = Visibility.Collapsed;
-                btnQuestionMenu.Visibility = Visibility.Collapsed;
-
-                //focus membership
-                txtMemberNum.Focus(FocusState.Keyboard);
-            }
-        }
-
-        private void svMenu_PaneClosing(SplitView sender, object args)
-        {
-            //hide buttons
-            btnShowPane.Content = "\uE00F";
-            btnEventMenu.Visibility = Visibility.Collapsed;
-            btnGameMenu.Visibility = Visibility.Collapsed;
-            btnQuestionMenu.Visibility = Visibility.Collapsed;
         }
 
         private void btnMenuItem_Click(object sender, RoutedEventArgs e)
