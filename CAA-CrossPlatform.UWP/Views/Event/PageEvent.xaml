@@ -3,69 +3,148 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CAA_CrossPlatform.UWP"
+    xmlns:local2="using:CAA_CrossPlatform.UWP.Templates"
+    xmlns:data="using:CAA_CrossPlatform.UWP.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
+    <Page.Resources>
+        <DataTemplate x:Key="EventListDataTemplate" x:DataType="data:Event">
+            <local2:EventTemplate/>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="VisualStateEventCreate">
-                <VisualState x:Name="VisualStatePhone">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="rectangle.Height" Value="30"/>
-                        <Setter Target="relativePanel.Height" Value="70"/>
-                        <Setter Target="relativePanel.Grid.Column" Value="1"/>
-                        <Setter Target="textBlock.FontSize" Value="20"/>
-                        <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
-                        <Setter Target="CAAImg.Height" Value="60"/>
-                        <Setter Target="CAAImg.Width" Value="70"/>
-                        <Setter Target="btnLogout.Width" Value="70"/>
-                        <Setter Target="btnLogout.FontSize" Value="15"/>
-                        <Setter Target="btnLogout.Height" Value="35"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateMiddle">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="501"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="rectangle.Height" Value="30"/>
-                        <Setter Target="relativePanel.Height" Value="70"/>
-                        <Setter Target="textBlock.FontSize" Value="30"/>
-                        <Setter Target="CAAImg.Height" Value="70"/>
-                        <Setter Target="CAAImg.Width" Value="80"/>
-                        <Setter Target="btnLogout.Width" Value="85"/>
-                        <Setter Target="btnLogout.FontSize" Value="18"/>
-                        <Setter Target="btnLogout.Height" Value="40"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateTablet">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="650"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="rectangle.Height" Value="40"/>
-                        <Setter Target="relativePanel.Height" Value="100"/>
-                        <Setter Target="textBlock.FontSize" Value="45"/>
-                        <Setter Target="CAAImg.Height" Value="100"/>
-                        <Setter Target="CAAImg.Width" Value="110"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="VisualStateDesktop">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="950"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="VisualStateEventCreate">
+                    <VisualState x:Name="VisualStatePhone">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="EventNameTB.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.Width" Value="300"/>
+                            <Setter Target="DateTB.FontSize" Value="20"/>
+                            <Setter Target="TBFrom.FontSize" Value="18"/>
+                            <Setter Target="TBTill.FontSize" Value="18"/>
+                            <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                            <Setter Target="StartDateDtp.Width" Value="300"/>
+                            <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                            <Setter Target="EndDateDtp.Width" Value="300"/>
+                            <Setter Target="Dates.Orientation" Value="Vertical"/>
+                            <Setter Target="DatesTill.Orientation" Value="Vertical"/>
+                            <Setter Target="DatesFrom.Orientation" Value="Vertical"/>
+                            <Setter Target="TBFilter.Margin" Value="0, 0 ,10 0"/>
+                            <Setter Target="TBTill.Margin" Value="0, 0 ,10 0"/>
+                            <Setter Target="FilterBar.Margin" Value="0, 10 ,0 0"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <Setter Target="SearchControls.Orientation" Value="Vertical"/>
+                            <Setter Target="FilterBtn.FontSize" Value="26"/>
+                            <Setter Target="TBFilter.FontSize" Value="26"/>
+                            <Setter Target="SearchBtn.FontSize" Value="26"/>
+                            <Setter Target="TxtSearch.FontSize" Value="20"/>
+                            <Setter Target="TxtSearch.Width" Value="250"/>
+                            <Setter Target="UpcomingEventsTB.FontSize" Value="28"/>
+                            <Setter Target="ActiveEventsTB.FontSize" Value="28"/>
+                            <Setter Target="PastEventsTB.FontSize" Value="28"/>
+                            <Setter Target="UpcomingEvents.Height" Value="150"/>
+                            <Setter Target="ActiveEvents.Height" Value="150"/>
+                            <Setter Target="PastEvents.Height" Value="105"/>
+                            <Setter Target="UpcomingEvents.Width" Value="350"/>
+                            <Setter Target="ActiveEvents.Width" Value="350"/>
+                            <Setter Target="PastEventControls.Width" Value="350"/>
+                    </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateMiddle">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="621"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="EventNameTB.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.Width" Value="300"/>
+                            <Setter Target="DateTB.FontSize" Value="20"/>
+                            <Setter Target="TBFrom.FontSize" Value="18"/>
+                            <Setter Target="TBTill.FontSize" Value="18"/>
+                            <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                            <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                            <Setter Target="Dates.Orientation" Value="Vertical"/>
+                            <Setter Target="TBTill.Margin" Value="0, 0 ,10 0"/>
+                            <Setter Target="DatesTill.Orientation" Value="Vertical"/>
+                            <Setter Target="DatesFrom.Orientation" Value="Vertical"/>
+
+                            <Setter Target="FilterBtn.FontSize" Value="26"/>
+                            <Setter Target="TBFilter.FontSize" Value="26"/>
+                            <Setter Target="SearchBtn.FontSize" Value="26"/>
+                            <Setter Target="TxtSearch.FontSize" Value="20"/>
+                            <Setter Target="TxtSearch.Width" Value="300"/>
+                            <Setter Target="UpcomingEventsTB.FontSize" Value="32"/>
+                            <Setter Target="ActiveEventsTB.FontSize" Value="32"/>
+                            <Setter Target="PastEventsTB.FontSize" Value="32"/>
+                            <Setter Target="UpcomingEvents.Height" Value="160"/>
+                            <Setter Target="ActiveEvents.Height" Value="160"/>
+                            <Setter Target="PastEvents.Height" Value="120"/>
+                            <Setter Target="UpcomingEvents.Width" Value="500"/>
+                            <Setter Target="ActiveEvents.Width" Value="500"/>
+                            <Setter Target="PastEventControls.Width" Value="500"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateTablet">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="740"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="EventNameTB.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.FontSize" Value="20"/>
+                            <Setter Target="EventTxt.Width" Value="300"/>
+                            <Setter Target="DateTB.FontSize" Value="20"/>
+                            <Setter Target="TBFrom.FontSize" Value="18"/>
+                            <Setter Target="TBTill.FontSize" Value="18"/>
+                            <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                            <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                            <Setter Target="Dates.Orientation" Value="Vertical"/>
+                            <Setter Target="TBTill.Margin" Value="0, 0 ,10 0"/>
+                            <Setter Target="DatesTill.Orientation" Value="Vertical"/>
+                            <Setter Target="DatesFrom.Orientation" Value="Vertical"/>
+
+                            <Setter Target="UpcomingEventsTB.FontSize" Value="34"/>
+                            <Setter Target="ActiveEventsTB.FontSize" Value="34"/>
+                            <Setter Target="PastEventsTB.FontSize" Value="34"/>
+                            <Setter Target="UpcomingEvents.Width" Value="650"/>
+                            <Setter Target="ActiveEvents.Width" Value="650"/>
+                            <Setter Target="PastEventControls.Width" Value="650"/>
+                            <Setter Target="UpcomingEvents.Height" Value="175"/>
+                            <Setter Target="ActiveEvents.Height" Value="175"/>
+                            <Setter Target="PastEvents.Height" Value="130"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateLaptop">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="900"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="StartDateDtp.Width" Value="325"/>
+                            <Setter Target="EndDateDtp.Width" Value="325"/>
+                            <Setter Target="StartDateDtp.FontSize" Value="20"/>
+                            <Setter Target="EndDateDtp.FontSize" Value="20"/>
+                            <Setter Target="UpcomingEvents.Width" Value="800"/>
+                            <Setter Target="ActiveEvents.Width" Value="800"/>
+                            <Setter Target="PastEventControls.Width" Value="800"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateDesktop">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="1100"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -81,79 +160,119 @@
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
 
-                <Rectangle x:Name="backdrop" Fill="#DDDDDD" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+            <StackPanel Grid.Row="0" Margin="0,190,0,0"></StackPanel>
 
-                <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="150" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2">
+            <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical">
+                    <StackPanel Name="ActiveEvents" Width="1000" Height="200">
 
-                    <Image Name="CAAImg" Height="130" Width="207" Source="/Assets/caa.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-
-                    <TextBlock x:Name="textBlock" Margin="20,0,0,0" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#FF1D60C9"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-
-                    <StackPanel RelativePanel.LeftOf="btnLogout" RelativePanel.AlignVerticalCenterWithPanel="True">
-                        <TextBlock x:Name="txtAccount" Text="" FontSize="20" Margin="0 0 20 0"/>
+                        <TextBlock Name="ActiveEventsTB" Text="Active Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+                        <!--<TextBlock x:Name="txtNoActiveEvents" Text="There are currently active events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                        <ListView Name="activeEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                    ScrollViewer.HorizontalScrollMode="Enabled"                  
+                                    ScrollViewer.VerticalScrollMode="Disabled"
+                                    Margin="0 10 0 0" 
+                                    ItemClick="ActiceEvents_ItemClick" 
+                                    IsItemClickEnabled="True" 
+                                    ItemTemplate="{StaticResource EventListDataTemplate}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
                     </StackPanel>
 
-                    <Button x:Name="btnLogout" Content="Logout" FontSize="20" HorizontalAlignment="Right" Width="100" Height="50" Background="Gray" Click="btnLogout_Click" Margin="0,0,20,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <StackPanel Name="UpcomingEvents" Width="1000" Height="200">
 
-                </RelativePanel>
+                        <TextBlock Name="UpcomingEventsTB" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+                        <!--<TextBlock x:Name="txtNoUpcomingEvents" Text="There are currently upcoming events" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                        <ListView x:Name="upcomingEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                    ScrollViewer.HorizontalScrollMode="Enabled"                  
+                                    ScrollViewer.VerticalScrollMode="Disabled"
+                                    Margin="0 10 0 0" 
+                                    ItemClick="UpcomingEvents_ItemClick" 
+                                    IsItemClickEnabled="True" 
+                                    ItemTemplate="{StaticResource EventListDataTemplate}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="#DDDDDD" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </StackPanel>
 
-                <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="4">
-                    <Rectangle Fill="#00529b" Height="50" />
-                </StackPanel>
+                    <StackPanel x:Name="PastEventControls" Width="1000">
 
-                <SplitView x:Name="svMenu" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="56" OpenPaneLength="200" PaneClosing="svMenu_PaneClosing" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Grid.RowSpan="4">
-                    <SplitView.Pane>
-                        <StackPanel Background="Gray">
-                            <Button x:Name="btnShowPane" FontFamily="Segoe MDL2 Assets" Content="&#xE00F;" Width="56" Height="50" Background="Transparent" Click="btnShowPane_Click" />
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btnEventMenu" Content="Events" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                        <TextBlock Name="PastEventsTB" Text="Past Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
+
+                        <StackPanel x:Name="SearchControls" Orientation="Horizontal" HorizontalAlignment="Left">
+
+                            <StackPanel x:Name="SearchBar" Orientation="Horizontal">
+
+                                <TextBox x:Name="TxtSearch" PlaceholderText="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
+
+                                <Button x:Name="SearchBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
+
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btnGameMenu" Content="Games" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
+                            <StackPanel x:Name="FilterBar" Orientation="Horizontal">
+
+                                <TextBlock x:Name="TBFilter" Text="Filter" FontSize="32" Margin="20 0 10 0 "/>
+
+                                <ToggleButton x:Name="FilterBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE70D;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="FilterBtn_Click"/>
+
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btnQuestionMenu" Content="Questions" Visibility="Collapsed" FontSize="20" HorizontalContentAlignment="Left" Width="200" Height="50" Background="Transparent" Click="btnMenuItem_Click" />
-                            </StackPanel>
                         </StackPanel>
-                    </SplitView.Pane>
-                </SplitView>
 
-                <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical">
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Active Events" Margin="50 0 0 0" TextWrapping="Wrap" FontSize="35"/>
-                        <ListBox x:Name="lbActiveEvent" Width="700" Height="160" Background="#ccc" SelectionChanged="lbActiveEvent_SelectionChanged"/>
-                        <Button x:Name="btnManageActiveEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE912;" Margin="740 -280 0 0" Height="40" Width="40" Click="btnActiveEvent_Click" Background="Gray" ToolTipService.ToolTip="Manage an active event"/>
-                        <Button x:Name="btnViewActiveEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE946;" Margin="740 -200 0 0" Height="40" Width="40" Click="btnActiveEvent_Click" Background="Gray" ToolTipService.ToolTip="View an active event"/>
-                        <Button x:Name="btnEditActiveEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE70F;" Margin="740 -120 0 0" Height="40" Width="40" Click="btnActiveEvent_Click" Background="Gray" ToolTipService.ToolTip="Edit an active event"/>
-                        <Button x:Name="btnDeleteActiveEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" Margin="740 -40 0 0" Height="40" Width="40" Click="btnActiveEvent_Click" Background="Gray" ToolTipService.ToolTip="Delete an active event"/>
-                    </StackPanel>
+                        <StackPanel x:Name="FilterControls" Background="#DDDDDD" Visibility="Collapsed" Padding="5">
 
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Upcoming Events" Margin="50 0 0 0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="35"/>
-                        <ListBox x:Name="lbUpcomingEvent" Width="700" Height="160" Background="#ccc" SelectionChanged="lbUpcomingEvent_SelectionChanged"/>
-                        <Button x:Name="btnManageUpcomingEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE912;" Margin="740 -280 0 0" Height="40" Width="40" Click="btnUpcomingEvent_Click" Background="Gray" ToolTipService.ToolTip="Manage an upcoming event"/>
-                        <Button x:Name="btnViewUpcomingEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE946;" Margin="740 -200 0 0" Height="40" Width="40" Click="btnUpcomingEvent_Click" Background="Gray" ToolTipService.ToolTip="View an upcoming event"/>
-                        <Button x:Name="btnEditUpcomingEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE70F;" Margin="740 -120 0 0" Height="40" Width="40" Click="btnUpcomingEvent_Click" Background="Gray" ToolTipService.ToolTip="Edit an upcoming event"/>
-                        <Button x:Name="btnDeleteUpcomingEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" Margin="740 -40 0 0" Height="40" Width="40" Click="btnUpcomingEvent_Click" Background="Gray" ToolTipService.ToolTip="Delete an upcoming event"/>
-                    </StackPanel>
+                            <TextBlock x:Name="EventNameTB" Text="Event Name" TextWrapping="Wrap" FontSize="25"/>
+                            <TextBox x:Name="EventTxt" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25" Width="400"/>
 
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Past Events" Margin="50 0 0 0" TextWrapping="Wrap" FontSize="35"/>
-                        <ListBox x:Name="lbPastEvent" Width="700" Height="160" Background="#ccc" Margin="0 5 0 0" SelectionChanged="lbPastEvent_SelectionChanged"/>
-                        <Button x:Name="btnViewPastEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE946;" Margin="740 -280 0 0" Height="40" Width="40" Click="btnPastEvent_Click" Background="Gray" ToolTipService.ToolTip="View a past event"/>
-                        <Button x:Name="btnEditPastEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE70F;" Margin="740 -200 0 0" Height="40" Width="40" Click="btnPastEvent_Click" Background="Gray" ToolTipService.ToolTip="Edit a past event"/>
-                        <Button x:Name="btnDeletePastEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" Margin="740 -120 0 0" Height="40" Width="40" Click="btnPastEvent_Click" Background="Gray" ToolTipService.ToolTip="Delete a past event"/>
-                        <Rectangle Margin="740 -40 0 0" Height="40" Width="40" Fill="Gray"/>
-                    </StackPanel>
+                            <TextBlock x:Name="DateTB" Text="Date" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="25"/>
 
-                    <StackPanel HorizontalAlignment="Center">
-                        <Button x:Name="btnCreateEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Margin="0 850 0 0" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event"/>
+                            <StackPanel x:Name="Dates" Orientation="Horizontal">
+
+                                <StackPanel x:Name="DatesFrom" Orientation="Horizontal">
+                                    <TextBlock x:Name="TBFrom" Text="From" TextWrapping="Wrap" Margin="0,5,10,0" FontSize="22"/>
+                                    <DatePicker x:Name="StartDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
+                                </StackPanel>
+
+                                <StackPanel x:Name="DatesTill" Orientation="Horizontal">
+                                    <TextBlock x:Name="TBTill" Text="Till" TextWrapping="Wrap" Margin="10,5,10,0" FontSize="22"/>
+                                    <DatePicker x:Name="EndDateDtp" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <StackPanel Name="PastEvents" Height="160" Margin="0 0 0 50" >
+                            <!--<TextBlock x:Name="txtNoPastEvents" Text="No Past Events fit that criteria" Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>-->
+                            <ListView x:Name="pastEventsLV"
+                                        ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                        ScrollViewer.HorizontalScrollMode="Enabled"                  
+                                        ScrollViewer.VerticalScrollMode="Disabled"
+                                        Visibility="Collapsed"
+                                        Margin="0 10 0 0" 
+                                        ItemClick="PastEvents_ItemClick" 
+                                        IsItemClickEnabled="True" 
+                                        ItemTemplate="{StaticResource EventListDataTemplate}">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Background="#DDDDDD" Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
 
+
+                <StackPanel HorizontalAlignment="Center">
+                    <Button x:Name="btnCreateEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Margin="0 0 0 0" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event"/>
+                </StackPanel>
             </Grid>
-        </ScrollViewer>
-    </Grid>
+        </Grid>
 </Page>

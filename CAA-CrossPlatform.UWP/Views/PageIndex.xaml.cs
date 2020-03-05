@@ -25,8 +25,15 @@ namespace CAA_CrossPlatform.UWP
         {
             this.InitializeComponent();
 
+            this.Loaded += PageIndex_Loaded;
+
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
+        }
+
+        private void PageIndex_Loaded(object sender, RoutedEventArgs e)
+        {
+            TemplateFrame.Navigate(typeof(PageEvent));
         }
 
         //setup api
