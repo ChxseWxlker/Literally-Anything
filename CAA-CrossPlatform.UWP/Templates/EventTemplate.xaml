@@ -79,12 +79,12 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel x:Name="EventsPanel" Margin="5, 10" Padding="5" Height="150" Width="200" Background="#FF1D60C9">
+        <StackPanel x:Name="EventsPanel" Margin="5, 10" Padding="5" Height="150" Width="200" Background="#00529b">
             <TextBlock x:Name="lblEventName" Text="{x:Bind nameSubstring(Events.displayName)}" HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="Wrap" />
             <Rectangle x:Name="bar" Fill="#fff" Width="200" Height="1" Opacity="0.5"/>
-            <TextBlock x:Name="lblStartDate" Text="{x:Bind dateStartLong(Events.startDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblStartDate" Text="{x:Bind dateLong(Events.startDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
             <TextBlock x:Name="lblArrow" FontFamily="Segoe MDL2 Assets" Text="&#xF0AE;" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
-            <TextBlock x:Name="lblEndDate" Text="{x:Bind dateEndLong(Events.endDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblEndDate" Text="{x:Bind dateLong(Events.endDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

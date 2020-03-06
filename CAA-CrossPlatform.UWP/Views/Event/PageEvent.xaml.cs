@@ -105,48 +105,17 @@ namespace CAA_CrossPlatform.UWP
         {
             ListView lvSender = (ListView)sender;
 
-            var hi = activeEventsLV.Items;
-            var hi2 = activeEvents;
-            var hi3 = (Event)activeEventsLV.SelectedItem;
-            List<Event> eventssss = new List<Event>();
-            foreach (Event ev in lvSender.Items)
-            {
-                eventssss.Add(ev);
-            }
-            dynamic evvv = lvSender.SelectedItem;
-            Event fskdkkfk = evvv;
-            if (lvSender.Name.Contains("active"))
-            {
-                upcomingEventsLV.SelectedIndex = -1;
-                pastEventsLV.SelectedIndex = -1;
-                selectedEvent = (Event)lvSender.SelectedItem;
-            }
+            selectedEvent = (Event)e.ClickedItem;
 
-            else if (lvSender.Name.Contains("upcoming"))
-            {
-                activeEventsLV.SelectedIndex = -1;
-                pastEventsLV.SelectedIndex = -1;
-                selectedEvent = upcomingEvents[lvSender.SelectedIndex];
-            }
+            activeEventsLV.SelectedIndex = -1;
+            upcomingEventsLV.SelectedIndex = -1;
+            pastEventsLV.SelectedIndex = -1;
 
-            else if (lvSender.Name.Contains("past"))
-            {
-                activeEventsLV.SelectedIndex = -1;
-                upcomingEventsLV.SelectedIndex = -1;
-                selectedEvent = pastEvents[lvSender.SelectedIndex];
-            }
-
-            else
-            {
-                await new MessageDialog("An error occured loading that event.").ShowAsync();
-                return;
-            }
-
-            lblPopupEventName.Text = selectedEvent.displayName;
-            lblPopupStartDate.Text = selectedEvent.startDate.ToShortDateString();
-            lblPopupEndDate.Text = selectedEvent.endDate.ToShortDateString();
+            lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
+            lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
+            lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
             Game game = await Connection.Get("Game", selectedEvent.GameID);
-            lblPopupGame.Text = game.name;
+            lblPopupGame.Text = $"Game: {game.name}";
 
             popupEventClick.IsOpen = true;
             popupEventClick.Visibility = Visibility.Visible;
