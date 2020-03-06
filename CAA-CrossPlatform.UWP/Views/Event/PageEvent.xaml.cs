@@ -295,17 +295,20 @@ namespace CAA_CrossPlatform.UWP
 
         private void ActiceEvents_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            popupEventClick.IsOpen = true;
+            popupEventClick.Visibility = Visibility.Visible;
+            
         }
 
         private void UpcomingEvents_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            popupEventClick.IsOpen = true;
+            popupEventClick.Visibility = Visibility.Visible;
         }
 
         private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -336,7 +339,8 @@ namespace CAA_CrossPlatform.UWP
 
         private void PastEvents_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            popupEventClick.IsOpen = true;
+            popupEventClick.Visibility = Visibility.Visible;
         }
     }
 }

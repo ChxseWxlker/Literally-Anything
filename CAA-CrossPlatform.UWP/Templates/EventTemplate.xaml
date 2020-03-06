@@ -19,7 +19,8 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EventsPanel.Width" Value="100"/>
+                        <Setter Target="EventsPanel.Height" Value="90"/>
+                        <Setter Target="EventsPanel.Width" Value="120"/>
                         <Setter Target="TitleSize.FontSize" Value="15"/>
                         <Setter Target="AuthorSize.FontSize" Value="12"/>
                     </VisualState.Setters>
@@ -29,7 +30,8 @@
                         <AdaptiveTrigger MinWindowWidth="621"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EventsPanel.Width" Value="175"/>
+                        <Setter Target="EventsPanel.Height" Value="100"/>
+                        <Setter Target="EventsPanel.Width" Value="170"/>
                         <Setter Target="TitleSize.FontSize" Value="18"/>
                         <Setter Target="AuthorSize.FontSize" Value="14"/>
                     </VisualState.Setters>
@@ -39,7 +41,8 @@
                         <AdaptiveTrigger MinWindowWidth="740"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EventsPanel.Width" Value="200"/>
+                        <Setter Target="EventsPanel.Height" Value="120"/>
+                        <Setter Target="EventsPanel.Width" Value="180"/>
                         <Setter Target="TitleSize.FontSize" Value="20"/>
                         <Setter Target="AuthorSize.FontSize" Value="16"/>
                     </VisualState.Setters>
@@ -49,7 +52,7 @@
                         <AdaptiveTrigger MinWindowWidth="900"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="EventsPanel.Width" Value="225"/>
+                        <Setter Target="EventsPanel.Width" Value="180"/>
                         <Setter Target="TitleSize.FontSize" Value="25"/>
                         <Setter Target="AuthorSize.FontSize" Value="18"/>
                     </VisualState.Setters>
@@ -64,9 +67,9 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel x:Name="EventsPanel" Margin="2 5" Height="90" Width="250">
-            <TextBlock x:Name="TitleSize" Text="{x:Bind Events.displayName}"  HorizontalAlignment="Center" FontSize="25" TextWrapping="Wrap" />
-            <TextBlock x:Name="AuthorSize" Text="{x:Bind Events.startDate}" HorizontalAlignment="Center" FontSize="18" />
+        <StackPanel x:Name="EventsPanel" Margin="5, 10" Padding="5" Height="150" Width="200" Background="#FF1D60C9">
+            <TextBlock x:Name="TitleSize" Text="{x:Bind Events.displayName}"  HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="Wrap" />
+            <TextBlock x:Name="AuthorSize" Text="{x:Bind Events.startDate}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
