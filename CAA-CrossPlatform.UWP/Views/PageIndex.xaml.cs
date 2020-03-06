@@ -29,6 +29,11 @@ namespace CAA_CrossPlatform.UWP
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
             lblUsername.Text = "Welcome Guest";
+
+            //remove focus
+            TextBox txtBox = new TextBox();
+            txtBox.Focus(FocusState.Pointer);
+            txtBox.IsFocusEngaged = false;
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -68,55 +73,6 @@ namespace CAA_CrossPlatform.UWP
                 TemplateFrame.GoBack();
         }
 
-        //setup api
-        //static ApiHandler api = new ApiHandler();
-
-        //private void txtLogin_KeyDown(object sender, KeyRoutedEventArgs e)
-        //{
-        //    if (e.Key == Windows.System.VirtualKey.Enter)
-        //        btnLoginPopup_Click(sender, e);
-        //}
-
-        //private async void btnLoginPopup_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //testFrame.Navigate();
-
-        //    //login
-        //    string res = "Welcome"; // await api.Login(txtUsername.Text, txtPassword.Password);
-
-        //    //show error message
-        //    if (!res.Contains("Welcome"))
-        //    {
-        //        await new MessageDialog(res).ShowAsync();
-        //        return;
-        //    }
-
-        //    //set active username
-        //    Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
-
-        //    //redirect to events
-        //    Frame.Navigate(typeof(PageEvent));
-        //}
-
-        //private async void btnRegister_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //register
-        //    string res = await api.Register(txtUsername.Text, txtPassword.Password);
-
-        //    //show error message
-        //    if (!res.Contains("Welcome"))
-        //    {
-        //        await new MessageDialog(res).ShowAsync();
-        //        return;
-        //    }
-
-        //    //set active username
-        //    Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
-
-        //    //redirect to events
-        //    Frame.Navigate(typeof(PageEvent));
-        //}
-
         private void navMenu_Loaded(object sender, RoutedEventArgs e)
         {
             navMenu.IsPaneOpen = false;
@@ -133,6 +89,7 @@ namespace CAA_CrossPlatform.UWP
                 popupLogin.IsOpen = true;
                 popupLogin.Height = Window.Current.Bounds.Height;
                 panelPopup.Height = Window.Current.Bounds.Height;
+                txtUsername.Focus(FocusState.Keyboard);
             }
 
             //logout user
@@ -143,22 +100,22 @@ namespace CAA_CrossPlatform.UWP
                 btnLoginPopup.Content = "Login";
                 btnGamePage.Visibility = Visibility.Collapsed;
                 btnQuestionPage.Visibility = Visibility.Collapsed;
-                if (TemplateFrame.SourcePageType != typeof(PageEvent) || TemplateFrame.SourcePageType != typeof(PageEventManager))
+                if (TemplateFrame.SourcePageType != typeof(PageEvent) && TemplateFrame.SourcePageType != typeof(PageEventManager))
                     TemplateFrame.Navigate(typeof(PageEvent));
             }
         }
 
-        private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtUsername.Text))
             {
-                await new MessageDialog("Enter a username.").ShowAsync();
+                txtUsername.Focus(FocusState.Keyboard);
                 return;
             }
 
             if (string.IsNullOrEmpty(txtPassword.Password))
             {
-                await new MessageDialog("Enter a password.").ShowAsync();
+                txtPassword.Focus(FocusState.Keyboard);
                 return;
             }
 
@@ -170,6 +127,12 @@ namespace CAA_CrossPlatform.UWP
             btnQuestionPage.Visibility = Visibility.Visible;
             txtUsername.Text = "";
             txtPassword.Password = "";
+        }
+
+        private void txtAccount_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                btnLogin_Click(sender, new RoutedEventArgs());
         }
     }
 }

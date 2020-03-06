@@ -205,7 +205,8 @@
                         <Button x:Name="btnCreateEvent" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     </RelativePanel>
 
-                    <StackPanel x:Name="spLVActiveEvent" Height="180">
+                    <StackPanel x:Name="spLVActiveEvent" Height="180" Background="#ddd">
+                        <TextBlock x:Name="lblActiveEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No active events."/>
                         <ListView Name="activeEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                         ScrollViewer.HorizontalScrollMode="Enabled"                  
                                         ScrollViewer.VerticalScrollMode="Disabled"
@@ -225,7 +226,8 @@
                 <StackPanel Name="spUpcomingEvents" Width="1000">
 
                     <TextBlock Name="lblUpcomingEvent" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"/>
-                    <StackPanel x:Name="spLVUpcomingEvent" Height="180">
+                    <StackPanel x:Name="spLVUpcomingEvent" Height="180" Background="#ddd">
+                        <TextBlock x:Name="lblUpcomingEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No active events."/>
                         <ListView x:Name="upcomingEventsLV" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                     ScrollViewer.HorizontalScrollMode="Enabled"                  
                                     ScrollViewer.VerticalScrollMode="Disabled"
@@ -235,7 +237,7 @@
                                     ItemTemplate="{StaticResource EventListDataTemplate}">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Background="White" Orientation="Horizontal" />
+                                    <StackPanel Background="#ddd" Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>

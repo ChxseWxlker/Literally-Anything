@@ -80,8 +80,6 @@ namespace CAA_CrossPlatform.UWP
                         btnMinus.Height = 40;
                         btnMinus.Width = 40;
 
-                        spControls.Children.Add(btnMinus);
-
                         //create textbox
                         TextBox txtTrack = new TextBox();
                         txtTrack.Name = $"txtTrack_{trackingPanel.Children.Count + 1}";
@@ -92,8 +90,6 @@ namespace CAA_CrossPlatform.UWP
                         txtTrack.Height = 40;
                         txtTrack.Width = 100;
                         txtTrack.FontSize = 22;
-
-                        spControls.Children.Add(txtTrack);
 
                         //create button
                         Button btnPlus = new Button();
@@ -108,6 +104,8 @@ namespace CAA_CrossPlatform.UWP
 
                         //add items to panel
                         spTrack.Children.Add(lblTrack);
+                        spControls.Children.Add(btnMinus);
+                        spControls.Children.Add(txtTrack);
                         spControls.Children.Add(btnPlus);
                         spTrack.Children.Add(spControls);
                         trackingPanel.Children.Add(spTrack);
@@ -120,12 +118,11 @@ namespace CAA_CrossPlatform.UWP
             string btn = btnCaller.Name.ToString();
             int Id = Convert.ToInt32(btn.Substring(btn.IndexOf('_') + 1));
             TextBox txt = null;
-            foreach (StackPanel sp in trackingPanel.Children)
-            {
-                TextBox spTxt = (TextBox)sp.Children[2];
+            StackPanel spTrack = (StackPanel)trackingPanel.Children[1];
+            StackPanel spControls = (StackPanel)spTrack.Children[1];
+                TextBox spTxt = (TextBox)spControls.Children[1];
                 if (Convert.ToInt32(spTxt.Name.Substring(spTxt.Name.IndexOf('_') + 1)) == Id)
                     txt = spTxt;
-            }
 
             //plus button
             if (btn.Contains("Plus"))
