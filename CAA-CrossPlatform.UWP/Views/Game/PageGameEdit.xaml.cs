@@ -99,7 +99,7 @@ namespace CAA_CrossPlatform.UWP
             List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
             foreach (GameQuestion gq in gameQuestions)
                 if (gq.GameID == selectedGame.Id)
-                    Connection.Delete(gq);
+                    await Connection.Delete(gq);
 
             //create game question links
             foreach (Question q in questions)
