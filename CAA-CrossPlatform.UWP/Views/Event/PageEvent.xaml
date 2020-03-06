@@ -53,11 +53,11 @@
                         <Setter Target="spLVUpcomingEvent.Height" Value="120"/>
                         <Setter Target="spLVActiveEvent.Height" Value="120"/>
                         <Setter Target="spLVPastEvent.Height" Value="120"/>
-                        <Setter Target="UpcomingEvents.Width" Value="350"/>
-                        <Setter Target="ActiveEvents.Width" Value="350"/>
+                        <Setter Target="spUpcomingEvents.Width" Value="350"/>
+                        <Setter Target="spActiveEvents.Width" Value="350"/>
                         <Setter Target="PastEventControls.Width" Value="350"/>
                         <Setter Target="FilterControls.Width" Value="350"/>
-                        <Setter Target="PastEvents.Width" Value="350"/>
+                        <Setter Target="spPastEvents.Width" Value="350"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -89,11 +89,11 @@
                         <Setter Target="spLVUpcomingEvent.Height" Value="140"/>
                         <Setter Target="spLVActiveEvent.Height" Value="140"/>
                         <Setter Target="spLVPastEvent.Height" Value="140"/>
-                        <Setter Target="UpcomingEvents.Width" Value="500"/>
-                        <Setter Target="ActiveEvents.Width" Value="500"/>
+                        <Setter Target="spUpcomingEvents.Width" Value="500"/>
+                        <Setter Target="spActiveEvents.Width" Value="500"/>
                         <Setter Target="PastEventControls.Width" Value="500"/>
                         <Setter Target="FilterControls.Width" Value="500"/>
-                        <Setter Target="PastEvents.Width" Value="500"/>
+                        <Setter Target="spPastEvents.Width" Value="500"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -117,11 +117,11 @@
                         <Setter Target="lblUpcomingEvent.FontSize" Value="34"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="34"/>
                         <Setter Target="lblPastEvent.FontSize" Value="34"/>
-                        <Setter Target="UpcomingEvents.Width" Value="650"/>
-                        <Setter Target="ActiveEvents.Width" Value="650"/>
+                        <Setter Target="spUpcomingEvents.Width" Value="650"/>
+                        <Setter Target="spActiveEvents.Width" Value="650"/>
                         <Setter Target="PastEventControls.Width" Value="650"/>
                         <Setter Target="FilterControls.Width" Value="650"/>
-                        <Setter Target="PastEvents.Width" Value="650"/>
+                        <Setter Target="spPastEvents.Width" Value="650"/>
                         <Setter Target="spLVUpcomingEvent.Height" Value="160"/>
                         <Setter Target="spLVPastEvent.Height" Value="160"/>
                         <Setter Target="spLVActiveEvent.Height" Value="160"/>
@@ -136,11 +136,11 @@
                         <Setter Target="dtpEndDate.Width" Value="325"/>
                         <Setter Target="dtpStartDate.FontSize" Value="20"/>
                         <Setter Target="dtpEndDate.FontSize" Value="20"/>
-                        <Setter Target="UpcomingEvents.Width" Value="800"/>
+                        <Setter Target="spUpcomingEvents.Width" Value="800"/>
                         <Setter Target="ActiveEvents.Width" Value="800"/>
                         <Setter Target="PastEventControls.Width" Value="800"/>
                         <Setter Target="FilterControls.Width" Value="800"/>
-                        <Setter Target="PastEvents.Width" Value="800"/>
+                        <Setter Target="spPastEvents.Width" Value="800"/>
                     </VisualState.Setters>
                  </VisualState>
                 <VisualState x:Name="VisualStateDesktop">
@@ -178,13 +178,13 @@
                     <StackPanel x:Name="panelPopup" Height="300" Width="400" Background="#ccc" Padding="10" Margin="-210 0 0 0">
                         <StackPanel Name="Input">
 
-                            <TextBlock x:Name="EventNameTB" Text="Event Name: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                            <TextBlock x:Name="lblPopupEventName" Text="Event Name: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
 
-                            <TextBlock x:Name="StartDateTB" Text="Start Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                            <TextBlock x:Name="lblPopupStartDate" Text="Start Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
 
-                            <TextBlock x:Name="EndDateTB" Text="End Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                            <TextBlock x:Name="lblPopupEndDate" Text="End Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
 
-                            <TextBlock x:Name="QuizTB" Text="Quiz: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
+                            <TextBlock x:Name="lblPopupGame" Text="Game: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
 
                         </StackPanel>
 
@@ -197,7 +197,7 @@
                     </StackPanel>
                 </Popup>
 
-                <StackPanel Name="ActiveEvents" Width="1000">
+                <StackPanel Name="spActiveEvents" Width="1000">
 
                     <RelativePanel>
                         <TextBlock Name="lblActiveEvent" Text="Active Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
@@ -210,7 +210,7 @@
                                         ScrollViewer.HorizontalScrollMode="Enabled"                  
                                         ScrollViewer.VerticalScrollMode="Disabled"
                                         Margin="0 10 0 0" 
-                                        ItemClick="ActiceEvents_ItemClick" 
+                                        ItemClick="Event_ItemClick" 
                                         IsItemClickEnabled="True" 
                                         ItemTemplate="{StaticResource EventListDataTemplate}">
                             <ListView.ItemsPanel>
@@ -222,7 +222,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Name="UpcomingEvents" Width="1000">
+                <StackPanel Name="spUpcomingEvents" Width="1000">
 
                     <TextBlock Name="lblUpcomingEvent" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"/>
                     <StackPanel x:Name="spLVUpcomingEvent" Height="180">
@@ -230,7 +230,7 @@
                                     ScrollViewer.HorizontalScrollMode="Enabled"                  
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     Margin="0 10 0 0" 
-                                    ItemClick="UpcomingEvents_ItemClick" 
+                                    ItemClick="Event_ItemClick" 
                                     IsItemClickEnabled="True" 
                                     ItemTemplate="{StaticResource EventListDataTemplate}">
                             <ListView.ItemsPanel>
@@ -289,7 +289,7 @@
 
                 </StackPanel>
 
-                <StackPanel Name="PastEvents" Margin="0 0 0 50" Width="1000">
+                <StackPanel Name="spPastEvents" Margin="0 0 0 50" Width="1000">
                     <TextBlock x:Name="lblNoResult" Text="No results found." Visibility="Collapsed"  Margin="0 10 0 0" FontSize="30"></TextBlock>
                     <StackPanel x:Name="spLVPastEvent" Height="180">
                         <ListView x:Name="pastEventsLV"
@@ -298,7 +298,7 @@
                                         ScrollViewer.VerticalScrollMode="Disabled"
                                         Visibility="Collapsed"
                                         Margin="0 10 0 0" 
-                                        ItemClick="PastEvents_ItemClick" 
+                                        ItemClick="Event_ItemClick" 
                                         IsItemClickEnabled="True" 
                                         ItemTemplate="{StaticResource EventListDataTemplate}">
                             <ListView.ItemsPanel>

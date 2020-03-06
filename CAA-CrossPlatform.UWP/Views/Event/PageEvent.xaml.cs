@@ -29,6 +29,9 @@ namespace CAA_CrossPlatform.UWP
         List<Event> upcomingEvents = new List<Event>();
         List<Event> pastEvents = new List<Event>();
 
+        //create selected event
+        Event selectedEvent;
+
         public PageEvent()
         {
             this.InitializeComponent();
@@ -90,6 +93,94 @@ namespace CAA_CrossPlatform.UWP
             }
             else
                 activeEventsLV.ItemsSource = activeEvents;
+        }
+
+
+        private void btnCreateEvent_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(PageEventEditCreate));
+        }
+
+        private async void Event_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ListView lvSender = (ListView)sender;
+
+            var hi = activeEventsLV.Items;
+            var hi2 = activeEvents;
+            var hi3 = (Event)activeEventsLV.SelectedItem;
+            List<Event> eventssss = new List<Event>();
+            foreach (Event ev in lvSender.Items)
+            {
+                eventssss.Add(ev);
+            }
+            dynamic evvv = lvSender.SelectedItem;
+            Event fskdkkfk = evvv;
+            if (lvSender.Name.Contains("active"))
+            {
+                upcomingEventsLV.SelectedIndex = -1;
+                pastEventsLV.SelectedIndex = -1;
+                selectedEvent = (Event)lvSender.SelectedItem;
+            }
+
+            else if (lvSender.Name.Contains("upcoming"))
+            {
+                activeEventsLV.SelectedIndex = -1;
+                pastEventsLV.SelectedIndex = -1;
+                selectedEvent = upcomingEvents[lvSender.SelectedIndex];
+            }
+
+            else if (lvSender.Name.Contains("past"))
+            {
+                activeEventsLV.SelectedIndex = -1;
+                upcomingEventsLV.SelectedIndex = -1;
+                selectedEvent = pastEvents[lvSender.SelectedIndex];
+            }
+
+            else
+            {
+                await new MessageDialog("An error occured loading that event.").ShowAsync();
+                return;
+            }
+
+            lblPopupEventName.Text = selectedEvent.displayName;
+            lblPopupStartDate.Text = selectedEvent.startDate.ToShortDateString();
+            lblPopupEndDate.Text = selectedEvent.endDate.ToShortDateString();
+            Game game = await Connection.Get("Game", selectedEvent.GameID);
+            lblPopupGame.Text = game.name;
+
+            popupEventClick.IsOpen = true;
+            popupEventClick.Visibility = Visibility.Visible;
+        }
+
+        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (pastEvents.Count == 0)
+            {
+                pastEventsLV.Visibility = Visibility.Collapsed;
+                //txtNoPastEvents.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                pastEventsLV.ItemsSource = pastEvents;
+            }
+        }
+
+        private void FilterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (FilterControls.Visibility == Visibility.Visible)
+            {
+                FilterControls.Visibility = Visibility.Collapsed;
+                lblNoResult.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                FilterControls.Visibility = Visibility.Visible;
+            }
         }
 
         //private async void btnLogout_Click(object sender, RoutedEventArgs e)
@@ -287,60 +378,5 @@ namespace CAA_CrossPlatform.UWP
         //        Frame.Navigate(typeof(PageEvent));
         //    }
         //}
-
-        private void btnCreateEvent_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageEventEditCreate));
-        }
-
-        private void ActiceEvents_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            popupEventClick.IsOpen = true;
-            popupEventClick.Visibility = Visibility.Visible;
-            
-        }
-
-        private void UpcomingEvents_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            popupEventClick.IsOpen = true;
-            popupEventClick.Visibility = Visibility.Visible;
-        }
-
-        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (pastEvents.Count == 0)
-            {
-                pastEventsLV.Visibility = Visibility.Collapsed;
-                //txtNoPastEvents.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                pastEventsLV.ItemsSource = pastEvents;
-            }
-        }
-
-        private void FilterBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (FilterControls.Visibility == Visibility.Visible)
-            {
-                FilterControls.Visibility = Visibility.Collapsed;
-                lblNoResult.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                FilterControls.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void PastEvents_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            popupEventClick.IsOpen = true;
-            popupEventClick.Visibility = Visibility.Visible;
-        }
     }
 }

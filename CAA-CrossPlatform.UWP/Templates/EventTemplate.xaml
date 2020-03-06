@@ -21,8 +21,11 @@
                     <VisualState.Setters>
                         <Setter Target="EventsPanel.Height" Value="90"/>
                         <Setter Target="EventsPanel.Width" Value="120"/>
-                        <Setter Target="TitleSize.FontSize" Value="15"/>
-                        <Setter Target="AuthorSize.FontSize" Value="12"/>
+                        <Setter Target="bar.Width" Value="120"/>
+                        <Setter Target="lblEventName.FontSize" Value="15"/>
+                        <Setter Target="lblStartDate.FontSize" Value="12"/>
+                        <Setter Target="lblArrow.FontSize" Value="12"/>
+                        <Setter Target="lblEndDate.FontSize" Value="12"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -32,8 +35,11 @@
                     <VisualState.Setters>
                         <Setter Target="EventsPanel.Height" Value="100"/>
                         <Setter Target="EventsPanel.Width" Value="170"/>
-                        <Setter Target="TitleSize.FontSize" Value="18"/>
-                        <Setter Target="AuthorSize.FontSize" Value="14"/>
+                        <Setter Target="bar.Width" Value="170"/>
+                        <Setter Target="lblEventName.FontSize" Value="18"/>
+                        <Setter Target="lblStartDate.FontSize" Value="14"/>
+                        <Setter Target="lblArrow.FontSize" Value="14"/>
+                        <Setter Target="lblEndDate.FontSize" Value="14"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -43,8 +49,11 @@
                     <VisualState.Setters>
                         <Setter Target="EventsPanel.Height" Value="120"/>
                         <Setter Target="EventsPanel.Width" Value="180"/>
-                        <Setter Target="TitleSize.FontSize" Value="20"/>
-                        <Setter Target="AuthorSize.FontSize" Value="16"/>
+                        <Setter Target="bar.Width" Value="180"/>
+                        <Setter Target="lblEventName.FontSize" Value="20"/>
+                        <Setter Target="lblStartDate.FontSize" Value="16"/>
+                        <Setter Target="lblArrow.FontSize" Value="16"/>
+                        <Setter Target="lblEndDate.FontSize" Value="16"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateLaptop">
@@ -53,8 +62,11 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="EventsPanel.Width" Value="180"/>
-                        <Setter Target="TitleSize.FontSize" Value="25"/>
-                        <Setter Target="AuthorSize.FontSize" Value="18"/>
+                        <Setter Target="bar.Width" Value="180"/>
+                        <Setter Target="lblEventName.FontSize" Value="25"/>
+                        <Setter Target="lblStartDate.FontSize" Value="18"/>
+                        <Setter Target="lblArrow.FontSize" Value="18"/>
+                        <Setter Target="lblEndDate.FontSize" Value="18"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateDesktop">
@@ -68,8 +80,11 @@
         </VisualStateManager.VisualStateGroups>
 
         <StackPanel x:Name="EventsPanel" Margin="5, 10" Padding="5" Height="150" Width="200" Background="#FF1D60C9">
-            <TextBlock x:Name="TitleSize" Text="{x:Bind Events.displayName}"  HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="Wrap" />
-            <TextBlock x:Name="AuthorSize" Text="{x:Bind Events.startDate}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblEventName" Text="{x:Bind nameSubstring(Events.displayName)}" HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="Wrap" />
+            <Rectangle x:Name="bar" Fill="#fff" Width="200" Height="1" Opacity="0.5"/>
+            <TextBlock x:Name="lblStartDate" Text="{x:Bind dateStartLong(Events.startDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblArrow" FontFamily="Segoe MDL2 Assets" Text="&#xF0AE;" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
+            <TextBlock x:Name="lblEndDate" Text="{x:Bind dateEndLong(Events.endDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="Wrap"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

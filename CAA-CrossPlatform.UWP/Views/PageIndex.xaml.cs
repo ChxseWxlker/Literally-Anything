@@ -115,7 +115,7 @@ namespace CAA_CrossPlatform.UWP
             TemplateFrame.Navigate(typeof(PageEvent));
         }
 
-        private async void btnLoginPopup_Click(object sender, RoutedEventArgs e)
+        private void btnLoginPopup_Click(object sender, RoutedEventArgs e)
         {
             popupLogin.IsOpen = true;
             popupLogin.Height = Window.Current.Bounds.Height;

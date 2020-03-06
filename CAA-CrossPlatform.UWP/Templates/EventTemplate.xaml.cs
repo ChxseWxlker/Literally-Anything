@@ -24,8 +24,28 @@ namespace CAA_CrossPlatform.UWP.Templates
         public EventTemplate()
         {
             this.InitializeComponent();
-
+            
             this.DataContextChanged += (s, e) => Bindings.Update();
+
+            //var hi = Bindings;
+
+            //TitleSize.Text = "{x:Bind " + Events.displayName.Substring(0, Events.displayName.Length - 5) + "}";
+            //AuthorSize.Text = "{x:Bind " + Events.startDate.ToShortDateString() + "}";
+        }
+
+        string nameSubstring(string name)
+        {
+            return name.Substring(0, name.Length - 5);
+        }
+
+        string dateStartLong(DateTime date)
+        {
+            return date.ToString("MMMM dd, yyyy");
+        }
+
+        string dateEndLong(DateTime date)
+        {
+            return date.ToString("MMMM dd, yyyy");
         }
     }
 }
