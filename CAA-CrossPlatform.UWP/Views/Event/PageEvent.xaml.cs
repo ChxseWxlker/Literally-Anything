@@ -107,10 +107,6 @@ namespace CAA_CrossPlatform.UWP
 
             selectedEvent = (Event)e.ClickedItem;
 
-            activeEventsLV.SelectedIndex = -1;
-            upcomingEventsLV.SelectedIndex = -1;
-            pastEventsLV.SelectedIndex = -1;
-
             lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
             lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
             lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
@@ -119,6 +115,34 @@ namespace CAA_CrossPlatform.UWP
 
             popupEventClick.IsOpen = true;
             popupEventClick.Visibility = Visibility.Visible;
+        }
+
+        private async void btnPopupControl_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnSender = (Button)sender;
+
+            if (btnSender.Name == "btnEnter")
+            {
+                PassItem.environmentEvent = selectedEvent;
+                Frame.Navigate(typeof(PageEventManager));
+            }
+
+            else if (btnSender.Name == "btnEdit")
+            {
+                PassItem.environmentEvent = selectedEvent;
+                Frame.Navigate(typeof(PageEventEditCreate));
+            }
+
+            else if (btnSender.Name == "btnDelete")
+            {
+                await Connection.Delete(selectedEvent);
+                Frame.Navigate(typeof(PageEvent));
+            }
+
+            else if (btnSender.Name == "btnCancel")
+            {
+                popupEventClick.IsOpen = false;
+            }
         }
 
         private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
@@ -182,69 +206,9 @@ namespace CAA_CrossPlatform.UWP
         //    }
         //}
 
-        //    private void btnShowPane_Click(object sender, RoutedEventArgs e)
-        //    {
-        //        svMenu.IsPaneOpen = !svMenu.IsPaneOpen;
-        //        if (svMenu.IsPaneOpen)
-        //        {
-        //            btnShowPane.Content = "\uE00E";
-        //            btnEventMenu.Visibility = Visibility.Visible;
-        //            btnGameMenu.Visibility = Visibility.Visible;
-        //            btnQuestionMenu.Visibility = Visibility.Visible;
-        //        }
-        //        else
-        //        {
-        //            btnShowPane.Content = "\uE00F";
-        //            btnEventMenu.Visibility = Visibility.Collapsed;
-        //            btnGameMenu.Visibility = Visibility.Collapsed;
-        //            btnQuestionMenu.Visibility = Visibility.Collapsed;
-        //        }
-        //    }
+        
 
-        //    private void svMenu_PaneClosing(SplitView sender, object args)
-        //    {
-        //        //hide buttons
-        //        btnShowPane.Content = "\uE00F";
-        //        btnEventMenu.Visibility = Visibility.Collapsed;
-        //        btnGameMenu.Visibility = Visibility.Collapsed;
-        //        btnQuestionMenu.Visibility = Visibility.Collapsed;
-        //    }
-
-        //    private void btnMenuItem_Click(object sender, RoutedEventArgs e)
-        //    {
-        //        //get menu button
-        //        Button btn = (Button)sender;
-
-        //        //event
-        //        if (btn.Content.ToString().Contains("Event"))
-        //            Frame.Navigate(typeof(PageEvent));
-
-        //        //game
-        //        else if (btn.Content.ToString().Contains("Game"))
-        //            Frame.Navigate(typeof(PageGame));
-
-        //        //question
-        //        else if (btn.Content.ToString().Contains("Question"))
-        //            Frame.Navigate(typeof(PageQuestion));
-        //    }
-
-        //private void lbActiveEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    lbUpcomingEvent.SelectedIndex = -1;
-        //    lbPastEvent.SelectedIndex = -1;
-        //}
-
-        //private void lbUpcomingEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    lbActiveEvent.SelectedIndex = -1;
-        //    lbPastEvent.SelectedIndex = -1;
-        //}
-
-        //private void lbPastEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    lbActiveEvent.SelectedIndex = -1;
-        //    lbUpcomingEvent.SelectedIndex = -1;
-        //}
+       
 
         //private async void btnActiveEvent_Click(object sender, RoutedEventArgs e)
         //{
