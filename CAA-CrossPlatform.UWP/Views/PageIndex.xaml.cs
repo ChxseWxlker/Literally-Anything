@@ -100,7 +100,7 @@ namespace CAA_CrossPlatform.UWP
                 btnLoginPopup.Content = "Login";
                 btnGamePage.Visibility = Visibility.Collapsed;
                 btnQuestionPage.Visibility = Visibility.Collapsed;
-                if (TemplateFrame.SourcePageType != typeof(PageEvent) && TemplateFrame.SourcePageType != typeof(PageEventManager))
+                if (TemplateFrame.SourcePageType != typeof(PageEventManager))
                     TemplateFrame.Navigate(typeof(PageEvent));
             }
         }
@@ -127,6 +127,8 @@ namespace CAA_CrossPlatform.UWP
             btnQuestionPage.Visibility = Visibility.Visible;
             txtUsername.Text = "";
             txtPassword.Password = "";
+            if (TemplateFrame.SourcePageType != typeof(PageEventManager))
+                TemplateFrame.Navigate(typeof(PageEvent));
         }
 
         private void txtAccount_KeyDown(object sender, KeyRoutedEventArgs e)
