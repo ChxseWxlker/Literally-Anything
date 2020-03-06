@@ -15,15 +15,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CAA_CrossPlatform.UWP.Models;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageEvent : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
         //create lists of events
         List<Event> activeEvents = new List<Event>();
         List<Event> upcomingEvents = new List<Event>();
@@ -40,6 +35,13 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageEvent_Loaded(object sender, RoutedEventArgs e)
         {
+            //get permissions
+            if (Environment.GetEnvironmentVariable("activeUser") == "Guest")
+                btnCreateEvent.Visibility = Visibility.Collapsed;
+
+            else
+                btnCreateEvent.Visibility = Visibility.Visible;
+
             //get all events
             List<Event> events = await Connection.Get("Event");
 
@@ -61,8 +63,8 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //setup list sources
-            activeEventsLV.ItemsSource = activeEvents;
-            upcomingEventsLV.ItemsSource = upcomingEvents;
+            lvActiveEvent.ItemsSource = activeEvents;
+            lvUpcomingEvent.ItemsSource = upcomingEvents;
 
             //empty active events
             if (activeEvents.Count == 0)
@@ -93,37 +95,6 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageEventEditCreate));
         }
 
-        private async void Event_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //get permissions
-            if (Environment.GetEnvironmentVariable("activeUser") == "Guest")
-            {
-                btnCreateEvent.Visibility = Visibility.Collapsed;
-                btnEdit.Visibility = Visibility.Collapsed;
-                btnDelete.Visibility = Visibility.Collapsed;
-            }
-
-            else
-            {
-                btnCreateEvent.Visibility = Visibility.Visible;
-                btnEdit.Visibility = Visibility.Visible;
-                btnDelete.Visibility = Visibility.Visible;
-            }
-            
-            //get event
-            selectedEvent = (Event)e.ClickedItem;
-
-            //get info
-            lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
-            lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
-            lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
-            Game game = await Connection.Get("Game", selectedEvent.GameID);
-            lblPopupGame.Text = $"Game: {game.name}";
-
-            popupEventClick.IsOpen = true;
-            popupEventClick.Visibility = Visibility.Visible;
-        }
-
         private async void btnPopupControl_Click(object sender, RoutedEventArgs e)
         {
             Button btnSender = (Button)sender;
@@ -152,173 +123,102 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void Event_ItemClick(object sender, ItemClickEventArgs e)
         {
-
-        }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (pastEvents.Count == 0)
+            //get permissions
+            if (Environment.GetEnvironmentVariable("activeUser") == "Guest")
             {
-                pastEventsLV.Visibility = Visibility.Collapsed;
-                //txtNoPastEvents.Visibility = Visibility.Visible;
+                btnEdit.Visibility = Visibility.Collapsed;
+                btnDelete.Visibility = Visibility.Collapsed;
             }
+
             else
             {
-                pastEventsLV.ItemsSource = pastEvents;
+                btnEdit.Visibility = Visibility.Visible;
+                btnDelete.Visibility = Visibility.Visible;
             }
+            
+            //get event
+            selectedEvent = (Event)e.ClickedItem;
+
+            //get info
+            lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
+            lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
+            lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
+            Game game = await Connection.Get("Game", selectedEvent.GameID);
+            lblPopupGame.Text = $"Game: {game.name}";
+
+            popupEventClick.IsOpen = true;
+            popupEventClick.Visibility = Visibility.Visible;
         }
 
-        private void btnFilterDropdown_Click(object sender, RoutedEventArgs e)
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-            if (FilterControls.Visibility == Visibility.Visible)
+            //setup past events search
+            List<Event> pastEventsSearch = new List<Event>();
+
+            //get filters
+            string nameSearch = txtEventSearch.Text.ToLower().Replace(" ", "");
+            DateTime startDateSearch = DateTime.MinValue;
+            if (dtpStartDateSearch.SelectedDate.HasValue)
+                startDateSearch = dtpStartDateSearch.SelectedDate.Value.Date.AddDays(-1);
+            DateTime endDateSearch = DateTime.MinValue;
+            if (dtpEndDateSearch.SelectedDate.HasValue)
+                endDateSearch = dtpEndDateSearch.SelectedDate.Value.Date.AddDays(1);
+
+            //empty filters so get all
+            if (string.IsNullOrEmpty(nameSearch) && startDateSearch == DateTime.MinValue && endDateSearch == DateTime.MinValue)
             {
-                btnFilterDropdown.Content = "\uE70D";
-                FilterControls.Visibility = Visibility.Collapsed;
-                lblNoResult.Visibility = Visibility.Visible;
+                pastEventsSearch = pastEvents;
             }
+
+            //filter results
             else
             {
-                btnFilterDropdown.Content = "\uE70E";
-                FilterControls.Visibility = Visibility.Visible;
+                //search date range
+                if (startDateSearch != DateTime.MinValue && endDateSearch != DateTime.MinValue)
+                {
+                    foreach (Event pastEvent in pastEvents)
+                        if (pastEvent.startDate >= startDateSearch && pastEvent.endDate <= endDateSearch && pastEvent.name.ToLower().Contains(nameSearch) && !pastEventsSearch.Contains(pastEvent))
+                            pastEventsSearch.Add(pastEvent);
+                }
+
+                //search start date
+                else if (startDateSearch != DateTime.MinValue && endDateSearch == DateTime.MinValue)
+                {
+                    foreach (Event pastEvent in pastEvents)
+                        if (pastEvent.startDate >= startDateSearch && pastEvent.name.ToLower().Contains(nameSearch) && !pastEventsSearch.Contains(pastEvent))
+                            pastEventsSearch.Add(pastEvent);
+                }
+
+                //search end date
+                else if (endDateSearch != DateTime.MinValue && startDateSearch == DateTime.MinValue)
+                {
+                    foreach (Event pastEvent in pastEvents)
+                        if (pastEvent.endDate <= endDateSearch && pastEvent.name.ToLower().Contains(nameSearch) && !pastEventsSearch.Contains(pastEvent))
+                            pastEventsSearch.Add(pastEvent);
+                }
+            }
+
+            //set list source
+            lvPastEvent.ItemsSource = pastEventsSearch;
+
+            //empty active events
+            if (pastEventsSearch.Count == 0)
+            {
+                spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 221, 221, 221));
+                spLVPastEvent.Height = 60;
+                spLVPastEvent.Margin = new Thickness(0, 10, 0, 0);
+                lblPastEventEmpty.Visibility = Visibility.Visible;
+            }
+
+            else
+            {
+                spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+                spLVPastEvent.Height = 180;
+                spLVPastEvent.Margin = new Thickness(0, 0, 0, 0);
+                lblPastEventEmpty.Visibility = Visibility.Collapsed;
             }
         }
-
-        //private async void btnLogout_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //prompt user
-        //    ContentDialog logoutDialog = new ContentDialog
-        //    {
-        //        Title = "Logout?",
-        //        Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
-        //        PrimaryButtonText = "Logout",
-        //        CloseButtonText = "Cancel"
-        //    };
-
-        //    ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
-
-        //    //log user out
-        //    if (logoutRes == ContentDialogResult.Primary)
-        //    {
-        //        //reset active username
-        //        Environment.SetEnvironmentVariable("activeUser", "");
-
-        //        //update menu
-        //        //txtAccount.Text = "";
-
-        //        //logout
-        //        api.Logout();
-
-        //        //redirect to index
-        //        Frame.Navigate(typeof(PageIndex));
-        //    }
-        //}
-
-        
-
-       
-
-        //private async void btnActiveEvent_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //check
-        //    if (lbActiveEvent.SelectedIndex == -1)
-        //    {
-        //        await new MessageDialog("Please choose an active event.").ShowAsync();
-        //        return;
-        //    }
-
-        //    //get sender
-        //    Button btn = (Button)sender;
-
-        //    //manage event
-        //    if (btn.Name.Contains("Manage"))
-        //        Frame.Navigate(typeof(PageEventManager), activeEvents[lbActiveEvent.SelectedIndex]);
-
-        //    //view event
-        //    else if (btn.Name.Contains("View"))
-        //    {
-        //        //TODO: create popup with info
-        //    }
-
-        //    //edit event
-        //    else if (btn.Name.Contains("Edit"))
-        //        Frame.Navigate(typeof(PageEventEdit), activeEvents[lbActiveEvent.SelectedIndex]);
-
-        //    //delete event
-        //    else if (btn.Name.Contains("Delete"))
-        //    {
-        //        Connection.Delete(activeEvents[lbActiveEvent.SelectedIndex]);
-        //        Frame.Navigate(typeof(PageEvent));
-        //    }
-        //}
-
-        //private async void btnUpcomingEvent_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //check
-        //    if (lbUpcomingEvent.SelectedIndex == -1)
-        //    {
-        //        await new MessageDialog("Please choose an upcoming event.").ShowAsync();
-        //        return;
-        //    }
-
-        //    //get sender
-        //    Button btn = (Button)sender;
-
-        //    //manage event
-        //    if (btn.Name.Contains("Manage"))
-        //        Frame.Navigate(typeof(PageEventManager), upcomingEvents[lbUpcomingEvent.SelectedIndex]);
-
-        //    //view event
-        //    else if (btn.Name.Contains("View"))
-        //    {
-        //        //TODO: create popup with info
-        //    }
-
-        //    //edit event
-        //    else if (btn.Name.Contains("Edit"))
-        //        Frame.Navigate(typeof(PageEventEdit), upcomingEvents[lbUpcomingEvent.SelectedIndex]);
-
-        //    //delete event
-        //    else if (btn.Name.Contains("Delete"))
-        //    {
-        //        Connection.Delete(upcomingEvents[lbUpcomingEvent.SelectedIndex]);
-        //        Frame.Navigate(typeof(PageEvent));
-        //    }
-        //}
-
-        //private async void btnPastEvent_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //check
-        //    if (lbPastEvent.SelectedIndex == -1)
-        //    {
-        //        await new MessageDialog("Please choose a past event.").ShowAsync();
-        //        return;
-        //    }
-
-        //    //get sender
-        //    Button btn = (Button)sender;
-
-        //    //manage event
-        //    if (btn.Name.Contains("Manage"))
-        //        Frame.Navigate(typeof(PageEventManager), pastEvents[lbPastEvent.SelectedIndex]);
-
-        //    //view event
-        //    else if (btn.Name.Contains("View"))
-        //    {
-        //        //TODO: create popup with info
-        //    }
-
-        //    //edit event
-        //    else if (btn.Name.Contains("Edit"))
-        //        Frame.Navigate(typeof(PageEventEdit), pastEvents[lbPastEvent.SelectedIndex]);
-
-        //    //delete event
-        //    else if (btn.Name.Contains("Delete"))
-        //    {
-        //        Connection.Delete(pastEvents[lbPastEvent.SelectedIndex]);
-        //        Frame.Navigate(typeof(PageEvent));
-        //    }
-        //}
     }
 }
