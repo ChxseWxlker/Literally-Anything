@@ -65,6 +65,7 @@ namespace CAA_CrossPlatform.UWP
                         lblTrack.Margin = new Thickness(0, 20, 0, 0);
                         lblTrack.TextWrapping = TextWrapping.Wrap;
                         lblTrack.FontSize = 25;
+                        lblTrack.HorizontalAlignment = HorizontalAlignment.Center;
 
                         StackPanel spControls = new StackPanel();
                         spControls.Orientation = Orientation.Horizontal;

@@ -17,8 +17,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ButtonLayout.Orientation" Value="Horizontal"/>
-                        <Setter Target="DeleteBtnLayout.Orientation" Value="Horizontal"/>
-                        <Setter Target="DeleteBtnLayout.VerticalAlignment" Value="Center"/>
+                        <Setter Target="spBtnDeleteLayout.Orientation" Value="Horizontal"/>
+                        <Setter Target="spBtnDeleteLayout.VerticalAlignment" Value="Center"/>
                         <Setter Target="btnCreate.Margin" Value="0,10,5,0"/>
                         <Setter Target="btnEdit.Margin" Value="5,10,0,0"/>
                         <Setter Target="btnDelete.Margin" Value="0,10,0,0"/>
@@ -30,7 +30,7 @@
                         <Setter Target="btnDelete.FontSize" Value="20"/>
                         <Setter Target="lstGame.Width" Value="275"/>
                         <Setter Target="Form.Orientation" Value="Vertical"/>
-                        <Setter Target="Output.Margin" Value="0,0,0,0"/>
+                        <Setter Target="spOutput.Margin" Value="0,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -85,7 +85,7 @@
 
                 <RelativePanel Grid.Row="3" Grid.Column="2" >
                     <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
-                        <StackPanel x:Name="Output" Margin="0,0,50,0">
+                        <StackPanel x:Name="spOutput" Margin="0,0,50,0">
 
                             <TextBlock Text="Games" TextWrapping="Wrap" FontSize="60"/>
 
@@ -102,7 +102,7 @@
 
                             </StackPanel>
 
-                            <StackPanel x:Name="DeleteBtnLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
+                            <StackPanel x:Name="spBtnDeleteLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
                                 <Button Style="{StaticResource ButtonTemplate}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnDelete_Click" />
 

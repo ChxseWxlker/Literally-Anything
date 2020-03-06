@@ -60,12 +60,12 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageQuestion));
         }
 
-        private void CreateQuestion_Click(object sender, RoutedEventArgs e)
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(PageQuestionCreate));
         }
 
-        private async void EditQuestion_Click(object sender, RoutedEventArgs e)
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             if (lstQuestions.SelectedIndex == -1)
                 await new MessageDialog("Please choose a question to edit").ShowAsync();
@@ -73,7 +73,7 @@ namespace CAA_CrossPlatform.UWP
                 Frame.Navigate(typeof(PageQuestionEdit), listQuestions[lstQuestions.SelectedIndex]);
         }
 
-        private async void DeleteQuestion_Click(object sender, RoutedEventArgs e)
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (lstQuestions.SelectedIndex == -1)
                 await new MessageDialog("Please choose a question to delete").ShowAsync();

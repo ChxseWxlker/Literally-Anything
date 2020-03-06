@@ -17,21 +17,21 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ButtonLayout.Orientation" Value="Horizontal"/>
-                        <Setter Target="DeleteBtnLayout.Orientation" Value="Horizontal"/>
-                        <Setter Target="DeleteBtnLayout.VerticalAlignment" Value="Center"/>
-                        <Setter Target="CreateQuestion.Margin" Value="0,10,5,0"/>
-                        <Setter Target="EditQuestion.Margin" Value="5,10,0,0"/>
-                        <Setter Target="DelteQuestion.Margin" Value="0,10,0,0"/>
-                        <Setter Target="CreateQuestion.Width" Value="130"/>
-                        <Setter Target="EditQuestion.Width" Value="130"/>
-                        <Setter Target="DelteQuestion.Width" Value="130"/>
-                        <Setter Target="CreateQuestion.FontSize" Value="20"/>
-                        <Setter Target="EditQuestion.FontSize" Value="20"/>
-                        <Setter Target="DelteQuestion.FontSize" Value="20"/>
+                        <Setter Target="spBtnDeleteLayout.Orientation" Value="Horizontal"/>
+                        <Setter Target="spBtnDeleteLayout.VerticalAlignment" Value="Center"/>
+                        <Setter Target="btnCreate.Margin" Value="0,10,5,0"/>
+                        <Setter Target="btnEdit.Margin" Value="5,10,0,0"/>
+                        <Setter Target="btnDelete.Margin" Value="0,10,0,0"/>
+                        <Setter Target="btnCreate.Width" Value="130"/>
+                        <Setter Target="btnEdit.Width" Value="130"/>
+                        <Setter Target="btnDelete.Width" Value="130"/>
+                        <Setter Target="btnCreate.FontSize" Value="20"/>
+                        <Setter Target="btnEdit.FontSize" Value="20"/>
+                        <Setter Target="btnDelete.FontSize" Value="20"/>
                         <Setter Target="lstQuestions.Width" Value="275"/>
                         <Setter Target="lstQuestions.Margin" Value="0,0,0,0"/>
                         <Setter Target="Output.Margin" Value="0,0,0,0"/>
-                        <Setter Target="Form.Orientation" Value="Vertical"/>
+                        <Setter Target="spForm.Orientation" Value="Vertical"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -39,15 +39,15 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="CreateQuestion.Margin" Value="0,20,0,0"/>
-                        <Setter Target="EditQuestion.Margin" Value="0,20,0,0"/>
-                        <Setter Target="DelteQuestion.Margin" Value="0,20,0,0"/>
-                        <Setter Target="CreateQuestion.Width" Value="130"/>
-                        <Setter Target="EditQuestion.Width" Value="130"/>
-                        <Setter Target="DelteQuestion.Width" Value="130"/>
-                        <Setter Target="CreateQuestion.FontSize" Value="20"/>
-                        <Setter Target="EditQuestion.FontSize" Value="20"/>
-                        <Setter Target="DelteQuestion.FontSize" Value="20"/>
+                        <Setter Target="btnCreate.Margin" Value="0,20,0,0"/>
+                        <Setter Target="btnEdit.Margin" Value="0,20,0,0"/>
+                        <Setter Target="btnDelete.Margin" Value="0,20,0,0"/>
+                        <Setter Target="btnCreate.Width" Value="130"/>
+                        <Setter Target="btnEdit.Width" Value="130"/>
+                        <Setter Target="btnDelete.Width" Value="130"/>
+                        <Setter Target="btnCreate.FontSize" Value="20"/>
+                        <Setter Target="btnEdit.FontSize" Value="20"/>
+                        <Setter Target="btnDelete.FontSize" Value="20"/>
                         <Setter Target="lstQuestions.Width" Value="300"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -86,27 +86,27 @@
 
                 <StackPanel Grid.Row="3" Grid.Column="2">
                     <RelativePanel>
-                        <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <StackPanel x:Name="spForm" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                             <StackPanel x:Name="Output" Margin="0,0,50,0">
 
-                                <TextBlock   Text="Questions" TextWrapping="Wrap" FontSize="60"/>
+                                <TextBlock Text="Questions" TextWrapping="Wrap" FontSize="60"/>
 
-                                <ListView x:Name="lstQuestions"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,20"/>
+                                <ListView x:Name="lstQuestions" Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,20"/>
 
                             </StackPanel>
 
                             <RelativePanel VerticalAlignment="Center">
                                 <StackPanel x:Name="ButtonLayout">
 
-                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="CreateQuestion" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="CreateQuestion_Click" />
+                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCreate" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnCreate_Click" />
 
-                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="EditQuestion" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="EditQuestion_Click" />
+                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnEdit" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnEdit_Click" />
 
                                 </StackPanel>
 
-                                <StackPanel x:Name="DeleteBtnLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
+                                <StackPanel x:Name="spBtnDeleteLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
-                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="DelteQuestion" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="DeleteQuestion_Click" />
+                                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnDelete_Click" />
 
                                 </StackPanel>
 

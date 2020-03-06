@@ -117,8 +117,8 @@
     <Compile Include="Views\Game\PageGame.xaml.cs">
       <DependentUpon>PageGame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Game\PageGameCreate.xaml.cs">
-      <DependentUpon>PageGameCreate.xaml</DependentUpon>
+    <Compile Include="Views\Game\PageGameEditCreate.xaml.cs">
+      <DependentUpon>PageGameEditCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Game\PageGameEdit.xaml.cs">
       <DependentUpon>PageGameEdit.xaml</DependentUpon>
@@ -140,8 +140,8 @@
     <Compile Include="Views\Question\PageQuestion.xaml.cs">
       <DependentUpon>PageQuestion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Question\PageQuestionCreate.xaml.cs">
-      <DependentUpon>PageQuestionCreate.xaml</DependentUpon>
+    <Compile Include="Views\Question\PageQuestionEditCreate.xaml.cs">
+      <DependentUpon>PageQuestionEditCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Question\PageQuestionEdit.xaml.cs">
       <DependentUpon>PageQuestionEdit.xaml</DependentUpon>
@@ -232,7 +232,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Game\PageGameCreate.xaml">
+    <Page Include="Views\Game\PageGameEditCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Question\PageQuestionCreate.xaml">
+    <Page Include="Views\Question\PageQuestionEditCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

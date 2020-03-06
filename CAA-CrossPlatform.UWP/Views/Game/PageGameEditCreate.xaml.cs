@@ -70,16 +70,16 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageQuestion));
         }
 
-        private async void CreateQuiz_Click(object sender, RoutedEventArgs e)
+        private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             //get list of games
             List<Game> games = await Connection.Get("Game");
 
             //validation
-            if (QuizTxt.Text == "")
+            if (txtGame.Text == "")
             {
-                QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                QuizTxt.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                lblGameName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                txtGame.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 await new MessageDialog("Please enter a quiz name").ShowAsync();
                 return;
             }
@@ -87,16 +87,16 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game g in games)
             {
                 //validate name
-                if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == false)
+                if (g.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && g.hidden == false)
                 {
-                    QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
+                    lblGameName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
+                    txtGame.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
                     await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
                     return;
                 }
 
                 //unhide game if user chooses
-                else if (g.name.ToLower().Trim() == QuizTxt.Text.ToLower().Trim() && g.hidden == true)
+                else if (g.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && g.hidden == true)
                 {
                     MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
@@ -120,7 +120,7 @@ namespace CAA_CrossPlatform.UWP
 
             //setup game object
             Game game = new Game();
-            game.name = QuizTxt.Text;
+            game.name = txtGame.Text;
 
             //save to database
             game.Id = await Connection.Insert(game);
@@ -145,7 +145,7 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
         }
 
-        private void CancelQuiz_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
         }
@@ -155,18 +155,18 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageExcel));
         }
 
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             lstQuestions.Items.Clear();
             foreach (Question q in visibleQuestions)
-                if (q.name.ToLower().Trim().Contains(TxtSearch.Text.ToLower().Trim()))
+                if (q.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
                     lstQuestions.Items.Add(q.name);
         }
 
-        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        private void txtSearch_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if(TxtSearch.Text == "Search")
-                TxtSearch.Text = "";
+            if(txtSearch.Text == "Search")
+                txtSearch.Text = "";
         }
 
         private async void btnLogout_Click(object sender, RoutedEventArgs e)
