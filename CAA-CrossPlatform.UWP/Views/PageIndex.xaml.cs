@@ -49,8 +49,8 @@ namespace CAA_CrossPlatform.UWP
                 //navigate to game page
                 else if (invoked == "Games")
                 {
-                    if (TemplateFrame.SourcePageType != typeof(PageGame))
-                        TemplateFrame.Navigate(typeof(PageGame));
+                    if (TemplateFrame.SourcePageType != typeof(PageEventManager))
+                        TemplateFrame.Navigate(typeof(PageEventManager));
                 }
             }
         }
