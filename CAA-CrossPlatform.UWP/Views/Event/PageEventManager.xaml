@@ -17,7 +17,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="spInput.Orientation" Value="Vertical"/>
-                        <Setter Target="spTracking.Margin" Value="0 20 0 0"/>
+                        <Setter Target="trackingPanel.Margin" Value="0 20 0 0"/>
 
                         <Setter Target="lblMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.FontSize" Value="20"/>
@@ -47,7 +47,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="spInput.Orientation" Value="Vertical"/>
-                        <Setter Target="spTracking.Margin" Value="0 20 0 0"/>
+                        <Setter Target="trackingPanel.Margin" Value="0 20 0 0"/>
 
                         <Setter Target="lblMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.FontSize" Value="20"/>
@@ -130,7 +130,7 @@
                         
                         <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
 
-                        <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                             <StackPanel Margin="0 20 0 0">
                                 <TextBlock Text="Admission" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
 
@@ -148,15 +148,15 @@
 
                             </StackPanel>
 
-                            <StackPanel x:Name="trackingPanel" Margin="20 20 0 0">
+                            <StackPanel x:Name="trackingPanel" Margin="20 20 0 0" HorizontalAlignment="Center">
                                 <TextBlock Text="Tracking" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
                             </StackPanel>
                             
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Submit" Width="100" Click="btnMemberSubmit_Click"/>
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Cancel" Width="100" Click="btnCancel_Click"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Submit" Width="180" Height="50" FontSize="30" Click="btnMemberSubmit_Click"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Cancel" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
                         </StackPanel>
                     </StackPanel>
 
