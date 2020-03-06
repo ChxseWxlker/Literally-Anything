@@ -16,6 +16,29 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="spInput.Orientation" Value="Vertical"/>
+                        <Setter Target="spTracking.Margin" Value="0 20 0 0"/>
+
+                        <Setter Target="lblMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.Width" Value="300"/>
+
+                        <Setter Target="lblMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.Width" Value="300"/>
+
+                        <Setter Target="lblMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.Width" Value="300"/>
+
+                        <Setter Target="lblMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.Width" Value="300"/>
+
+                        <Setter Target="btnMemberSubmit.FontSize" Value="20"/>
+                        <Setter Target="btnCancel.FontSize" Value="20"/>
+                        <Setter Target="btnMemberSubmit.Width" Value="130"/>
+                        <Setter Target="btnCancel.Width" Value="130"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -23,6 +46,29 @@
                         <AdaptiveTrigger MinWindowWidth="501"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="spInput.Orientation" Value="Vertical"/>
+                        <Setter Target="spTracking.Margin" Value="0 20 0 0"/>
+
+                        <Setter Target="lblMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.Width" Value="300"/>
+
+                        <Setter Target="lblMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.Width" Value="300"/>
+
+                        <Setter Target="lblMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.Width" Value="300"/>
+
+                        <Setter Target="lblMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.Width" Value="300"/>
+
+                        <Setter Target="btnMemberSubmit.FontSize" Value="20"/>
+                        <Setter Target="btnCancel.FontSize" Value="20"/>
+                        <Setter Target="btnMemberSubmit.Width" Value="130"/>
+                        <Setter Target="btnCancel.Width" Value="130"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -30,6 +76,26 @@
                         <AdaptiveTrigger MinWindowWidth="650"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="lblMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.FontSize" Value="20"/>
+                        <Setter Target="txtMemberNum.Width" Value="300"/>
+
+                        <Setter Target="lblMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.FontSize" Value="20"/>
+                        <Setter Target="txtMemberFirst.Width" Value="300"/>
+
+                        <Setter Target="lblMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.FontSize" Value="20"/>
+                        <Setter Target="txtMemberLast.Width" Value="300"/>
+
+                        <Setter Target="lblMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.FontSize" Value="20"/>
+                        <Setter Target="txtMemberPhone.Width" Value="300"/>
+
+                        <Setter Target="btnMemberSubmit.FontSize" Value="20"/>
+                        <Setter Target="btnCancel.FontSize" Value="20"/>
+                        <Setter Target="btnMemberSubmit.Width" Value="130"/>
+                        <Setter Target="btnCancel.Width" Value="130"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateDesktop">
@@ -59,36 +125,93 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Row="3" Grid.Column="2">
-                    
+
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35"/>
+                        
+                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+
+                        <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <StackPanel Margin="0 20 0 0">
+                                <TextBlock Text="Admission" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+
+                                <TextBlock x:Name="lblMemberNum" Text="Member Number" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                                <TextBox x:Name="txtMemberNum" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 6209629672932001"/>
+
+                                <TextBlock x:Name="lblMemberFirst" Text="First Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                                <TextBox x:Name="txtMemberFirst" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. John"/>
+
+                                <TextBlock x:Name="lblMemberLast" Text="Last Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                                <TextBox x:Name="txtMemberLast" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. Smith"/>
+
+                                <TextBlock x:Name="lblMemberPhone" Text="Phone" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
+                                <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
+
+                            </StackPanel>
+
+                            <StackPanel x:Name="spTracking" Margin="20 20 0 0">
+                                <TextBlock Text="Tracking" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel x:Name="trackingPanel" Margin="20 20 0 0"></StackPanel>
+                            
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Submit" Width="100" Click="btnMemberSubmit_Click"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Cancel" Width="100" Click="btnCancel_Click"/>
+                        </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <StackPanel Margin="0 20 0 0">
-                            <TextBlock Text="Admission" TextWrapping="Wrap" FontSize="35"/>
+                    <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Member Number" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                            <TextBox x:Name="txtMemberNum" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 6209629672932001"/>
+                            
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
-                            <TextBlock Text="First Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                            <TextBox x:Name="txtMemberFirst" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. John"/>
+                                <StackPanel x:Name="SearchBar" Orientation="Horizontal" Margin="0 0 0 10">
 
-                            <TextBlock Text="Last Name" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                            <TextBox x:Name="txtMemberLast" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. Smith"/>
+                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Width="414" SelectionChanged="TxtSearch_SelectionChanged"/>
 
-                            <TextBlock Text="Phone" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                            <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
+                                    <Button x:Name="btnSearch" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
 
-                            <Button x:Name="btnMemberSubmit" Margin="0 20 0 0" Content="Submit" Width="100" Click="btnMemberSubmit_Click"/>
-                            <Button x:Name="btnCancel" Margin="0 20 0 0" Content="Cancel" Width="100" Click="btnCancel_Click"/>
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Margin="20 20 0 0">
-                            <TextBlock Text="Tracking" TextWrapping="Wrap" FontSize="35"/>
-                        </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="460">
+                                    <StackPanel BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                        <TextBlock Text="Member Number" Padding="10" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Name="lblMemNumber_1" Text="1234567890123456" Grid.Row="1"  Padding="5"/>
+                                        <TextBlock x:Name="lblMemNumber_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
+                                        <TextBlock x:Name="lblMemNumber_3" Text="1234567890123456" Grid.Row="3"  Padding="5"/>
+                                    </StackPanel>
 
-                        <StackPanel x:Name="trackingPanel" Margin="20 20 0 0"></StackPanel>
+                                    <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                        <TextBlock Text="Name" Padding="10" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Name="lblMemName_1" Text="1234567890123456" Grid.Row="1"  Padding="5"/>
+                                        <TextBlock x:Name="lblMemName_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
+                                        <TextBlock x:Name="lblMemName_3" Text="1234567890123456" Grid.Row="3" Padding="5"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                        <TextBlock Text="Time" Padding="10" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Name="lblTime_1" Text="1234567890123456" Grid.Row="1" Padding="5"/>
+                                        <TextBlock x:Name="lblTime_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
+                                        <TextBlock x:Name="lblTime_3" Text="1234567890123456" Grid.Row="3"  Padding="5"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </Grid>
                     </StackPanel>
                 </StackPanel>
             </Grid>

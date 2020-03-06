@@ -39,22 +39,9 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game g in games)
                 if (g.hidden == false)
                 {
-                    lstQuiz.Items.Add(g.name);
+                    lstGame.Items.Add(g.name);
                     visibleGames.Add(g);
                 }
-        }
-
-        private void CreateQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageGameCreate));
-        }
-
-        private async void EditQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstQuiz.SelectedIndex == -1)
-                await new MessageDialog("Please choose a quiz to edit").ShowAsync();
-            else
-                Frame.Navigate(typeof(PageGameEdit), visibleGames[lstQuiz.SelectedIndex]);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
@@ -75,23 +62,6 @@ namespace CAA_CrossPlatform.UWP
         private void Questions_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(PageQuestion));
-        }
-
-        private async void DeleteQuiz_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstQuiz.SelectedIndex == -1)
-                await new MessageDialog("Please choose a quiz to delete").ShowAsync();
-            else
-            {
-                //hide game object
-                visibleGames[lstQuiz.SelectedIndex].hidden = true;
-
-                //edit game object
-                Connection.Update(visibleGames[lstQuiz.SelectedIndex]);
-
-                //reload page
-                Frame.Navigate(typeof(PageGame));
-            }
         }
 
         private async void btnLogout_Click(object sender, RoutedEventArgs e)
@@ -124,6 +94,36 @@ namespace CAA_CrossPlatform.UWP
             //question
             else if (btn.Content.ToString().Contains("Question"))
                 Frame.Navigate(typeof(PageQuestion));
+        }
+
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstGame.SelectedIndex == -1)
+                await new MessageDialog("Please choose a game to delete").ShowAsync();
+            else
+            {
+                //hide game object
+                visibleGames[lstGame.SelectedIndex].hidden = true;
+
+                //edit game object
+                Connection.Update(visibleGames[lstGame.SelectedIndex]);
+
+                //reload page
+                Frame.Navigate(typeof(PageGame));
+            }
+        }
+
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstGame.SelectedIndex == -1)
+                await new MessageDialog("Please choose a quiz to edit").ShowAsync();
+            else
+                Frame.Navigate(typeof(PageGameEdit), visibleGames[lstGame.SelectedIndex]);
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(PageGameCreate));
         }
     }
 }

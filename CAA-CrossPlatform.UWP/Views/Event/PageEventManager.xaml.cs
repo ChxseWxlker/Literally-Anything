@@ -371,5 +371,15 @@ namespace CAA_CrossPlatform.UWP
             if (this.Frame.CanGoBack)
                 this.Frame.GoBack();
         }
+
+        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
