@@ -17,54 +17,55 @@
         <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
     </Page.Resources>
 
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup x:Name="VisualStateEventCreate">
-            <VisualState x:Name="VisualStatePhone">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="0"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="relativePanel.Height" Value="70"/>
-                    <Setter Target="textBlock.FontSize" Value="20"/>
-                    <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
-                    <Setter Target="CAAImg.Height" Value="60"/>
-                    <Setter Target="CAAImg.Width" Value="70"/>
-                </VisualState.Setters>
-            </VisualState>
-            <VisualState x:Name="VisualStateMiddle">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="501"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="relativePanel.Height" Value="70"/>
-                    <Setter Target="textBlock.FontSize" Value="30"/>
-                    <Setter Target="CAAImg.Height" Value="70"/>
-                    <Setter Target="CAAImg.Width" Value="80"/>
-                </VisualState.Setters>
-            </VisualState>
-            <VisualState x:Name="VisualStateTablet">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="650"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="relativePanel.Height" Value="100"/>
-                    <Setter Target="textBlock.FontSize" Value="45"/>
-                    <Setter Target="CAAImg.Height" Value="100"/>
-                    <Setter Target="CAAImg.Width" Value="110"/>
-                </VisualState.Setters>
-            </VisualState>
-            <VisualState x:Name="VisualStateDesktop">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="950"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                </VisualState.Setters>
-            </VisualState>
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="VisualStateEventCreate">
+                    <VisualState x:Name="VisualStatePhone">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="relativePanel.Height" Value="70"/>
+                            <Setter Target="textBlock.FontSize" Value="20"/>
+                            <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
+                            <Setter Target="CAAImg.Height" Value="60"/>
+                            <Setter Target="CAAImg.Width" Value="70"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateMiddle">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="501"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="relativePanel.Height" Value="70"/>
+                            <Setter Target="textBlock.FontSize" Value="30"/>
+                            <Setter Target="CAAImg.Height" Value="70"/>
+                            <Setter Target="CAAImg.Width" Value="80"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateTablet">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="650"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="relativePanel.Height" Value="100"/>
+                            <Setter Target="textBlock.FontSize" Value="45"/>
+                            <Setter Target="CAAImg.Height" Value="100"/>
+                            <Setter Target="CAAImg.Width" Value="110"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="VisualStateDesktop">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="950"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="140"/>
                 <RowDefinition Height="*"/>
@@ -85,12 +86,13 @@
                     <TextBlock x:Name="textBlock" Margin="0 0 0 40" Text="Event Manager" TextWrapping="Wrap" FontSize="70" Foreground="#00529b"  RelativePanel.RightOf="CAAImg" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     <Button Style="{StaticResource ButtonTemplate}" x:Name="btnLoginPopup"  RelativePanel.AlignRightWithPanel="True" Width="150" FontSize="20" Content="Login/Register" Margin="25"  Height="50" Click="btnLoginPopup_Click"></Button>
                 </RelativePanel>
-                
-                
+
+
             </Grid>
 
             <Grid Grid.Row="1">
                 <Frame Name="TemplateFrame"/>
+                
                 <RelativePanel>
                     <Popup x:Name="popupLogin" IsOpen="False" Height="1000" Width="300" RelativePanel.AlignRightWithPanel="True"
                        IsLightDismissEnabled="True"
@@ -100,13 +102,16 @@
                                 <PaneThemeTransition Edge="Right"></PaneThemeTransition>
                             </TransitionCollection>
                         </Popup.ChildTransitions>
-                        <StackPanel x:Name="panelPopup" Width="300" Background="#ccc">
+                        <StackPanel x:Name="panelPopup" Width="300" Background="#ccc" HorizontalAlignment="Center" Padding="10">
                             <TextBlock Text="Username:" FontSize="25"></TextBlock>
                             <TextBox x:Name="txtUsername"></TextBox>
                             <TextBlock Text="Password:" FontSize="25"></TextBlock>
                             <TextBox x:Name="txtPassword"></TextBox>
-                            <Button Style="{StaticResource ButtonTemplate}" Width="100"  Margin="5, 10, 0, 10" x:Name="btnLogin" Content="Login"></Button>
-                            <Button Style="{StaticResource ButtonTemplate}" Width="100" Margin="5, 0, 0, 10" x:Name="btnRegister" Content="Register"></Button>
+                            
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{StaticResource ButtonTemplate}" Width="100"  Margin="0, 10, 5, 10" x:Name="btnLogin" Content="Login"></Button>
+                                <Button Style="{StaticResource ButtonTemplate}" Width="100" Margin="5, 10, 0, 10" x:Name="btnRegister" Content="Register"></Button>
+                            </StackPanel>
                         </StackPanel>
                     </Popup>
                 </RelativePanel>

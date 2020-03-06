@@ -87,7 +87,7 @@
                     <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
                         <StackPanel x:Name="Output" Margin="0,0,50,0">
 
-                            <TextBlock   Text="Quizes" TextWrapping="Wrap" FontSize="60"/>
+                            <TextBlock   Text="Games" TextWrapping="Wrap" FontSize="60"/>
 
                             <ListView x:Name="lstQuiz"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0"/>
 
