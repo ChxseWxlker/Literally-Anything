@@ -40,20 +40,8 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageEvent_Loaded(object sender, RoutedEventArgs e)
         {
-            //stop focus
-            //btnLogout.IsEnabled = false;
-            //btnLogout.IsEnabled = true;
-
-            //set username
-            //txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
-
             //get all events
-            List<Event> events = new List<Event>();
-            try
-            {
-                events = await Connection.Get("Event");
-            }
-            catch { }
+            List<Event> events = await Connection.Get("Event");
 
             //check all events
             foreach (Event ev in events)
@@ -61,38 +49,42 @@ namespace CAA_CrossPlatform.UWP
                 {
                     //populate upcoming events
                     if (ev.startDate > DateTime.Now)
-                    {
                         upcomingEvents.Add(ev);
-                    }
 
                     //populate past events
                     else if (ev.endDate < DateTime.Now)
-                    {
                         pastEvents.Add(ev);
-                    }
 
                     //populate active events
                     else
-                    {
                         activeEvents.Add(ev);
-                    }
                 }
 
-            if (upcomingEvents.Count == 0)
-            {
-                upcomingEventsLV.Visibility = Visibility.Collapsed;
-                lblUpcomingEvent.Text = "There are currently upcoming events";
-            }
-            else
-                upcomingEventsLV.ItemsSource = upcomingEvents;
+            //setup list sources
+            activeEventsLV.ItemsSource = activeEvents;
+            upcomingEventsLV.ItemsSource = upcomingEvents;
 
+            //empty active events
             if (activeEvents.Count == 0)
             {
-                activeEventsLV.Visibility = Visibility.Collapsed;
-                lblActiveEvent.Text = "There are currently active events";
+                spLVActiveEvent.Height = 60;
+                spLVActiveEvent.Margin = new Thickness(0, 10, 0, 0);
+                lblActiveEventEmpty.Visibility = Visibility.Visible;
             }
+
             else
-                activeEventsLV.ItemsSource = activeEvents;
+                spLVActiveEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+
+            //empty upcoming events
+            if (upcomingEvents.Count == 0)
+            {
+                spLVUpcomingEvent.Height = 60;
+                spLVUpcomingEvent.Margin = new Thickness(0, 10, 0, 0);
+                lblUpcomingEventEmpty.Visibility = Visibility.Visible;
+            }
+
+            else
+                spLVUpcomingEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
         }
 
 
