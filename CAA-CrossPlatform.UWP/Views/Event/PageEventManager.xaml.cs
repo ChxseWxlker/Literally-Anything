@@ -56,6 +56,7 @@ namespace CAA_CrossPlatform.UWP
 
                         //create stackpanel
                         StackPanel spTrack = new StackPanel();
+                        spTrack.Orientation = Orientation.Vertical;
 
                         //create label
                         TextBlock lblTrack = new TextBlock();
@@ -63,6 +64,19 @@ namespace CAA_CrossPlatform.UWP
                         lblTrack.Margin = new Thickness(0, 20, 0, 0);
                         lblTrack.TextWrapping = TextWrapping.Wrap;
                         lblTrack.FontSize = 25;
+
+                        StackPanel spControls = new StackPanel();
+                        spTrack.Orientation = Orientation.Horizontal;
+
+                        //create button
+                        Button btnMinus = new Button();
+                        btnMinus.Name = $"btnMinus_{trackingPanel.Children.Count + 1}";
+                        btnMinus.Click += BtnControl_Click;
+                        btnMinus.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                        btnMinus.Content = "\uE738";
+                        btnMinus.Margin = new Thickness(105, -40, 0, 0);
+                        btnMinus.Height = 40;
+                        btnMinus.Width = 40;
 
                         //create textbox
                         TextBox txtTrack = new TextBox();
@@ -74,16 +88,6 @@ namespace CAA_CrossPlatform.UWP
                         txtTrack.Height = 40;
                         txtTrack.Width = 100;
                         txtTrack.FontSize = 22;
-
-                        //create button
-                        Button btnMinus = new Button();
-                        btnMinus.Name = $"btnMinus_{trackingPanel.Children.Count + 1}";
-                        btnMinus.Click += BtnControl_Click;
-                        btnMinus.FontFamily = new FontFamily("Segoe MDL2 Assets");
-                        btnMinus.Content = "\uE738";
-                        btnMinus.Margin = new Thickness(105, -40, 0, 0);
-                        btnMinus.Height = 40;
-                        btnMinus.Width = 40;
 
                         //create button
                         Button btnPlus = new Button();
