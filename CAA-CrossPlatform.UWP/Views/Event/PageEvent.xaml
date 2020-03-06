@@ -137,7 +137,7 @@
                         <Setter Target="dtpStartDate.FontSize" Value="20"/>
                         <Setter Target="dtpEndDate.FontSize" Value="20"/>
                         <Setter Target="spUpcomingEvents.Width" Value="800"/>
-                        <Setter Target="ActiveEvents.Width" Value="800"/>
+                        <Setter Target="spActiveEvents.Width" Value="800"/>
                         <Setter Target="PastEventControls.Width" Value="800"/>
                         <Setter Target="FilterControls.Width" Value="800"/>
                         <Setter Target="spPastEvents.Width" Value="800"/>
