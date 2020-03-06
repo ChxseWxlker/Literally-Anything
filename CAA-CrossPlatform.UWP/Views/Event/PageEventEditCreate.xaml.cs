@@ -285,6 +285,9 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnCreateGame_Click(object sender, RoutedEventArgs e)
         {
+            if (selectedEvent == null)
+                selectedEvent = new Event();
+
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 selectedEvent.name = txtEvent.Text;
 

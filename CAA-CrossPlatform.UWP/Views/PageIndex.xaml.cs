@@ -28,6 +28,7 @@ namespace CAA_CrossPlatform.UWP
 
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
+            lblUsername.Text = "Welcome Guest";
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -117,9 +118,51 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnLoginPopup_Click(object sender, RoutedEventArgs e)
         {
-            popupLogin.IsOpen = true;
-            popupLogin.Height = Window.Current.Bounds.Height;
-            panelPopup.Height = Window.Current.Bounds.Height;
+            Button btnSender = (Button)sender;
+
+            //login user
+            if (btnSender.Content.ToString() == "Login")
+            {
+                popupLogin.IsOpen = true;
+                popupLogin.Height = Window.Current.Bounds.Height;
+                panelPopup.Height = Window.Current.Bounds.Height;
+            }
+
+            //logout user
+            else if (btnSender.Content.ToString() == "Logout")
+            {
+                Environment.SetEnvironmentVariable("activeUser", "Guest");
+                lblUsername.Text = "Welcome Guest";
+                btnLoginPopup.Content = "Login";
+                btnGamePage.Visibility = Visibility.Collapsed;
+                btnQuestionPage.Visibility = Visibility.Collapsed;
+                if (TemplateFrame.SourcePageType != typeof(PageEvent))
+                    TemplateFrame.Navigate(typeof(PageEvent));
+            }
+        }
+
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtUsername.Text))
+            {
+                await new MessageDialog("Enter a username.").ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtPassword.Password))
+            {
+                await new MessageDialog("Enter a password.").ShowAsync();
+                return;
+            }
+
+            popupLogin.IsOpen = false;
+            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
+            lblUsername.Text = $"Welcome {txtUsername.Text}";
+            btnLoginPopup.Content = "Logout";
+            btnGamePage.Visibility = Visibility.Visible;
+            btnQuestionPage.Visibility = Visibility.Visible;
+            txtUsername.Text = "";
+            txtPassword.Password = "";
         }
     }
 }

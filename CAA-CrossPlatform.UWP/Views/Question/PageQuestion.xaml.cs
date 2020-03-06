@@ -80,7 +80,7 @@ namespace CAA_CrossPlatform.UWP
             else
             {
                 //delete question
-                Connection.Delete(listQuestions[lstQuestions.SelectedIndex]);
+                await Connection.Delete(listQuestions[lstQuestions.SelectedIndex]);
 
                 //reload page
                 Frame.Navigate(typeof(PageQuestion));

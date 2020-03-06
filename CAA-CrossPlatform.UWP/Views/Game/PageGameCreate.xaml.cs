@@ -79,7 +79,7 @@ namespace CAA_CrossPlatform.UWP
             if (QuizTxt.Text == "")
             {
                 QuizNameTB.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                QuizTxt.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
+                QuizTxt.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 await new MessageDialog("Please enter a quiz name").ShowAsync();
                 return;
             }

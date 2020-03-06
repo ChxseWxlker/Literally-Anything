@@ -103,10 +103,25 @@ namespace CAA_CrossPlatform.UWP
 
         private async void Event_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListView lvSender = (ListView)sender;
+            //get permissions
+            if (Environment.GetEnvironmentVariable("activeUser") == "Guest")
+            {
+                btnCreateEvent.Visibility = Visibility.Collapsed;
+                btnEdit.Visibility = Visibility.Collapsed;
+                btnDelete.Visibility = Visibility.Collapsed;
+            }
 
+            else
+            {
+                btnCreateEvent.Visibility = Visibility.Visible;
+                btnEdit.Visibility = Visibility.Visible;
+                btnDelete.Visibility = Visibility.Visible;
+            }
+            
+            //get event
             selectedEvent = (Event)e.ClickedItem;
 
+            //get info
             lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
             lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
             lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
@@ -163,15 +178,17 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void FilterBtn_Click(object sender, RoutedEventArgs e)
+        private void btnFilterDropdown_Click(object sender, RoutedEventArgs e)
         {
             if (FilterControls.Visibility == Visibility.Visible)
             {
+                btnFilterDropdown.Content = "\uE70D";
                 FilterControls.Visibility = Visibility.Collapsed;
                 lblNoResult.Visibility = Visibility.Visible;
             }
             else
             {
+                btnFilterDropdown.Content = "\uE70E";
                 FilterControls.Visibility = Visibility.Visible;
             }
         }
