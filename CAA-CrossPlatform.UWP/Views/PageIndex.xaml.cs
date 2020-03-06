@@ -28,14 +28,12 @@ namespace CAA_CrossPlatform.UWP
 
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
-
-            TemplateFrame.Navigate(typeof(PageEvent));
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             string invoked = args.InvokedItem.ToString();
-
+            
             //check if good call
             if (invoked != null)
             {
@@ -114,9 +112,10 @@ namespace CAA_CrossPlatform.UWP
         private void navMenu_Loaded(object sender, RoutedEventArgs e)
         {
             navMenu.IsPaneOpen = false;
+            TemplateFrame.Navigate(typeof(PageEvent));
         }
 
-        private void btnLoginPopup_Click(object sender, RoutedEventArgs e)
+        private async void btnLoginPopup_Click(object sender, RoutedEventArgs e)
         {
             popupLogin.IsOpen = true;
             popupLogin.Height = Window.Current.Bounds.Height;

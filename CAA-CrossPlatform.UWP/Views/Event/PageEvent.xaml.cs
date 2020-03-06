@@ -290,7 +290,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnCreateEvent_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PageEventCreate));
+            Frame.Navigate(typeof(PageEventEditCreate));
         }
 
         private void ActiceEvents_ItemClick(object sender, ItemClickEventArgs e)

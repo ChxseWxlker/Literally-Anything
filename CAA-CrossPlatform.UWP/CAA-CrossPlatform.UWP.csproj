@@ -98,6 +98,7 @@
     <Compile Include="Models\AttendanceItem.cs" />
     <Compile Include="Models\EventItem.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\PassItem.cs" />
     <Compile Include="Templates\EventTemplate.xaml.cs">
       <DependentUpon>EventTemplate.xaml</DependentUpon>
     </Compile>
@@ -107,8 +108,8 @@
     <Compile Include="Views\Event\PageEvent.xaml.cs">
       <DependentUpon>PageEvent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Event\PageEventCreate.xaml.cs">
-      <DependentUpon>PageEventCreate.xaml</DependentUpon>
+    <Compile Include="Views\Event\PageEventEditCreate.xaml.cs">
+      <DependentUpon>PageEventEditCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Event\PageEventEdit.xaml.cs">
       <DependentUpon>PageEventEdit.xaml</DependentUpon>
@@ -219,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Event\PageEventCreate.xaml">
+    <Page Include="Views\Event\PageEventEditCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

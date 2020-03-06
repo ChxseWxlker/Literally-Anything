@@ -22,7 +22,7 @@ namespace CAA_CrossPlatform.UWP
         */
 
         //setup server reference
-        private static readonly string server = "http://eventrestfulapi.azurewebsites.net";
+        private static readonly string server = "http://caaeventapi.azurewebsites.net/";
 
         //setup user
         private static User user = null;

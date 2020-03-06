@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="CAA_CrossPlatform.UWP.PageEventEditCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CAA_CrossPlatform.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Center">
+                    <RelativePanel>
+                <StackPanel x:Name="spForm" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                    <StackPanel x:Name="Input" Margin="0 0 50 0">
+
+                        <TextBlock x:Name="lblEventName" Text="Event Name" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <TextBox x:Name="txtEvent" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25" Width="400"/>
+
+                        <TextBlock x:Name="lblStartDate" Text="Start Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <DatePicker x:Name="dtpStartDate" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
+
+                        <TextBlock x:Name="lblEndDate" Text="End Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <DatePicker x:Name="dtpEndDate" Margin="0 10 0 0" FontSize="25" Width="400"/>
+
+                        <TextBlock x:Name="lblGame" Text="Game" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="350"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnCreateGame" Style="{StaticResource ButtonTemplate}" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="1" Click="btnCreateGame_Click"/>
+                            <ComboBox x:Name="cmbGame" Grid.Column="0" Width="350" Grid.Row="0" FontSize="25"/>
+                        </Grid>
+
+                        <CheckBox x:Name="chkMemberOnly" Margin="0 10 0 0" Content="Members Only" FontSize="25"/>
+
+                        <TextBlock x:Name="lblTrackItems" Text="Trackable Items" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <StackPanel x:Name="spTrackItems">
+                            <TextBox x:Name="txtTrack" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25" Width="400" TextChanged="txtTrack_TextChanged"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 20 0 0" RelativePanel.Below="spForm" RelativePanel.AlignHorizontalCenterWith="spForm">
+
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Content="Cancel" Margin="0 0 20 0" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Save" Margin="20 0 0 0" Width="180" Height="50" FontSize="30" Click="btnSubmit_Click"/>
+
+                </StackPanel>
+            </RelativePanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -64,7 +64,7 @@
     </VisualStateManager.VisualStateGroups>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-        <Grid Background="Transparent">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="140"/>
                 <RowDefinition Height="*"/>

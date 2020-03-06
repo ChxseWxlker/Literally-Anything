@@ -57,7 +57,7 @@ namespace CAA_CrossPlatform.UWP
                     "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
 
                     //create item table
-                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'itemName' TEXT NOT NULL, 'valueType' TEXT);" +
+                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'name' TEXT NOT NULL, 'valueType' TEXT);" +
 
                     //create event item table
                     "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
@@ -447,9 +447,9 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                fields = "itemName, valueType";
+                fields = "name, valueType";
 
-                parameters.Add(new SqliteParameter("@itemName", record.itemName));
+                parameters.Add(new SqliteParameter("@name", record.name));
                 parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
@@ -618,9 +618,9 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                conditions = $"itemName = @itemName, valueType = @valueType";
+                conditions = $"name = @name, valueType = @valueType";
 
-                parameters.Add(new SqliteParameter("@itemName", record.itemName));
+                parameters.Add(new SqliteParameter("@name", record.name));
                 parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
@@ -733,7 +733,7 @@ namespace CAA_CrossPlatform.UWP
         }
 
         //edit a record
-        public static async void Delete(dynamic record)
+        public static async Task<int> Delete(dynamic record)
         {
             //verify the database exists
             await Verify();
@@ -779,7 +779,7 @@ namespace CAA_CrossPlatform.UWP
 
             //table doesn't exist
             else
-                return;
+                return 0;
 
             //try connecting to the database
             try
@@ -791,7 +791,7 @@ namespace CAA_CrossPlatform.UWP
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = @hidden WHERE Id = @id;", con);
 
                 //delete many to many relationship
-                if (table == "GameQuestion")
+                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem" || table == "Item")
                     cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = @id;", con);
 
                 //add parameters
@@ -833,6 +833,8 @@ namespace CAA_CrossPlatform.UWP
                 else
                     await new MessageDialog(ex.Message).ShowAsync();
             }
+
+            return 0;
         }
     }
 }
