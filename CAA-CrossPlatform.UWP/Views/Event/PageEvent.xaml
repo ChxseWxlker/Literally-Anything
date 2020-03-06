@@ -42,7 +42,7 @@
                         <Setter Target="spFilter.Margin" Value="0, 10 ,0 0"/>
 
                         <Setter Target="SearchControls.Orientation" Value="Vertical"/>
-                        <Setter Target="btnFilter.FontSize" Value="26"/>
+                        <Setter Target="btnFilterDropdown.FontSize" Value="26"/>
                         <Setter Target="lblFilter.FontSize" Value="26"/>
                         <Setter Target="btnSearch.FontSize" Value="26"/>
                         <Setter Target="txtSearch.FontSize" Value="20"/>
@@ -78,7 +78,7 @@
                         <Setter Target="spDateTo.Orientation" Value="Vertical"/>
                         <Setter Target="DatesFrom.Orientation" Value="Vertical"/>
 
-                        <Setter Target="btnFilter.FontSize" Value="26"/>
+                        <Setter Target="btnFilterDropdown.FontSize" Value="26"/>
                         <Setter Target="lblFilter.FontSize" Value="26"/>
                         <Setter Target="btnSearch.FontSize" Value="26"/>
                         <Setter Target="txtSearch.FontSize" Value="20"/>
@@ -252,7 +252,7 @@
 
                             <TextBox x:Name="txtSearch" PlaceholderText="Search" SelectionChanged="TxtSearch_SelectionChanged" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400"/>
 
-                            <Button x:Name="btnSearch" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
+                            <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" FontSize="30" Content="&#xE1A3;" Margin="5 0 0 0" Click="SearchBtn_Click" />
 
                         </StackPanel>
 
@@ -260,7 +260,7 @@
 
                             <TextBlock x:Name="lblFilter" Text="Filter" FontSize="32" Margin="20 0 10 0 "/>
 
-                            <ToggleButton x:Name="btnFilter" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE70D;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="FilterBtn_Click"/>
+                            <Button x:Name="btnFilterDropdown" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" FontSize="30" Content="&#xE70D;" Click="btnFilterDropdown_Click"/>
 
                         </StackPanel>
                     </StackPanel>

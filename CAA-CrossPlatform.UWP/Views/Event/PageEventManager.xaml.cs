@@ -36,11 +36,12 @@ namespace CAA_CrossPlatform.UWP
         
         private async void EventManager_Loaded(object sender, RoutedEventArgs e)
         {
+            //get event
+            selectedEvent = PassItem.environmentEvent;
+            PassItem.environmentEvent = null;
+
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);
-            
-            ////set username
-            //txtAccount.Text = Environment.GetEnvironmentVariable("activeUser");
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
@@ -128,48 +129,6 @@ namespace CAA_CrossPlatform.UWP
 
             //focus membership
             txtMemberNum.Focus(FocusState.Keyboard);
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            //get selected event from previous page
-            selectedEvent = (Event)e.Parameter;
-            base.OnNavigatedTo(e);
-        }
-
-        private async void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            //prompt user
-            ContentDialog logoutDialog = new ContentDialog
-            {
-                Title = "Logout?",
-                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
-                PrimaryButtonText = "Logout",
-                CloseButtonText = "Cancel"
-            };
-
-            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
-
-            //focus membership
-            txtMemberNum.Focus(FocusState.Keyboard);
-        }
-
-        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //get menu button
-            Button btn = (Button)sender;
-            
-            //event
-            if (btn.Content.ToString().Contains("Event"))
-                Frame.Navigate(typeof(PageEvent));
-
-            //game
-            else if (btn.Content.ToString().Contains("Game"))
-                Frame.Navigate(typeof(PageGame));
-
-            //question
-            else if (btn.Content.ToString().Contains("Question"))
-                Frame.Navigate(typeof(PageQuestion));
         }
 
         private static bool Luhn(string digits)
@@ -275,7 +234,7 @@ namespace CAA_CrossPlatform.UWP
                         txtMemberLast.Text = null;
 
                     a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                    a.phone = txtMemberPhone.Text.Replace("", null);
+                    a.phone = txtMemberPhone.Text;
                     a.EventID = selectedEvent.Id;
 
                     //verify card number
@@ -332,7 +291,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //setup attendance object and set properties
             Attendance a = new Attendance();
-            a.memberNumber = txtMemberNum.Text.Replace("", null); ;
+            a.memberNumber = txtMemberNum.Text;
             if (txtMemberLast.Text != "")
             {
                 char[] lastName = txtMemberLast.Text.ToLower().Trim().ToCharArray();
@@ -356,7 +315,7 @@ namespace CAA_CrossPlatform.UWP
                 txtMemberLast.Text = null;
 
             a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            a.phone = txtMemberPhone.Text.Replace("", null);
+            a.phone = txtMemberPhone.Text;
             a.EventID = selectedEvent.Id;
 
             //verify card number
@@ -364,7 +323,9 @@ namespace CAA_CrossPlatform.UWP
             {
                 await new MessageDialog("Invalid card number, please try again").ShowAsync();
 
+                //focus membership
                 txtMemberNum.Focus(FocusState.Keyboard);
+
                 return;
             }
 
@@ -386,6 +347,11 @@ namespace CAA_CrossPlatform.UWP
                     attendanceItem.Id = await Connection.Insert(attendanceItem);
                 }
             }
+
+            //re-enable other inputs
+            txtMemberFirst.IsEnabled = true;
+            txtMemberLast.IsEnabled = true;
+            txtMemberPhone.IsEnabled = true;
 
             //reset fields
             foreach (StackPanel sp in trackingPanel.Children)

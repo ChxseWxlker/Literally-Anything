@@ -163,15 +163,17 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void FilterBtn_Click(object sender, RoutedEventArgs e)
+        private void btnFilterDropdown_Click(object sender, RoutedEventArgs e)
         {
             if (FilterControls.Visibility == Visibility.Visible)
             {
+                btnFilterDropdown.Content = "\uE70D";
                 FilterControls.Visibility = Visibility.Collapsed;
                 lblNoResult.Visibility = Visibility.Visible;
             }
             else
             {
+                btnFilterDropdown.Content = "\uE70E";
                 FilterControls.Visibility = Visibility.Visible;
             }
         }
