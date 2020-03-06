@@ -67,7 +67,7 @@ namespace CAA_CrossPlatform.UWP
                         lblTrack.FontSize = 25;
 
                         StackPanel spControls = new StackPanel();
-                        spTrack.Orientation = Orientation.Horizontal;
+                        spControls.Orientation = Orientation.Horizontal;
 
                         //create button
                         Button btnMinus = new Button();
@@ -75,36 +75,41 @@ namespace CAA_CrossPlatform.UWP
                         btnMinus.Click += BtnControl_Click;
                         btnMinus.FontFamily = new FontFamily("Segoe MDL2 Assets");
                         btnMinus.Content = "\uE738";
-                        btnMinus.Margin = new Thickness(105, -40, 0, 0);
+                        btnMinus.Margin = new Thickness(2);
+                        btnMinus.Style = (Style)Application.Current.Resources["ButtonTemplate"];
                         btnMinus.Height = 40;
                         btnMinus.Width = 40;
+
+                        spControls.Children.Add(btnMinus);
 
                         //create textbox
                         TextBox txtTrack = new TextBox();
                         txtTrack.Name = $"txtTrack_{trackingPanel.Children.Count + 1}";
                         txtTrack.Text = "0";
                         txtTrack.HorizontalAlignment = HorizontalAlignment.Left;
-                        txtTrack.Margin = new Thickness(0, 5, 0, 0);
                         txtTrack.TextWrapping = TextWrapping.Wrap;
+                        txtTrack.Margin = new Thickness(2);
                         txtTrack.Height = 40;
                         txtTrack.Width = 100;
                         txtTrack.FontSize = 22;
+
+                        spControls.Children.Add(txtTrack);
 
                         //create button
                         Button btnPlus = new Button();
                         btnPlus.Name = $"btnPlus_{trackingPanel.Children.Count + 1}";
                         btnPlus.Click += BtnControl_Click;
                         btnPlus.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                        btnPlus.Margin = new Thickness(2);
+                        btnPlus.Style = (Style)Application.Current.Resources["ButtonTemplate"];
                         btnPlus.Content = "\uE710";
-                        btnPlus.Margin = new Thickness(105, -40, 0, 0);
                         btnPlus.Height = 40;
                         btnPlus.Width = 40;
 
                         //add items to panel
                         spTrack.Children.Add(lblTrack);
-                        spTrack.Children.Add(btnMinus);
-                        spTrack.Children.Add(txtTrack);
-                        spTrack.Children.Add(btnPlus);
+                        spControls.Children.Add(btnPlus);
+                        spTrack.Children.Add(spControls);
                         trackingPanel.Children.Add(spTrack);
                     }
         }
