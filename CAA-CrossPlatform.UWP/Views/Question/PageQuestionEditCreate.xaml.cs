@@ -17,29 +17,11 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class PageQuestionCreate : Page
+    public sealed partial class PageQuestionEditCreate : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
-        public PageQuestionCreate()
+        public PageQuestionEditCreate()
         {
             this.InitializeComponent();
-        }
-
-        private void Events_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageEvent));
-        }
-
-        private void Quizes_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageGame));
-        }
-
-        private void Questions_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageQuestion));
         }
 
         private async void btnCreate_Click(object sender, RoutedEventArgs e)
@@ -113,17 +95,12 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //navigate
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
+            Frame.GoBack();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType);
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageExcel));
+            Frame.GoBack();
         }
 
         private void btnMenuItem_Click(object sender, RoutedEventArgs e)

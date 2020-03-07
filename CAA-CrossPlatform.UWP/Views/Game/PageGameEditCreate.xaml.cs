@@ -21,84 +21,91 @@ using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
-    public sealed partial class PageGameCreate : Page
+    public sealed partial class PageGameEditCreate : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
         //list of questions
         static List<Question> visibleQuestions = new List<Question>();
 
-        public PageGameCreate()
+        //setup selected game
+        Game selectedGame = null;
+
+        //setup selected questions
+        List<Question> selectedQuestions = null;
+
+        public PageGameEditCreate()
         {
             this.InitializeComponent();
-            this.Loaded += PageGameCreate_Loaded;
+            this.Loaded += PageGameEditCreate_Loaded;
         }
 
-        private async void PageGameCreate_Loaded(object sender, RoutedEventArgs e)
+        private async void PageGameEditCreate_Loaded(object sender, RoutedEventArgs e)
         {
+            //set selected game
+            selectedGame = EnvironmentModel.Game;
+
+            //set selected questions
+            selectedQuestions = EnvironmentModel.QuestionList;
+            EnvironmentModel.QuestionList = null;
+
+            //get name
+            if (selectedGame != null)
+                txtGame.Text = selectedGame.name;
+
             //get question list
             List<Question> questions = await Connection.Get("Question");
-            foreach (Question q in questions)
-                if (q.hidden == false)
+            foreach (Question question in questions)
+                if (question.hidden == false)
                 {
-                    lstQuestions.Items.Add(q.name);
-                    visibleQuestions.Add(q);
+                    //add to list
+                    lbQuestion.Items.Add(question.name);
+                    visibleQuestions.Add(question);
                 }
+
+            List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
+
+            //callback selections
+            if (selectedQuestions != null)
+            {
+                foreach (Question question in selectedQuestions)
+                    lbQuestion.SelectedItems.Add(question.name);
+            }
+
+            //database selections
+            else if (selectedQuestions == null && selectedGame != null)
+            {
+                foreach (Question question in visibleQuestions)
+                    foreach (GameQuestion gameQuestion in gameQuestions)
+                        if (gameQuestion.QuestionID == question.Id && gameQuestion.GameID == selectedGame.Id)
+                            lbQuestion.SelectedItems.Add(question.name);
+            }
         }
 
-        static dynamic selections = null;
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            selections = e.Parameter;
-
-            base.OnNavigatedTo(e);
-        }
-
-        private void Events_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageEvent));
-        }
-
-        private void Quizes_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageGame));
-        }
-
-        private void Questions_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageQuestion));
-        }
-
-        private async void btnCreate_Click(object sender, RoutedEventArgs e)
+        private async void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             //get list of games
             List<Game> games = await Connection.Get("Game");
 
             //validation
-            if (txtGame.Text == "")
+            if (string.IsNullOrEmpty(txtGame.Text))
             {
-                lblGameName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                txtGame.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                await new MessageDialog("Please enter a quiz name").ShowAsync();
+                await new MessageDialog("Enter a game name.").ShowAsync();
+                txtGame.Focus(FocusState.Keyboard);
                 return;
             }
 
-            foreach (Game g in games)
+            foreach (Game game in games)
             {
                 //validate name
-                if (g.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && g.hidden == false)
+                if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == false && selectedGame == null)
                 {
-                    lblGameName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    txtGame.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
-                    await new MessageDialog("That quiz already exists, please enter a different name").ShowAsync();
+                    await new MessageDialog("That game already exists, enter a different name.").ShowAsync();
                     return;
                 }
 
                 //unhide game if user chooses
-                else if (g.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && g.hidden == true)
+                else if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == true)
                 {
-                    MessageDialog msg = new MessageDialog("That quiz is hidden, would you like to re-activate it?");
+                    MessageDialog msg = new MessageDialog("That game is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
                     msg.Commands.Add(new UICommand("No") { Id = 0 });
                     msg.CancelCommandIndex = 0;
@@ -107,9 +114,9 @@ namespace CAA_CrossPlatform.UWP
                     //re-activate game
                     if ((int)choice.Id == 1)
                     {
-                        g.hidden = false;
-                        Connection.Update(g);
-                        Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
+                        game.hidden = false;
+                        await Connection.Update(game);
+                        Frame.GoBack();
                         return;
                     }
 
@@ -119,86 +126,85 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //setup game object
-            Game game = new Game();
-            game.name = txtGame.Text;
+            Game newGame = new Game();
+            newGame.name = txtGame.Text;
 
-            //save to database
-            game.Id = await Connection.Insert(game);
-
-            //create questions
-            foreach (Question q in visibleQuestions)
+            if (selectedGame != null)
             {
-                //question is selected
-                if (lstQuestions.SelectedItems.Contains(q.name))
-                {
-                    //create game question
-                    GameQuestion gq = new GameQuestion();
-                    gq.GameID = game.Id;
-                    gq.QuestionID = q.Id;
-
-                    //save to database
-                    gq.Id = await Connection.Insert(gq);
-                }
+                newGame.Id = selectedGame.Id;
+                await Connection.Update(newGame);
             }
 
+            else if (selectedGame == null)
+                newGame.Id = await Connection.Insert(newGame);
+
+            //get all game questions
+            List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
+
+            //create questions
+            foreach (Question question in visibleQuestions)
+                if (lbQuestion.SelectedItems.Contains(question.name))
+                {
+                    //remove old game questions
+                    foreach (GameQuestion gameQuestionOld in gameQuestions)
+                        if (gameQuestionOld.GameID == newGame.Id)
+                            await Connection.Delete(gameQuestionOld);
+
+                    //create game question
+                    GameQuestion gameQuestion = new GameQuestion();
+                    gameQuestion.GameID = newGame.Id;
+                    gameQuestion.QuestionID = question.Id;
+
+                    //save to database
+                    gameQuestion.Id = await Connection.Insert(gameQuestion);
+                }
+
             //navigate back
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
+            Frame.GoBack();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(Frame.BackStack.Last().SourcePageType, selections);
-        }
-
-        private void Export_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageExcel));
+            Frame.GoBack();
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            lstQuestions.Items.Clear();
-            foreach (Question q in visibleQuestions)
-                if (q.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
-                    lstQuestions.Items.Add(q.name);
-        }
-
-        private void txtSearch_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if(txtSearch.Text == "Search")
-                txtSearch.Text = "";
-        }
-
-        private async void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            //prompt user
-            ContentDialog logoutDialog = new ContentDialog
+            //clear questions
+            lbQuestion.Items.Clear();
+            
+            //get all questions
+            if (string.IsNullOrEmpty(txtSearch.Text))
             {
-                Title = "Logout?",
-                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
-                PrimaryButtonText = "Logout",
-                CloseButtonText = "Cancel"
-            };
+                foreach (Question question in visibleQuestions)
+                    lbQuestion.Items.Add(question.name);
+            }
 
-            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
+            //search questions
+            else
+                foreach (Question question in visibleQuestions)
+                    if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
+                        lbQuestion.Items.Add(question.name);
         }
 
-        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
+        private void btnCreateQuestion_Click(object sender, RoutedEventArgs e)
         {
-            //get menu button
-            Button btn = (Button)sender;
+            List<Question> questions = new List<Question>();
 
-            //event
-            if (btn.Content.ToString().Contains("Event"))
-                Frame.Navigate(typeof(PageEvent));
+            foreach (string questionName in lbQuestion.SelectedItems)
+                foreach (Question question in visibleQuestions)
+                    if (question.name == questionName)
+                        questions.Add(question);
 
-            //game
-            else if (btn.Content.ToString().Contains("Game"))
-                Frame.Navigate(typeof(PageGame));
+            EnvironmentModel.QuestionList = questions;
 
-            //question
-            else if (btn.Content.ToString().Contains("Question"))
-                Frame.Navigate(typeof(PageQuestion));
+            if (questions.Count == 0)
+                EnvironmentModel.QuestionList = null;
+
+            Game game = new Game();
+            game.name = txtGame.Text;
+            EnvironmentModel.Game = game;
+            Frame.Navigate(typeof(PageQuestionEditCreate));
         }
     }
 }

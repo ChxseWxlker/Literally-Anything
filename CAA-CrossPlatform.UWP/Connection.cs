@@ -545,7 +545,7 @@ namespace CAA_CrossPlatform.UWP
         }
 
         //edit a record
-        public static async void Update(dynamic record)
+        public static async Task<int> Update(dynamic record)
         {
             //verify the database exists
             await Verify();
@@ -679,7 +679,7 @@ namespace CAA_CrossPlatform.UWP
 
             //table doesn't exist
             else
-                return;
+                return 0;
 
             //try connecting to the database
             try
@@ -730,6 +730,8 @@ namespace CAA_CrossPlatform.UWP
                 else
                     await new MessageDialog(ex.Message).ShowAsync();
             }
+
+            return 0;
         }
 
         //edit a record

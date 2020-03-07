@@ -52,13 +52,10 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //edit event
-            if (PassItem.environmentEvent != null)
+            if (EnvironmentModel.Event != null)
             {
                 //get event
-                selectedEvent = PassItem.environmentEvent;
-
-                //reset environment event
-                PassItem.environmentEvent = null;
+                selectedEvent = EnvironmentModel.Event;
 
                 //get game
                 Game game = await Connection.Get("Game", selectedEvent.GameID);
@@ -129,15 +126,9 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            //reset validation template
-            lblEventName.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
-            lblStartDate.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
-            lblEndDate.Style = (Style)Application.Current.Resources["ValidationResetTemplate"];
-
             //validate name
             if (txtEvent.Text == "")
             {
-                lblEventName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 txtEvent.Focus(FocusState.Keyboard);
                 return;
             }
@@ -145,7 +136,6 @@ namespace CAA_CrossPlatform.UWP
             //validate start date
             else if (dtpStartDate.SelectedDate == null)
             {
-                lblStartDate.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 dtpStartDate.Focus(FocusState.Keyboard);
                 return;
             }
@@ -153,7 +143,6 @@ namespace CAA_CrossPlatform.UWP
             //validate end date
             else if (dtpEndDate.SelectedDate == null)
             {
-                lblEndDate.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 dtpEndDate.Focus(FocusState.Keyboard);
                 return;
             }
@@ -161,8 +150,6 @@ namespace CAA_CrossPlatform.UWP
             //validate date range
             else if (dtpEndDate.SelectedDate < dtpStartDate.SelectedDate)
             {
-                lblStartDate.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                lblEndDate.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                 dtpEndDate.Focus(FocusState.Keyboard);
                 return;
             }
@@ -181,11 +168,10 @@ namespace CAA_CrossPlatform.UWP
                 abbreviation += $"{dtpStartDate.SelectedDate.Value.DateTime.Month.ToString("00")}{dtpStartDate.SelectedDate.Value.DateTime.Year}";
 
                 //event exists and is visible
-                if (ev.nameAbbrev == abbreviation && ev.hidden == false && selectedEvent.Id != ev.Id)
+                if (ev.nameAbbrev == abbreviation && ev.hidden == false && selectedEvent == null)
                 {
-                    lblEventName.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
                     txtEvent.Focus(FocusState.Keyboard);
-                    await new MessageDialog("That event already exists, please enter a different name or date").ShowAsync();
+                    await new MessageDialog("That event already exists, enter a different name or date.").ShowAsync();
                     return;
                 }
 
@@ -202,7 +188,7 @@ namespace CAA_CrossPlatform.UWP
                     if ((int)choice.Id == 1)
                     {
                         ev.hidden = false;
-                        Connection.Update(ev);
+                        await Connection.Update(ev);
                         Frame.Navigate(Frame.BackStack.Last().SourcePageType);
                         return;
                     }
@@ -300,10 +286,10 @@ namespace CAA_CrossPlatform.UWP
             selectedEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 
             //store event for return
-            PassItem.environmentEvent = selectedEvent;
+            EnvironmentModel.Event = selectedEvent;
 
             //navigate to create a game
-            Frame.Navigate(typeof(PageGameCreate));
+            Frame.Navigate(typeof(PageGameEditCreate));
         }
 
         private async void txtTrack_TextChanged(object sender, TextChangedEventArgs e)

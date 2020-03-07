@@ -89,22 +89,22 @@
 
                             <TextBlock Text="Games" TextWrapping="Wrap" FontSize="60"/>
 
-                            <ListView x:Name="lstGame"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0"/>
+                            <ListView x:Name="lbGame"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0"/>
 
                         </StackPanel>
 
                         <RelativePanel VerticalAlignment="Center">
                             <StackPanel x:Name="ButtonLayout">
 
-                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCreate" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnCreate_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCreate" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />
 
-                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnEdit" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnEdit_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnEdit" Content="Edit" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />
 
                             </StackPanel>
 
                             <StackPanel x:Name="spBtnDeleteLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
-                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnDelete_Click" />
+                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />
 
                             </StackPanel>
 

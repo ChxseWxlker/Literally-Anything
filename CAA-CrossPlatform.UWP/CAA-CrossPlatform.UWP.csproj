@@ -98,7 +98,7 @@
     <Compile Include="Models\AttendanceItem.cs" />
     <Compile Include="Models\EventItem.cs" />
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\PassItem.cs" />
+    <Compile Include="Models\EnvironmentModel.cs" />
     <Compile Include="Templates\EventTemplate.xaml.cs">
       <DependentUpon>EventTemplate.xaml</DependentUpon>
     </Compile>

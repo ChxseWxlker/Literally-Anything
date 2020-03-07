@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="CAA_CrossPlatform.UWP.PageGameCreate"
+    x:Class="CAA_CrossPlatform.UWP.PageGameEditCreate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CAA_CrossPlatform.UWP"
@@ -16,20 +16,20 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>
-                        <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>
-                        <Setter Target="btnCreate.Width" Value="130"/>
-                        <Setter Target="btnCancel.Width" Value="130"/>
-                        <Setter Target="btnCreate.FontSize" Value="20"/>
-                        <Setter Target="btnSearch.FontSize" Value="26"/>
-                        <Setter Target="btnCancel.FontSize" Value="20"/>
-                        <Setter Target="txtGame.FontSize" Value="20"/>
-                        <Setter Target="txtGame.Width" Value="300"/>
-                        <Setter Target="txtSearch.FontSize" Value="20"/>
-                        <Setter Target="txtSearch.Width" Value="250"/>
-                        <Setter Target="lstQuestions.Width" Value="300"/>
-                        <Setter Target="lblQuestions.FontSize" Value="20"/>
-                        <Setter Target="lblGameName.FontSize" Value="20"/>
+                        <!--<Setter Target="btnCreate.Margin" Value="5,10,0,0"/>-->
+                        <!--<Setter Target="btnCancel.Margin" Value="0,10,5,0"/>-->
+                        <!--<Setter Target="btnCreate.Width" Value="130"/>-->
+                        <!--<Setter Target="btnCancel.Width" Value="130"/>-->
+                        <!--<Setter Target="btnCreate.FontSize" Value="20"/>-->
+                        <!--<Setter Target="btnSearch.FontSize" Value="26"/>-->
+                        <!--<Setter Target="btnCancel.FontSize" Value="20"/>-->
+                        <!--<Setter Target="txtGame.FontSize" Value="20"/>-->
+                        <!--<Setter Target="txtGame.Width" Value="300"/>-->
+                        <!--<Setter Target="txtSearch.FontSize" Value="20"/>-->
+                        <!--<Setter Target="txtSearch.Width" Value="250"/>-->
+                        <!--<Setter Target="lbQuestion.Width" Value="300"/>-->
+                        <!--<Setter Target="lblQuestion.FontSize" Value="20"/>-->
+                        <!--<Setter Target="lblGameName.FontSize" Value="20"/>-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -37,20 +37,20 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>
-                        <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>
-                        <Setter Target="btnCreate.Width" Value="130"/>
-                        <Setter Target="btnCancel.Width" Value="130"/>
-                        <Setter Target="btnCreate.FontSize" Value="20"/>
-                        <Setter Target="btnSearch.FontSize" Value="26"/>
-                        <Setter Target="btnCancel.FontSize" Value="20"/>
-                        <Setter Target="txtGame.FontSize" Value="20"/>
-                        <Setter Target="txtGame.Width" Value="300"/>
-                        <Setter Target="txtSearch.FontSize" Value="20"/>
-                        <Setter Target="txtSearch.Width" Value="300"/>
-                        <Setter Target="lstQuestions.Width" Value="500"/>
-                        <Setter Target="lblQuestions.FontSize" Value="20"/>
-                        <Setter Target="lblGameName.FontSize" Value="20"/>
+                    <!-- <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>   -->
+                    <!-- <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>   -->
+                    <!-- <Setter Target="btnCreate.Width" Value="130"/>         -->
+                    <!-- <Setter Target="btnCancel.Width" Value="130"/>         -->
+                    <!-- <Setter Target="btnCreate.FontSize" Value="20"/>       -->
+                    <!-- <Setter Target="btnSearch.FontSize" Value="26"/>       -->
+                    <!-- <Setter Target="btnCancel.FontSize" Value="20"/>       -->
+                    <!-- <Setter Target="txtGame.FontSize" Value="20"/>         -->
+                    <!-- <Setter Target="txtGame.Width" Value="300"/>           -->
+                    <!-- <Setter Target="txtSearch.FontSize" Value="20"/>       -->
+                    <!-- <Setter Target="txtSearch.Width" Value="300"/>         -->
+                    <!-- <Setter Target="lbQuestion.Width" Value="500"/>        -->
+                    <!-- <Setter Target="lblQuestion.FontSize" Value="20"/>     -->
+                    <!-- <Setter Target="lblGameName.FontSize" Value="20"/>     -->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -70,58 +70,44 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="56"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="90*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <RelativePanel Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center">
+            <RelativePanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
+                <StackPanel Name="spGameName" HorizontalAlignment="Left">
+                    <TextBlock x:Name="lblGameName" Text="Game Name" TextWrapping="Wrap" FontSize="25"/>
+                    <TextBox x:Name="txtGame" TextWrapping="Wrap" FontSize="25" Width="400"/>
+                </StackPanel>
 
-                    <StackPanel Name="spGameName" HorizontalAlignment="Left">
-
-                        <TextBlock x:Name="lblGameName" Text="Quiz Name" TextWrapping="Wrap" FontSize="25"/>
-
-                        <TextBox x:Name="txtGame" TextWrapping="Wrap" FontSize="25" Width="400"/>
-
+                <StackPanel x:Name="spSearchBar" Orientation="Vertical" RelativePanel.Below="spGameName">
+                    <TextBlock x:Name="lblQuestion" Text="Question" TextWrapping="Wrap" FontSize="25"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" FontSize="25" Width="295" Margin="0 0 5 0"/>
+                        <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="25" Content="&#xE1A3;" ToolTipService.ToolTip="Search questions" Click="btnSearch_Click" />
+                        <Button x:Name="btnCreateQuestion" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="25" Content="&#xE710;" Margin="5 0 0 0" ToolTipService.ToolTip="Create a question" Click="btnCreateQuestion_Click" />
                     </StackPanel>
+                </StackPanel>
 
-                    <TextBlock x:Name="lblQuestions" Text="Select Questions" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="spGameName"/>
+                <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0,20,0,0">
+                    <ListView x:Name="lbQuestion" Width="400" Height="300" Background="#ddd" SelectionMode="Multiple"/>
+                </StackPanel>
 
-                    <StackPanel x:Name="spSearchBar" Orientation="Horizontal" RelativePanel.Below="lblQuestions">
-
-                        <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Width="400" SelectionChanged="txtSearch_SelectionChanged"/>
-
-                        <Button x:Name="btnSearch" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="btnSearch_Click" />
-
-                    </StackPanel>
-
-                    <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0,20,0,0">
-
-                        <ListView x:Name="lstQuestions" Width="500" Height="300" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" SelectionMode="Multiple"/>
-
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="spQuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
-
-                        <Button  Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="btnCancel_Click" />
-
-                        <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCreate" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="btnCreate_Click" />
-
-
-                    </StackPanel>
-                </RelativePanel>
-            </Grid>
-        </ScrollViewer>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" RelativePanel.Below="spQuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                    <Button  Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Content="Cancel" Width="150" Height="50" FontSize="30" Margin="0 10 10 0" Click="btnCancel_Click" />
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Submit" Width="150" Height="50" FontSize="30" Margin="10 10 0 0" Click="btnSubmit_Click" />
+                </StackPanel>
+            </RelativePanel>
+        </Grid>
     </Grid>
 </Page>

@@ -19,9 +19,6 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageEventManager : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
         //setup selected event
         Event selectedEvent;
 
@@ -37,8 +34,7 @@ namespace CAA_CrossPlatform.UWP
         private async void EventManager_Loaded(object sender, RoutedEventArgs e)
         {
             //get event
-            selectedEvent = PassItem.environmentEvent;
-            PassItem.environmentEvent = null;
+            selectedEvent = EnvironmentModel.Event;
 
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);

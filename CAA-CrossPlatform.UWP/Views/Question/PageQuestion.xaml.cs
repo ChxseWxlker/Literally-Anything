@@ -62,7 +62,7 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PageQuestionCreate));
+            Frame.Navigate(typeof(PageQuestionEditCreate));
         }
 
         private async void btnEdit_Click(object sender, RoutedEventArgs e)

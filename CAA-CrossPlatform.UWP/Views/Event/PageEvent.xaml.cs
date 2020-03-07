@@ -35,6 +35,9 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageEvent_Loaded(object sender, RoutedEventArgs e)
         {
+            //reset environment vars
+            EnvironmentModel.Reset();
+
             //get permissions
             if (Environment.GetEnvironmentVariable("activeUser") == "Guest")
                 btnCreateEvent.Visibility = Visibility.Collapsed;
@@ -101,13 +104,13 @@ namespace CAA_CrossPlatform.UWP
 
             if (btnSender.Name == "btnEnter")
             {
-                PassItem.environmentEvent = selectedEvent;
+                EnvironmentModel.Event = selectedEvent;
                 Frame.Navigate(typeof(PageEventManager));
             }
 
             else if (btnSender.Name == "btnEdit")
             {
-                PassItem.environmentEvent = selectedEvent;
+                EnvironmentModel.Event = selectedEvent;
                 Frame.Navigate(typeof(PageEventEditCreate));
             }
 
