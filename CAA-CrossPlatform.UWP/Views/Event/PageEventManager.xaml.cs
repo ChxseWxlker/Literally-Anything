@@ -113,22 +113,29 @@ namespace CAA_CrossPlatform.UWP
         {
             Button btnCaller = (Button)sender;
             string btn = btnCaller.Name.ToString();
-            int Id = Convert.ToInt32(btn.Substring(btn.IndexOf('_') + 1));
-            TextBox txt = null;
-            StackPanel spTrack = (StackPanel)trackingPanel.Children[1];
-            StackPanel spControls = (StackPanel)spTrack.Children[1];
-                TextBox spTxt = (TextBox)spControls.Children[1];
-                if (Convert.ToInt32(spTxt.Name.Substring(spTxt.Name.IndexOf('_') + 1)) == Id)
-                    txt = spTxt;
+            string Id = btn.Substring(btn.IndexOf('_') + 1);
+            TextBox txtBox = null;
+
+            foreach (var element in trackingPanel.Children)
+            {
+                if (element.GetType() == typeof(StackPanel))
+                {
+                    StackPanel spTrack = (StackPanel)element;
+                    StackPanel spControls = (StackPanel)spTrack.Children[1];
+                    TextBox txtTrack = (TextBox)spControls.Children[1];
+                    if (txtTrack.Name.Substring(txtTrack.Name.IndexOf('_') + 1) == Id)
+                        txtBox = txtTrack;
+                }
+            }
 
             //plus button
             if (btn.Contains("Plus"))
-                txt.Text = (Convert.ToInt32(txt.Text) + 1).ToString();
+                txtBox.Text = (Convert.ToInt32(txtBox.Text) + 1).ToString();
 
             //minus button
             else if (btn.Contains("Minus"))
-                if (Convert.ToInt32(txt.Text) > 0)
-                    txt.Text = (Convert.ToInt32(txt.Text) - 1).ToString();
+                if (Convert.ToInt32(txtBox.Text) > 0)
+                    txtBox.Text = (Convert.ToInt32(txtBox.Text) - 1).ToString();
 
             //focus membership
             txtMemberNum.Focus(FocusState.Keyboard);
@@ -190,21 +197,25 @@ namespace CAA_CrossPlatform.UWP
                     }
 
                     a.Id = await Connection.Insert(a);
-                    
-                    //create items
-                    foreach (StackPanel sp in trackingPanel.Children)
-                    {
-                        TextBox txt = (TextBox)sp.Children[2];
-                        int value = Convert.ToInt32(txt.Text);
 
-                        //create item
-                        if (value > 0)
+                    //create items
+                    foreach (var element in trackingPanel.Children)
+                    {
+                        if (element.GetType() == typeof(StackPanel))
                         {
-                            AttendanceItem attendanceItem = new AttendanceItem();
-                            attendanceItem.AttendanceId = a.Id;
-                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
-                            attendanceItem.input = value;
-                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                            StackPanel spTrack = (StackPanel)element;
+                            StackPanel spControls = (StackPanel)spTrack.Children[1];
+                            TextBox txtTrack = (TextBox)spControls.Children[1];
+
+                            //create item
+                            if (Convert.ToInt32(txtTrack.Text) > 0)
+                            {
+                                AttendanceItem attendanceItem = new AttendanceItem();
+                                attendanceItem.AttendanceId = a.Id;
+                                attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                                attendanceItem.input = Convert.ToInt32(txtTrack.Text);
+                                attendanceItem.Id = await Connection.Insert(attendanceItem);
+                            }
                         }
                     }
                 }
@@ -254,19 +265,23 @@ namespace CAA_CrossPlatform.UWP
                     a.Id = await Connection.Insert(a);
 
                     //create items
-                    foreach (StackPanel sp in trackingPanel.Children)
+                    foreach (var element in trackingPanel.Children)
                     {
-                        TextBox txt = (TextBox)sp.Children[2];
-                        int value = Convert.ToInt32(txt.Text);
-
-                        //create item
-                        if (value > 0)
+                        if (element.GetType() == typeof(StackPanel))
                         {
-                            AttendanceItem attendanceItem = new AttendanceItem();
-                            attendanceItem.AttendanceId = a.Id;
-                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
-                            attendanceItem.input = value;
-                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                            StackPanel spTrack = (StackPanel)element;
+                            StackPanel spControls = (StackPanel)spTrack.Children[1];
+                            TextBox txtTrack = (TextBox)spControls.Children[1];
+
+                            //create item
+                            if (Convert.ToInt32(txtTrack.Text) > 0)
+                            {
+                                AttendanceItem attendanceItem = new AttendanceItem();
+                                attendanceItem.AttendanceId = a.Id;
+                                attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                                attendanceItem.input = Convert.ToInt32(txtTrack.Text);
+                                attendanceItem.Id = await Connection.Insert(attendanceItem);
+                            }
                         }
                     }
                 }
@@ -277,10 +292,15 @@ namespace CAA_CrossPlatform.UWP
                 txtMemberPhone.IsEnabled = true;
 
                 //reset fields
-                foreach (StackPanel sp in trackingPanel.Children)
+                foreach (var element in trackingPanel.Children)
                 {
-                    TextBox txt = (TextBox)sp.Children[2];
-                    txt.Text = "0";
+                    if (element.GetType() == typeof(StackPanel))
+                    {
+                        StackPanel spTrack = (StackPanel)element;
+                        StackPanel spControls = (StackPanel)spTrack.Children[1];
+                        TextBox txtTrack = (TextBox)spControls.Children[1];
+                        txtTrack.Text = "0";
+                    }
                 }
                 txtMemberNum.Text = "";
                 txtMemberFirst.Text = "";
@@ -335,19 +355,23 @@ namespace CAA_CrossPlatform.UWP
             a.Id = await Connection.Insert(a);
 
             //create items
-            foreach (StackPanel sp in trackingPanel.Children)
+            foreach (var element in trackingPanel.Children)
             {
-                TextBox txt = (TextBox)sp.Children[2];
-                int value = Convert.ToInt32(txt.Text);
-
-                //create item
-                if (value > 0)
+                if (element.GetType() == typeof(StackPanel))
                 {
-                    AttendanceItem attendanceItem = new AttendanceItem();
-                    attendanceItem.AttendanceId = a.Id;
-                    attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(sp)].Id;
-                    attendanceItem.input = value;
-                    attendanceItem.Id = await Connection.Insert(attendanceItem);
+                    StackPanel spTrack = (StackPanel)element;
+                    StackPanel spControls = (StackPanel)spTrack.Children[1];
+                    TextBox txtTrack = (TextBox)spControls.Children[1];
+
+                    //create item
+                    if (Convert.ToInt32(txtTrack.Text) > 0)
+                    {
+                        AttendanceItem attendanceItem = new AttendanceItem();
+                        attendanceItem.AttendanceId = a.Id;
+                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                        attendanceItem.input = Convert.ToInt32(txtTrack.Text);
+                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                    }
                 }
             }
 
@@ -357,10 +381,15 @@ namespace CAA_CrossPlatform.UWP
             txtMemberPhone.IsEnabled = true;
 
             //reset fields
-            foreach (StackPanel sp in trackingPanel.Children)
+            foreach (var element in trackingPanel.Children)
             {
-                TextBox txt = (TextBox)sp.Children[2];
-                txt.Text = "0";
+                if (element.GetType() == typeof(StackPanel))
+                {
+                    StackPanel spTrack = (StackPanel)element;
+                    StackPanel spControls = (StackPanel)spTrack.Children[1];
+                    TextBox txtTrack = (TextBox)spControls.Children[1];
+                    txtTrack.Text = "0";
+                }
             }
             txtMemberNum.Text = "";
             txtMemberFirst.Text = "";
