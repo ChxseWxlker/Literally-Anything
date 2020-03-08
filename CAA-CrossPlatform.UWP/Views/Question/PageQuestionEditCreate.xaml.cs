@@ -136,10 +136,13 @@ namespace CAA_CrossPlatform.UWP
             foreach (Question question in questions)
             {
                 //validate title
-                if (question.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && question.hidden == false && selectedQuestion.Id == 0)
+                if (question.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && question.hidden == false)
                 {
-                    await new MessageDialog("That question already exists, enter a different name.").ShowAsync();
-                    return;
+                    if (selectedQuestion.Id == 0 || selectedQuestion.Id == -1)
+                    {
+                        await new MessageDialog("That question already exists, enter a different name.").ShowAsync();
+                        return;
+                    }
                 }
                 if (question.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && question.hidden == true)
                 {
@@ -169,14 +172,14 @@ namespace CAA_CrossPlatform.UWP
             //create question
             newQuestion.name = txtQuestion.Text;
 
-            if (selectedQuestion.Id != 0)
+            if (selectedQuestion.Id == 0 || selectedQuestion.Id == -1)
+                newQuestion.Id = await Connection.Insert(newQuestion);
+
+            else
             {
                 newQuestion.Id = selectedQuestion.Id;
                 await Connection.Update(newQuestion);
             }
-
-            else if (selectedQuestion.Id == 0)
-                newQuestion.Id = await Connection.Insert(newQuestion);
 
             //create answers
             if (newQuestion.Id != -1)

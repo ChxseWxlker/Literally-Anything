@@ -97,10 +97,13 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game game in games)
             {
                 //validate name
-                if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == false && selectedGame.Id == 0)
+                if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == false)
                 {
-                    await new MessageDialog("That game already exists, enter a different name.").ShowAsync();
-                    return;
+                    if (selectedGame.Id == 0 || selectedGame.Id == -1)
+                    {
+                        await new MessageDialog("That game already exists, enter a different name.").ShowAsync();
+                        return;
+                    }
                 }
 
                 //unhide game if user chooses
@@ -130,14 +133,14 @@ namespace CAA_CrossPlatform.UWP
             Game newGame = new Game();
             newGame.name = txtGame.Text;
 
-            if (selectedGame.Id != 0)
+            if (selectedGame.Id == 0 || selectedGame.Id == -1)
+                newGame.Id = await Connection.Insert(newGame);
+
+            else
             {
                 newGame.Id = selectedGame.Id;
                 await Connection.Update(newGame);
             }
-
-            else if (selectedGame.Id == 0)
-                newGame.Id = await Connection.Insert(newGame);
 
             //get all game questions
             List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");

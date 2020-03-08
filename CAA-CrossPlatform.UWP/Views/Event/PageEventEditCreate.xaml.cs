@@ -60,10 +60,14 @@ namespace CAA_CrossPlatform.UWP
             if (selectedEvent.Id != 0)
             {
                 //get game
-                Game game = await Connection.Get("Game", selectedEvent.GameID);
-                cmbGame.SelectedItem = game.name;
+                try
+                {
+                    Game game = await Connection.Get("Game", selectedEvent.GameID);
+                    cmbGame.SelectedItem = game.name;
+                }
+                catch { }
 
-                if (!string.IsNullOrEmpty(selectedEvent.name))
+                if (!string.IsNullOrEmpty(selectedEvent.displayName))
                     txtEvent.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
 
                 if (selectedEvent.startDate != null)
@@ -171,11 +175,14 @@ namespace CAA_CrossPlatform.UWP
                 abbreviation += $"{dtpStartDate.SelectedDate.Value.DateTime.Month.ToString("00")}{dtpStartDate.SelectedDate.Value.DateTime.Year}";
 
                 //event exists and is visible
-                if (ev.nameAbbrev == abbreviation && ev.hidden == false && selectedEvent.Id == 0)
+                if (ev.nameAbbrev == abbreviation && ev.hidden == false)
                 {
-                    txtEvent.Focus(FocusState.Keyboard);
-                    await new MessageDialog("That event already exists, enter a different name or date.").ShowAsync();
-                    return;
+                    if (selectedEvent.Id == 0 || selectedEvent.Id == -1)
+                    {
+                        txtEvent.Focus(FocusState.Keyboard);
+                        await new MessageDialog("That event already exists, enter a different name or date.").ShowAsync();
+                        return;
+                    }
                 }
 
                 //event exists but is hidden
@@ -220,15 +227,14 @@ namespace CAA_CrossPlatform.UWP
             newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
             newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
 
-            //save to database
-            if (selectedEvent.Id != 0)
+            if (selectedEvent.Id == 0 || selectedEvent.Id == -1)
+                newEvent.Id = await Connection.Insert(newEvent);
+
+            else
             {
                 newEvent.Id = selectedEvent.Id;
                 await Connection.Update(newEvent);
             }
-
-            else if (selectedEvent.Id == 0)
-                newEvent.Id = await Connection.Insert(newEvent);
 
             //create trackable items
             if (newEvent.Id != -1)
@@ -292,14 +298,14 @@ namespace CAA_CrossPlatform.UWP
             Event newEvent = new Event();
             newEvent.Id = -1;
 
-            if (!string.IsNullOrEmpty(txtEvent.Text))
-                newEvent.name = txtEvent.Text;
-
             if (dtpStartDate.SelectedDate != null)
                 newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
 
             if (dtpEndDate.SelectedDate != null)
                 newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+
+            if (!string.IsNullOrEmpty(txtEvent.Text))
+                newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
 
             newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 
