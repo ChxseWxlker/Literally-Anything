@@ -25,6 +25,9 @@ namespace CAA_CrossPlatform.UWP
         //list of event items
         List<EventItem> eventItems;
 
+        //setup all attendance
+        List<Attendance> attendanceHistory = new List<Attendance>();
+
         public PageEventManager()
         {
             this.InitializeComponent();
@@ -38,6 +41,12 @@ namespace CAA_CrossPlatform.UWP
 
             //put focus on member number for easy card swiping
             txtMemberNum.Focus(FocusState.Keyboard);
+
+            //get attendance history
+            List<Attendance> attendanceList = await Connection.Get("Attendance");
+            foreach (Attendance attendance in attendanceList)
+                if (attendance.EventID == selectedEvent.Id)
+                    AddHistory(attendance);
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
@@ -149,6 +158,45 @@ namespace CAA_CrossPlatform.UWP
                     ? thisNum
                     : ((thisNum *= 2) > 9 ? thisNum - 9 : thisNum)
                 ).Sum() % 10 == 0;
+        }
+
+        private void AddHistory(Attendance attendance)
+        {
+            //add to history
+            attendanceHistory.Add(attendance);
+
+            //get item count
+            int historyItemCount = spHistoryMemNumber.Children.Count;
+
+            //remove last if full
+            if (historyItemCount == 4)
+            {
+                spHistoryMemNumber.Children.RemoveAt(3);
+                spHistoryMemName.Children.RemoveAt(3);
+                spHistoryMemTime.Children.RemoveAt(3);
+                historyItemCount = 3;
+            }
+
+            //create items
+            TextBlock lblNumber = new TextBlock();
+            lblNumber.Text = attendance.memberNumber;
+            lblNumber.Padding = new Thickness(5);
+            lblNumber.SetValue(Grid.RowProperty, historyItemCount);
+
+            TextBlock lblName = new TextBlock();
+            lblName.Text = $"{attendance.firstName} {attendance.lastName}";
+            lblName.Padding = new Thickness(5);
+            lblName.SetValue(Grid.RowProperty, historyItemCount);
+
+            TextBlock lblTime = new TextBlock();
+            lblTime.Text = attendance.arriveTime.ToString("MMMM dd, hh:mm:ss");
+            lblTime.Padding = new Thickness(5);
+            lblTime.SetValue(Grid.RowProperty, historyItemCount);
+
+            //append items
+            spHistoryMemNumber.Children.Insert(1, lblNumber);
+            spHistoryMemName.Children.Insert(1, lblName);
+            spHistoryMemTime.Children.Insert(1, lblTime);
         }
 
         private async void txtMemberNum_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -286,6 +334,9 @@ namespace CAA_CrossPlatform.UWP
                     }
                 }
 
+                //add history
+                AddHistory(a);
+
                 //re-enable other inputs
                 txtMemberFirst.IsEnabled = true;
                 txtMemberLast.IsEnabled = true;
@@ -375,6 +426,9 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
+            //add history
+            AddHistory(a);
+
             //re-enable other inputs
             txtMemberFirst.IsEnabled = true;
             txtMemberLast.IsEnabled = true;
@@ -398,20 +452,15 @@ namespace CAA_CrossPlatform.UWP
             txtMemberNum.Focus(FocusState.Keyboard);
         }
 
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             if (this.Frame.CanGoBack)
                 this.Frame.GoBack();
-        }
-
-        private void TxtSearch_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

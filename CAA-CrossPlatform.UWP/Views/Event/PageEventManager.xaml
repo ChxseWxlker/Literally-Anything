@@ -156,7 +156,7 @@
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Submit" Width="180" Height="50" FontSize="30" Click="btnMemberSubmit_Click"/>
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Cancel" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Exit" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -179,32 +179,23 @@
 
                                 <StackPanel x:Name="SearchBar" Orientation="Horizontal" Margin="0 0 0 10">
 
-                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Width="414" SelectionChanged="TxtSearch_SelectionChanged"/>
+                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Height="40" Width="415" Margin="0 0 5 0"/>
 
-                                    <Button x:Name="btnSearch" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE1A3;" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Click="SearchBtn_Click" />
+                                    <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" FontSize="20" Height="40" Width="40" Content="&#xE1A3;" Click="btnSearch_Click"/>
 
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="460">
-                                    <StackPanel BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                <StackPanel x:Name="spHistory" Orientation="Horizontal" HorizontalAlignment="Center" Width="460">
+                                    <StackPanel x:Name="spHistoryMemNumber" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
                                         <TextBlock Text="Member Number" Padding="10" HorizontalAlignment="Center"/>
-                                        <TextBlock x:Name="lblMemNumber_1" Text="1234567890123456" Grid.Row="1"  Padding="5"/>
-                                        <TextBlock x:Name="lblMemNumber_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
-                                        <TextBlock x:Name="lblMemNumber_3" Text="1234567890123456" Grid.Row="3"  Padding="5"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                    <StackPanel x:Name="spHistoryMemName" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
                                         <TextBlock Text="Name" Padding="10" HorizontalAlignment="Center"/>
-                                        <TextBlock x:Name="lblMemName_1" Text="1234567890123456" Grid.Row="1"  Padding="5"/>
-                                        <TextBlock x:Name="lblMemName_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
-                                        <TextBlock x:Name="lblMemName_3" Text="1234567890123456" Grid.Row="3" Padding="5"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
+                                    <StackPanel x:Name="spHistoryMemTime" Grid.Column="2" BorderBrush="Black" BorderThickness="1" Padding="10" HorizontalAlignment="Center" Width="153">
                                         <TextBlock Text="Time" Padding="10" HorizontalAlignment="Center"/>
-                                        <TextBlock x:Name="lblTime_1" Text="1234567890123456" Grid.Row="1" Padding="5"/>
-                                        <TextBlock x:Name="lblTime_2" Text="1234567890123456" Grid.Row="2"  Padding="5"/>
-                                        <TextBlock x:Name="lblTime_3" Text="1234567890123456" Grid.Row="3"  Padding="5"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
