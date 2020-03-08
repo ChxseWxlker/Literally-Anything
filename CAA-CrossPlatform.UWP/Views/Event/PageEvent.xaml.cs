@@ -145,9 +145,9 @@ namespace CAA_CrossPlatform.UWP
             selectedEvent = (Event)e.ClickedItem;
 
             //get info
-            lblPopupEventName.Text = $"Event: {selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5)}";
-            lblPopupStartDate.Text = $"Start Date: {selectedEvent.startDate.ToString("MMMM dd, yyyy")}";
-            lblPopupEndDate.Text = $"End Date: {selectedEvent.endDate.ToString("MMMM dd, yyyy")}";
+            lblPopupEventName.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
+            lblPopupStartDate.Text = selectedEvent.startDate.ToString("MMMM dd, yyyy");
+            lblPopupEndDate.Text = selectedEvent.endDate.ToString("MMMM dd, yyyy");
             Game game = await Connection.Get("Game", selectedEvent.GameID);
             lblPopupGame.Text = $"Game: {game.name}";
 

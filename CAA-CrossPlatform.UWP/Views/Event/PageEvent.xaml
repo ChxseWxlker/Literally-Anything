@@ -166,24 +166,22 @@
                        LightDismissOverlayMode="On"
                        Visibility="Collapsed" HorizontalAlignment="Center"  Grid.Row="3" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
-                    <StackPanel x:Name="panelPopup" Height="300" Width="400" Background="#ccc" Padding="10" Margin="-210 0 0 0">
-                        <StackPanel Name="Input">
+                    <StackPanel x:Name="panelPopup" Width="400" Background="#00529b" Padding="10" Margin="-210 0 0 0">
 
-                            <TextBlock x:Name="lblPopupEventName" Text="Event: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-
-                            <TextBlock x:Name="lblPopupStartDate" Text="Start Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-
-                            <TextBlock x:Name="lblPopupEndDate" Text="End Date: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-
-                            <TextBlock x:Name="lblPopupGame" Text="Game: " TextWrapping="Wrap" Margin="0,10,0,0" FontSize="25"/>
-
+                        <StackPanel x:Name="Input">
+                            <TextBlock x:Name="lblPopupEventName" Text="" HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="WrapWholeWords" />
+                            <Rectangle x:Name="bar" Fill="#fff" Width="350" Height="1" Opacity="0.5"/>
+                            <TextBlock x:Name="lblPopupStartDate" Text="" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="WrapWholeWords"/>
+                            <TextBlock x:Name="lblArrow" FontFamily="Segoe MDL2 Assets" Text="&#xF0AE;" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="WrapWholeWords"/>
+                            <TextBlock x:Name="lblPopupEndDate" Text="" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="WrapWholeWords"/>
+                            <TextBlock x:Name="lblPopupGame" Text="" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="WrapWholeWords" Margin="0 5 0 5"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource ButtonTemplate}" Width="60"  Margin="0, 10, 5, 10" x:Name="btnEnter" Content="Enter" Click="btnPopupControl_Click"></Button>
-                            <Button Style="{StaticResource ButtonTemplate}" Width="60"  Margin="5, 10, 5, 10" x:Name="btnEdit" Content="Edit" Click="btnPopupControl_Click"></Button>
-                            <Button Style="{StaticResource ButtonTemplate}" Width="60" Margin="5, 10, 5, 10" x:Name="btnDelete" Content="Delete" Click="btnPopupControl_Click"></Button>
-                            <Button Style="{StaticResource ButtonTemplate}" Width="60" Margin="5, 10, 0, 10" x:Name="btnCancel" Content="Cancel" Click="btnPopupControl_Click"></Button>
+                            <Button Style="{StaticResource ButtonTemplateInverted}" Width="60"  Margin="0, 10, 5, 10" x:Name="btnEnter" Content="Enter" Click="btnPopupControl_Click"></Button>
+                            <Button Style="{StaticResource ButtonTemplateInverted}" Width="60"  Margin="5, 10, 5, 10" x:Name="btnEdit" Content="Edit" Click="btnPopupControl_Click"></Button>
+                            <Button Style="{StaticResource ButtonTemplateInverted}" Width="60" Margin="5, 10, 5, 10" x:Name="btnDelete" Content="Delete" Click="btnPopupControl_Click"></Button>
+                            <Button Style="{StaticResource ButtonTemplateInverted}" Width="60" Margin="5, 10, 0, 10" x:Name="btnCancel" Content="Cancel" Click="btnPopupControl_Click"></Button>
                         </StackPanel>
                     </StackPanel>
                 </Popup>

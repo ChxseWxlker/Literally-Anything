@@ -79,7 +79,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel x:Name="EventsPanel" Margin="5, 10" Padding="5" Height="150" Width="200" Background="#00529b">
+        <StackPanel x:Name="EventsPanel" Margin="5 10" Padding="5" Height="150" Width="200" Background="#00529b">
             <TextBlock x:Name="lblEventName" Text="{x:Bind nameSubstring(Events.displayName)}" HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="WrapWholeWords" />
             <Rectangle x:Name="bar" Fill="#fff" Width="200" Height="1" Opacity="0.5"/>
             <TextBlock x:Name="lblStartDate" Text="{x:Bind dateLong(Events.startDate)}" HorizontalAlignment="Center" Foreground="White" FontSize="18" TextWrapping="WrapWholeWords"/>
