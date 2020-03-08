@@ -8,47 +8,67 @@ namespace CAA_CrossPlatform.UWP.Models
 {
     public class EnvironmentModel
     {
-        public static Answer Answer { get; set; }
-        public static Attendance Attendance { get; set; }
-        public static AttendanceItem AttendanceItem { get; set; }
-        public static Event Event { get; set; }
-        public static EventItem EventItem { get; set; }
-        public static Game Game { get; set; }
-        public static GameQuestion GameQuestion { get; set; }
-        public static Item Item { get; set; }
-        public static Question Question { get; set; }
+        private static Answer _answer = new Answer();
+        private static Attendance _attendance = new Attendance();
+        private static AttendanceItem _attendanceItem = new AttendanceItem();
+        private static Event _event = new Event();
+        private static EventItem _eventItem = new EventItem();
+        private static Game _game = new Game();
+        private static GameQuestion _gameQuestion = new GameQuestion();
+        private static Item _item = new Item();
+        private static Question _question = new Question();
 
-        public static List<Answer> AnswerList { get; set; }
-        public static List<Attendance> AttendanceList { get; set; }
-        public static List<AttendanceItem> AttendanceItemList { get; set; }
-        public static List<Event> EventList { get; set; }
-        public static List<EventItem> EventItemList { get; set; }
-        public static List<Game> GameList { get; set; }
-        public static List<GameQuestion> GameQuestionList { get; set; }
-        public static List<Item> ItemList { get; set; }
-        public static List<Question> QuestionList { get; set; }
+        public static Answer Answer { get { return _answer; } set { _answer = value; } }
+        public static Attendance Attendance { get { return _attendance; } set { _attendance = value; } }
+        public static AttendanceItem AttendanceItem { get { return _attendanceItem; } set { _attendanceItem = value; } }
+        public static Event Event { get { return _event; } set { _event = value; } }
+        public static EventItem EventItem { get { return _eventItem; } set { _eventItem = value; } }
+        public static Game Game { get { return _game; } set { _game = value; } }
+        public static GameQuestion GameQuestion { get { return _gameQuestion; } set { _gameQuestion = value; } }
+        public static Item Item { get { return _item; } set { _item = value; } }
+        public static Question Question { get { return _question; } set { _question = value; } }
+
+        private static List<Answer> _answerList = new List<Answer>();
+        private static List<Attendance> _attendanceList = new List<Attendance>();
+        private static List<AttendanceItem> _attendanceItemList = new List<AttendanceItem>();
+        private static List<Event> _eventList = new List<Event>();
+        private static List<EventItem> _eventItemList = new List<EventItem>();
+        private static List<Game> _gameList = new List<Game>();
+        private static List<GameQuestion> _gameQuestionList = new List<GameQuestion>();
+        private static List<Item> _itemList = new List<Item>();
+        private static List<Question> _questionList = new List<Question>();
+
+        public static List<Answer> AnswerList { get { return _answerList; } set { _answerList = value; } }
+        public static List<Attendance> AttendanceList { get { return _attendanceList; } set { _attendanceList = value; } }
+        public static List<AttendanceItem> AttendanceItemList { get { return _attendanceItemList; } set { _attendanceItemList = value; } }
+        public static List<Event> EventList { get { return _eventList; } set { _eventList = value; } }
+        public static List<EventItem> EventItemLis { get { return _eventItemList; } set { _eventItemList = value; } }
+        public static List<Game> GameList { get { return _gameList; } set { _gameList = value; } }
+        public static List<GameQuestion> GameQuestionList { get { return _gameQuestionList; } set { _gameQuestionList = value; } }
+        public static List<Item> ItemList { get { return _itemList; } set { _itemList = value; } }
+        public static List<Question> QuestionList { get { return _questionList; } set { _questionList = value; } }
 
         public static void Reset()
         {
-            Answer = null;
-            Attendance = null;
-            AttendanceItem = null;
-            Event = null;
-            EventItem = null;
-            Game = null;
-            GameQuestion = null;
-            Item = null;
-            Question = null;
+            _answer = new Answer();
+            _attendance = new Attendance();
+            _attendanceItem = new AttendanceItem();
+            _event = new Event();
+            _eventItem = new EventItem();
+            _game = new Game();
+            _gameQuestion = new GameQuestion();
+            _item = new Item();
+            _question = new Question();
 
-            AnswerList = null;
-            AttendanceList = null;
-            AttendanceItemList = null;
-            EventList = null;
-            EventItemList = null;
-            GameList = null;
-            GameQuestionList = null;
-            ItemList = null;
-            QuestionList = null;
+            _answerList = new List<Answer>();
+            _attendanceList = new List<Attendance>();
+            _attendanceItemList = new List<AttendanceItem>();
+            _eventList = new List<Event>();
+            _eventItemList = new List<EventItem>();
+            _gameList = new List<Game>();
+            _gameQuestionList = new List<GameQuestion>();
+            _itemList = new List<Item>();
+            _questionList = new List<Question>();
         }
     }
 }

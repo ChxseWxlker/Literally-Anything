@@ -25,7 +25,7 @@ namespace CAA_CrossPlatform.UWP
         List<Event> pastEvents = new List<Event>();
 
         //create selected event
-        Event selectedEvent;
+        Event selectedEvent = new Event();
 
         public PageEvent()
         {

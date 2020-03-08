@@ -89,7 +89,7 @@
 
                             <TextBlock Text="Games" TextWrapping="Wrap" FontSize="60"/>
 
-                            <ListView x:Name="lbGame"  Width="500" Height="400" Background="White" BorderThickness="2" BorderBrush="#FF1D60C9" Margin="0,0,0,0"/>
+                            <ListView x:Name="lbGame"  Width="500" Height="400" Background="#ddd"/>
 
                         </StackPanel>
 

@@ -12,6 +12,7 @@ namespace CAA_CrossPlatform.UWP.Models
         {
             //set default values
             this.hidden = false;
+            this.Id = 0;
         }
 
         //question properties

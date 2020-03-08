@@ -111,17 +111,11 @@
     <Compile Include="Views\Event\PageEventEditCreate.xaml.cs">
       <DependentUpon>PageEventEditCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Event\PageEventEdit.xaml.cs">
-      <DependentUpon>PageEventEdit.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Game\PageGame.xaml.cs">
       <DependentUpon>PageGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Game\PageGameEditCreate.xaml.cs">
       <DependentUpon>PageGameEditCreate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Game\PageGameEdit.xaml.cs">
-      <DependentUpon>PageGameEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Excel\PageExcel.xaml.cs">
       <DependentUpon>PageExcel.xaml</DependentUpon>
@@ -142,9 +136,6 @@
     </Compile>
     <Compile Include="Views\Question\PageQuestionEditCreate.xaml.cs">
       <DependentUpon>PageQuestionEditCreate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Question\PageQuestionEdit.xaml.cs">
-      <DependentUpon>PageQuestionEdit.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -224,19 +215,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Event\PageEventEdit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Game\PageGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Game\PageGameEditCreate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Game\PageGameEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,10 +236,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Question\PageQuestionEditCreate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Question\PageQuestionEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

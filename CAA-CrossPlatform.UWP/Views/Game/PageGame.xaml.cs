@@ -61,7 +61,7 @@ namespace CAA_CrossPlatform.UWP
 
                 //set environment var
                 EnvironmentModel.Game = visibleGames[lbGame.SelectedIndex];
-                Game test = EnvironmentModel.Game;
+
                 //edit game
                 Frame.Navigate(typeof(PageGameEditCreate));
             }

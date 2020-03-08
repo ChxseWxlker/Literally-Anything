@@ -21,9 +21,6 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageEventEditCreate : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
         //create list of visible games
         List<Game> visibleGames = new List<Game>();
 
@@ -31,15 +28,23 @@ namespace CAA_CrossPlatform.UWP
         List<Item> items = new List<Item>();
 
         //setup selected event
-        Event selectedEvent = null;
+        Event selectedEvent = new Event();
+
+        //setup items to be deleted
+        List<Item> deleteItemsQueue = new List<Item>();
 
         public PageEventEditCreate()
         {
             this.InitializeComponent();
+            this.Loaded += PageEventEditCreate_Loaded;
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        private async void PageEventEditCreate_Loaded(object sender, RoutedEventArgs e)
         {
+            //get event
+            selectedEvent = EnvironmentModel.Event;
+            EnvironmentModel.Event = new Event();
+
             //get all games
             List<Game> games = await Connection.Get("Game");
 
@@ -52,11 +57,8 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //edit event
-            if (EnvironmentModel.Event != null)
+            if (selectedEvent.Id != 0)
             {
-                //get event
-                selectedEvent = EnvironmentModel.Event;
-
                 //get game
                 Game game = await Connection.Get("Game", selectedEvent.GameID);
                 cmbGame.SelectedItem = game.name;
@@ -108,20 +110,21 @@ namespace CAA_CrossPlatform.UWP
                     }
 
                 //create empty textbox under
-                TextBox txtTrackEmpty = new TextBox();
-                txtTrackEmpty.Name = "txtTrack";
-                txtTrackEmpty.HorizontalAlignment = HorizontalAlignment.Left;
-                txtTrackEmpty.TextWrapping = TextWrapping.Wrap;
-                txtTrackEmpty.Margin = new Thickness(0, 10, 0, 0);
-                txtTrackEmpty.FontSize = 25;
-                txtTrackEmpty.Width = 400;
-                txtTrackEmpty.TextChanged += txtTrack_TextChanged;
+                if (items.Count > 0)
+                {
+                    TextBox txtTrackEmpty = new TextBox();
+                    txtTrackEmpty.Name = "txtTrack";
+                    txtTrackEmpty.HorizontalAlignment = HorizontalAlignment.Left;
+                    txtTrackEmpty.TextWrapping = TextWrapping.Wrap;
+                    txtTrackEmpty.Margin = new Thickness(0, 10, 0, 0);
+                    txtTrackEmpty.FontSize = 25;
+                    txtTrackEmpty.Width = 400;
+                    txtTrackEmpty.TextChanged += txtTrack_TextChanged;
 
-                //merge to stackpanel
-                spTrackItems.Children.Add(txtTrackEmpty);
+                    //merge to stackpanel
+                    spTrackItems.Children.Add(txtTrackEmpty);
+                }
             }
-
-            base.OnNavigatedTo(e);
         }
 
         private async void btnSubmit_Click(object sender, RoutedEventArgs e)
@@ -168,7 +171,7 @@ namespace CAA_CrossPlatform.UWP
                 abbreviation += $"{dtpStartDate.SelectedDate.Value.DateTime.Month.ToString("00")}{dtpStartDate.SelectedDate.Value.DateTime.Year}";
 
                 //event exists and is visible
-                if (ev.nameAbbrev == abbreviation && ev.hidden == false && selectedEvent == null)
+                if (ev.nameAbbrev == abbreviation && ev.hidden == false && selectedEvent.Id == 0)
                 {
                     txtEvent.Focus(FocusState.Keyboard);
                     await new MessageDialog("That event already exists, enter a different name or date.").ShowAsync();
@@ -203,8 +206,6 @@ namespace CAA_CrossPlatform.UWP
 
             //setup event record
             Event newEvent = new Event();
-            if (selectedEvent != null)
-                newEvent.Id = selectedEvent.Id;
             newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
             newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
             newEvent.displayName = $"{eventName} {newEvent.startDate.Year}";
@@ -220,10 +221,14 @@ namespace CAA_CrossPlatform.UWP
             newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
 
             //save to database
-            if (selectedEvent == null)
+            if (selectedEvent.Id != 0)
+            {
+                newEvent.Id = selectedEvent.Id;
+                await Connection.Update(newEvent);
+            }
+
+            else if (selectedEvent.Id == 0)
                 newEvent.Id = await Connection.Insert(newEvent);
-            else
-                Connection.Update(newEvent);
 
             //create trackable items
             if (newEvent.Id != -1)
@@ -238,7 +243,7 @@ namespace CAA_CrossPlatform.UWP
                             int id = Convert.ToInt32(txtItem.Name.Substring(txtItem.Name.IndexOf('_') + 1));
                             Item item = await Connection.Get("Item", id);
                             item.name = txtItem.Text;
-                            Connection.Update(item);
+                            await Connection.Update(item);
                         }
 
                         //create
@@ -260,6 +265,19 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
+            //delete events
+            List<EventItem> eventItems = await Connection.Get("EventItem");
+            foreach (Item item in deleteItemsQueue)
+            {
+                //delete relationship
+                foreach (EventItem eventItem in eventItems)
+                    if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == item.Id)
+                        await Connection.Delete(eventItem);
+                
+                //delete item
+                await Connection.Delete(item);
+            }
+
             //navigate away
             Frame.GoBack();
         }
@@ -271,22 +289,22 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnCreateGame_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedEvent == null)
-                selectedEvent = new Event();
+            Event newEvent = new Event();
+            newEvent.Id = -1;
 
             if (!string.IsNullOrEmpty(txtEvent.Text))
-                selectedEvent.name = txtEvent.Text;
+                newEvent.name = txtEvent.Text;
 
             if (dtpStartDate.SelectedDate != null)
-                selectedEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
+                newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
 
             if (dtpEndDate.SelectedDate != null)
-                selectedEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+                newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
 
-            selectedEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
+            newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 
             //store event for return
-            EnvironmentModel.Event = selectedEvent;
+            EnvironmentModel.Event = newEvent;
 
             //navigate to create a game
             Frame.Navigate(typeof(PageGameEditCreate));
@@ -317,7 +335,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //remove trackable item
-            if (string.IsNullOrEmpty(txtSender.Text) && spTrackItems.Children.Count > 1)
+            else if (string.IsNullOrEmpty(txtSender.Text) && spTrackItems.Children.Count > 1)
             {
                 //focus other track item
                 try
@@ -334,30 +352,12 @@ namespace CAA_CrossPlatform.UWP
                 //delete from database
                 if (txtSender.Name != "txtTrack")
                 {
-                    try
-                    {
-                        int id = Convert.ToInt32(txtSender.Name.Substring(txtSender.Name.IndexOf('_') + 1));
-                        Item item = await Connection.Get("Item", id);
+                    int id = Convert.ToInt32(txtSender.Name.Substring(txtSender.Name.IndexOf('_') + 1));
+                    Item item = await Connection.Get("Item", id);
+                    deleteItemsQueue.Add(item);
 
-                        List<EventItem> eventItems = await Connection.Get("EventItem");
-                        EventItem selectedEventItem = null;
-                        foreach (EventItem eventItem in eventItems)
-                            if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == id)
-                                selectedEventItem = eventItem;
-
-                        if (selectedEventItem != null)
-                            await Connection.Delete(selectedEventItem);
-
-                        await Connection.Delete(item);
-
-                        //remove textbox from stackpanel
-                        spTrackItems.Children.Remove(txtSender);
-                    }
-                    catch
-                    {
-                        await new MessageDialog("Unable to remove tracking item").ShowAsync();
-                    }
-
+                    //remove textbox from stackpanel
+                    spTrackItems.Children.Remove(txtSender);
                 }
 
                 //remove textbox from stackpanel

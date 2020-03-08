@@ -66,13 +66,6 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void navMenu_Back(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            //previous page
-            if (TemplateFrame.CanGoBack)
-                TemplateFrame.GoBack();
-        }
-
         private void navMenu_Loaded(object sender, RoutedEventArgs e)
         {
             navMenu.IsPaneOpen = false;

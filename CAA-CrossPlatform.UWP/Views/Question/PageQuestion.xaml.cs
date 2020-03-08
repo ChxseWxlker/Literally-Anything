@@ -19,11 +19,8 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageQuestion : Page
     {
-        //setup api
-        static ApiHandler api = new ApiHandler();
-
         //get list of questions
-        List<Question> listQuestions = new List<Question>();
+        List<Question> visibleQuestions = new List<Question>();
 
         public PageQuestion()
         {
@@ -33,6 +30,9 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageQuestion_Loaded(object sender, RoutedEventArgs e)
         {
+            //reset environment vars
+            EnvironmentModel.Reset();
+
             //get all questions
             List<Question> questions = await Connection.Get("Question");
 
@@ -40,83 +40,42 @@ namespace CAA_CrossPlatform.UWP
             foreach (Question q in questions)
                 if (q.hidden == false)
                 {
-                    lstQuestions.Items.Add(q.name);
-                    listQuestions.Add(q);
+                    lbQuestion.Items.Add(q.name);
+                    visibleQuestions.Add(q);
                 }
         }
 
-        private void Events_OnClick(object sender, RoutedEventArgs e)
+        private async void btnControls_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PageEvent));
-        }
+            Button btnSender = (Button)sender;
 
-        private void Quizes_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageGame));
-        }
+            if (btnSender.Name.Contains("Create"))
+                Frame.Navigate(typeof(PageQuestionEditCreate));
 
-        private void Questions_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageQuestion));
-        }
-
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(PageQuestionEditCreate));
-        }
-
-        private async void btnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstQuestions.SelectedIndex == -1)
-                await new MessageDialog("Please choose a question to edit").ShowAsync();
-            else
-                Frame.Navigate(typeof(PageQuestionEdit), listQuestions[lstQuestions.SelectedIndex]);
-        }
-
-        private async void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstQuestions.SelectedIndex == -1)
-                await new MessageDialog("Please choose a question to delete").ShowAsync();
-            else
+            else if (btnSender.Name.Contains("Edit"))
             {
-                //delete question
-                await Connection.Delete(listQuestions[lstQuestions.SelectedIndex]);
+                if (lbQuestion.SelectedIndex == -1)
+                {
+                    await new MessageDialog("Choose a question to edit.").ShowAsync();
+                    return;
+                }
 
-                //reload page
+                EnvironmentModel.Question = visibleQuestions[lbQuestion.SelectedIndex];
+                Frame.Navigate(typeof(PageQuestionEditCreate));
+            }
+
+            else if (btnSender.Name.Contains("Delete"))
+            {
+                if (lbQuestion.SelectedIndex == -1)
+                {
+                    await new MessageDialog("Choose a question to delete.").ShowAsync();
+                    return;
+                }
+
+                await Connection.Delete(visibleQuestions[lbQuestion.SelectedIndex]);
+
                 Frame.Navigate(typeof(PageQuestion));
             }
-        }
-
-        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //get menu button
-            Button btn = (Button)sender;
-
-            //event
-            if (btn.Content.ToString().Contains("Event"))
-                Frame.Navigate(typeof(PageEvent));
-
-            //game
-            else if (btn.Content.ToString().Contains("Game"))
-                Frame.Navigate(typeof(PageGame));
-
-            //question
-            else if (btn.Content.ToString().Contains("Question"))
-                Frame.Navigate(typeof(PageQuestion));
-        }
-
-        private async void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            //prompt user
-            ContentDialog logoutDialog = new ContentDialog
-            {
-                Title = "Logout?",
-                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
-                PrimaryButtonText = "Logout",
-                CloseButtonText = "Cancel"
-            };
-
-            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
         }
     }
 }

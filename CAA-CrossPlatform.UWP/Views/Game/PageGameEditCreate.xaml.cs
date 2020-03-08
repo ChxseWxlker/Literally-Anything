@@ -27,10 +27,10 @@ namespace CAA_CrossPlatform.UWP
         static List<Question> visibleQuestions = new List<Question>();
 
         //setup selected game
-        Game selectedGame = null;
+        Game selectedGame = new Game();
 
         //setup selected questions
-        List<Question> selectedQuestions = null;
+        List<Question> selectedQuestions = new List<Question>();
 
         public PageGameEditCreate()
         {
@@ -42,13 +42,14 @@ namespace CAA_CrossPlatform.UWP
         {
             //set selected game
             selectedGame = EnvironmentModel.Game;
+            EnvironmentModel.Game = new Game();
 
             //set selected questions
             selectedQuestions = EnvironmentModel.QuestionList;
-            EnvironmentModel.QuestionList = null;
+            EnvironmentModel.QuestionList = new List<Question>();
 
             //get name
-            if (selectedGame != null)
+            if (selectedGame.Id != 0)
                 txtGame.Text = selectedGame.name;
 
             //get question list
@@ -64,14 +65,14 @@ namespace CAA_CrossPlatform.UWP
             List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
 
             //callback selections
-            if (selectedQuestions != null)
+            if (selectedQuestions.Count != 0)
             {
                 foreach (Question question in selectedQuestions)
                     lbQuestion.SelectedItems.Add(question.name);
             }
 
             //database selections
-            else if (selectedQuestions == null && selectedGame != null)
+            else if (selectedQuestions.Count == 0 && selectedGame.Id != 0)
             {
                 foreach (Question question in visibleQuestions)
                     foreach (GameQuestion gameQuestion in gameQuestions)
@@ -96,7 +97,7 @@ namespace CAA_CrossPlatform.UWP
             foreach (Game game in games)
             {
                 //validate name
-                if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == false && selectedGame == null)
+                if (game.name.ToLower().Trim() == txtGame.Text.ToLower().Trim() && game.hidden == false && selectedGame.Id == 0)
                 {
                     await new MessageDialog("That game already exists, enter a different name.").ShowAsync();
                     return;
@@ -129,13 +130,13 @@ namespace CAA_CrossPlatform.UWP
             Game newGame = new Game();
             newGame.name = txtGame.Text;
 
-            if (selectedGame != null)
+            if (selectedGame.Id != 0)
             {
                 newGame.Id = selectedGame.Id;
                 await Connection.Update(newGame);
             }
 
-            else if (selectedGame == null)
+            else if (selectedGame.Id == 0)
                 newGame.Id = await Connection.Insert(newGame);
 
             //get all game questions
@@ -199,9 +200,10 @@ namespace CAA_CrossPlatform.UWP
             EnvironmentModel.QuestionList = questions;
 
             if (questions.Count == 0)
-                EnvironmentModel.QuestionList = null;
+                EnvironmentModel.QuestionList = new List<Question>();
 
             Game game = new Game();
+            game.Id = -1;
             game.name = txtGame.Text;
             EnvironmentModel.Game = game;
             Frame.Navigate(typeof(PageQuestionEditCreate));

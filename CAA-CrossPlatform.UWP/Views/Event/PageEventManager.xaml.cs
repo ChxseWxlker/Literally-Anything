@@ -20,7 +20,7 @@ namespace CAA_CrossPlatform.UWP
     public sealed partial class PageEventManager : Page
     {
         //setup selected event
-        Event selectedEvent;
+        Event selectedEvent = new Event();
 
         //list of event items
         List<EventItem> eventItems;

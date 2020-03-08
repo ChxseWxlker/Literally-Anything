@@ -85,35 +85,28 @@
                 <RelativePanel Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center">
 
                     <StackPanel Name="spQuestion" HorizontalAlignment="Left">
-
                         <TextBlock x:Name="lblQuestion" Text="Question" TextWrapping="Wrap" FontSize="25"/>
-
                         <TextBox x:Name="txtQuestion" TextWrapping="Wrap" FontSize="25" Width="400"/>
-
-                        <Button x:Name="btnAdd" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Height="40" Width="40" Click="btnAdd_Click" />
-
                     </StackPanel>
+
+                    <TextBlock Text="Correct" Margin="290 0 0 0" TextWrapping="Wrap" FontSize="25" RelativePanel.LeftOf="lblAnswer" RelativePanel.Below="spQuestion"/>
 
                     <TextBlock x:Name="lblAnswer" Text="Answers" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="spQuestion"/>
 
-                    <TextBlock Text="Correct" Margin="290 0 0 0" TextWrapping="Wrap" FontSize="25" RelativePanel.RightOf="lblAnswer" RelativePanel.Below="spQuestion"/>
-
                     <StackPanel x:Name="spAnswersPanel" Orientation="Vertical" RelativePanel.Below="lblAnswer">
 
-                        <StackPanel Orientation="Horizontal" RelativePanel.Below="lblAnswer">
-                            <TextBox Name="txtAnswer" TextWrapping="Wrap" FontSize="25" Width="400"/>
-                            <CheckBox Name="chkCorrect" Margin="40,0,0,0" Width="25" MinWidth="0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="txtAnswer" TextWrapping="Wrap" FontSize="25" Width="300" TextChanged="txtAnswer_TextChanged"/>
+                            <CheckBox Name="chkCorrect" Margin="40 0 0 0" Width="25" MinWidth="0"/>
                         </StackPanel>
                         
                     </StackPanel>
 
                     <StackPanel x:Name="spControl" Orientation="Horizontal" HorizontalAlignment="Center"  RelativePanel.Below="spAnswersPanel" RelativePanel.AlignHorizontalCenterWithPanel="True">
-
-                        <Button x:Name="btnCancel" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="btnCancel_Click" />
-
-                        <Button x:Name="btnCreate" Content="Create" Width="180" Height="50" FontSize="30" Margin="25,10,0,0" Click="btnCreate_Click" />
-
+                        <Button x:Name="btnCancel" Style="{StaticResource ButtonTemplate}" Content="Cancel" Width="180" Height="50" FontSize="30" Margin="0,10,25,0" Click="btnCancel_Click" />
+                        <Button x:Name="btnCreate" Style="{StaticResource ButtonTemplate}" Content="Create" Width="180" Height="50" FontSize="30" Margin="25 10 0 0" Click="btnCreate_Click" />
                     </StackPanel>
+                    
                 </RelativePanel>
             </Grid>
         </ScrollViewer>

@@ -19,9 +19,106 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageQuestionEditCreate : Page
     {
+        //create list of answers
+        List<Answer> answers = new List<Answer>();
+
+        //setup selected question
+        Question selectedQuestion = new Question();
+
+        //setup answers to be deleted
+        List<Answer> deleteAnswersQueue = new List<Answer>();
+
         public PageQuestionEditCreate()
         {
             this.InitializeComponent();
+            this.Loaded += PageQuestionEditCreate_Loaded;
+        }
+
+        private async void PageQuestionEditCreate_Loaded(object sender, RoutedEventArgs e)
+        {
+            //get selected question
+            selectedQuestion = EnvironmentModel.Question;
+            EnvironmentModel.Question = new Question();
+
+            //set properties
+            if (selectedQuestion.Id != 0)
+            {
+                txtQuestion.Text = selectedQuestion.name;
+
+                //get answers
+                List<Answer> tempAnswers = await Connection.Get("Answer");
+
+                foreach (Answer answer in tempAnswers)
+                    if (answer.QuestionID == selectedQuestion.Id)
+                    {
+                        //add to list
+                        answers.Add(answer);
+
+                        //populate native textbox first
+                        if (string.IsNullOrEmpty(txtAnswer.Text))
+                        {
+                            txtAnswer.Text = answer.name;
+                            chkCorrect.IsChecked = answer.correct;
+                            txtAnswer.Name = $"txtAnswer_{answer.Id}";
+                        }
+
+                        //create more textboxes
+                        else if (!string.IsNullOrEmpty(txtAnswer.Text))
+                        {
+                            StackPanel spAnswerNew = new StackPanel();
+                            spAnswerNew.Margin = new Thickness(0, 10, 0, 0);
+                            spAnswerNew.Orientation = Orientation.Horizontal;
+
+                            TextBox txtAnswerNew = new TextBox();
+                            txtAnswerNew.Name = $"txtAnswer_{answer.Id}";
+                            txtAnswerNew.Text = answer.name;
+                            txtAnswerNew.HorizontalAlignment = HorizontalAlignment.Left;
+                            txtAnswerNew.TextWrapping = TextWrapping.Wrap;
+                            txtAnswerNew.FontSize = 25;
+                            txtAnswerNew.Width = 300;
+                            txtAnswerNew.TextChanged += txtAnswer_TextChanged;
+
+                            CheckBox chkCorrectNew = new CheckBox();
+                            chkCorrectNew.Name = $"chkCorrect_{answer.Id}";
+                            chkCorrectNew.IsChecked = answer.correct;
+                            chkCorrectNew.Margin = new Thickness(40, 0, 0, 0);
+                            chkCorrectNew.Width = 25;
+                            chkCorrectNew.MinWidth = 0;
+
+                            //append to stackpanel
+                            spAnswerNew.Children.Add(txtAnswerNew);
+                            spAnswerNew.Children.Add(chkCorrectNew);
+                            spAnswersPanel.Children.Add(spAnswerNew);
+                        }
+                    }
+
+                //create empty textbox under
+                if (answers.Count > 0)
+                {
+                    StackPanel spAnswerNew = new StackPanel();
+                    spAnswerNew.Margin = new Thickness(0, 10, 0, 0);
+                    spAnswerNew.Orientation = Orientation.Horizontal;
+
+                    TextBox txtAnswerNew = new TextBox();
+                    txtAnswerNew.Name = "txtAnswer";
+                    txtAnswerNew.HorizontalAlignment = HorizontalAlignment.Left;
+                    txtAnswerNew.TextWrapping = TextWrapping.Wrap;
+                    txtAnswerNew.FontSize = 25;
+                    txtAnswerNew.Width = 300;
+                    txtAnswerNew.TextChanged += txtAnswer_TextChanged;
+
+                    CheckBox chkCorrectNew = new CheckBox();
+                    chkCorrectNew.Name = "chkCorrect";
+                    chkCorrectNew.Margin = new Thickness(40, 0, 0, 0);
+                    chkCorrectNew.Width = 25;
+                    chkCorrectNew.MinWidth = 0;
+
+                    //append to stackpanel
+                    spAnswerNew.Children.Add(txtAnswerNew);
+                    spAnswerNew.Children.Add(chkCorrectNew);
+                    spAnswersPanel.Children.Add(spAnswerNew);
+                }
+            }
         }
 
         private async void btnCreate_Click(object sender, RoutedEventArgs e)
@@ -30,25 +127,21 @@ namespace CAA_CrossPlatform.UWP
             List<Question> questions = await Connection.Get("Question");
 
             //validation
-            if (txtQuestion.Text == "")
+            if (string.IsNullOrEmpty(txtQuestion.Text))
             {
-                lblQuestion.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                txtQuestion.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
-                await new MessageDialog("Please enter a question name").ShowAsync();
+                await new MessageDialog("Enter a question name.").ShowAsync();
                 return;
             }
 
-            foreach (Question q in questions)
+            foreach (Question question in questions)
             {
                 //validate title
-                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == false)
+                if (question.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && question.hidden == false && selectedQuestion.Id == 0)
                 {
-                    lblQuestion.Style = (Style)Application.Current.Resources["ValidationFailedTemplate"];
-                    txtQuestion.Style = (Style)Application.Current.Resources["TxtValidationFailedTemplate"];
-                    await new MessageDialog("That question already exists, please enter a different name").ShowAsync();
+                    await new MessageDialog("That question already exists, enter a different name.").ShowAsync();
                     return;
                 }
-                if (q.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && q.hidden == true)
+                if (question.name.ToLower().Trim() == txtQuestion.Text.ToLower().Trim() && question.hidden == true)
                 {
                     MessageDialog msg = new MessageDialog("That question is hidden, would you like to re-activate it?");
                     msg.Commands.Add(new UICommand("Yes") { Id = 1 });
@@ -59,8 +152,8 @@ namespace CAA_CrossPlatform.UWP
                     //re-activate game
                     if ((int)choice.Id == 1)
                     {
-                        q.hidden = false;
-                        Connection.Update(q);
+                        question.hidden = false;
+                        await Connection.Update(question);
                         Frame.Navigate(typeof(PageQuestion));
                         return;
                     }
@@ -71,26 +164,51 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //create question object
-            Question question = new Question();
+            Question newQuestion = new Question();
 
             //create question
-            question.name = txtQuestion.Text;
-            question.Id = await Connection.Insert(question);
+            newQuestion.name = txtQuestion.Text;
 
-            //create list of answers
-            foreach (StackPanel sp in spAnswersPanel.Children)
+            if (selectedQuestion.Id != 0)
             {
-                TextBox txt = (TextBox)sp.Children[0];
-                CheckBox chk = (CheckBox)sp.Children[1];
+                newQuestion.Id = selectedQuestion.Id;
+                await Connection.Update(newQuestion);
+            }
 
-                //create answer
-                if (txt.Text != "")
+            else if (selectedQuestion.Id == 0)
+                newQuestion.Id = await Connection.Insert(newQuestion);
+
+            //create answers
+            if (newQuestion.Id != -1)
+            {
+                foreach (StackPanel spAnswer in spAnswersPanel.Children)
                 {
-                    Answer answer = new Answer();
-                    answer.name = txt.Text;
-                    answer.correct = chk.IsChecked ?? false;
-                    answer.QuestionID = question.Id;
-                    answer.Id = await Connection.Insert(answer);
+                    TextBox txtAnswer = (TextBox)spAnswer.Children[0];
+                    CheckBox chkCorrect = (CheckBox)spAnswer.Children[1];
+
+                    if (!string.IsNullOrEmpty(txtAnswer.Text))
+                    {
+                        //update
+                        if (txtAnswer.Name != "txtAnswer")
+                        {
+                            int id = Convert.ToInt32(txtAnswer.Name.Substring(txtAnswer.Name.IndexOf('_') + 1));
+                            Answer answer = await Connection.Get("Answer", id);
+                            answer.name = txtAnswer.Text;
+                            answer.correct = chkCorrect.IsChecked ?? false;
+                            await Connection.Update(answer);
+                        }
+
+                        //create
+                        else if (txtAnswer.Name == "txtAnswer")
+                        {
+                            //create answer
+                            Answer answer = new Answer();
+                            answer.name = txtAnswer.Text;
+                            answer.correct = chkCorrect.IsChecked ?? false;
+                            answer.QuestionID = newQuestion.Id;
+                            answer.Id = await Connection.Insert(answer);
+                        }
+                    }
                 }
             }
 
@@ -103,60 +221,74 @@ namespace CAA_CrossPlatform.UWP
             Frame.GoBack();
         }
 
-        private void btnMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void txtAnswer_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //get menu button
-            Button btn = (Button)sender;
+            //get textbox
+            TextBox txtSender = (TextBox)sender;
+            StackPanel spSender = (StackPanel)txtSender.Parent;
 
-            //event
-            if (btn.Content.ToString().Contains("Event"))
-                Frame.Navigate(typeof(PageEvent));
-
-            //game
-            else if (btn.Content.ToString().Contains("Game"))
-                Frame.Navigate(typeof(PageGame));
-
-            //question
-            else if (btn.Content.ToString().Contains("Question"))
-                Frame.Navigate(typeof(PageQuestion));
-        }
-
-        private async void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            //prompt user
-            ContentDialog logoutDialog = new ContentDialog
+            //create next answer
+            if (spAnswersPanel.Children.IndexOf(spSender) == spAnswersPanel.Children.Count - 1)
             {
-                Title = "Logout?",
-                Content = "You will be redirected to the home page and locked out until you log back in. Are you sure you want to logout?",
-                PrimaryButtonText = "Logout",
-                CloseButtonText = "Cancel"
-            };
+                if (!string.IsNullOrEmpty(txtSender.Text))
+                {
+                    StackPanel spAnswerNew = new StackPanel();
+                    spAnswerNew.Margin = new Thickness(0, 10, 0, 0);
+                    spAnswerNew.Orientation = Orientation.Horizontal;
 
-            ContentDialogResult logoutRes = await logoutDialog.ShowAsync();
-        }
+                    TextBox txtAnswerNew = new TextBox();
+                    txtAnswerNew.Name = "txtAnswer";
+                    txtAnswerNew.HorizontalAlignment = HorizontalAlignment.Left;
+                    txtAnswerNew.TextWrapping = TextWrapping.Wrap;
+                    txtAnswerNew.FontSize = 25;
+                    txtAnswerNew.Width = 300;
+                    txtAnswerNew.TextChanged += txtAnswer_TextChanged;
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
-        {
-            //create stack panel
-            StackPanel sp = new StackPanel();
-            sp.Orientation = Orientation.Horizontal;
-            sp.Margin = new Thickness(0, 40, 0, 0);
+                    CheckBox chkCorrectNew = new CheckBox();
+                    chkCorrectNew.Name = "chkCorrect";
+                    chkCorrectNew.Margin = new Thickness(40, 0, 0, 0);
+                    chkCorrectNew.Width = 25;
+                    chkCorrectNew.MinWidth = 0;
 
-            //create textbox
-            TextBox txt = new TextBox();
-            txt.TextWrapping = TextWrapping.Wrap;
-            txt.FontSize = 25;
-            txt.Width = 400;
+                    //append to stackpanel
+                    spAnswerNew.Children.Add(txtAnswerNew);
+                    spAnswerNew.Children.Add(chkCorrectNew);
+                    spAnswersPanel.Children.Add(spAnswerNew);
+                }
+            }
 
-            //create checkbox
-            CheckBox chk = new CheckBox();
-            chk.Margin = new Thickness(40, 0, 0, 0);
-            chk.Width = 25;
+            //remove answer
+            else if (string.IsNullOrEmpty(txtSender.Text) && spAnswersPanel.Children.Count > 1)
+            {
+                //focus other track answer
+                try
+                {
+                    StackPanel spPrevious = (StackPanel)spAnswersPanel.Children[spAnswersPanel.Children.IndexOf(spSender) - 1];
+                    TextBox txtFocus = (TextBox)spPrevious.Children[0];
+                    txtFocus.Focus(FocusState.Keyboard);
+                }
+                catch
+                {
+                    StackPanel spFirst = (StackPanel)spAnswersPanel.Children[0];
+                    TextBox txtFocus = (TextBox)spFirst.Children[0];
+                    txtFocus.Focus(FocusState.Keyboard);
+                }
 
-            //append items
-            sp.Children.Add(txt);
-            sp.Children.Add(chk);
-            spAnswersPanel.Children.Add(sp);
+                //delete from database
+                if (txtSender.Name != "txtAnswer")
+                {
+                    int id = Convert.ToInt32(txtSender.Name.Substring(txtSender.Name.IndexOf('_') + 1));
+                    Answer answer = await Connection.Get("Answer", id);
+                    deleteAnswersQueue.Add(answer);
+
+                    //remove stackpanel from stackpanel
+                    spAnswersPanel.Children.Remove(spSender);
+                }
+
+                //remove stackpanel from stackpanel
+                else
+                    spAnswersPanel.Children.Remove(spSender);
+            }
         }
     }
 }
