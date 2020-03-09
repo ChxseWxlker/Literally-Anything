@@ -70,6 +70,7 @@ namespace CAA_CrossPlatform.UWP
         {
             navMenu.IsPaneOpen = false;
             TemplateFrame.Navigate(typeof(PageEvent));
+            navMenu.SelectedItem = navMenu.MenuItems[0];
         }
 
         private void btnLoginPopup_Click(object sender, RoutedEventArgs e)

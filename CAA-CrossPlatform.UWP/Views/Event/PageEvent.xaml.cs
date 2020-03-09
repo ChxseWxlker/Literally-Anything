@@ -251,5 +251,20 @@ namespace CAA_CrossPlatform.UWP
                 lblPastEventEmpty.Visibility = Visibility.Collapsed;
             }
         }
+
+        private void btnClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            //reset fields
+            txtEventSearch.Text = "";
+            dtpStartDateSearch.SelectedDate = null;
+            dtpEndDateSearch.SelectedDate = null;
+
+            spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
+            spLVPastEvent.Height = 180;
+            spLVPastEvent.Margin = new Thickness(0, 0, 0, 0);
+            lblPastEventEmpty.Visibility = Visibility.Collapsed;
+
+            lvPastEvent.ItemsSource = new List<Event>();
+        }
     }
 }

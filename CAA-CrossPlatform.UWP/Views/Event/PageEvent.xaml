@@ -254,7 +254,10 @@
                             </StackPanel>
 
                         </StackPanel>
-                        <Button x:Name="btnFilter" Style="{StaticResource ButtonTemplate}" Content="Filter" FontSize="22" Height="40" Width="100" HorizontalAlignment="left" Margin="0 10 0 0" Click="btnFilter_Click"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btnFilter" Style="{StaticResource ButtonTemplate}" Content="Filter" FontSize="22" Height="40" Width="100" HorizontalAlignment="left" Margin="0 10 0 0" Click="btnFilter_Click"/>
+                            <Button x:Name="btnClearFilter" Style="{StaticResource ButtonTemplateRed}" Content="Clear" FontSize="22" Height="40" Width="100" HorizontalAlignment="left" Margin="10 10 0 0" Click="btnClearFilter_Click"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel Name="spPastEvents" Margin="0 0 0 50" Width="1000">

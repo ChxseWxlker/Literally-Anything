@@ -15,6 +15,10 @@
         <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundPressed" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="#fff"/>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -119,7 +123,8 @@
 
             
             
-            <NavigationView x:Name="navMenu" Margin="0 -40 0 0" Grid.Row="1" ItemInvoked="navMenu_Invoked" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" OpenPaneLength="200" IsPaneOpen="False" Loaded="navMenu_Loaded">
+            <NavigationView x:Name="navMenu" Margin="0 -40 0 0" Grid.Row="1" ItemInvoked="navMenu_Invoked" IsSettingsVisible="False"
+                            IsBackButtonVisible="Collapsed" OpenPaneLength="200" IsPaneOpen="False" Loaded="navMenu_Loaded">
                 <NavigationView.MenuItems>
                     <NavigationViewItem Name="btnEventPage" Content="Events" Tag="Events">
                         <NavigationViewItem.Icon>

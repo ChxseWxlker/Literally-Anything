@@ -144,7 +144,7 @@
                                 <TextBox x:Name="txtMemberLast" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. Smith"/>
 
                                 <TextBlock x:Name="lblMemberPhone" Text="Phone" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                                <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
+                                <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" MaxLength="10" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
 
                             </StackPanel>
 
@@ -174,8 +174,11 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            
+
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <StackPanel Margin="0 0 0 10">
+                                    <TextBlock x:Name="lblMemberCount" Text="Total Members" FontSize="20"/>
+                                </StackPanel>
 
                                 <StackPanel x:Name="SearchBar" Orientation="Horizontal" Margin="0 0 0 10">
 
