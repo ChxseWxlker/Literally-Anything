@@ -27,23 +27,23 @@
                         <Setter Target="lblEventName.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
-                        <Setter Target="lblDate.FontSize" Value="20"/>
+                        <!--<Setter Target="lblDate.FontSize" Value="20"/>-->
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
                         <Setter Target="lblUntil.FontSize" Value="18"/>
                         <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpStartDateSearch.Width" Value="300"/>
                         <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpEndDateSearch.Width" Value="300"/>
-                        <Setter Target="lblFilter.Margin" Value="0, 0 ,10 0"/>
+                        <!--<Setter Target="lblFilter.Margin" Value="0, 0 ,10 0"/>-->
                         <Setter Target="lblUntil.Margin" Value="0, 0 ,10 0"/>
-                        <Setter Target="spFilter.Margin" Value="0, 10 ,0 0"/>
+                        <!--<Setter Target="spFilter.Margin" Value="0, 10 ,0 0"/>-->
 
-                        <Setter Target="SearchControls.Orientation" Value="Vertical"/>
-                        <Setter Target="btnFilterDropdown.FontSize" Value="26"/>
-                        <Setter Target="lblFilter.FontSize" Value="26"/>
-                        <Setter Target="btnSearch.FontSize" Value="26"/>
-                        <Setter Target="txtSearch.FontSize" Value="20"/>
-                        <Setter Target="txtSearch.Width" Value="250"/>
+                        <!--<Setter Target="SearchControls.Orientation" Value="Vertical"/>-->
+                        <!--<Setter Target="btnFilterDropdown.FontSize" Value="26"/>-->
+                        <!--<Setter Target="lblFilter.FontSize" Value="26"/>-->
+                        <!--<Setter Target="btnSearch.FontSize" Value="26"/>-->
+                        <!--<Setter Target="txtSearch.FontSize" Value="20"/>-->
+                        <!--<Setter Target="txtSearch.Width" Value="250"/>-->
                         <Setter Target="lblUpcomingEvent.FontSize" Value="28"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="28"/>
                         <Setter Target="lblPastEvent.FontSize" Value="28"/>
@@ -65,18 +65,18 @@
                         <Setter Target="lblEventName.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
-                        <Setter Target="lblDate.FontSize" Value="20"/>
+                        <!--<Setter Target="lblDate.FontSize" Value="20"/>-->
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
                         <Setter Target="lblUntil.FontSize" Value="18"/>
                         <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="lblUntil.Margin" Value="0, 0 ,10 0"/>
 
-                        <Setter Target="btnFilterDropdown.FontSize" Value="26"/>
-                        <Setter Target="lblFilter.FontSize" Value="26"/>
-                        <Setter Target="btnSearch.FontSize" Value="26"/>
-                        <Setter Target="txtSearch.FontSize" Value="20"/>
-                        <Setter Target="txtSearch.Width" Value="300"/>
+                        <!--<Setter Target="btnFilterDropdown.FontSize" Value="26"/>-->
+                        <!--<Setter Target="lblFilter.FontSize" Value="26"/>-->
+                        <!--<Setter Target="btnSearch.FontSize" Value="26"/>-->
+                        <!--<Setter Target="txtSearch.FontSize" Value="20"/>-->
+                        <!--<Setter Target="txtSearch.Width" Value="300"/>-->
                         <Setter Target="lblUpcomingEvent.FontSize" Value="32"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="32"/>
                         <Setter Target="lblPastEvent.FontSize" Value="32"/>
@@ -98,7 +98,7 @@
                         <Setter Target="lblEventName.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
-                        <Setter Target="lblDate.FontSize" Value="20"/>
+                        <!--<Setter Target="lblDate.FontSize" Value="20"/>-->
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
                         <Setter Target="lblUntil.FontSize" Value="18"/>
                         <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
