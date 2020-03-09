@@ -116,6 +116,8 @@ namespace CAA_CrossPlatform.UWP
                         spTrack.Children.Add(spControls);
                         trackingPanel.Children.Add(spTrack);
                     }
+                    else
+                        trackingPanel.Visibility = Visibility.Collapsed;
         }
 
         private void BtnControl_Click(object sender, RoutedEventArgs e)
@@ -366,27 +368,30 @@ namespace CAA_CrossPlatform.UWP
             //setup attendance object and set properties
             Attendance a = new Attendance();
             a.memberNumber = txtMemberNum.Text;
-            if (txtMemberLast.Text != "")
-            {
-                char[] lastName = txtMemberLast.Text.ToLower().Trim().ToCharArray();
-                lastName[0] = char.ToUpper(lastName[0]);
-                a.lastName = new string(lastName);
-            }
-
-            //replace first name with null
-            else
-                txtMemberFirst.Text = null;
-
             if (txtMemberFirst.Text != "")
             {
                 char[] firstName = txtMemberFirst.Text.ToLower().Trim().ToCharArray();
                 firstName[0] = char.ToUpper(firstName[0]);
                 a.firstName = new string(firstName);
             }
-
+            //replace first name with null
+            else
+            {
+                txtMemberFirst.Text = "";
+                await new MessageDialog("Please enter a first name").ShowAsync();
+            }
+            if (txtMemberLast.Text != "")
+            {
+                char[] lastName = txtMemberLast.Text.ToLower().Trim().ToCharArray();
+                lastName[0] = char.ToUpper(lastName[0]);
+                a.lastName = new string(lastName);
+            }
             //replace last name with null
             else
-                txtMemberLast.Text = null;
+            {
+                txtMemberLast.Text = "";
+                await new MessageDialog("Please enter a last name").ShowAsync();
+            }
 
             a.arriveTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             a.phone = txtMemberPhone.Text;
@@ -403,55 +408,57 @@ namespace CAA_CrossPlatform.UWP
                 return;
             }
 
-            a.Id = await Connection.Insert(a);
-
-            //create items
-            foreach (var element in trackingPanel.Children)
+            if (!(a.firstName == null || a.lastName == null) || !(a.memberNumber == ""))
             {
-                if (element.GetType() == typeof(StackPanel))
-                {
-                    StackPanel spTrack = (StackPanel)element;
-                    StackPanel spControls = (StackPanel)spTrack.Children[1];
-                    TextBox txtTrack = (TextBox)spControls.Children[1];
+                a.Id = await Connection.Insert(a);
 
-                    //create item
-                    if (Convert.ToInt32(txtTrack.Text) > 0)
+                //create items
+                foreach (var element in trackingPanel.Children)
+                {
+                    if (element.GetType() == typeof(StackPanel))
                     {
-                        AttendanceItem attendanceItem = new AttendanceItem();
-                        attendanceItem.AttendanceId = a.Id;
-                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
-                        attendanceItem.input = Convert.ToInt32(txtTrack.Text);
-                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        StackPanel spTrack = (StackPanel)element;
+                        StackPanel spControls = (StackPanel)spTrack.Children[1];
+                        TextBox txtTrack = (TextBox)spControls.Children[1];
+
+                        //create item
+                        if (Convert.ToInt32(txtTrack.Text) > 0)
+                        {
+                            AttendanceItem attendanceItem = new AttendanceItem();
+                            attendanceItem.AttendanceId = a.Id;
+                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                            attendanceItem.input = Convert.ToInt32(txtTrack.Text);
+                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        }
                     }
                 }
-            }
 
-            //add history
-            AddHistory(a);
+                //add history
+                AddHistory(a);
 
-            //re-enable other inputs
-            txtMemberFirst.IsEnabled = true;
-            txtMemberLast.IsEnabled = true;
-            txtMemberPhone.IsEnabled = true;
+                //re-enable other inputs
+                txtMemberFirst.IsEnabled = true;
+                txtMemberLast.IsEnabled = true;
+                txtMemberPhone.IsEnabled = true;
 
-            //reset fields
-            foreach (var element in trackingPanel.Children)
-            {
-                if (element.GetType() == typeof(StackPanel))
+                //reset fields
+                foreach (var element in trackingPanel.Children)
                 {
-                    StackPanel spTrack = (StackPanel)element;
-                    StackPanel spControls = (StackPanel)spTrack.Children[1];
-                    TextBox txtTrack = (TextBox)spControls.Children[1];
-                    txtTrack.Text = "0";
+                    if (element.GetType() == typeof(StackPanel))
+                    {
+                        StackPanel spTrack = (StackPanel)element;
+                        StackPanel spControls = (StackPanel)spTrack.Children[1];
+                        TextBox txtTrack = (TextBox)spControls.Children[1];
+                        txtTrack.Text = "0";
+                    }
                 }
+                txtMemberNum.Text = "";
+                txtMemberFirst.Text = "";
+                txtMemberLast.Text = "";
+                txtMemberPhone.Text = "";
+                txtMemberNum.Focus(FocusState.Keyboard);
             }
-            txtMemberNum.Text = "";
-            txtMemberFirst.Text = "";
-            txtMemberLast.Text = "";
-            txtMemberPhone.Text = "";
-            txtMemberNum.Focus(FocusState.Keyboard);
         }
-
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
 

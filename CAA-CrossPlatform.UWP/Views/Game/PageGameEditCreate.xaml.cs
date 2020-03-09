@@ -176,7 +176,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //clear questions
             lbQuestion.Items.Clear();
-            
+
             //get all questions
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
@@ -186,10 +186,12 @@ namespace CAA_CrossPlatform.UWP
 
             //search questions
             else
+            {
                 lbQuestion.Items.Clear();
-                    foreach (Question question in visibleQuestions)
-                        if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
-                            lbQuestion.Items.Add(question.name);
+                foreach (Question question in visibleQuestions)
+                    if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
+                        lbQuestion.Items.Add(question.name);
+            }
         }
 
         private void btnCreateQuestion_Click(object sender, RoutedEventArgs e)

@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
                 if (ev.hidden == false)
                 {
                     //populate upcoming events
-                    if (ev.startDate > DateTime.Now)
+                    if (ev.startDate >= DateTime.Now && !(ev.startDate.ToString("MMMM dd, yyyy") == DateTime.Now.ToString("MMMM dd, yyyy") && ev.endDate.ToString("MMMM dd, yyyy") == DateTime.Now.ToString("MMMM dd, yyyy")))
                         upcomingEvents.Add(ev);
 
                     //populate past events
