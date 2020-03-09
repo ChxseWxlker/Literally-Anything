@@ -221,6 +221,14 @@ namespace CAA_CrossPlatform.UWP
                         if (pastEvent.endDate <= endDateSearch && pastEvent.name.ToLower().Contains(nameSearch) && !pastEventsSearch.Contains(pastEvent))
                             pastEventsSearch.Add(pastEvent);
                 }
+
+                //search only name
+                if (startDateSearch == DateTime.MinValue && endDateSearch == DateTime.MinValue)
+                {
+                    foreach (Event pastEvent in pastEvents)
+                        if (pastEvent.name.ToLower().Contains(nameSearch) && !pastEventsSearch.Contains(pastEvent))
+                            pastEventsSearch.Add(pastEvent);
+                }
             }
 
             //set list source
