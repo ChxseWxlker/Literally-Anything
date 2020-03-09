@@ -99,6 +99,9 @@
     <Compile Include="Models\EventItem.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\EnvironmentModel.cs" />
+    <Compile Include="Views\Tracking\PageItemEditCreate.xaml.cs">
+      <DependentUpon>PageItemEditCreate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Templates\EventTemplate.xaml.cs">
       <DependentUpon>EventTemplate.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,9 @@
     </Compile>
     <Compile Include="Views\Question\PageQuestionEditCreate.xaml.cs">
       <DependentUpon>PageQuestionEditCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tracking\PageItem.xaml.cs">
+      <DependentUpon>PageItem.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Tracking\PageItemEditCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Templates\EventTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Question\PageQuestionEditCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tracking\PageItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

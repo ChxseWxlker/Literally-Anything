@@ -63,6 +63,13 @@ namespace CAA_CrossPlatform.UWP
                     if (TemplateFrame.SourcePageType != typeof(PageQuestion))
                         TemplateFrame.Navigate(typeof(PageQuestion));
                 }
+
+                //navigate to item page
+                else if (invoked == "Items")
+                {
+                    if (TemplateFrame.SourcePageType != typeof(PageItem))
+                        TemplateFrame.Navigate(typeof(PageItem));
+                }
             }
         }
 
@@ -94,6 +101,7 @@ namespace CAA_CrossPlatform.UWP
                 btnLoginPopup.Content = "Login";
                 btnGamePage.Visibility = Visibility.Collapsed;
                 btnQuestionPage.Visibility = Visibility.Collapsed;
+                btnItemPage.Visibility = Visibility.Collapsed;
                 if (TemplateFrame.SourcePageType != typeof(PageEventManager))
                     TemplateFrame.Navigate(typeof(PageEvent));
             }
@@ -119,6 +127,7 @@ namespace CAA_CrossPlatform.UWP
             btnLoginPopup.Content = "Logout";
             btnGamePage.Visibility = Visibility.Visible;
             btnQuestionPage.Visibility = Visibility.Visible;
+            btnItemPage.Visibility = Visibility.Visible;
             txtUsername.Text = "";
             txtPassword.Password = "";
             if (TemplateFrame.SourcePageType != typeof(PageEventManager))

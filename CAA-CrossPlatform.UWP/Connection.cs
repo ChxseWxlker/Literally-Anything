@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
                     "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
 
                     //create item table
-                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'name' TEXT NOT NULL, 'valueType' TEXT);" +
+                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL, 'valueType' TEXT NOT NULL);" +
 
                     //create event item table
                     "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
@@ -202,8 +202,9 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.name = query[1].ToString();
-                            i.valueType = query[2].ToString();
+                            i.hidden = Convert.ToBoolean(query[1]);
+                            i.name = query[2].ToString();
+                            i.valueType = query[3].ToString();
                             records.Add(i);
                         }
 
@@ -224,7 +225,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.input = Convert.ToInt32(query[3]);
+                            ai.input = query[3].ToString();
                             records.Add(ai);
                         }
 
@@ -315,8 +316,9 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.name = query[1].ToString();
-                            i.valueType = query[2].ToString();
+                            i.hidden = Convert.ToBoolean(query[1]);
+                            i.name = query[2].ToString();
+                            i.valueType = query[3].ToString();
                             return i;
                         }
 
@@ -337,7 +339,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.input = Convert.ToInt32(query[3]);
+                            ai.input = query[3].ToString();
                             return ai;
                         }
 
@@ -446,9 +448,10 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                fields = "name, valueType";
+                fields = "name, hidden, valueType";
 
                 parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@hidden", record.hidden));
                 parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
@@ -617,9 +620,10 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                conditions = $"name = @name, valueType = @valueType";
+                conditions = $"name = @name, hidden = @hidden, valueType = @valueType";
 
                 parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@hidden", record.hidden));
                 parameters.Add(new SqliteParameter("@valueType", record.valueType));
             }
 
@@ -792,7 +796,7 @@ namespace CAA_CrossPlatform.UWP
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = @hidden WHERE Id = @id;", con);
 
                 //delete many to many relationship
-                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem" || table == "Item")
+                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem")
                     cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = @id;", con);
 
                 //add parameters

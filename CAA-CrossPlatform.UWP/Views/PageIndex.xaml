@@ -143,6 +143,12 @@
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF142;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
+
+                    <NavigationViewItem Name="btnItemPage" Visibility="Collapsed" Content="Items" Tag="Items">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEADF;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>

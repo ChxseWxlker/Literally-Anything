@@ -65,7 +65,7 @@ namespace CAA_CrossPlatform.UWP
                         //add to list
                         Item item = await Connection.Get("Item", eventItem.ItemId);
 
-                        //create stackpanel
+                        //create stackpanel for item
                         StackPanel spTrack = new StackPanel();
                         spTrack.Orientation = Orientation.Vertical;
 
@@ -77,6 +77,7 @@ namespace CAA_CrossPlatform.UWP
                         lblTrack.FontSize = 25;
                         lblTrack.HorizontalAlignment = HorizontalAlignment.Center;
 
+                        //crate stackpanel for controls
                         StackPanel spControls = new StackPanel();
                         spControls.Orientation = Orientation.Horizontal;
 
@@ -86,7 +87,7 @@ namespace CAA_CrossPlatform.UWP
                         btnMinus.Click += BtnControl_Click;
                         btnMinus.FontFamily = new FontFamily("Segoe MDL2 Assets");
                         btnMinus.Content = "\uE738";
-                        btnMinus.Margin = new Thickness(2);
+                        btnMinus.Margin = new Thickness(0, 0, 5, 0);
                         btnMinus.Style = (Style)Application.Current.Resources["ButtonTemplate"];
                         btnMinus.Height = 40;
                         btnMinus.Width = 40;
@@ -94,10 +95,22 @@ namespace CAA_CrossPlatform.UWP
                         //create textbox
                         TextBox txtTrack = new TextBox();
                         txtTrack.Name = $"txtTrack_{trackingPanel.Children.Count + 1}";
-                        txtTrack.Text = "0";
+
+                        if (item.valueType == "int")
+                        {
+                            txtTrack.Text = "0";
+                            txtTrack.KeyTipHorizontalOffset = 1;
+                        }
+
+                        else if (item.valueType == "string")
+                        {
+                            txtTrack.Text = "";
+                            txtTrack.KeyTipHorizontalOffset = 0;
+                        }
+
                         txtTrack.HorizontalAlignment = HorizontalAlignment.Left;
                         txtTrack.TextWrapping = TextWrapping.Wrap;
-                        txtTrack.Margin = new Thickness(2);
+                        txtTrack.Margin = new Thickness(0, 5, 0, 0);
                         txtTrack.Height = 40;
                         txtTrack.Width = 100;
                         txtTrack.FontSize = 22;
@@ -107,11 +120,18 @@ namespace CAA_CrossPlatform.UWP
                         btnPlus.Name = $"btnPlus_{trackingPanel.Children.Count + 1}";
                         btnPlus.Click += BtnControl_Click;
                         btnPlus.FontFamily = new FontFamily("Segoe MDL2 Assets");
-                        btnPlus.Margin = new Thickness(2);
+                        btnPlus.Margin = new Thickness(5, 0, 0, 0);
                         btnPlus.Style = (Style)Application.Current.Resources["ButtonTemplate"];
                         btnPlus.Content = "\uE710";
                         btnPlus.Height = 40;
                         btnPlus.Width = 40;
+
+                        if (item.valueType == "string")
+                        {
+                            btnMinus.Visibility = Visibility.Collapsed;
+                            btnPlus.Visibility = Visibility.Collapsed;
+                            txtTrack.Width = 190;
+                        }
 
                         //add items to panel
                         spTrack.Children.Add(lblTrack);
@@ -444,14 +464,11 @@ namespace CAA_CrossPlatform.UWP
                         TextBox txtTrack = (TextBox)spControls.Children[1];
 
                         //create item
-                        if (Convert.ToInt32(txtTrack.Text) > 0)
-                        {
-                            AttendanceItem attendanceItem = new AttendanceItem();
-                            attendanceItem.AttendanceId = a.Id;
-                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
-                            attendanceItem.input = Convert.ToInt32(txtTrack.Text);
-                            attendanceItem.Id = await Connection.Insert(attendanceItem);
-                        }
+                        AttendanceItem attendanceItem = new AttendanceItem();
+                        attendanceItem.AttendanceId = a.Id;
+                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                        attendanceItem.input = txtTrack.Text;
+                        attendanceItem.Id = await Connection.Insert(attendanceItem);
                     }
                 }
             }
@@ -476,7 +493,11 @@ namespace CAA_CrossPlatform.UWP
                     StackPanel spTrack = (StackPanel)element;
                     StackPanel spControls = (StackPanel)spTrack.Children[1];
                     TextBox txtTrack = (TextBox)spControls.Children[1];
-                    txtTrack.Text = "0";
+                    if (txtTrack.KeyTipHorizontalOffset == 1)
+                        txtTrack.Text = "0";
+
+                    else if (txtTrack.KeyTipHorizontalOffset == 0)
+                        txtTrack.Text = "";
                 }
             }
             txtMemberNum.Text = "";
@@ -551,14 +572,11 @@ namespace CAA_CrossPlatform.UWP
                         TextBox txtTrack = (TextBox)spControls.Children[1];
 
                         //create item
-                        if (Convert.ToInt32(txtTrack.Text) > 0)
-                        {
-                            AttendanceItem attendanceItem = new AttendanceItem();
-                            attendanceItem.AttendanceId = a.Id;
-                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
-                            attendanceItem.input = Convert.ToInt32(txtTrack.Text);
-                            attendanceItem.Id = await Connection.Insert(attendanceItem);
-                        }
+                        AttendanceItem attendanceItem = new AttendanceItem();
+                        attendanceItem.AttendanceId = a.Id;
+                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                        attendanceItem.input = txtTrack.Text;
+                        attendanceItem.Id = await Connection.Insert(attendanceItem);
                     }
                 }
             }
@@ -583,7 +601,12 @@ namespace CAA_CrossPlatform.UWP
                     StackPanel spTrack = (StackPanel)element;
                     StackPanel spControls = (StackPanel)spTrack.Children[1];
                     TextBox txtTrack = (TextBox)spControls.Children[1];
-                    txtTrack.Text = "0";
+
+                    if (txtTrack.KeyTipHorizontalOffset == 1)
+                        txtTrack.Text = "0";
+
+                    else if (txtTrack.KeyTipHorizontalOffset == 0)
+                        txtTrack.Text = "";
                 }
             }
             txtMemberNum.Text = "";

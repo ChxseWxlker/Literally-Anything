@@ -8,6 +8,12 @@ namespace CAA_CrossPlatform.UWP.Models
 {
     public class GameQuestion
     {
+        public GameQuestion()
+        {
+            //set default values
+            this.Id = 0;
+        }
+
         //question properties
         public int Id { get; set; }
         public int GameID { get; set; }
