@@ -59,6 +59,7 @@ namespace CAA_CrossPlatform.UWP
             //edit event
             if (selectedEvent.Id != 0)
             {
+                btnSubmit.Content = "Save";
                 //get game
                 try
                 {

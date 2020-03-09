@@ -49,8 +49,9 @@ namespace CAA_CrossPlatform.UWP
             EnvironmentModel.QuestionList = new List<Question>();
 
             //get name
-            if (selectedGame.Id != 0)
-                txtGame.Text = selectedGame.name;
+            if (selectedGame.Id != 0) {
+                btnSubmit.Content = "Save";
+            txtGame.Text = selectedGame.name; }
 
             //get question list
             List<Question> questions = await Connection.Get("Question");
@@ -187,7 +188,6 @@ namespace CAA_CrossPlatform.UWP
             //search questions
             else
             {
-                lbQuestion.Items.Clear();
                 foreach (Question question in visibleQuestions)
                     if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
                         lbQuestion.Items.Add(question.name);

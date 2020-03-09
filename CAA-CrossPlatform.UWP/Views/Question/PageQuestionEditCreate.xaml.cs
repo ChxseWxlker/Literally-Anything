@@ -44,6 +44,7 @@ namespace CAA_CrossPlatform.UWP
             if (selectedQuestion.Id != 0)
             {
                 txtQuestion.Text = selectedQuestion.name;
+                btnCreate.Content = "Save";
 
                 //get answers
                 List<Answer> tempAnswers = await Connection.Get("Answer");
