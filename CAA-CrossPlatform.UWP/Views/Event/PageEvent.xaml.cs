@@ -27,6 +27,9 @@ namespace CAA_CrossPlatform.UWP
         //create selected event
         Event selectedEvent = new Event();
 
+        //setup scroller vertical offset
+        double scrollerVerticalOffset = 0;
+
         public PageEvent()
         {
             this.InitializeComponent();
@@ -151,8 +154,25 @@ namespace CAA_CrossPlatform.UWP
             Game game = await Connection.Get("Game", selectedEvent.GameID);
             lblPopupGame.Text = $"Game: {game.name}";
 
+            //scroll up to popup
+            Grid gridFrame = (Grid)Frame.Parent;
+            Grid gridIndex = (Grid)gridFrame.Parent;
+            ScrollViewer scroller = (ScrollViewer)gridIndex.Parent;
+            scrollerVerticalOffset = scroller.VerticalOffset;
+            scroller.ChangeView(scroller.HorizontalOffset, 0, scroller.ZoomFactor);
+
+            //open popup
             popupEventClick.IsOpen = true;
             popupEventClick.Visibility = Visibility.Visible;
+        }
+
+        private void popupEventClick_Closed(object sender, object e)
+        {
+            //scroll back to vertical offset when popup is closed
+            Grid gridFrame = (Grid)Frame.Parent;
+            Grid gridIndex = (Grid)gridFrame.Parent;
+            ScrollViewer scroller = (ScrollViewer)gridIndex.Parent;
+            scroller.ChangeView(scroller.HorizontalOffset, scrollerVerticalOffset, scroller.ZoomFactor);
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)

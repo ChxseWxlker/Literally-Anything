@@ -30,7 +30,16 @@ namespace CAA_CrossPlatform.UWP.Templates
 
         string nameSubstring(string name)
         {
-            return name.Substring(0, name.Length - 5);
+            name = name.Substring(0, name.Length - 5);
+
+            if (name.Length > 25)
+            {
+                string nameSub = name.Substring(0, 22);
+                return nameSub.Insert(nameSub.Length, "...");
+            }
+
+            else
+                return name;
         }
 
         string dateLong(DateTime date)

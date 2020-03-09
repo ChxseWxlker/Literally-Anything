@@ -159,14 +159,15 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical">
+            <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical">
 
                 <Popup x:Name="popupEventClick" IsOpen="False"
                        IsLightDismissEnabled="True"
                        LightDismissOverlayMode="On"
-                       Visibility="Collapsed" HorizontalAlignment="Center"  Grid.Row="3" Grid.Column="2" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                       Closed="popupEventClick_Closed"
+                       Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2">
 
-                    <StackPanel x:Name="panelPopup" Width="400" Background="#00529b" Padding="10" Margin="-210 0 0 0">
+                    <StackPanel x:Name="panelPopup" VerticalAlignment="Center" Width="400" Background="#00529b" Padding="10" Margin="-210 0 0 0">
 
                         <StackPanel x:Name="Input">
                             <TextBlock x:Name="lblPopupEventName" Text="" HorizontalAlignment="Center" Foreground="White" FontSize="25" TextWrapping="WrapWholeWords" />
