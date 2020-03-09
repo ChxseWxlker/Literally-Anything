@@ -186,9 +186,10 @@ namespace CAA_CrossPlatform.UWP
 
             //search questions
             else
-                foreach (Question question in visibleQuestions)
-                    if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
-                        lbQuestion.Items.Add(question.name);
+                lbQuestion.Items.Clear();
+                    foreach (Question question in visibleQuestions)
+                        if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
+                            lbQuestion.Items.Add(question.name);
         }
 
         private void btnCreateQuestion_Click(object sender, RoutedEventArgs e)

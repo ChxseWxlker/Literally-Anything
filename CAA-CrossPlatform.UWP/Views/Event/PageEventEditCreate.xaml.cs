@@ -137,6 +137,7 @@ namespace CAA_CrossPlatform.UWP
             if (txtEvent.Text == "")
             {
                 txtEvent.Focus(FocusState.Keyboard);
+                await new MessageDialog("Enter an event name.").ShowAsync();
                 return;
             }
 
@@ -144,6 +145,7 @@ namespace CAA_CrossPlatform.UWP
             else if (dtpStartDate.SelectedDate == null)
             {
                 dtpStartDate.Focus(FocusState.Keyboard);
+                await new MessageDialog("Enter a start date.").ShowAsync();
                 return;
             }
 
@@ -151,6 +153,7 @@ namespace CAA_CrossPlatform.UWP
             else if (dtpEndDate.SelectedDate == null)
             {
                 dtpEndDate.Focus(FocusState.Keyboard);
+                await new MessageDialog("Enter an end date.").ShowAsync();
                 return;
             }
 
@@ -158,6 +161,7 @@ namespace CAA_CrossPlatform.UWP
             else if (dtpEndDate.SelectedDate < dtpStartDate.SelectedDate)
             {
                 dtpEndDate.Focus(FocusState.Keyboard);
+                await new MessageDialog("End date must be after start date.").ShowAsync();
                 return;
             }
 
