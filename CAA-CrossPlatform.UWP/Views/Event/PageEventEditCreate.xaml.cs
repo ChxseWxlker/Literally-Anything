@@ -163,6 +163,42 @@ namespace CAA_CrossPlatform.UWP
                 return;
             }
 
+            //delete previous trackable items if possible
+            List<EventItem> eventItemDeleteQueue = new List<EventItem>();
+            if (selectedEvent.Id != 0 && selectedEvent.Id != -1)
+            {
+                List<EventItem> eventItems = await Connection.Get("EventItem");
+                List<AttendanceItem> attendanceItems = await Connection.Get("AttendanceItem");
+                foreach (EventItem eventItem in eventItems)
+                    if (eventItem.EventId == selectedEvent.Id)
+                    {
+                        //get item
+                        Item item = await Connection.Get("Item", eventItem.ItemId);
+                        int attendanceCount = 0;
+
+                        //check if trying to delete connection
+                        if (!lbItem.SelectedItems.Contains(item.name))
+                            foreach (AttendanceItem attendanceItem in attendanceItems)
+                                if (attendanceItem.EventItemId == eventItem.Id)
+                                    attendanceCount++;
+
+                        //delete connection if no tracking data
+                        if (attendanceCount == 0)
+                            eventItemDeleteQueue.Add(eventItem);
+
+                        else
+                        {
+                            lbItem.SelectedItems.Add(item.name);
+                            await new MessageDialog($"Cannot delete {item.name} item, it is tracking data for this event.").ShowAsync();
+                            return;
+                        }
+                    }
+
+                //delete event items in queue
+                foreach (EventItem eventItem in eventItemDeleteQueue)
+                    await Connection.Delete(eventItem);
+            }
+
             //validate abbreviated name
             List<Event> events = await Connection.Get("Event");
             foreach (Event ev in events)
@@ -240,27 +276,6 @@ namespace CAA_CrossPlatform.UWP
 
             if (newEvent.Id != -1)
             {
-                //delete previous trackable items
-                List<EventItem> eventItems = await Connection.Get("EventItem");
-                List<AttendanceItem> attendanceItems = await Connection.Get("AttendanceItem");
-                int attendanceCount = 0;
-                foreach (EventItem eventItem in eventItems)
-                    if (eventItem.EventId == newEvent.Id)
-                    {
-                        //get item
-                        Item item = await Connection.Get("Item", eventItem.ItemId);
-
-                        //check if trying to delete connection
-                        if (!lbItem.Items.Contains(item.name))
-                            foreach (AttendanceItem attendanceItem in attendanceItems)
-                                if (attendanceItem.EventItemId == eventItem.Id)
-                                    attendanceCount++;
-
-                        //delete connection if no tracking data
-                        if (attendanceCount == 0)
-                            await Connection.Delete(eventItem);
-                    }
-
                 //create trackable items
                 foreach (Item item in visibleItems)
                     if (lbItem.SelectedItems.Contains(item.name))

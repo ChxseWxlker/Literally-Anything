@@ -62,9 +62,15 @@ namespace CAA_CrossPlatform.UWP
                 foreach (EventItem eventItem in tempEventItems)
                     if (eventItem.EventId == selectedEvent.Id)
                     {
+                        //get item
+                        Item item = await Connection.Get("Item", eventItem.ItemId);
+
+                        //check if deleted
+                        if (item.hidden)
+                            return;
+
                         //add to list
                         eventItems.Add(eventItem);
-                        Item item = await Connection.Get("Item", eventItem.ItemId);
 
                         //create stackpanel for item
                         StackPanel spTrack = new StackPanel();
@@ -194,7 +200,7 @@ namespace CAA_CrossPlatform.UWP
         {
             //increment total members
             memberCount++;
-            lblMemberCount.Text = $"Total Members {memberCount}";
+            lblMemberCount.Text = $"Total Guests: {memberCount}";
 
             //add to history
             attendanceHistory.Add(attendance);
@@ -623,9 +629,35 @@ namespace CAA_CrossPlatform.UWP
             txtMemberNum.Focus(FocusState.Keyboard);
         }
 
+        private void txtSearch_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                btnSearch_Click(sender, new RoutedEventArgs());
+        }
+
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            string search = txtSearch.Text.ToLower().Replace(" ", "");
+            SolidColorBrush btnBg = (SolidColorBrush)btnSearch.Background;
 
+            //change to clear
+            if (btnBg.Color.G.ToString() == "82")
+            {
+
+
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplateRed"];
+                btnSearch.Content = "\uE894";
+            }
+
+            //change to search
+            else if (btnBg.Color.G.ToString() == "14")
+            {
+
+
+                txtSearch.Text = "";
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplate"];
+                btnSearch.Content = "\uE1A3";
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

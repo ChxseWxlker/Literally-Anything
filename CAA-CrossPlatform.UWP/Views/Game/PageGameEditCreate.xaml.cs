@@ -183,6 +183,12 @@ namespace CAA_CrossPlatform.UWP
             Frame.GoBack();
         }
 
+        private void txtSearch_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                btnSearch_Click(sender, new RoutedEventArgs());
+        }
+
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             string search = txtSearch.Text.ToLower().Replace(" ", "");
