@@ -99,8 +99,8 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0,20,0,0">
-                    <ListView x:Name="lbQuestion" Width="400" Height="300" Background="#ddd" SelectionMode="Multiple"/>
+                <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0 20 0 0">
+                    <ListView x:Name="lbQuestion" Padding="5" Width="400" Height="300" Background="#ddd" SelectionMode="Multiple"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" RelativePanel.Below="spQuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">

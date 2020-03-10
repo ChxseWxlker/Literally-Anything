@@ -796,7 +796,7 @@ namespace CAA_CrossPlatform.UWP
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = @hidden WHERE Id = @id;", con);
 
                 //delete many to many relationship
-                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem")
+                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem" || table == "Answer")
                     cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = @id;", con);
 
                 //add parameters

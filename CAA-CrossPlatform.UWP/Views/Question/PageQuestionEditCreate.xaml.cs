@@ -25,9 +25,6 @@ namespace CAA_CrossPlatform.UWP
         //setup selected question
         Question selectedQuestion = new Question();
 
-        //setup answers to be deleted
-        List<Answer> deleteAnswersQueue = new List<Answer>();
-
         public PageQuestionEditCreate()
         {
             this.InitializeComponent();
@@ -128,15 +125,47 @@ namespace CAA_CrossPlatform.UWP
 
         private async void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            //get list of questions
-            List<Question> questions = await Connection.Get("Question");
-
-            //validation
+            //check name
             if (string.IsNullOrEmpty(txtQuestion.Text))
             {
-                await new MessageDialog("Enter a question name.").ShowAsync();
+                await new MessageDialog("Question name is required.").ShowAsync();
                 return;
             }
+
+            //check answers and correct
+            int emptyAnswerCount = 0;
+            int emptyCorrectCount = 0;
+            foreach (StackPanel spAnswer in spAnswersPanel.Children)
+            {
+                TextBox txtAnswer = (TextBox)spAnswer.Children[0];
+                CheckBox chkCorrect = (CheckBox)spAnswer.Children[1];
+
+                string answer = txtAnswer.Text;
+                bool correct = chkCorrect.IsChecked ?? false;
+
+                if (string.IsNullOrEmpty(answer))
+                    emptyAnswerCount++;
+
+                if (!correct)
+                    emptyCorrectCount++;
+            }
+
+            //no answers
+            if (emptyAnswerCount == spAnswersPanel.Children.Count)
+            {
+                await new MessageDialog("Minimum of 1 answer is required.").ShowAsync();
+                return;
+            }
+
+            //no correct answers
+            if (emptyCorrectCount == spAnswersPanel.Children.Count)
+            {
+                await new MessageDialog("Minimum of 1 correct answer is required.").ShowAsync();
+                return;
+            }
+
+            //get list of questions
+            List<Question> questions = await Connection.Get("Question");
 
             foreach (Question question in questions)
             {
@@ -189,6 +218,10 @@ namespace CAA_CrossPlatform.UWP
             //create answers
             if (newQuestion.Id != -1)
             {
+                //remove old answers
+                foreach (Answer answer in answers)
+                    await Connection.Delete(answer);
+
                 foreach (StackPanel spAnswer in spAnswersPanel.Children)
                 {
                     TextBox txtAnswer = (TextBox)spAnswer.Children[0];
@@ -196,26 +229,11 @@ namespace CAA_CrossPlatform.UWP
 
                     if (!string.IsNullOrEmpty(txtAnswer.Text))
                     {
-                        //update
-                        if (txtAnswer.Name != "txtAnswer")
-                        {
-                            int id = Convert.ToInt32(txtAnswer.Name.Substring(txtAnswer.Name.IndexOf('_') + 1));
-                            Answer answer = await Connection.Get("Answer", id);
-                            answer.name = txtAnswer.Text;
-                            answer.correct = chkCorrect.IsChecked ?? false;
-                            await Connection.Update(answer);
-                        }
-
-                        //create
-                        else if (txtAnswer.Name == "txtAnswer")
-                        {
-                            //create answer
-                            Answer answer = new Answer();
-                            answer.name = txtAnswer.Text;
-                            answer.correct = chkCorrect.IsChecked ?? false;
-                            answer.QuestionID = newQuestion.Id;
-                            answer.Id = await Connection.Insert(answer);
-                        }
+                        Answer answer = new Answer();
+                        answer.name = txtAnswer.Text;
+                        answer.correct = chkCorrect.IsChecked ?? false;
+                        answer.QuestionID = newQuestion.Id;
+                        answer.Id = await Connection.Insert(answer);
                     }
                 }
             }
@@ -282,20 +300,8 @@ namespace CAA_CrossPlatform.UWP
                     txtFocus.Focus(FocusState.Keyboard);
                 }
 
-                //delete from database
-                if (txtSender.Name != "txtAnswer")
-                {
-                    int id = Convert.ToInt32(txtSender.Name.Substring(txtSender.Name.IndexOf('_') + 1));
-                    Answer answer = await Connection.Get("Answer", id);
-                    deleteAnswersQueue.Add(answer);
-
-                    //remove stackpanel from stackpanel
-                    spAnswersPanel.Children.Remove(spSender);
-                }
-
-                //remove stackpanel from stackpanel
-                else
-                    spAnswersPanel.Children.Remove(spSender);
+                //remove child
+                spAnswersPanel.Children.Remove(spSender);
             }
         }
     }

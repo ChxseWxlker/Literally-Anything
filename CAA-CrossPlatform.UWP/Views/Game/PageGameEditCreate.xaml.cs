@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CAA_CrossPlatform.UWP.Models;
+using Windows.UI;
 
 namespace CAA_CrossPlatform.UWP
 {

@@ -107,12 +107,14 @@ namespace CAA_CrossPlatform.UWP
 
             if (btnSender.Name == "btnEnter")
             {
+                scrollerVerticalOffset = 0;
                 EnvironmentModel.Event = selectedEvent;
                 Frame.Navigate(typeof(PageEventManager));
             }
 
             else if (btnSender.Name == "btnEdit")
             {
+                scrollerVerticalOffset = 0;
                 EnvironmentModel.Event = selectedEvent;
                 Frame.Navigate(typeof(PageEventEditCreate));
             }
