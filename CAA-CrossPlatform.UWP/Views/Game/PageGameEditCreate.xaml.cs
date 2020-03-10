@@ -181,22 +181,31 @@ namespace CAA_CrossPlatform.UWP
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            //clear questions
+            string search = txtSearch.Text.ToLower().Replace(" ", "");
             lbQuestion.Items.Clear();
-            
-            //get all questions
-            if (string.IsNullOrEmpty(txtSearch.Text))
+            SolidColorBrush btnBg = (SolidColorBrush)btnSearch.Background;
+
+            //change to clear
+            if (btnBg.Color.G.ToString() == "82")
+            {
+                foreach (Question question in visibleQuestions)
+                    if (question.name.ToLower().Replace(" ", "").Contains(search))
+                        lbQuestion.Items.Add(question.name);
+
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplateRed"];
+                btnSearch.Content = "\uE894";
+            }
+
+            //change to search
+            else if (btnBg.Color.G.ToString() == "14")
             {
                 foreach (Question question in visibleQuestions)
                     lbQuestion.Items.Add(question.name);
-            }
 
-            //search questions
-            else
-                lbQuestion.Items.Clear();
-                    foreach (Question question in visibleQuestions)
-                        if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
-                            lbQuestion.Items.Add(question.name);
+                txtSearch.Text = "";
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplate"];
+                btnSearch.Content = "\uE1A3";
+            }
         }
 
         private void btnCreateQuestion_Click(object sender, RoutedEventArgs e)

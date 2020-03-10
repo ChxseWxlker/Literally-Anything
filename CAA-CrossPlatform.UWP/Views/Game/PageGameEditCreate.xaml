@@ -91,11 +91,11 @@
                 </StackPanel>
 
                 <StackPanel x:Name="spSearchBar" Orientation="Vertical" RelativePanel.Below="spGameName">
-                    <TextBlock x:Name="lblQuestion" Text="Question" TextWrapping="Wrap" FontSize="25"/>
+                    <TextBlock x:Name="lblQuestion" Text="Questions" TextWrapping="Wrap" FontSize="25"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" FontSize="25" Width="295" Margin="0 0 5 0"/>
+                        <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" FontSize="25" Width="300" Margin="0 0 5 0"/>
                         <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="25" Content="&#xE1A3;" ToolTipService.ToolTip="Search questions" Click="btnSearch_Click" />
-                        <Button x:Name="btnCreateQuestion" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="25" Content="&#xE710;" Margin="5 0 0 0" ToolTipService.ToolTip="Create a question" Click="btnCreateQuestion_Click" />
+                        <Button x:Name="btnCreateQuestion" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="20" Content="&#xE710;" Margin="5 0 0 0" ToolTipService.ToolTip="Create a question" Click="btnCreateQuestion_Click" />
                     </StackPanel>
                 </StackPanel>
 
