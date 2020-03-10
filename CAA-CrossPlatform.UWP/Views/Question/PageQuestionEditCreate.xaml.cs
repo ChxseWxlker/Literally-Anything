@@ -43,6 +43,11 @@ namespace CAA_CrossPlatform.UWP
             //set properties
             if (selectedQuestion.Id != 0)
             {
+                //setup button
+                if (selectedQuestion.Id != -1)
+                    btnSubmit.Content = "Save";
+
+                //set properties
                 txtQuestion.Text = selectedQuestion.name;
 
                 //get answers
@@ -121,7 +126,7 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private async void btnCreate_Click(object sender, RoutedEventArgs e)
+        private async void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             //get list of questions
             List<Question> questions = await Connection.Get("Question");

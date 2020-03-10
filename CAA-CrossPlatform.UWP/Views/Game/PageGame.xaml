@@ -104,7 +104,7 @@
 
                             <StackPanel x:Name="spBtnDeleteLayout" RelativePanel.AlignHorizontalCenterWith="ButtonLayout" RelativePanel.Below="ButtonLayout">
 
-                                <Button Style="{StaticResource ButtonTemplate}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />
+                                <Button Style="{StaticResource ButtonTemplateRed}" x:Name="btnDelete" Content="Delete" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />
 
                             </StackPanel>
 

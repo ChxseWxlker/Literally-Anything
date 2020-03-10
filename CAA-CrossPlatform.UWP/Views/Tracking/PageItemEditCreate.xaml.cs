@@ -43,8 +43,11 @@ namespace CAA_CrossPlatform.UWP
             //set properties
             if (selectedItem.Id != 0)
             {
-                btnSubmit.Content = "Save";
+                //setup button
+                if (selectedItem.Id != -1)
+                    btnSubmit.Content = "Save";
 
+                //set properties
                 txtItem.Text = selectedItem.name;
 
                 if (!string.IsNullOrEmpty(selectedItem.valueType))

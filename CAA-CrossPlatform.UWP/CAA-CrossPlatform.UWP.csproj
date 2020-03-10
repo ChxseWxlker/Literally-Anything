@@ -120,9 +120,6 @@
     <Compile Include="Views\Game\PageGameEditCreate.xaml.cs">
       <DependentUpon>PageGameEditCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Excel\PageExcel.xaml.cs">
-      <DependentUpon>PageExcel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PageIndex.xaml.cs">
       <DependentUpon>PageIndex.xaml</DependentUpon>
     </Compile>
@@ -232,10 +229,6 @@
     <Page Include="Views\Game\PageGameEditCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Excel\PageExcel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PageIndex.xaml">
       <Generator>MSBuild:Compile</Generator>

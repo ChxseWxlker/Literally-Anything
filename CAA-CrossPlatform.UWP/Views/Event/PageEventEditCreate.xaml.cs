@@ -59,7 +59,11 @@ namespace CAA_CrossPlatform.UWP
             //edit event
             if (selectedEvent.Id != 0)
             {
-                //get game
+                //setup button
+                if (selectedEvent.Id != -1)
+                    btnSubmit.Content = "Save";
+
+                //set properties
                 try
                 {
                     Game game = await Connection.Get("Game", selectedEvent.GameID);

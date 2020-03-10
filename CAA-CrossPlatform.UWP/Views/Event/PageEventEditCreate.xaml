@@ -50,10 +50,8 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 20 0 0" RelativePanel.Below="spForm" RelativePanel.AlignHorizontalCenterWith="spForm">
-
-                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Content="Cancel" Margin="0 0 20 0" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
-                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Save" Margin="20 0 0 0" Width="180" Height="50" FontSize="30" Click="btnSubmit_Click"/>
-
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Create" Margin="0 10 5 0" Width="180" Height="50" FontSize="30" Click="btnSubmit_Click"/>
+                    <Button Style="{StaticResource ButtonTemplateRed}" x:Name="btnCancel" Content="Cancel" Margin="5 10 0 0" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
                 </StackPanel>
             </RelativePanel>
         </StackPanel>

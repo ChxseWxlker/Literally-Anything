@@ -48,9 +48,15 @@ namespace CAA_CrossPlatform.UWP
             selectedQuestions = EnvironmentModel.QuestionList;
             EnvironmentModel.QuestionList = new List<Question>();
 
-            //get name
             if (selectedGame.Id != 0)
+            {
+                //setup button
+                if (selectedGame.Id != -1)
+                    btnSubmit.Content = "Save";
+
+                //set properties
                 txtGame.Text = selectedGame.name;
+            }
 
             //get question list
             List<Question> questions = await Connection.Get("Question");
