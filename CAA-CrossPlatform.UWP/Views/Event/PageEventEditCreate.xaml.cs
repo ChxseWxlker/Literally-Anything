@@ -85,10 +85,16 @@ namespace CAA_CrossPlatform.UWP
                     txtEvent.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
 
                 if (selectedEvent.startDate != null)
-                    dtpStartDate.SelectedDate = selectedEvent.startDate;
+                {
+                    dpStart.SelectedDate = selectedEvent.startDate.Date;
+                    tpStart.SelectedTime = selectedEvent.startDate.TimeOfDay;
+                }
 
                 if (selectedEvent.endDate != null)
-                    dtpEndDate.SelectedDate = selectedEvent.endDate;
+                {
+                    dpEnd.SelectedDate = selectedEvent.endDate.Date;
+                    tpEnd.SelectedTime = selectedEvent.endDate.TimeOfDay;
+                }
 
                 chkMemberOnly.IsChecked = selectedEvent.memberOnly;
 
@@ -117,25 +123,40 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //validate start date
-            if (!dtpStartDate.SelectedDate.HasValue)
+            if (!dpStart.SelectedDate.HasValue)
             {
-                dtpStartDate.Focus(FocusState.Keyboard);
+                dpStart.Focus(FocusState.Keyboard);
                 await new MessageDialog("Start date is required.").ShowAsync();
                 return;
             }
 
-            //validate end date
-            if (dtpEndDate.SelectedDate == null)
+            //validate start time
+            if (!tpStart.SelectedTime.HasValue)
             {
-                dtpEndDate.Focus(FocusState.Keyboard);
+                tpStart.Focus(FocusState.Keyboard);
+                await new MessageDialog("Start time is required.").ShowAsync();
+                return;
+            }
+
+            //validate end date
+            if (dpEnd.SelectedDate == null)
+            {
+                dpEnd.Focus(FocusState.Keyboard);
                 await new MessageDialog("End date is required.").ShowAsync();
                 return;
             }
 
-            //validate date range
-            if (dtpEndDate.SelectedDate < dtpStartDate.SelectedDate)
+            if (!tpEnd.SelectedTime.HasValue)
             {
-                dtpEndDate.Focus(FocusState.Keyboard);
+                tpEnd.Focus(FocusState.Keyboard);
+                await new MessageDialog("End time is required.").ShowAsync();
+                return;
+            }
+
+            //validate date range
+            if (dpEnd.SelectedDate < dpStart.SelectedDate)
+            {
+                dpEnd.Focus(FocusState.Keyboard);
                 await new MessageDialog("End date must be after start date.").ShowAsync();
                 return;
             }
@@ -159,7 +180,7 @@ namespace CAA_CrossPlatform.UWP
                     char[] letters = word.ToCharArray();
                     abbreviation += char.ToUpper(letters[0]);
                 }
-                abbreviation += $"{dtpStartDate.SelectedDate.Value.DateTime.Month.ToString("00")}{dtpStartDate.SelectedDate.Value.DateTime.Year}";
+                abbreviation += $"{dpStart.SelectedDate.Value.Date.Month.ToString("00")}{dpStart.SelectedDate.Value.Date.Year}";
 
                 //event exists and is visible
                 if (ev.nameAbbrev == abbreviation && ev.hidden == false)
@@ -200,8 +221,8 @@ namespace CAA_CrossPlatform.UWP
 
             //setup event record
             Event newEvent = new Event();
-            newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
-            newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+            newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+            newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
             newEvent.displayName = $"{eventName} {newEvent.startDate.Year}";
             newEvent.name = newEvent.displayName.Replace(" ", "");
             newEvent.nameAbbrev = "";
@@ -285,11 +306,14 @@ namespace CAA_CrossPlatform.UWP
             Event newEvent = new Event();
             newEvent.Id = -1;
 
-            if (dtpStartDate.SelectedDate != null)
-                newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
+            if (selectedEvent.Id != -1 && selectedEvent.Id != 0)
+                newEvent.Id = selectedEvent.Id;
 
-            if (dtpEndDate.SelectedDate != null)
-                newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+            if (dpStart.SelectedDate != null)
+                newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+
+            if (dpEnd.SelectedDate != null)
+                newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
 
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
@@ -308,11 +332,14 @@ namespace CAA_CrossPlatform.UWP
             Event newEvent = new Event();
             newEvent.Id = -1;
 
-            if (dtpStartDate.SelectedDate != null)
-                newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
+            if (selectedEvent.Id != -1 && selectedEvent.Id != 0)
+                newEvent.Id = selectedEvent.Id;
 
-            if (dtpEndDate.SelectedDate != null)
-                newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+            if (dpStart.SelectedDate != null)
+                newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+
+            if (dpEnd.SelectedDate != null)
+                newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
 
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";

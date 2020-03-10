@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Center">
-                    <RelativePanel>
+            <RelativePanel>
                 <StackPanel x:Name="spForm" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <StackPanel x:Name="Input" Margin="0 0 50 0">
 
@@ -26,10 +26,12 @@
                         <TextBox x:Name="txtEvent" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25" Width="400"/>
 
                         <TextBlock x:Name="lblStartDate" Text="Start Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
-                        <DatePicker x:Name="dtpStartDate" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
+                        <DatePicker x:Name="dpStart" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
+                        <TimePicker x:Name="tpStart" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
 
                         <TextBlock x:Name="lblEndDate" Text="End Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
-                        <DatePicker x:Name="dtpEndDate" Margin="0 10 0 0" FontSize="25" Width="400"/>
+                        <DatePicker x:Name="dpEnd" Margin="0 10 0 0" FontSize="25" Width="400"/>
+                        <TimePicker x:Name="tpEnd" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
 
                         <TextBlock x:Name="lblGame" Text="Game" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
                         <Grid>
