@@ -25,7 +25,7 @@ namespace CAA_CrossPlatform.UWP
         Event selectedEvent = new Event();
 
         //list of event items
-        List<EventItem> eventItems;
+        List<EventItem> eventItems = new List<EventItem>();
 
         //setup total member count
         int memberCount = 0;
@@ -57,12 +57,13 @@ namespace CAA_CrossPlatform.UWP
             lblEventName.Text = selectedEvent.displayName;
             
             //get all tracking values
-            eventItems = await Connection.Get("EventItem");
+            List<EventItem> tempEventItems = await Connection.Get("EventItem");
             if (eventItems != null)
-                foreach (EventItem eventItem in eventItems)
+                foreach (EventItem eventItem in tempEventItems)
                     if (eventItem.EventId == selectedEvent.Id)
                     {
                         //add to list
+                        eventItems.Add(eventItem);
                         Item item = await Connection.Get("Item", eventItem.ItemId);
 
                         //create stackpanel for item
@@ -464,11 +465,14 @@ namespace CAA_CrossPlatform.UWP
                         TextBox txtTrack = (TextBox)spControls.Children[1];
 
                         //create item
-                        AttendanceItem attendanceItem = new AttendanceItem();
-                        attendanceItem.AttendanceId = a.Id;
-                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
-                        attendanceItem.input = txtTrack.Text;
-                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        if (txtTrack.Text != "0" && txtTrack.Text != "")
+                        {
+                            AttendanceItem attendanceItem = new AttendanceItem();
+                            attendanceItem.AttendanceId = a.Id;
+                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                            attendanceItem.input = txtTrack.Text;
+                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        }
                     }
                 }
             }
@@ -572,11 +576,14 @@ namespace CAA_CrossPlatform.UWP
                         TextBox txtTrack = (TextBox)spControls.Children[1];
 
                         //create item
-                        AttendanceItem attendanceItem = new AttendanceItem();
-                        attendanceItem.AttendanceId = a.Id;
-                        attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
-                        attendanceItem.input = txtTrack.Text;
-                        attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        if (txtTrack.Text != "0" && txtTrack.Text != "")
+                        {
+                            AttendanceItem attendanceItem = new AttendanceItem();
+                            attendanceItem.AttendanceId = a.Id;
+                            attendanceItem.EventItemId = eventItems[trackingPanel.Children.IndexOf(spTrack) - 1].Id;
+                            attendanceItem.input = txtTrack.Text;
+                            attendanceItem.Id = await Connection.Insert(attendanceItem);
+                        }
                     }
                 }
             }

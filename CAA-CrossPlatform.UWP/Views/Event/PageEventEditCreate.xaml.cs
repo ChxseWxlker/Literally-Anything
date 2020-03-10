@@ -238,52 +238,38 @@ namespace CAA_CrossPlatform.UWP
                 await Connection.Update(newEvent);
             }
 
-            ////create trackable items
-            //if (newEvent.Id != -1)
-            //{
-            //    foreach (TextBox txtItem in spTrackItems.Children)
-            //    {
-            //        if (!string.IsNullOrEmpty(txtItem.Text))
-            //        {
-            //            //update
-            //            if (txtItem.Name != "txtTrack")
-            //            {
-            //                int id = Convert.ToInt32(txtItem.Name.Substring(txtItem.Name.IndexOf('_') + 1));
-            //                Item item = await Connection.Get("Item", id);
-            //                item.name = txtItem.Text;
-            //                await Connection.Update(item);
-            //            }
-
-            //            //create
-            //            else if (txtItem.Name == "txtTrack")
-            //            {
-            //                //create item
-            //                Item item = new Item();
-            //                item.name = txtItem.Text;
-            //                item.valueType = "int";
-            //                item.Id = await Connection.Insert(item);
-
-            //                //create even item
-            //                EventItem eventItem = new EventItem();
-            //                eventItem.EventId = newEvent.Id;
-            //                eventItem.ItemId = item.Id;
-            //                eventItem.Id = await Connection.Insert(eventItem);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //delete events
-            List<EventItem> eventItems = await Connection.Get("EventItem");
-            foreach (Item item in deleteItemsQueue)
+            if (newEvent.Id != -1)
             {
-                //delete relationship
+                //delete previous trackable items
+                List<EventItem> eventItems = await Connection.Get("EventItem");
+                List<AttendanceItem> attendanceItems = await Connection.Get("AttendanceItem");
+                int attendanceCount = 0;
                 foreach (EventItem eventItem in eventItems)
-                    if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == item.Id)
-                        await Connection.Delete(eventItem);
-                
-                //delete item
-                await Connection.Delete(item);
+                    if (eventItem.EventId == newEvent.Id)
+                    {
+                        //get item
+                        Item item = await Connection.Get("Item", eventItem.ItemId);
+
+                        //check if trying to delete connection
+                        if (!lbItem.Items.Contains(item.name))
+                            foreach (AttendanceItem attendanceItem in attendanceItems)
+                                if (attendanceItem.EventItemId == eventItem.Id)
+                                    attendanceCount++;
+
+                        //delete connection if no tracking data
+                        if (attendanceCount == 0)
+                            await Connection.Delete(eventItem);
+                    }
+
+                //create trackable items
+                foreach (Item item in visibleItems)
+                    if (lbItem.SelectedItems.Contains(item.name))
+                    {
+                        EventItem eventItem = new EventItem();
+                        eventItem.EventId = newEvent.Id;
+                        eventItem.ItemId = item.Id;
+                        eventItem.Id = await Connection.Insert(eventItem);
+                    }
             }
 
             //navigate away

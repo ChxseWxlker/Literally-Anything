@@ -823,6 +823,10 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("You need to choose a question!").ShowAsync();
                 else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
                     await new MessageDialog("Invalid event!").ShowAsync();
+                else if (table == "EventItem" && ex.Message.Contains("FOREIGN KEY"))
+                {
+                    //do nothing and ignore
+                }
 
                 //unique constraints
                 else if (table == "Event" && ex.Message.Contains("UNIQUE"))
