@@ -99,6 +99,7 @@
     <Compile Include="Models\EventItem.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\EnvironmentModel.cs" />
+    <Compile Include="Models\temporary.cs" />
     <Compile Include="Views\Tracking\PageItemEditCreate.xaml.cs">
       <DependentUpon>PageItemEditCreate.xaml</DependentUpon>
     </Compile>

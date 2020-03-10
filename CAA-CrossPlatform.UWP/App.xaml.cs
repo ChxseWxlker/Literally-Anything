@@ -61,6 +61,7 @@ namespace CAA_CrossPlatform.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
+                EnvironmentModel.LoadPageSettings();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

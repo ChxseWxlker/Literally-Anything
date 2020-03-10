@@ -107,7 +107,7 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtUsername.Text))
             {
