@@ -128,7 +128,7 @@
 
                     <StackPanel HorizontalAlignment="Center">
                         
-                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center" Margin="0 0 0 20"/>
 
                         <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                             <StackPanel Margin="0 20 0 0">

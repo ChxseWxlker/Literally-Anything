@@ -149,6 +149,10 @@ namespace CAA_CrossPlatform.UWP
                 await Connection.Update(newGame);
             }
 
+            //populate game info
+            if (EnvironmentModel.Event.Id != 0)
+                EnvironmentModel.Event.GameID = newGame.Id;
+
             //get all game questions
             List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
 
@@ -224,6 +228,10 @@ namespace CAA_CrossPlatform.UWP
 
             Game game = new Game();
             game.Id = -1;
+
+            if (selectedGame.Id != 0 && selectedGame.Id != -1)
+                game.Id = selectedGame.Id;
+
             game.name = txtGame.Text;
             EnvironmentModel.Game = game;
             Frame.Navigate(typeof(PageQuestionEditCreate));

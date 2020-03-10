@@ -247,7 +247,7 @@ namespace CAA_CrossPlatform.UWP
             Frame.GoBack();
         }
 
-        private async void txtAnswer_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtAnswer_TextChanged(object sender, TextChangedEventArgs e)
         {
             //get textbox
             TextBox txtSender = (TextBox)sender;

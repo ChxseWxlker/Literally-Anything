@@ -99,16 +99,10 @@ namespace CAA_CrossPlatform.UWP
                 chkMemberOnly.IsChecked = selectedEvent.memberOnly;
 
                 List<EventItem> eventItems = await Connection.Get("EventItem");
-                foreach (EventItem eventItem in eventItems)
-                    if (eventItem.EventId == selectedEvent.Id)
-                    {
-                        //get item
-                        Item item = await Connection.Get("Item", eventItem.ItemId);
-
-                        //add to list
-                        items.Add(item);
-                        lbItem.SelectedItems.Add(item.name);
-                    }
+                foreach (Item item in visibleItems)
+                    foreach (EventItem eventItem in eventItems)
+                        if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == item.Id)
+                            lbItem.SelectedItems.Add(item.name);
             }
         }
 
@@ -175,7 +169,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 //get abbreviation
                 string abbreviation = "";
-                foreach (string word in txtEvent.Text.Replace("'", "''").Split(' '))
+                foreach (string word in txtEvent.Text.Split(' '))
                 {
                     char[] letters = word.ToCharArray();
                     abbreviation += char.ToUpper(letters[0]);
@@ -216,8 +210,8 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
-            //fix special characters for sql
-            string eventName = txtEvent.Text.Replace("'", "''");
+            //get event name
+            string eventName = txtEvent.Text;
 
             //setup event record
             Event newEvent = new Event();
@@ -318,6 +312,9 @@ namespace CAA_CrossPlatform.UWP
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
 
+            if (cmbGame.SelectedIndex != -1)
+                newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
+
             newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 
             //store event for return
@@ -343,6 +340,9 @@ namespace CAA_CrossPlatform.UWP
 
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
+
+            if (cmbGame.SelectedIndex != -1)
+                newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
 
             newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 

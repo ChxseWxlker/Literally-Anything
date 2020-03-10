@@ -192,7 +192,7 @@
                     <RelativePanel>
                         <TextBlock Name="lblActiveEvent" Text="Active Events" Margin="0 10 0 0" FontSize="36"></TextBlock>
 
-                        <Button x:Name="btnCreateEvent" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Height="40" Width="40" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                        <Button x:Name="btnCreateEvent" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" FontSize="18" Content="&#xE710;" Height="45" Width="45" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     </RelativePanel>
 
                     <StackPanel x:Name="spLVActiveEvent" Height="180" Background="#ddd">

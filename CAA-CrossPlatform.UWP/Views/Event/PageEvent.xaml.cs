@@ -56,11 +56,11 @@ namespace CAA_CrossPlatform.UWP
                 if (ev.hidden == false)
                 {
                     //populate upcoming events
-                    if (ev.startDate > DateTime.Now)
+                    if (ev.startDate.Date > DateTime.Now.Date)
                         upcomingEvents.Add(ev);
 
                     //populate past events
-                    else if (ev.endDate < DateTime.Now)
+                    else if (ev.endDate.Date < DateTime.Now.Date)
                         pastEvents.Add(ev);
 
                     //populate active events
@@ -151,8 +151,8 @@ namespace CAA_CrossPlatform.UWP
 
             //get info
             lblPopupEventName.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
-            lblPopupStartDate.Text = selectedEvent.startDate.ToString("MMMM dd, yyyy");
-            lblPopupEndDate.Text = selectedEvent.endDate.ToString("MMMM dd, yyyy");
+            lblPopupStartDate.Text = selectedEvent.startDate.ToString("MMMM dd, yyyy h:mmtt");
+            lblPopupEndDate.Text = selectedEvent.endDate.ToString("MMMM dd, yyyy h:mmtt");
             Game game = await Connection.Get("Game", selectedEvent.GameID);
             lblPopupGame.Text = $"Game: {game.name}";
 
