@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
                     "FOREIGN KEY('GameID') REFERENCES 'Game'('Id'), FOREIGN KEY('QuestionID') REFERENCES 'Question'('Id') );" +
 
                     //create item table
-                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'name' TEXT NOT NULL, 'valueType' TEXT);" +
+                    "CREATE TABLE 'Item' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL, 'valueType' TEXT NOT NULL);" +
 
                     //create event item table
                     "CREATE TABLE 'EventItem' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'EventId' INTEGER NOT NULL, 'ItemId' INTEGER NOT NULL, " +
@@ -145,9 +145,9 @@ namespace CAA_CrossPlatform.UWP
                             Event e = new Event();
                             e.Id = Convert.ToInt32(query[0]);
                             e.hidden = Convert.ToBoolean(query[1]);
-                            e.name = query[2].ToString();
-                            e.displayName = query[3].ToString();
-                            e.nameAbbrev = query[4].ToString();
+                            e.name = query[2].ToString().Replace("''", "'");
+                            e.displayName = query[3].ToString().Replace("''", "'");
+                            e.nameAbbrev = query[4].ToString().Replace("''", "'");
                             e.startDate = Convert.ToDateTime(query[5]);
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
@@ -161,7 +161,7 @@ namespace CAA_CrossPlatform.UWP
                             Game g = new Game();
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
-                            g.name = query[2].ToString();
+                            g.name = query[2].ToString().Replace("''", "'");
                             records.Add(g);
                         }
 
@@ -171,7 +171,7 @@ namespace CAA_CrossPlatform.UWP
                             Question q = new Question();
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
-                            q.name = query[2].ToString();
+                            q.name = query[2].ToString().Replace("''", "'");
                             records.Add(q);
                         }
 
@@ -181,7 +181,7 @@ namespace CAA_CrossPlatform.UWP
                             Answer a = new Answer();
                             a.Id = Convert.ToInt32(query[0]);
                             a.hidden = Convert.ToBoolean(query[1]);
-                            a.name = query[2].ToString();
+                            a.name = query[2].ToString().Replace("''", "'");
                             a.correct = Convert.ToBoolean(query[3]);
                             a.QuestionID = Convert.ToInt32(query[4]);
                             records.Add(a);
@@ -202,8 +202,9 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.name = query[1].ToString();
-                            i.valueType = query[2].ToString();
+                            i.hidden = Convert.ToBoolean(query[1]);
+                            i.name = query[2].ToString().Replace("''", "'");
+                            i.valueType = query[3].ToString().Replace("''", "'");
                             records.Add(i);
                         }
 
@@ -224,7 +225,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.input = Convert.ToInt32(query[3]);
+                            ai.input = query[3].ToString().Replace("''", "'");
                             records.Add(ai);
                         }
 
@@ -233,12 +234,12 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Attendance a = new Attendance();
                             a.Id = Convert.ToInt32(query[0]);
-                            a.memberNumber = query[1].ToString();
+                            a.memberNumber = query[1].ToString().Replace("''", "'");
                             a.arriveTime = Convert.ToDateTime(query[2]);
                             a.isMember = Convert.ToBoolean(query[3]);
-                            a.phone = query[4].ToString();
-                            a.firstName = query[5].ToString();
-                            a.lastName = query[6].ToString();
+                            a.phone = query[4].ToString().Replace("''", "'");
+                            a.firstName = query[5].ToString().Replace("''", "'");
+                            a.lastName = query[6].ToString().Replace("''", "'");
                             a.EventID = Convert.ToInt32(query[7]);
                             records.Add(a);
                         }
@@ -258,9 +259,9 @@ namespace CAA_CrossPlatform.UWP
                             Event e = new Event();
                             e.Id = Convert.ToInt32(query[0]);
                             e.hidden = Convert.ToBoolean(query[1]);
-                            e.name = query[2].ToString();
-                            e.displayName = query[3].ToString();
-                            e.nameAbbrev = query[4].ToString();
+                            e.name = query[2].ToString().Replace("''", "'");
+                            e.displayName = query[3].ToString().Replace("''", "'");
+                            e.nameAbbrev = query[4].ToString().Replace("''", "'");
                             e.startDate = Convert.ToDateTime(query[5]);
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
@@ -274,7 +275,7 @@ namespace CAA_CrossPlatform.UWP
                             Game g = new Game();
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
-                            g.name = query[2].ToString();
+                            g.name = query[2].ToString().Replace("''", "'");
                             return g;
                         }
 
@@ -284,7 +285,7 @@ namespace CAA_CrossPlatform.UWP
                             Question q = new Question();
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
-                            q.name = query[2].ToString();
+                            q.name = query[2].ToString().Replace("''", "'");
                             return q;
                         }
 
@@ -294,7 +295,7 @@ namespace CAA_CrossPlatform.UWP
                             Answer a = new Answer();
                             a.Id = Convert.ToInt32(query[0]);
                             a.hidden = Convert.ToBoolean(query[1]);
-                            a.name = query[2].ToString();
+                            a.name = query[2].ToString().Replace("''", "'");
                             a.correct = Convert.ToBoolean(query[3]);
                             a.QuestionID = Convert.ToInt32(query[4]);
                             return a;
@@ -315,8 +316,9 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Item i = new Item();
                             i.Id = Convert.ToInt32(query[0]);
-                            i.name = query[1].ToString();
-                            i.valueType = query[2].ToString();
+                            i.hidden = Convert.ToBoolean(query[1]);
+                            i.name = query[2].ToString().Replace("''", "'");
+                            i.valueType = query[3].ToString().Replace("''", "'");
                             return i;
                         }
 
@@ -337,7 +339,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.Id = Convert.ToInt32(query[0]);
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
-                            ai.input = Convert.ToInt32(query[3]);
+                            ai.input = query[3].ToString().Replace("''", "'");
                             return ai;
                         }
 
@@ -346,12 +348,12 @@ namespace CAA_CrossPlatform.UWP
                         {
                             Attendance a = new Attendance();
                             a.Id = Convert.ToInt32(query[0]);
-                            a.memberNumber = query[1].ToString();
+                            a.memberNumber = query[1].ToString().Replace("''", "'");
                             a.arriveTime = Convert.ToDateTime(query[2]);
                             a.isMember = Convert.ToBoolean(query[3]);
-                            a.phone = query[4].ToString();
-                            a.firstName = query[5].ToString();
-                            a.lastName = query[6].ToString();
+                            a.phone = query[4].ToString().Replace("''", "'");
+                            a.firstName = query[5].ToString().Replace("''", "'");
+                            a.lastName = query[6].ToString().Replace("''", "'");
                             a.EventID = Convert.ToInt32(query[7]);
                             return a;
                         }
@@ -391,9 +393,9 @@ namespace CAA_CrossPlatform.UWP
                 fields = "hidden, name, displayName, nameAbbrev, startDate, endDate, memberOnly, GameID";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
-                parameters.Add(new SqliteParameter("@displayName", record.displayName));
-                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@displayName", record.displayName.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev.Replace("'", "''")));
                 parameters.Add(new SqliteParameter("@startDate", record.startDate));
                 parameters.Add(new SqliteParameter("@endDate", record.endDate));
                 parameters.Add(new SqliteParameter("@memberOnly", Convert.ToInt32(record.memberOnly)));
@@ -407,7 +409,7 @@ namespace CAA_CrossPlatform.UWP
                 fields = "hidden, name";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
             }
 
             //question record
@@ -417,7 +419,7 @@ namespace CAA_CrossPlatform.UWP
                 fields = "hidden, name";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
             }
 
             //answer record
@@ -427,7 +429,7 @@ namespace CAA_CrossPlatform.UWP
                 fields = "hidden, name, correct, QuestionID";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
                 parameters.Add(new SqliteParameter("@correct", Convert.ToInt32(record.correct)));
                 parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
@@ -446,10 +448,11 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                fields = "name, valueType";
+                fields = "name, hidden, valueType";
 
-                parameters.Add(new SqliteParameter("@name", record.name));
-                parameters.Add(new SqliteParameter("@valueType", record.valueType));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@valueType", record.valueType.Replace("'", "''")));
             }
 
             //EventItem record
@@ -470,7 +473,7 @@ namespace CAA_CrossPlatform.UWP
 
                 parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
                 parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
-                parameters.Add(new SqliteParameter("@input", record.input));
+                parameters.Add(new SqliteParameter("@input", record.input.Replace("'", "''")));
             }
 
             //attendance record
@@ -482,22 +485,22 @@ namespace CAA_CrossPlatform.UWP
                 if (string.IsNullOrEmpty(record.memberNumber))
                     parameters.Add(new SqliteParameter("@memberNumber", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber));
+                    parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.phone))
                     parameters.Add(new SqliteParameter("@phone", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@phone", record.phone));
+                    parameters.Add(new SqliteParameter("@phone", record.phone.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.firstName))
                     parameters.Add(new SqliteParameter("@firstName", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@firstName", record.firstName));
+                    parameters.Add(new SqliteParameter("@firstName", record.firstName.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.lastName))
                     parameters.Add(new SqliteParameter("@lastName", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@lastName", record.lastName));
+                    parameters.Add(new SqliteParameter("@lastName", record.lastName.Replace("'", "''")));
 
                 parameters.Add(new SqliteParameter("@arriveTime", record.arriveTime));
                 parameters.Add(new SqliteParameter("@isMember", Convert.ToInt32(record.isMember)));
@@ -562,9 +565,9 @@ namespace CAA_CrossPlatform.UWP
                     $"startDate = @startDate, endDate = @endDate, memberOnly = @memberOnly, GameID = @GameID";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
-                parameters.Add(new SqliteParameter("@displayName", record.displayName));
-                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@displayName", record.displayName.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@nameAbbrev", record.nameAbbrev.Replace("'", "''")));
                 parameters.Add(new SqliteParameter("@startDate", record.startDate));
                 parameters.Add(new SqliteParameter("@endDate", record.endDate));
                 parameters.Add(new SqliteParameter("@memberOnly", Convert.ToInt32(record.memberOnly)));
@@ -578,7 +581,7 @@ namespace CAA_CrossPlatform.UWP
                 conditions = $"hidden = @hidden, name = @name";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
             }
 
             //question record
@@ -588,7 +591,7 @@ namespace CAA_CrossPlatform.UWP
                 conditions = $"hidden = @hidden, name = @name";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
             }
 
             //answer record
@@ -598,7 +601,7 @@ namespace CAA_CrossPlatform.UWP
                 conditions = $"hidden = @hidden, name = @name, correct = @correct, QuestionID = @QuestionID";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
-                parameters.Add(new SqliteParameter("@name", record.name));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
                 parameters.Add(new SqliteParameter("@correct", Convert.ToInt32(record.correct)));
                 parameters.Add(new SqliteParameter("@QuestionID", record.QuestionID));
             }
@@ -617,10 +620,11 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Item))
             {
                 table = "Item";
-                conditions = $"name = @name, valueType = @valueType";
+                conditions = $"name = @name, hidden = @hidden, valueType = @valueType";
 
-                parameters.Add(new SqliteParameter("@name", record.name));
-                parameters.Add(new SqliteParameter("@valueType", record.valueType));
+                parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+                parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
+                parameters.Add(new SqliteParameter("@valueType", record.valueType.Replace("'", "''")));
             }
 
             //EventItem record
@@ -641,7 +645,7 @@ namespace CAA_CrossPlatform.UWP
 
                 parameters.Add(new SqliteParameter("@AttendanceId", record.AttendanceId));
                 parameters.Add(new SqliteParameter("@EventItemId", record.EventItemId));
-                parameters.Add(new SqliteParameter("@input", record.input));
+                parameters.Add(new SqliteParameter("@input", record.input.Replace("'", "''")));
             }
 
             //attendance record
@@ -654,22 +658,22 @@ namespace CAA_CrossPlatform.UWP
                 if (string.IsNullOrEmpty(record.memberNumber))
                     parameters.Add(new SqliteParameter("@memberNumber", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber));
+                    parameters.Add(new SqliteParameter("@memberNumber", record.memberNumber.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.phone))
                     parameters.Add(new SqliteParameter("@phone", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@phone", record.phone));
+                    parameters.Add(new SqliteParameter("@phone", record.phone.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.firstName))
                     parameters.Add(new SqliteParameter("@firstName", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@firstName", record.firstName));
+                    parameters.Add(new SqliteParameter("@firstName", record.firstName.Replace("'", "''")));
 
                 if (string.IsNullOrEmpty(record.lastName))
                     parameters.Add(new SqliteParameter("@lastName", DBNull.Value));
                 else
-                    parameters.Add(new SqliteParameter("@lastName", record.lastName));
+                    parameters.Add(new SqliteParameter("@lastName", record.lastName.Replace("'", "''")));
 
                 parameters.Add(new SqliteParameter("@arriveTime", record.arriveTime));
                 parameters.Add(new SqliteParameter("@isMember", Convert.ToInt32(record.isMember)));
@@ -792,7 +796,7 @@ namespace CAA_CrossPlatform.UWP
                 SqliteCommand cmd = new SqliteCommand($"UPDATE {table} SET hidden = @hidden WHERE Id = @id;", con);
 
                 //delete many to many relationship
-                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem" || table == "Item")
+                if (table == "GameQuestion" || table == "EventItem" || table == "AttendanceItem" || table == "Answer")
                     cmd = new SqliteCommand($"DELETE FROM {table} WHERE Id = @id;", con);
 
                 //add parameters
@@ -819,6 +823,10 @@ namespace CAA_CrossPlatform.UWP
                     await new MessageDialog("You need to choose a question!").ShowAsync();
                 else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
                     await new MessageDialog("Invalid event!").ShowAsync();
+                else if (table == "EventItem" && ex.Message.Contains("FOREIGN KEY"))
+                {
+                    //do nothing and ignore
+                }
 
                 //unique constraints
                 else if (table == "Event" && ex.Message.Contains("UNIQUE"))

@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CAA_CrossPlatform.UWP.Models;
+using Windows.UI;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -48,10 +49,15 @@ namespace CAA_CrossPlatform.UWP
             selectedQuestions = EnvironmentModel.QuestionList;
             EnvironmentModel.QuestionList = new List<Question>();
 
-            //get name
-            if (selectedGame.Id != 0) {
-                btnSubmit.Content = "Save";
-            txtGame.Text = selectedGame.name; }
+            if (selectedGame.Id != 0)
+            {
+                //setup button
+                if (selectedGame.Id != -1)
+                    btnSubmit.Content = "Save";
+
+                //set properties
+                txtGame.Text = selectedGame.name;
+            }
 
             //get question list
             List<Question> questions = await Connection.Get("Question");
@@ -143,6 +149,10 @@ namespace CAA_CrossPlatform.UWP
                 await Connection.Update(newGame);
             }
 
+            //populate game info
+            if (EnvironmentModel.Event.Id != 0)
+                EnvironmentModel.Event.GameID = newGame.Id;
+
             //get all game questions
             List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
 
@@ -173,24 +183,38 @@ namespace CAA_CrossPlatform.UWP
             Frame.GoBack();
         }
 
+        private void txtSearch_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                btnSearch_Click(sender, new RoutedEventArgs());
+        }
+
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            //clear questions
+            string search = txtSearch.Text.ToLower().Replace(" ", "");
             lbQuestion.Items.Clear();
+            SolidColorBrush btnBg = (SolidColorBrush)btnSearch.Background;
 
-            //get all questions
-            if (string.IsNullOrEmpty(txtSearch.Text))
+            //change to clear
+            if (btnBg.Color.G.ToString() == "82")
+            {
+                foreach (Question question in visibleQuestions)
+                    if (question.name.ToLower().Replace(" ", "").Contains(search))
+                        lbQuestion.Items.Add(question.name);
+
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplateRed"];
+                btnSearch.Content = "\uE894";
+            }
+
+            //change to search
+            else if (btnBg.Color.G.ToString() == "14")
             {
                 foreach (Question question in visibleQuestions)
                     lbQuestion.Items.Add(question.name);
-            }
 
-            //search questions
-            else
-            {
-                foreach (Question question in visibleQuestions)
-                    if (question.name.ToLower().Trim().Contains(txtSearch.Text.ToLower().Trim()))
-                        lbQuestion.Items.Add(question.name);
+                txtSearch.Text = "";
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplate"];
+                btnSearch.Content = "\uE1A3";
             }
         }
 
@@ -210,6 +234,10 @@ namespace CAA_CrossPlatform.UWP
 
             Game game = new Game();
             game.Id = -1;
+
+            if (selectedGame.Id != 0 && selectedGame.Id != -1)
+                game.Id = selectedGame.Id;
+
             game.name = txtGame.Text;
             EnvironmentModel.Game = game;
             Frame.Navigate(typeof(PageQuestionEditCreate));

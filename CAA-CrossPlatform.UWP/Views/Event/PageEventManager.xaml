@@ -128,7 +128,7 @@
 
                     <StackPanel HorizontalAlignment="Center">
                         
-                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center" Margin="0 0 0 20"/>
 
                         <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                             <StackPanel Margin="0 20 0 0">
@@ -144,7 +144,7 @@
                                 <TextBox x:Name="txtMemberLast" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. Smith"/>
 
                                 <TextBlock x:Name="lblMemberPhone" Text="Phone" Margin="0 20 0 0" TextWrapping="Wrap" FontSize="25"/>
-                                <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
+                                <TextBox x:Name="txtMemberPhone" HorizontalAlignment="Left" Margin="0 5 0 0" TextWrapping="Wrap" MaxLength="10" Height="40" Width="500" FontSize="22" KeyDown="txtMemberNum_KeyDown" PlaceholderText="e.g. 9053565567"/>
 
                             </StackPanel>
 
@@ -155,8 +155,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Submit" Width="180" Height="50" FontSize="30" Click="btnMemberSubmit_Click"/>
-                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Margin="5 10 0 0" Content="Exit" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnMemberSubmit" Margin="0 10 5 0" Content="Add" Width="180" Height="50" FontSize="30" Click="btnMemberSubmit_Click"/>
+                            <Button Style="{StaticResource ButtonTemplateRed}" x:Name="btnCancel" Margin="5 10 0 0" Content="Exit" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -174,12 +174,15 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            
+
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <StackPanel Margin="0 0 0 10">
+                                    <TextBlock x:Name="lblMemberCount" Text="Total Guests" FontSize="20"/>
+                                </StackPanel>
 
                                 <StackPanel x:Name="SearchBar" Orientation="Horizontal" Margin="0 0 0 10">
 
-                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Height="40" Width="415" Margin="0 0 5 0"/>
+                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Height="40" Width="415" Margin="0 0 5 0" KeyDown="txtSearch_KeyDown"/>
 
                                     <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" FontSize="20" Height="40" Width="40" Content="&#xE1A3;" Click="btnSearch_Click"/>
 

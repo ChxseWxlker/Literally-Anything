@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Center">
-                    <RelativePanel>
+            <RelativePanel>
                 <StackPanel x:Name="spForm" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <StackPanel x:Name="Input" Margin="0 0 50 0">
 
@@ -26,10 +26,12 @@
                         <TextBox x:Name="txtEvent" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25" Width="400"/>
 
                         <TextBlock x:Name="lblStartDate" Text="Start Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
-                        <DatePicker x:Name="dtpStartDate" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
+                        <DatePicker x:Name="dpStart" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
+                        <TimePicker x:Name="tpStart" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
 
                         <TextBlock x:Name="lblEndDate" Text="End Date" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
-                        <DatePicker x:Name="dtpEndDate" Margin="0 10 0 0" FontSize="25" Width="400"/>
+                        <DatePicker x:Name="dpEnd" Margin="0 10 0 0" FontSize="25" Width="400"/>
+                        <TimePicker x:Name="tpEnd" FontSize="25" Margin="0 10 0 0" MinWidth="0" Width="400"/>
 
                         <TextBlock x:Name="lblGame" Text="Game" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
                         <Grid>
@@ -37,23 +39,22 @@
                                 <ColumnDefinition Width="350"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnCreateGame" Style="{StaticResource ButtonTemplate}" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="1" Click="btnCreateGame_Click"/>
+                            <Button x:Name="btnCreateGame" Style="{StaticResource ButtonTemplate}" Width="45" Height="45" HorizontalAlignment="Right" FontSize="18" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="1" Click="btnCreateGame_Click"/>
                             <ComboBox x:Name="cmbGame" Grid.Column="0" Width="350" Grid.Row="0" FontSize="25"/>
                         </Grid>
-
-                        <CheckBox x:Name="chkMemberOnly" Margin="0 10 0 0" Content="Members Only" FontSize="25"/>
-
-                        <TextBlock x:Name="lblTrackItems" Text="Trackable Items" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
-                        <StackPanel x:Name="spTrackItems">
-                            <TextBox x:Name="txtTrack" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25" Width="400" TextChanged="txtTrack_TextChanged"/>
+                        <TextBlock x:Name="lblItem" Text="Trackable Items" TextWrapping="Wrap" Margin="0 10 0 0" FontSize="25"/>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                            <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" FontSize="25" Width="300" Margin="0 0 5 0"/>
+                            <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="25" Content="&#xE1A3;" ToolTipService.ToolTip="Search questions" Click="btnSearch_Click" />
+                            <Button x:Name="btnCreateItem" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" Height="45" Width="45" FontSize="18" Content="&#xE710;" Margin="5 0 0 0" ToolTipService.ToolTip="Create a trackable item" Click="btnCreateItem_Click" />
                         </StackPanel>
+                        <ListView x:Name="lbItem" Width="400" MaxHeight="300" MinHeight="40" Margin="0 10 0 0" Background="#ddd" SelectionMode="Multiple" FontSize="25"/>
+                        <CheckBox x:Name="chkMemberOnly" Margin="0 10 0 0" Content="Members Only" FontSize="25"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 20 0 0" RelativePanel.Below="spForm" RelativePanel.AlignHorizontalCenterWith="spForm">
-
-                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCancel" Content="Cancel" Margin="0 0 20 0" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
-                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Create" Margin="20 0 0 0" Width="180" Height="50" FontSize="30" Click="btnSubmit_Click"/>
-
+                    <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Create" Margin="0 10 5 0" Width="180" Height="50" FontSize="30" Click="btnSubmit_Click"/>
+                    <Button Style="{StaticResource ButtonTemplateRed}" x:Name="btnCancel" Content="Cancel" Margin="5 10 0 0" Width="180" Height="50" FontSize="30" Click="btnCancel_Click"/>
                 </StackPanel>
             </RelativePanel>
         </StackPanel>

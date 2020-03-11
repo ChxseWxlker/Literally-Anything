@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CAA_CrossPlatform.UWP.Models;
+using System.Text.RegularExpressions;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -25,7 +26,7 @@ namespace CAA_CrossPlatform.UWP
         List<Game> visibleGames = new List<Game>();
 
         //create list of items
-        List<Item> items = new List<Item>();
+        List<Item> visibleItems = new List<Item>();
 
         //setup selected event
         Event selectedEvent = new Event();
@@ -56,11 +57,23 @@ namespace CAA_CrossPlatform.UWP
                     visibleGames.Add(game);
                 }
 
-            //edit event
+            //populate listbox
+            List<Item> items = await Connection.Get("Item");
+            foreach (Item item in items)
+                if (item.hidden == false)
+                {
+                    lbItem.Items.Add(item.name);
+                    visibleItems.Add(item);
+                }
+
+            //set properties
             if (selectedEvent.Id != 0)
             {
-                btnSubmit.Content = "Save";
-                //get game
+                //setup button
+                if (selectedEvent.Id != -1)
+                    btnSubmit.Content = "Save";
+
+                //set properties
                 try
                 {
                     Game game = await Connection.Get("Game", selectedEvent.GameID);
@@ -72,98 +85,118 @@ namespace CAA_CrossPlatform.UWP
                     txtEvent.Text = selectedEvent.displayName.Substring(0, selectedEvent.displayName.Length - 5);
 
                 if (selectedEvent.startDate != null)
-                    dtpStartDate.SelectedDate = selectedEvent.startDate;
+                {
+                    dpStart.SelectedDate = selectedEvent.startDate.Date;
+                    tpStart.SelectedTime = selectedEvent.startDate.TimeOfDay;
+                }
 
                 if (selectedEvent.endDate != null)
-                    dtpEndDate.SelectedDate = selectedEvent.endDate;
+                {
+                    dpEnd.SelectedDate = selectedEvent.endDate.Date;
+                    tpEnd.SelectedTime = selectedEvent.endDate.TimeOfDay;
+                }
 
                 chkMemberOnly.IsChecked = selectedEvent.memberOnly;
 
                 List<EventItem> eventItems = await Connection.Get("EventItem");
-                foreach (EventItem eventItem in eventItems)
-                    if (eventItem.EventId == selectedEvent.Id)
-                    {
-                        //get item
-                        Item item = await Connection.Get("Item", eventItem.ItemId);
-
-                        //add to list
-                        items.Add(item);
-
-                        //populate native textbox first
-                        if (txtTrack.Text == "")
-                        {
-                            txtTrack.Text = item.name;
-                            txtTrack.Name = $"txtTrack_{item.Id}";
-                        }
-
-                        //create more textboxes
-                        else
-                        {
-                            TextBox txtTrackNew = new TextBox();
-                            txtTrackNew.Text = item.name;
-                            txtTrackNew.Name = $"txtTrack_{item.Id}";
-                            txtTrackNew.HorizontalAlignment = HorizontalAlignment.Left;
-                            txtTrackNew.TextWrapping = TextWrapping.Wrap;
-                            txtTrackNew.Margin = new Thickness(0, 10, 0, 0);
-                            txtTrackNew.FontSize = 25;
-                            txtTrackNew.Width = 400;
-                            txtTrackNew.TextChanged += txtTrack_TextChanged;
-
-                            //merge to stackpanel
-                            spTrackItems.Children.Add(txtTrackNew);
-                        }
-                    }
-
-                //create empty textbox under
-                if (items.Count > 0)
-                {
-                    TextBox txtTrackEmpty = new TextBox();
-                    txtTrackEmpty.Name = "txtTrack";
-                    txtTrackEmpty.HorizontalAlignment = HorizontalAlignment.Left;
-                    txtTrackEmpty.TextWrapping = TextWrapping.Wrap;
-                    txtTrackEmpty.Margin = new Thickness(0, 10, 0, 0);
-                    txtTrackEmpty.FontSize = 25;
-                    txtTrackEmpty.Width = 400;
-                    txtTrackEmpty.TextChanged += txtTrack_TextChanged;
-
-                    //merge to stackpanel
-                    spTrackItems.Children.Add(txtTrackEmpty);
-                }
+                foreach (Item item in visibleItems)
+                    foreach (EventItem eventItem in eventItems)
+                        if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == item.Id)
+                            lbItem.SelectedItems.Add(item.name);
             }
         }
 
         private async void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            //validate name
-            if (txtEvent.Text == "")
+            //validate name required
+            if (string.IsNullOrEmpty(txtEvent.Text))
             {
                 txtEvent.Focus(FocusState.Keyboard);
-                await new MessageDialog("Enter an event name.").ShowAsync();
+                await new MessageDialog("Event name is required.").ShowAsync();
                 return;
             }
 
             //validate start date
-            else if (dtpStartDate.SelectedDate == null)
+            if (!dpStart.SelectedDate.HasValue)
             {
-                dtpStartDate.Focus(FocusState.Keyboard);
-                await new MessageDialog("Enter a start date.").ShowAsync();
+                dpStart.Focus(FocusState.Keyboard);
+                await new MessageDialog("Start date is required.").ShowAsync();
+                return;
+            }
+
+            //validate start time
+            if (!tpStart.SelectedTime.HasValue)
+            {
+                tpStart.Focus(FocusState.Keyboard);
+                await new MessageDialog("Start time is required.").ShowAsync();
                 return;
             }
 
             //validate end date
-            else if (dtpEndDate.SelectedDate == null)
+            if (dpEnd.SelectedDate == null)
             {
-                dtpEndDate.Focus(FocusState.Keyboard);
-                await new MessageDialog("Enter an end date.").ShowAsync();
+                dpEnd.Focus(FocusState.Keyboard);
+                await new MessageDialog("End date is required.").ShowAsync();
+                return;
+            }
+
+            if (!tpEnd.SelectedTime.HasValue)
+            {
+                tpEnd.Focus(FocusState.Keyboard);
+                await new MessageDialog("End time is required.").ShowAsync();
                 return;
             }
 
             //validate date range
-            else if (dtpEndDate.SelectedDate < dtpStartDate.SelectedDate)
+            if (dpEnd.SelectedDate < dpStart.SelectedDate)
             {
-                dtpEndDate.Focus(FocusState.Keyboard);
+                dpEnd.Focus(FocusState.Keyboard);
                 await new MessageDialog("End date must be after start date.").ShowAsync();
                 return;
+            }
+
+            //validate game
+            if (cmbGame.SelectedIndex == -1)
+            {
+                cmbGame.Focus(FocusState.Keyboard);
+                await new MessageDialog("A game is required.").ShowAsync();
+                return;
+            }
+
+            //delete previous trackable items if possible
+            List<EventItem> eventItemDeleteQueue = new List<EventItem>();
+            if (selectedEvent.Id != 0 && selectedEvent.Id != -1)
+            {
+                List<EventItem> eventItems = await Connection.Get("EventItem");
+                List<AttendanceItem> attendanceItems = await Connection.Get("AttendanceItem");
+                foreach (EventItem eventItem in eventItems)
+                    if (eventItem.EventId == selectedEvent.Id)
+                    {
+                        //get item
+                        Item item = await Connection.Get("Item", eventItem.ItemId);
+                        int attendanceCount = 0;
+
+                        //check if trying to delete connection
+                        if (!lbItem.SelectedItems.Contains(item.name))
+                            foreach (AttendanceItem attendanceItem in attendanceItems)
+                                if (attendanceItem.EventItemId == eventItem.Id)
+                                    attendanceCount++;
+
+                        //delete connection if no tracking data
+                        if (attendanceCount == 0)
+                            eventItemDeleteQueue.Add(eventItem);
+
+                        else
+                        {
+                            lbItem.SelectedItems.Add(item.name);
+                            await new MessageDialog($"Cannot delete {item.name} item, it is tracking data for this event.").ShowAsync();
+                            return;
+                        }
+                    }
+
+                //delete event items in queue
+                foreach (EventItem eventItem in eventItemDeleteQueue)
+                    await Connection.Delete(eventItem);
             }
 
             //validate abbreviated name
@@ -172,12 +205,12 @@ namespace CAA_CrossPlatform.UWP
             {
                 //get abbreviation
                 string abbreviation = "";
-                foreach (string word in txtEvent.Text.Replace("'", "''").Split(' '))
+                foreach (string word in txtEvent.Text.Split(' '))
                 {
                     char[] letters = word.ToCharArray();
                     abbreviation += char.ToUpper(letters[0]);
                 }
-                abbreviation += $"{dtpStartDate.SelectedDate.Value.DateTime.Month.ToString("00")}{dtpStartDate.SelectedDate.Value.DateTime.Year}";
+                abbreviation += $"{dpStart.SelectedDate.Value.Date.Month.ToString("00")}{dpStart.SelectedDate.Value.Date.Year}";
 
                 //event exists and is visible
                 if (ev.nameAbbrev == abbreviation && ev.hidden == false)
@@ -213,13 +246,13 @@ namespace CAA_CrossPlatform.UWP
                 }
             }
 
-            //fix special characters for sql
-            string eventName = txtEvent.Text.Replace("'", "''");
+            //get event name
+            string eventName = txtEvent.Text;
 
             //setup event record
             Event newEvent = new Event();
-            newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
-            newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+            newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+            newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
             newEvent.displayName = $"{eventName} {newEvent.startDate.Year}";
             newEvent.name = newEvent.displayName.Replace(" ", "");
             newEvent.nameAbbrev = "";
@@ -241,52 +274,17 @@ namespace CAA_CrossPlatform.UWP
                 await Connection.Update(newEvent);
             }
 
-            //create trackable items
             if (newEvent.Id != -1)
             {
-                foreach (TextBox txtItem in spTrackItems.Children)
-                {
-                    if (!string.IsNullOrEmpty(txtItem.Text))
+                //create trackable items
+                foreach (Item item in visibleItems)
+                    if (lbItem.SelectedItems.Contains(item.name))
                     {
-                        //update
-                        if (txtItem.Name != "txtTrack")
-                        {
-                            int id = Convert.ToInt32(txtItem.Name.Substring(txtItem.Name.IndexOf('_') + 1));
-                            Item item = await Connection.Get("Item", id);
-                            item.name = txtItem.Text;
-                            await Connection.Update(item);
-                        }
-
-                        //create
-                        else if (txtItem.Name == "txtTrack")
-                        {
-                            //create item
-                            Item item = new Item();
-                            item.name = txtItem.Text;
-                            item.valueType = "int";
-                            item.Id = await Connection.Insert(item);
-
-                            //create even item
-                            EventItem eventItem = new EventItem();
-                            eventItem.EventId = newEvent.Id;
-                            eventItem.ItemId = item.Id;
-                            eventItem.Id = await Connection.Insert(eventItem);
-                        }
+                        EventItem eventItem = new EventItem();
+                        eventItem.EventId = newEvent.Id;
+                        eventItem.ItemId = item.Id;
+                        eventItem.Id = await Connection.Insert(eventItem);
                     }
-                }
-            }
-
-            //delete events
-            List<EventItem> eventItems = await Connection.Get("EventItem");
-            foreach (Item item in deleteItemsQueue)
-            {
-                //delete relationship
-                foreach (EventItem eventItem in eventItems)
-                    if (eventItem.EventId == selectedEvent.Id && eventItem.ItemId == item.Id)
-                        await Connection.Delete(eventItem);
-                
-                //delete item
-                await Connection.Delete(item);
             }
 
             //navigate away
@@ -303,14 +301,20 @@ namespace CAA_CrossPlatform.UWP
             Event newEvent = new Event();
             newEvent.Id = -1;
 
-            if (dtpStartDate.SelectedDate != null)
-                newEvent.startDate = dtpStartDate.SelectedDate.Value.DateTime;
+            if (selectedEvent.Id != -1 && selectedEvent.Id != 0)
+                newEvent.Id = selectedEvent.Id;
 
-            if (dtpEndDate.SelectedDate != null)
-                newEvent.endDate = dtpEndDate.SelectedDate.Value.DateTime;
+            if (dpStart.SelectedDate != null)
+                newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+
+            if (dpEnd.SelectedDate != null)
+                newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
 
             if (!string.IsNullOrEmpty(txtEvent.Text))
                 newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
+
+            if (cmbGame.SelectedIndex != -1)
+                newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
 
             newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
 
@@ -321,59 +325,61 @@ namespace CAA_CrossPlatform.UWP
             Frame.Navigate(typeof(PageGameEditCreate));
         }
 
-        private async void txtTrack_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnCreateItem_Click(object sender, RoutedEventArgs e)
         {
-            //get textbox
-            TextBox txtSender = (TextBox)sender;
+            Event newEvent = new Event();
+            newEvent.Id = -1;
 
-            //create next trackable item
-            if (spTrackItems.Children.IndexOf(txtSender) == spTrackItems.Children.Count - 1)
+            if (selectedEvent.Id != -1 && selectedEvent.Id != 0)
+                newEvent.Id = selectedEvent.Id;
+
+            if (dpStart.SelectedDate != null)
+                newEvent.startDate = dpStart.SelectedDate.Value.Date.Add(tpStart.SelectedTime.Value);
+
+            if (dpEnd.SelectedDate != null)
+                newEvent.endDate = dpEnd.SelectedDate.Value.Date.Add(tpEnd.SelectedTime.Value);
+
+            if (!string.IsNullOrEmpty(txtEvent.Text))
+                newEvent.displayName = $"{txtEvent.Text} {newEvent.startDate.Year}";
+
+            if (cmbGame.SelectedIndex != -1)
+                newEvent.GameID = visibleGames[cmbGame.SelectedIndex].Id;
+
+            newEvent.memberOnly = chkMemberOnly.IsChecked ?? false;
+
+            //store event for return
+            EnvironmentModel.Event = newEvent;
+
+            //navigate to create a game
+            Frame.Navigate(typeof(PageItemEditCreate));
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string search = txtSearch.Text.ToLower().Replace(" ", "");
+            lbItem.Items.Clear();
+            SolidColorBrush btnBg = (SolidColorBrush)btnSearch.Background;
+
+            //change to clear
+            if (btnBg.Color.G.ToString() == "82")
             {
-                if (!string.IsNullOrEmpty(txtSender.Text))
-                {
-                    TextBox txtTrackNew = new TextBox();
-                    txtTrackNew.Name = "txtTrack";
-                    txtTrackNew.HorizontalAlignment = HorizontalAlignment.Left;
-                    txtTrackNew.TextWrapping = TextWrapping.Wrap;
-                    txtTrackNew.Margin = new Thickness(0, 10, 0, 0);
-                    txtTrackNew.FontSize = 25;
-                    txtTrackNew.Width = 400;
-                    txtTrackNew.TextChanged += txtTrack_TextChanged;
+                foreach (Item item in visibleItems)
+                    if (item.name.ToLower().Replace(" ", "").Contains(search))
+                        lbItem.Items.Add(item.name);
 
-                    //merge to stackpanel
-                    spTrackItems.Children.Add(txtTrackNew);
-                }
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplateRed"];
+                btnSearch.Content = "\uE894";
             }
 
-            //remove trackable item
-            else if (string.IsNullOrEmpty(txtSender.Text) && spTrackItems.Children.Count > 1)
+            //change to search
+            else if (btnBg.Color.G.ToString() == "14")
             {
-                //focus other track item
-                try
-                {
-                    TextBox txtFocus = (TextBox)spTrackItems.Children[spTrackItems.Children.IndexOf(txtSender) - 1];
-                    txtFocus.Focus(FocusState.Keyboard);
-                }
-                catch
-                {
-                    TextBox txtFocus = (TextBox)spTrackItems.Children[1];
-                    txtFocus.Focus(FocusState.Keyboard);
-                }
+                foreach (Item item in visibleItems)
+                    lbItem.Items.Add(item.name);
 
-                //delete from database
-                if (txtSender.Name != "txtTrack")
-                {
-                    int id = Convert.ToInt32(txtSender.Name.Substring(txtSender.Name.IndexOf('_') + 1));
-                    Item item = await Connection.Get("Item", id);
-                    deleteItemsQueue.Add(item);
-
-                    //remove textbox from stackpanel
-                    spTrackItems.Children.Remove(txtSender);
-                }
-
-                //remove textbox from stackpanel
-                else
-                    spTrackItems.Children.Remove(txtSender);
+                txtSearch.Text = "";
+                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplate"];
+                btnSearch.Content = "\uE1A3";
             }
         }
     }

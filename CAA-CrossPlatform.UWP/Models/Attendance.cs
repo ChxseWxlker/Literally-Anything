@@ -8,6 +8,12 @@ namespace CAA_CrossPlatform.UWP.Models
 {
     public class Attendance
     {
+        public Attendance()
+        {
+            //set default values
+            this.Id = 0;
+        }
+
         //attendance properties
         public int Id { get; set; }
         public string memberNumber { get; set; }
