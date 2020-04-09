@@ -26,13 +26,18 @@ namespace CAA_CrossPlatform.UWP
 {
     sealed partial class App : Application
     {
+        //setup first login
+        public static bool firstLogin = true;
+
+        //initialize timer
+        DispatcherTimer timer = new DispatcherTimer();
+
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            //create timer
-            DispatcherTimer timer = new DispatcherTimer();
+            //setup timer
             timer.Interval = TimeSpan.FromMinutes(1);
             timer.Tick += Timer_Tick;
             //timer.Start();

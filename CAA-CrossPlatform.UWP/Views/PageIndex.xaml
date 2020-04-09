@@ -14,11 +14,15 @@
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#00529b"/>
         <SolidColorBrush x:Key="NavigationViewItemForeground" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#fff"/>
-        <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundPressed" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#fff"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="#fff"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="#fff" Opacity="0.2"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundPressed" Color="#1560a3"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="#fff" Opacity="0.2"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="#fff" Opacity="0.2"/>
+        <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="#1560a3"/>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

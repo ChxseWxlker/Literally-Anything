@@ -33,6 +33,14 @@ namespace CAA_CrossPlatform.UWP
         //setup all attendance
         List<Attendance> attendanceHistory = new List<Attendance>();
 
+        //setup game stuff
+        Game game = new Game();
+        List<Question> questions = new List<Question>();
+        List<Answer> answers = new List<Answer>();
+
+        //setup auto play
+        static bool gamePlayAuto = true;
+
         public PageEventManager()
         {
             this.InitializeComponent();
@@ -52,6 +60,23 @@ namespace CAA_CrossPlatform.UWP
             foreach (Attendance attendance in attendanceList)
                 if (attendance.EventID == selectedEvent.Id)
                     AddHistory(attendance);
+
+            //get game and questions
+            game = await Connection.Get("Game", selectedEvent.GameID);
+            List<GameQuestion> gameQuestions = await Connection.Get("GameQuestion");
+            List<Answer> gameAnswers = await Connection.Get("Answer");
+            foreach (GameQuestion gameQuestion in gameQuestions)
+                if (gameQuestion.GameID == game.Id)
+                {
+                    Question question = await Connection.Get("Question", gameQuestion.QuestionID);
+                    questions.Add(question);
+                    foreach (Answer answer in gameAnswers)
+                        if (answer.QuestionID == question.Id)
+                            answers.Add(answer);
+                }
+
+            //set auto play
+            chkPlayGameAuto.IsChecked = gamePlayAuto;
 
             //populate elements
             lblEventName.Text = selectedEvent.displayName;
@@ -152,6 +177,27 @@ namespace CAA_CrossPlatform.UWP
             //hide tracking if empty
             if (trackingPanel.Children.Count == 1)
                 trackingPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnPlayGame_Click(object sender, RoutedEventArgs e)
+        {
+            //setup environment vars
+            EnvironmentModel.Event = selectedEvent;
+            EnvironmentModel.Game = game;
+            EnvironmentModel.QuestionList = questions;
+            EnvironmentModel.AnswerList = answers;
+
+            //open game player
+            Frame.Navigate(typeof(PageGamePlayer));
+        }
+
+        private void chkPlayGameAuto_Click(object sender, RoutedEventArgs e)
+        {
+            //set public auto var
+            gamePlayAuto = chkPlayGameAuto.IsChecked.GetValueOrDefault();
+
+            //focus membership
+            txtMemberNum.Focus(FocusState.Keyboard);
         }
 
         private void BtnControl_Click(object sender, RoutedEventArgs e)
@@ -515,6 +561,10 @@ namespace CAA_CrossPlatform.UWP
             txtMemberLast.Text = "";
             txtMemberPhone.Text = "";
             txtMemberNum.Focus(FocusState.Keyboard);
+
+            //play game after swipe if desired
+            if (chkPlayGameAuto.IsChecked.GetValueOrDefault())
+                btnPlayGame_Click(sender, e);
         }
 
         private async void btnMemberSubmit_Click(object sender, RoutedEventArgs e)
@@ -627,6 +677,10 @@ namespace CAA_CrossPlatform.UWP
             txtMemberLast.Text = "";
             txtMemberPhone.Text = "";
             txtMemberNum.Focus(FocusState.Keyboard);
+
+            //play game after swipe if desired
+            if (chkPlayGameAuto.IsChecked.GetValueOrDefault())
+                btnPlayGame_Click(sender, e);
         }
 
         private void txtSearch_KeyDown(object sender, KeyRoutedEventArgs e)

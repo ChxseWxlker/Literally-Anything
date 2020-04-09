@@ -31,20 +31,29 @@ namespace CAA_CrossPlatform.UWP.Templates
         string nameSubstring(string name)
         {
             name = name.Substring(0, name.Length - 5);
+            //int wordCount = name.Split(" ").Length;
+            //if (name.Length > 28)
+            //{
+            //    string nameSub = name.Substring(0, 25);
+            //    return nameSub.Insert(nameSub.Length, "...");
+            //}
 
-            if (name.Length > 25)
-            {
-                string nameSub = name.Substring(0, 22);
-                return nameSub.Insert(nameSub.Length, "...");
-            }
-
-            else
+            //else
+            test1 = name;
                 return name;
         }
 
         string dateLong(DateTime date)
         {
             return date.ToString("MMMM dd, yyyy");
+        }
+
+        string test1 = "";
+        private void lblEventName_Loaded(object sender, RoutedEventArgs e)
+        {
+            string test11 = test1;
+            string test2 = lblEventName.Text;
+            int i = 0;
         }
     }
 }

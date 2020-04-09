@@ -68,6 +68,20 @@ namespace CAA_CrossPlatform.UWP
                         activeEvents.Add(ev);
                 }
 
+            //go to active event
+            if (App.firstLogin == true)
+            {
+                //check if one active event
+                if (activeEvents.Count == 1)
+                {
+                    EnvironmentModel.Event = activeEvents[0];
+                    Frame.Navigate(typeof(PageEventManager));
+                }
+
+                //reset first login
+                App.firstLogin = false;
+            }
+
             //setup list sources
             lvActiveEvent.ItemsSource = activeEvents;
             lvUpcomingEvent.ItemsSource = upcomingEvents;
