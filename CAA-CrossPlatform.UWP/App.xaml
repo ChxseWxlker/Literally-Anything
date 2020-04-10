@@ -6,7 +6,6 @@
     RequestedTheme="Light">
 
     <Application.Resources>
-        <!--Source: Video: C# - Designing Round Buttons in WPF: https://www.youtube.com/watch?v=Q0CbkFN_JPs&t=167s-->
         <!--https://stackoverflow.com/questions/38778715/uwp-button-changes-colors-when-mouse-hovers-over-->
 
         <Style TargetType="Button" x:Key="ButtonTemplate">

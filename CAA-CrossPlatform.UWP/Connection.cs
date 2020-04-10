@@ -24,6 +24,13 @@ namespace CAA_CrossPlatform.UWP
         //checks if the database exists
         private async static Task<int> Verify()
         {
+            //create images folder if doesn't exist
+            try
+            {
+                await ApplicationData.Current.LocalFolder.CreateFolderAsync("images");
+            }
+            catch { }
+
             //database doesn't exist
             if (!File.Exists(path))
             {
@@ -37,7 +44,8 @@ namespace CAA_CrossPlatform.UWP
                     con.Open();
 
                     //create game table
-                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, 'name' TEXT NOT NULL UNIQUE);" +
+                    SqliteCommand cmd = new SqliteCommand("CREATE TABLE 'Game' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
+                        "'name' TEXT NOT NULL UNIQUE, 'imagePath' TEXT);" +
 
                     //create event table
                     "CREATE TABLE 'Event' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'hidden' INTEGER NOT NULL DEFAULT 0, " +
@@ -162,6 +170,7 @@ namespace CAA_CrossPlatform.UWP
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
                             g.name = query[2].ToString().Replace("''", "'");
+                            g.imagePath = query[3].ToString().Replace("''", "'");
                             records.Add(g);
                         }
 
@@ -276,6 +285,7 @@ namespace CAA_CrossPlatform.UWP
                             g.Id = Convert.ToInt32(query[0]);
                             g.hidden = Convert.ToBoolean(query[1]);
                             g.name = query[2].ToString().Replace("''", "'");
+                            g.imagePath = query[3].ToString().Replace("''", "'");
                             return g;
                         }
 
@@ -406,10 +416,15 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Game))
             {
                 table = "Game";
-                fields = "hidden, name";
+                fields = "hidden, name, imagePath";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
                 parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+
+                if (string.IsNullOrEmpty(record.imagePath))
+                    parameters.Add(new SqliteParameter("@imagePath", DBNull.Value));
+                else
+                    parameters.Add(new SqliteParameter("@imagePath", record.imagePath.Replace("'", "''")));
             }
 
             //question record
@@ -578,10 +593,15 @@ namespace CAA_CrossPlatform.UWP
             else if (record.GetType() == typeof(Game))
             {
                 table = "Game";
-                conditions = $"hidden = @hidden, name = @name";
+                conditions = $"hidden = @hidden, name = @name, imagePath = @imagePath";
 
                 parameters.Add(new SqliteParameter("@hidden", Convert.ToInt32(record.hidden)));
                 parameters.Add(new SqliteParameter("@name", record.name.Replace("'", "''")));
+
+                if (string.IsNullOrEmpty(record.imagePath))
+                    parameters.Add(new SqliteParameter("@imagePath", DBNull.Value));
+                else
+                    parameters.Add(new SqliteParameter("@imagePath", record.imagePath.Replace("'", "''")));
             }
 
             //question record

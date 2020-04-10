@@ -33,6 +33,9 @@ namespace CAA_CrossPlatform.UWP
         //setup selected questions
         List<Question> selectedQuestions = new List<Question>();
 
+        //setup image
+        string selectedImage = "";
+
         public PageGameEditCreate()
         {
             this.InitializeComponent();
@@ -57,6 +60,19 @@ namespace CAA_CrossPlatform.UWP
 
                 //set properties
                 txtGame.Text = selectedGame.name;
+                selectedImage = selectedGame.imagePath;
+
+                if (!string.IsNullOrEmpty(selectedImage))
+                {
+                    StorageFolder images = await ApplicationData.Current.LocalFolder.GetFolderAsync("images");
+                    StorageFile image = await images.GetFileAsync(selectedImage);
+                    if (image.Name.Length > 22)
+                        lblImagePath.Text = "Image: " + image.Name.Substring(0, 22) + "...";
+                    else
+                        lblImagePath.Text = "Image: " + image.Name;
+                    lblImagePath.Visibility = Visibility.Visible;
+                    btnAddImage.Margin = new Thickness(0, 5, 0, 0);
+                }
             }
 
             //get question list
@@ -85,6 +101,52 @@ namespace CAA_CrossPlatform.UWP
                     foreach (GameQuestion gameQuestion in gameQuestions)
                         if (gameQuestion.QuestionID == question.Id && gameQuestion.GameID == selectedGame.Id)
                             lbQuestion.SelectedItems.Add(question.name);
+            }
+        }
+
+        private async void btnAddImage_Click(object sender, RoutedEventArgs e)
+        {
+            //setup picker
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".tiff");
+
+            StorageFile image = await picker.PickSingleFileAsync();
+            if (image != null)
+            {
+                //setup local folder
+                StorageFolder images = await ApplicationData.Current.LocalFolder.GetFolderAsync("images");
+
+                //check if image already exists
+                string path = Path.Combine(images.Path, image.Name);
+
+                //copy if doesn't exist
+                if (!File.Exists(path))
+                    await image.CopyAsync(images);
+
+                if (image.Name.Length > 22)
+                    lblImagePath.Text = "Image: " + image.Name.Substring(0, 22) + "...";
+                else
+                    lblImagePath.Text = "Image: " + image.Name;
+
+                selectedImage = image.Name;
+                lblImagePath.Visibility = Visibility.Visible;
+                btnAddImage.Margin = new Thickness(0, 5, 0, 0);
+            }
+
+            //hide label if no image
+            else
+            {
+                if (string.IsNullOrEmpty(selectedImage))
+                {
+                    lblImagePath.Visibility = Visibility.Collapsed;
+                    btnAddImage.Margin = new Thickness(0, 20, 0, 0);
+                }
             }
         }
 
@@ -139,6 +201,7 @@ namespace CAA_CrossPlatform.UWP
             //setup game object
             Game newGame = new Game();
             newGame.name = txtGame.Text;
+            newGame.imagePath = selectedImage;
 
             if (selectedGame.Id == 0 || selectedGame.Id == -1)
                 newGame.Id = await Connection.Insert(newGame);
@@ -239,6 +302,7 @@ namespace CAA_CrossPlatform.UWP
                 game.Id = selectedGame.Id;
 
             game.name = txtGame.Text;
+            game.imagePath = selectedImage;
             EnvironmentModel.Game = game;
             Frame.Navigate(typeof(PageQuestionEditCreate));
         }
