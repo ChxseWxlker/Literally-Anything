@@ -47,9 +47,7 @@ namespace CAA_CrossPlatform.UWP
         {
             try
             {
-                Game g = new Game();
-                g.name = $"timerTest{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
-                g.Id = await Connection.Insert(g);
+
             }
             catch { }
         }
