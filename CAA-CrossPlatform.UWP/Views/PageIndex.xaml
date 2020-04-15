@@ -25,7 +25,7 @@
         <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="#1560a3"/>
     </Page.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <ScrollViewer x:Name="svIndex" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
 
             <VisualStateManager.VisualStateGroups>
@@ -95,6 +95,21 @@
                     <Button Style="{StaticResource ButtonTemplate}" x:Name="btnLoginPopup"  RelativePanel.AlignRightWithPanel="True" Width="150" FontSize="20" Content="Login" Margin="25"  Height="50" Click="btnLoginPopup_Click"></Button>
                 </RelativePanel>
 
+                <Popup x:Name="popupError" IsOpen="False"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    IsLightDismissEnabled="True"
+                    LightDismissOverlayMode="On"
+                    Closed="popupError_Closed">
+                    <Popup.ChildTransitions>
+                        <TransitionCollection>
+                            <PaneThemeTransition Edge="Top"></PaneThemeTransition>
+                        </TransitionCollection>
+                    </Popup.ChildTransitions>
+                    <StackPanel x:Name="spError" Background="#eb0e0e" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="lblError" Text="" TextWrapping="WrapWholeWords" FontSize="18" Foreground="#fff"/>
+                    </StackPanel>
+                </Popup>
 
             </Grid>
 

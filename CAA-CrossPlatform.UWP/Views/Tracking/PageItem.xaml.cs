@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbItem.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose an item to edit.").ShowAsync();
+                    PageIndex.ShowError("Choose an item to edit.");
                     return;
                 }
 
@@ -68,7 +68,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbItem.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose an item to delete.").ShowAsync();
+                    PageIndex.ShowError("Choose an item to delete.");
                     return;
                 }
 

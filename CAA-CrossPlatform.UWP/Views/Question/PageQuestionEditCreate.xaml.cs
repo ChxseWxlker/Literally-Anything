@@ -128,7 +128,7 @@ namespace CAA_CrossPlatform.UWP
             //check name
             if (string.IsNullOrEmpty(txtQuestion.Text))
             {
-                await new MessageDialog("Question name is required.").ShowAsync();
+                PageIndex.ShowError("Question name is required.");
                 return;
             }
 
@@ -153,14 +153,14 @@ namespace CAA_CrossPlatform.UWP
             //no answers
             if (emptyAnswerCount == spAnswersPanel.Children.Count)
             {
-                await new MessageDialog("Minimum of 1 answer is required.").ShowAsync();
+                PageIndex.ShowError("Minimum of 1 answer is required.");
                 return;
             }
 
             //no correct answers
             if (emptyCorrectCount == spAnswersPanel.Children.Count)
             {
-                await new MessageDialog("Minimum of 1 correct answer is required.").ShowAsync();
+                PageIndex.ShowError("Minimum of 1 correct answer is required.");
                 return;
             }
 
@@ -174,7 +174,7 @@ namespace CAA_CrossPlatform.UWP
                 {
                     if (selectedQuestion.Id == 0 || selectedQuestion.Id == -1)
                     {
-                        await new MessageDialog("That question already exists, enter a different name.").ShowAsync();
+                        PageIndex.ShowError("That question already exists, enter a different name.");
                         return;
                     }
                 }

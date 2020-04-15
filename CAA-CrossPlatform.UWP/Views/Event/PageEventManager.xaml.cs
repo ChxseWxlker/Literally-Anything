@@ -319,7 +319,7 @@ namespace CAA_CrossPlatform.UWP
                 //verify card number
                 if (!Luhn(a.memberNumber))
                 {
-                    await new MessageDialog("Invalid card number, try again.").ShowAsync();
+                    PageIndex.ShowError("Invalid card number, try again.");
 
                     //re-enable other inputs
                     txtMemberFirst.IsEnabled = true;
@@ -335,13 +335,13 @@ namespace CAA_CrossPlatform.UWP
             //catch swipe error
             catch
             {
-                await new MessageDialog("Error swiping card, try again.").ShowAsync();
+                PageIndex.ShowError("Error swiping card, try again.");
 
                 return new Attendance() { Id = -1 };
             }
         }
 
-        private async Task<Attendance> EnterMember(string memberNumber, string memberFirst, string memberLast, string memberPhone)
+        private Attendance EnterMember(string memberNumber, string memberFirst, string memberLast, string memberPhone)
         {
             //setup attendance object and set properties
             Attendance a = new Attendance();
@@ -353,7 +353,7 @@ namespace CAA_CrossPlatform.UWP
             //verify card number
             if (!Luhn(a.memberNumber))
             {
-                await new MessageDialog("Invalid card number, try again.").ShowAsync();
+                PageIndex.ShowError("Invalid card number, try again.");
 
                 //focus membership
                 txtMemberNum.Focus(FocusState.Keyboard);
@@ -364,7 +364,7 @@ namespace CAA_CrossPlatform.UWP
             //verify first name
             if (string.IsNullOrEmpty(first))
             {
-                await new MessageDialog("First name is required.").ShowAsync();
+                PageIndex.ShowError("First name is required.");
 
                 //focus first name
                 txtMemberFirst.Focus(FocusState.Keyboard);
@@ -375,7 +375,7 @@ namespace CAA_CrossPlatform.UWP
             //verify first name alphabetical
             else if (!Regex.IsMatch(first, @"^[a-zA-Z]+$"))
             {
-                await new MessageDialog("First name must be alphanumeric.").ShowAsync();
+                PageIndex.ShowError("First name must be alphanumeric.");
 
                 //focus first name
                 txtMemberFirst.Focus(FocusState.Keyboard);
@@ -394,7 +394,7 @@ namespace CAA_CrossPlatform.UWP
             //verify last name
             if (string.IsNullOrEmpty(last))
             {
-                await new MessageDialog("Last name is required.").ShowAsync();
+                PageIndex.ShowError("Last name is required.");
 
                 //focus last name
                 txtMemberLast.Focus(FocusState.Keyboard);
@@ -405,7 +405,7 @@ namespace CAA_CrossPlatform.UWP
             //verify last name alphabetical
             else if (!Regex.IsMatch(last, @"^[a-zA-Z]+$"))
             {
-                await new MessageDialog("Last name must be alphanumeric.").ShowAsync();
+                PageIndex.ShowError("Last name must be alphanumeric.");
 
                 //focus last name
                 txtMemberLast.Focus(FocusState.Keyboard);
@@ -424,7 +424,7 @@ namespace CAA_CrossPlatform.UWP
             //verify phone numeric
             if (!string.IsNullOrEmpty(phone) && !Regex.IsMatch(phone, @"^[0-9]+$"))
             {
-                await new MessageDialog("Phone number must be numeric.").ShowAsync();
+                PageIndex.ShowError("Phone number must be numeric.");
 
                 //focus last name
                 txtMemberPhone.Focus(FocusState.Keyboard);
@@ -463,7 +463,7 @@ namespace CAA_CrossPlatform.UWP
                 //manual entry
                 else
                 {
-                    a = await EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
+                    a = EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -503,7 +503,7 @@ namespace CAA_CrossPlatform.UWP
                 //manual entry
                 else
                 {
-                    a = await EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
+                    a = EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -589,7 +589,7 @@ namespace CAA_CrossPlatform.UWP
                 //manual entry
                 else
                 {
-                    a = await EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
+                    a = EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -618,7 +618,7 @@ namespace CAA_CrossPlatform.UWP
                 //manual entry
                 else
                 {
-                    a = await EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
+                    a = EnterMember(txtMemberNum.Text, txtMemberFirst.Text, txtMemberLast.Text, txtMemberPhone.Text);
                     if (a.Id == -1)
                         return;
                 }

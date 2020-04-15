@@ -212,7 +212,7 @@ namespace CAA_CrossPlatform.UWP
             //validation
             if (string.IsNullOrEmpty(txtGame.Text))
             {
-                await new MessageDialog("Enter a game name.").ShowAsync();
+                PageIndex.ShowError("Enter a game name.");
                 txtGame.Focus(FocusState.Keyboard);
                 return;
             }
@@ -224,7 +224,7 @@ namespace CAA_CrossPlatform.UWP
                 {
                     if (selectedGame.Id == 0 || selectedGame.Id == -1)
                     {
-                        await new MessageDialog("That game already exists, enter a different name.").ShowAsync();
+                        PageIndex.ShowError("That game already exists, enter a different name.");
                         return;
                     }
                 }

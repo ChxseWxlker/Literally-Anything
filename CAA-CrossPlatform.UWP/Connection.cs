@@ -93,7 +93,7 @@ namespace CAA_CrossPlatform.UWP
                 //catch errors
                 catch (Exception ex)
                 {
-                    await new MessageDialog(ex.Message).ShowAsync();
+                    PageIndex.ShowError(ex.Message);
                 }
             }
 
@@ -441,7 +441,7 @@ namespace CAA_CrossPlatform.UWP
             //catch errors
             catch (Exception ex)
             {
-                await new MessageDialog(ex.Message).ShowAsync();
+                PageIndex.ShowError(ex.Message);
             }
 
             //return nothing if invalid parameters
@@ -615,11 +615,11 @@ namespace CAA_CrossPlatform.UWP
             catch (Exception ex)
             {
                 if (table == "Event" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That event already exists!").ShowAsync();
+                    PageIndex.ShowError("That event already exists!");
                 else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("Invalid event!").ShowAsync();
+                    PageIndex.ShowError("Invalid event!");
                 else
-                    await new MessageDialog(ex.Message).ShowAsync();
+                    PageIndex.ShowError(ex.Message);
             }
 
             return Id;
@@ -795,27 +795,27 @@ namespace CAA_CrossPlatform.UWP
             {
                 //foreign key constraints
                 if (table == "Game" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose an event!").ShowAsync();
+                    PageIndex.ShowError("You need to choose an event!");
                 else if (table == "Question" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose a game!").ShowAsync();
+                    PageIndex.ShowError("You need to choose a game!");
                 else if (table == "Answer" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose a question!").ShowAsync();
+                    PageIndex.ShowError("You need to choose a question!");
                 else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("Invalid event!").ShowAsync();
+                    PageIndex.ShowError("Invalid event!");
 
                 //unique constraints
                 else if (table == "Event" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That event already exists!").ShowAsync();
+                    PageIndex.ShowError("That event already exists!");
                 else if (table == "Game" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That game already exists!").ShowAsync();
+                    PageIndex.ShowError("That game already exists!");
                 else if (table == "Question" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That question already exists!").ShowAsync();
+                    PageIndex.ShowError("That question already exists!");
                 else if (table == "Answer" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That answer already exists!").ShowAsync();
+                    PageIndex.ShowError("That answer already exists!");
 
                 //other issue
                 else
-                    await new MessageDialog(ex.Message).ShowAsync();
+                    PageIndex.ShowError(ex.Message);
             }
 
             return 0;
@@ -900,13 +900,13 @@ namespace CAA_CrossPlatform.UWP
             {
                 //foreign key constraints
                 if (table == "Game" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose an event!").ShowAsync();
+                    PageIndex.ShowError("You need to choose an event!");
                 else if (table == "Question" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose a game!").ShowAsync();
+                    PageIndex.ShowError("You need to choose a game!");
                 else if (table == "Answer" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("You need to choose a question!").ShowAsync();
+                    PageIndex.ShowError("You need to choose a question!");
                 else if (table == "Attendance" && ex.Message.Contains("FOREIGN KEY"))
-                    await new MessageDialog("Invalid event!").ShowAsync();
+                    PageIndex.ShowError("Invalid event!");
                 else if (table == "EventItem" && ex.Message.Contains("FOREIGN KEY"))
                 {
                     //do nothing and ignore
@@ -914,17 +914,17 @@ namespace CAA_CrossPlatform.UWP
 
                 //unique constraints
                 else if (table == "Event" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That event already exists!").ShowAsync();
+                    PageIndex.ShowError("That event already exists!");
                 else if (table == "Game" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That game already exists!").ShowAsync();
+                    PageIndex.ShowError("That game already exists!");
                 else if (table == "Question" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That question already exists!").ShowAsync();
+                    PageIndex.ShowError("That question already exists!");
                 else if (table == "Answer" && ex.Message.Contains("UNIQUE"))
-                    await new MessageDialog("That answer already exists!").ShowAsync();
+                    PageIndex.ShowError("That answer already exists!");
 
                 //other issue
                 else
-                    await new MessageDialog(ex.Message).ShowAsync();
+                    PageIndex.ShowError(ex.Message);
             }
 
             return 0;

@@ -22,6 +22,9 @@ namespace CAA_CrossPlatform.UWP
 {
     public sealed partial class PageIndex
     {
+        //setup scroller vertical offset
+        public static double scrollerVerticalOffset = 0;
+
         public PageIndex()
         {
             this.InitializeComponent();
@@ -34,6 +37,8 @@ namespace CAA_CrossPlatform.UWP
             TextBox txtBox = new TextBox();
             txtBox.Focus(FocusState.Pointer);
             txtBox.IsFocusEngaged = false;
+
+            EnvironmentModel.IndexInstance = this;
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -80,10 +85,28 @@ namespace CAA_CrossPlatform.UWP
             navMenu.SelectedItem = navMenu.MenuItems[0];
         }
 
+        //show error popup
+        public static void ShowError(string error)
+        {
+            PageIndex index = EnvironmentModel.IndexInstance;
+            scrollerVerticalOffset = index.svIndex.VerticalOffset;
+            index.svIndex.ChangeView(index.svIndex.HorizontalOffset, 0, index.svIndex.ZoomFactor);
+            index.lblError.Text = error;
+            index.popupError.Width = Window.Current.Bounds.Width - 300;
+            index.spError.Width = Window.Current.Bounds.Width - 300;
+            index.popupError.IsOpen = true;
+        }
+
+        //scroll back to previous position
+        private void popupError_Closed(object sender, object e)
+        {
+            svIndex.ChangeView(svIndex.HorizontalOffset, scrollerVerticalOffset, svIndex.ZoomFactor);
+        }
+
         private void btnLoginPopup_Click(object sender, RoutedEventArgs e)
         {
             Button btnSender = (Button)sender;
-
+            
             //login user
             if (btnSender.Content.ToString() == "Login")
             {

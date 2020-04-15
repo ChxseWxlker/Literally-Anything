@@ -112,7 +112,7 @@ namespace CAA_CrossPlatform.UWP
             if (string.IsNullOrEmpty(txtEvent.Text))
             {
                 txtEvent.Focus(FocusState.Keyboard);
-                await new MessageDialog("Event name is required.").ShowAsync();
+                PageIndex.ShowError("Event name is required.");
                 return;
             }
 
@@ -120,7 +120,7 @@ namespace CAA_CrossPlatform.UWP
             if (!dpStart.SelectedDate.HasValue)
             {
                 dpStart.Focus(FocusState.Keyboard);
-                await new MessageDialog("Start date is required.").ShowAsync();
+                PageIndex.ShowError("Start date is required.");
                 return;
             }
 
@@ -128,7 +128,7 @@ namespace CAA_CrossPlatform.UWP
             if (!tpStart.SelectedTime.HasValue)
             {
                 tpStart.Focus(FocusState.Keyboard);
-                await new MessageDialog("Start time is required.").ShowAsync();
+                PageIndex.ShowError("Start time is required.");
                 return;
             }
 
@@ -136,14 +136,14 @@ namespace CAA_CrossPlatform.UWP
             if (dpEnd.SelectedDate == null)
             {
                 dpEnd.Focus(FocusState.Keyboard);
-                await new MessageDialog("End date is required.").ShowAsync();
+                PageIndex.ShowError("End date is required.");
                 return;
             }
 
             if (!tpEnd.SelectedTime.HasValue)
             {
                 tpEnd.Focus(FocusState.Keyboard);
-                await new MessageDialog("End time is required.").ShowAsync();
+                PageIndex.ShowError("End time is required.");
                 return;
             }
 
@@ -151,7 +151,7 @@ namespace CAA_CrossPlatform.UWP
             if (dpEnd.SelectedDate < dpStart.SelectedDate)
             {
                 dpEnd.Focus(FocusState.Keyboard);
-                await new MessageDialog("End date must be after start date.").ShowAsync();
+                PageIndex.ShowError("End date must be after start date.");
                 return;
             }
 
@@ -159,7 +159,7 @@ namespace CAA_CrossPlatform.UWP
             if (cmbGame.SelectedIndex == -1)
             {
                 cmbGame.Focus(FocusState.Keyboard);
-                await new MessageDialog("A game is required.").ShowAsync();
+                PageIndex.ShowError("A game is required.");
                 return;
             }
 
@@ -189,7 +189,7 @@ namespace CAA_CrossPlatform.UWP
                         else
                         {
                             lbItem.SelectedItems.Add(item.name);
-                            await new MessageDialog($"Cannot delete {item.name} item, it is tracking data for this event.").ShowAsync();
+                            PageIndex.ShowError($"Cannot delete {item.name} item, it is tracking data for this event.");
                             return;
                         }
                     }
@@ -218,7 +218,7 @@ namespace CAA_CrossPlatform.UWP
                     if (selectedEvent.Id == 0 || selectedEvent.Id == -1)
                     {
                         txtEvent.Focus(FocusState.Keyboard);
-                        await new MessageDialog("That event already exists, enter a different name or date.").ShowAsync();
+                        PageIndex.ShowError("That event already exists, enter a different name or date.");
                         return;
                     }
                 }

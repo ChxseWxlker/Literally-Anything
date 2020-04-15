@@ -63,14 +63,14 @@ namespace CAA_CrossPlatform.UWP
             //check name
             if (string.IsNullOrEmpty(txtItem.Text))
             {
-                await new MessageDialog("Item name is required.").ShowAsync();
+                PageIndex.ShowError("Item name is required.");
                 return;
             }
 
             //check value type
             if (cmbValueType.SelectedIndex == -1)
             {
-                await new MessageDialog("Item data type is required.").ShowAsync();
+                PageIndex.ShowError("Item data type is required.");
                 return;
             }
 

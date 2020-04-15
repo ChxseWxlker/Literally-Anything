@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbQuestion.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose a question to edit.").ShowAsync();
+                    PageIndex.ShowError("Choose a question to edit.");
                     return;
                 }
 
@@ -68,7 +68,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbQuestion.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose a question to delete.").ShowAsync();
+                    PageIndex.ShowError("Choose a question to delete.");
                     return;
                 }
 

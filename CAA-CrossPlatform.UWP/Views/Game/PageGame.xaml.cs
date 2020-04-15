@@ -55,7 +55,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbGame.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose a game to edit.").ShowAsync();
+                    PageIndex.ShowError("Choose a game to edit.");
                     return;
                 }
 
@@ -70,7 +70,7 @@ namespace CAA_CrossPlatform.UWP
             {
                 if (lbGame.SelectedIndex == -1)
                 {
-                    await new MessageDialog("Choose a game to delete.").ShowAsync();
+                    PageIndex.ShowError("Choose a game to delete.");
                     return;
                 }
 
