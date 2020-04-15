@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CAA_CrossPlatform.UWP.Models;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -66,7 +65,6 @@ namespace CAA_CrossPlatform.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
-                EnvironmentModel.LoadPageSettings();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

@@ -69,10 +69,13 @@ namespace CAA_CrossPlatform.UWP
                 if (gameQuestion.GameID == game.Id)
                 {
                     Question question = await Connection.Get("Question", gameQuestion.QuestionID);
-                    questions.Add(question);
-                    foreach (Answer answer in gameAnswers)
-                        if (answer.QuestionID == question.Id)
-                            answers.Add(answer);
+                    if (question.hidden == false)
+                    {
+                        questions.Add(question);
+                        foreach (Answer answer in gameAnswers)
+                            if (answer.QuestionID == question.Id && question.hidden == false)
+                                answers.Add(answer);
+                    }
                 }
 
             //set auto play

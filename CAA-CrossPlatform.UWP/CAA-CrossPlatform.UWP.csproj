@@ -100,6 +100,7 @@
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\EnvironmentModel.cs" />
     <Compile Include="Models\temporary.cs" />
+    <Compile Include="Models\Username.cs" />
     <Compile Include="Views\Game\PageGamePlayer.xaml.cs">
       <DependentUpon>PageGamePlayer.xaml</DependentUpon>
     </Compile>

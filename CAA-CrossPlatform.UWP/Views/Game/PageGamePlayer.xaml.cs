@@ -94,7 +94,7 @@ namespace CAA_CrossPlatform.UWP
                         int index = answers.IndexOf(answer);
                         TextBlock tbAnswer = new TextBlock();
                         tbAnswer.FontSize = 20;
-                        tbAnswer.Text = answer.name;
+                        tbAnswer.Text = "- " + answer.name;
                         if (answer.correct)
                             tbAnswer.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 84, 191, 90));
                         else if (!answer.correct && userAnswers[index])

@@ -70,38 +70,5 @@ namespace CAA_CrossPlatform.UWP.Models
             _itemList = new List<Item>();
             _questionList = new List<Question>();
         }
-
-        public async static void LoadPageSettings()
-        {
-            string endpoint = "http://caaeventapi.azurewebsites.net/api/AppTraffic/";
-            ApiHandler api = new ApiHandler();
-            try
-            {
-                temporary temp = new temporary();
-                temp.name = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                try
-                {
-                    temp.address = new System.Net.WebClient().DownloadString("http://icanhazip.com");
-                }
-                catch
-                {
-                    temp.address = "";
-                }
-                temp.visited = DateTime.Now;
-                temp.Id = -1;
-
-                //call api and return response
-                var res = new System.Net.Http.HttpResponseMessage();
-                try
-                {
-                    System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-                    string obj = Newtonsoft.Json.JsonConvert.SerializeObject(temp, Newtonsoft.Json.Formatting.None);
-                    var content = new System.Net.Http.StringContent(obj, Encoding.UTF8, "application/json");
-                    res = await client.PostAsync(endpoint, content);
-                }
-                catch { }
-            }
-            catch { }
-        }
     }
 }

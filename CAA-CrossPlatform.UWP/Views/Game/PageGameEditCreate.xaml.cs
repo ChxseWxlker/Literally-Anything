@@ -34,7 +34,8 @@ namespace CAA_CrossPlatform.UWP
         List<Question> selectedQuestions = new List<Question>();
 
         //setup image
-        string selectedImage = "";
+        string selectedImagePath = "";
+        StorageFile selectedImage = null;
 
         public PageGameEditCreate()
         {
@@ -60,18 +61,23 @@ namespace CAA_CrossPlatform.UWP
 
                 //set properties
                 txtGame.Text = selectedGame.name;
-                selectedImage = selectedGame.imagePath;
+                selectedImagePath = selectedGame.imagePath;
 
-                if (!string.IsNullOrEmpty(selectedImage))
+                if (!string.IsNullOrEmpty(selectedImagePath))
                 {
-                    StorageFolder images = await ApplicationData.Current.LocalFolder.GetFolderAsync("images");
-                    StorageFile image = await images.GetFileAsync(selectedImage);
-                    if (image.Name.Length > 22)
-                        lblImagePath.Text = "Image: " + image.Name.Substring(0, 22) + "...";
-                    else
-                        lblImagePath.Text = "Image: " + image.Name;
-                    lblImagePath.Visibility = Visibility.Visible;
-                    btnAddImage.Margin = new Thickness(0, 5, 0, 0);
+                    try
+                    {
+                        StorageFolder images = await ApplicationData.Current.LocalFolder.GetFolderAsync("images");
+                        selectedImage = await images.GetFileAsync(selectedImagePath);
+                        if (selectedImage.Name.Length > 22)
+                            lblImagePath.Text = "Image: " + selectedImage.Name.Substring(0, 22) + "...";
+                        else
+                            lblImagePath.Text = "Image: " + selectedImage.Name;
+                        lblImagePath.Visibility = Visibility.Visible;
+                        btnAddImage.Margin = new Thickness(0, 5, 0, 0);
+                    }
+
+                    catch { }
                 }
             }
 
@@ -116,7 +122,12 @@ namespace CAA_CrossPlatform.UWP
             picker.FileTypeFilter.Add(".gif");
             picker.FileTypeFilter.Add(".tiff");
 
+            //setup image
             StorageFile image = await picker.PickSingleFileAsync();
+
+            //setup new name
+            string newImage = image.DisplayName;
+
             if (image != null)
             {
                 //setup local folder
@@ -129,12 +140,55 @@ namespace CAA_CrossPlatform.UWP
                 if (!File.Exists(path))
                     await image.CopyAsync(images);
 
-                if (image.Name.Length > 22)
-                    lblImagePath.Text = "Image: " + image.Name.Substring(0, 22) + "...";
+                //rename if does exist
                 else
-                    lblImagePath.Text = "Image: " + image.Name;
+                {
+                    //get local folder
+                    StorageFolder local = ApplicationData.Current.LocalFolder;
 
-                selectedImage = image.Name;
+                    //create temp image
+                    StorageFile tempImage = await image.CopyAsync(local);
+
+                    //loop to change name
+                    for (int i = 0; i < int.MaxValue; i++)
+                    {
+                        try
+                        {
+                            //rename file
+                            newImage += i;
+                            await tempImage.RenameAsync(newImage + image.FileType);
+
+                            //copy file
+                            await tempImage.CopyAsync(images);
+
+                            //delete temp file
+                            await tempImage.DeleteAsync();
+
+                            //exit loop
+                            break;
+                        }
+
+                        catch { }
+                    }
+                }
+
+                //delete old image
+                if (selectedImage != null)
+                {
+                    try
+                    {
+                        await selectedImage.DeleteAsync();
+                    }
+
+                    catch { }
+                }
+
+                if (newImage.Length > 22)
+                    lblImagePath.Text = "Image: " + newImage.Substring(0, 22) + "...";
+                else
+                    lblImagePath.Text = "Image: " + newImage + image.FileType;
+
+                selectedImagePath = newImage + image.FileType;
                 lblImagePath.Visibility = Visibility.Visible;
                 btnAddImage.Margin = new Thickness(0, 5, 0, 0);
             }
@@ -142,7 +196,7 @@ namespace CAA_CrossPlatform.UWP
             //hide label if no image
             else
             {
-                if (string.IsNullOrEmpty(selectedImage))
+                if (string.IsNullOrEmpty(selectedImagePath))
                 {
                     lblImagePath.Visibility = Visibility.Collapsed;
                     btnAddImage.Margin = new Thickness(0, 20, 0, 0);
@@ -201,7 +255,7 @@ namespace CAA_CrossPlatform.UWP
             //setup game object
             Game newGame = new Game();
             newGame.name = txtGame.Text;
-            newGame.imagePath = selectedImage;
+            newGame.imagePath = selectedImagePath;
 
             if (selectedGame.Id == 0 || selectedGame.Id == -1)
                 newGame.Id = await Connection.Insert(newGame);
@@ -302,7 +356,7 @@ namespace CAA_CrossPlatform.UWP
                 game.Id = selectedGame.Id;
 
             game.name = txtGame.Text;
-            game.imagePath = selectedImage;
+            game.imagePath = selectedImagePath;
             EnvironmentModel.Game = game;
             Frame.Navigate(typeof(PageQuestionEditCreate));
         }

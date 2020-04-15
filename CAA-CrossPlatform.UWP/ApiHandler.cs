@@ -24,6 +24,9 @@ namespace CAA_CrossPlatform.UWP
         //setup server reference
         private static readonly string server = "http://caaeventapi.azurewebsites.net/";
 
+        //setup api key
+        public static string apiKey = "";
+
         //setup user
         private static User user = null;
 

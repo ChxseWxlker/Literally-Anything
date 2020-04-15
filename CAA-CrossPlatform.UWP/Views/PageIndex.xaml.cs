@@ -96,6 +96,7 @@ namespace CAA_CrossPlatform.UWP
             //logout user
             else if (btnSender.Content.ToString() == "Logout")
             {
+                ApiHandler.apiKey = "";
                 Environment.SetEnvironmentVariable("activeUser", "Guest");
                 lblUsername.Text = "Welcome Guest";
                 btnLoginPopup.Content = "Login";
@@ -107,31 +108,59 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtUsername.Text))
             {
+                lblLoginError.Text = "Please enter a username.";
+                lblLoginError.Visibility = Visibility.Visible;
                 txtUsername.Focus(FocusState.Keyboard);
                 return;
             }
 
             if (string.IsNullOrEmpty(txtPassword.Password))
             {
+                lblLoginError.Text = "Please enter a password.";
+                lblLoginError.Visibility = Visibility.Visible;
                 txtPassword.Focus(FocusState.Keyboard);
                 return;
             }
 
-            popupLogin.IsOpen = false;
-            Environment.SetEnvironmentVariable("activeUser", txtUsername.Text);
-            lblUsername.Text = $"Welcome {txtUsername.Text}";
-            btnLoginPopup.Content = "Logout";
-            btnGamePage.Visibility = Visibility.Visible;
-            btnQuestionPage.Visibility = Visibility.Visible;
-            btnItemPage.Visibility = Visibility.Visible;
-            txtUsername.Text = "";
-            txtPassword.Password = "";
-            if (TemplateFrame.SourcePageType != typeof(PageEventManager))
-                TemplateFrame.Navigate(typeof(PageEvent));
+            //try logging in
+            string loginRes = await Connection.Login(txtUsername.Text, txtPassword.Password);
+
+            //unable to login
+            if (loginRes == "_unable")
+            {
+                lblLoginError.Text = "Incorrect username and/or password, please try again.";
+                lblLoginError.Visibility = Visibility.Visible;
+                txtUsername.Focus(FocusState.Keyboard);
+            }
+
+            //error logging in
+            else if (loginRes == "_error")
+            {
+                lblLoginError.Text = "There was an error trying to login, please try again. If the problem persists contact a server administrator.";
+                lblLoginError.Visibility = Visibility.Visible;
+            }
+
+            //succesful login
+            else
+            {
+                lblLoginError.Text = "";
+                lblLoginError.Visibility = Visibility.Visible;
+                popupLogin.IsOpen = false;
+                Environment.SetEnvironmentVariable("activeUser", loginRes);
+                lblUsername.Text = $"Welcome {loginRes}";
+                btnLoginPopup.Content = "Logout";
+                btnGamePage.Visibility = Visibility.Visible;
+                btnQuestionPage.Visibility = Visibility.Visible;
+                btnItemPage.Visibility = Visibility.Visible;
+                txtUsername.Text = "";
+                txtPassword.Password = "";
+                if (TemplateFrame.SourcePageType != typeof(PageEventManager))
+                    TemplateFrame.Navigate(typeof(PageEvent));
+            }
         }
 
         private void txtAccount_KeyDown(object sender, KeyRoutedEventArgs e)

@@ -12,13 +12,18 @@
         <Grid.Background>
             <ImageBrush x:Name="background" Stretch="UniformToFill"/>
         </Grid.Background>
-        <StackPanel HorizontalAlignment="Center" Background="#afffffff" Margin="0 10 0 0" VerticalAlignment="Top" Padding="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center" Background="#afffffff" Padding="5" Grid.Row="0">
             <TextBlock x:Name="lblGame" Text="Game Name" FontSize="40" Foreground="#000"/>
         </StackPanel>
-        <StackPanel x:Name="spQuestions" HorizontalAlignment="Center" Margin="0 100 0 0"></StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 100 0 0">
-            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Next" Width="150" Height="50" FontSize="30" Margin="0 10 5 0" Click="btnSubmit_Click" />
-            <Button  Style="{StaticResource ButtonTemplateRed}" x:Name="btnExit" Content="Exit" Width="150" Height="50" FontSize="30" Margin="5 10 0 0" Click="btnExit_Click" />
+        <StackPanel x:Name="spQuestions" HorizontalAlignment="Center" Padding="5" Grid.Row="1"></StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnSubmit" Content="Next" Width="150" Height="50" FontSize="30" Margin="0 0 5 0" Click="btnSubmit_Click" />
+            <Button  Style="{StaticResource ButtonTemplateRed}" x:Name="btnExit" Content="Exit" Width="150" Height="50" FontSize="30" Margin="5 0 0 0" Click="btnExit_Click" />
         </StackPanel>
     </Grid>
 </Page>

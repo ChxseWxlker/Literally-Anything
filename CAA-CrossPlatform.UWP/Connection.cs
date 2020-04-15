@@ -76,7 +76,11 @@ namespace CAA_CrossPlatform.UWP
 
                     //create attendance table
                     "CREATE TABLE 'Attendance' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'memberNumber' TEXT, 'arriveTime' TEXT NOT NULL, 'isMember' INTEGER, " +
-                    "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id'));", con);
+                    "'phone' TEXT, 'firstName' TEXT, 'lastName' TEXT, 'EventID' INTEGER NOT NULL, FOREIGN KEY('EventID') REFERENCES 'Event'('Id'));" +
+
+                    //create user table
+                    "CREATE TABLE 'User' ( 'Id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'username' TEXT NOT NULL UNIQUE, 'salt' TEXT NOT NULL, 'password' TEXT NOT NULL, " +
+                    "'apiKey' TEXT UNIQUE);", con);
 
                     //create tables
                     cmd.ExecuteNonQuery();
@@ -94,6 +98,64 @@ namespace CAA_CrossPlatform.UWP
             }
 
             return 0;
+        }
+
+        //log user in from local database
+        public static async Task<string> Login(string Username, string Password)
+        {
+            //verify the database exists
+            await Verify();
+
+            //try connecting to the database
+            try
+            {
+                //open connection
+                con.Open();
+
+                //select single record
+                SqliteCommand cmd = new SqliteCommand($"SELECT * FROM User WHERE username = @username COLLATE NOCASE;", con);
+                cmd.Parameters.AddWithValue("@username", Username);
+
+                //query record
+                SqliteDataReader query = cmd.ExecuteReader();
+
+                //setup user
+                User user = new User();
+
+                //populate user model
+                if (query.Read() )
+                {
+                    user.Id = Convert.ToInt32(query[0]);
+                    user.username = query[1].ToString();
+                    user.salt = query[2].ToString();
+                    user.password = query[3].ToString();
+                    user.apiKey = query[4].ToString();
+                }
+
+                //close connection
+                if (con.State == System.Data.ConnectionState.Open)
+                    con.Close();
+
+                //check password
+                if (Encryption.CheckHashSalt(Password, user.password, user.salt))
+                {
+                    ApiHandler.apiKey = user.apiKey;
+                    return user.username;
+                }
+
+                //return unable
+                return "_unable";
+            }
+
+            //catch errors
+            catch (Exception ex)
+            {
+                //username doesn't exist
+                if (ex.Message.Contains("Value cannot be null"))
+                    return "_unable";
+
+                return "_error";
+            }
         }
 
         //returns a specific record or all records
@@ -121,29 +183,31 @@ namespace CAA_CrossPlatform.UWP
                 //query record(s)
                 SqliteDataReader query = cmd.ExecuteReader();
 
+                //setup result
+                dynamic result = null;
+
                 //all records
                 if (Id == null)
                 {
                     //get correct list of records
-                    dynamic records = null;
                     if (Table == "Event")
-                        records = new List<Event>();
+                        result = new List<Event>();
                     else if (Table == "Game")
-                        records = new List<Game>();
+                        result = new List<Game>();
                     else if (Table == "Question")
-                        records = new List<Question>();
+                        result = new List<Question>();
                     else if (Table == "Answer")
-                        records = new List<Answer>();
+                        result = new List<Answer>();
                     else if (Table == "GameQuestion")
-                        records = new List<GameQuestion>();
+                        result = new List<GameQuestion>();
                     else if (Table == "Item")
-                        records = new List<Item>();
+                        result = new List<Item>();
                     else if (Table == "EventItem")
-                        records = new List<EventItem>();
+                        result = new List<EventItem>();
                     else if (Table == "AttendanceItem")
-                        records = new List<AttendanceItem>();
+                        result = new List<AttendanceItem>();
                     else if (Table == "Attendance")
-                        records = new List<Attendance>();
+                        result = new List<Attendance>();
 
                     while (query.Read())
                     {
@@ -160,7 +224,7 @@ namespace CAA_CrossPlatform.UWP
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
                             e.GameID = Convert.ToInt32(query[8]);
-                            records.Add(e);
+                            result.Add(e);
                         }
 
                         //game table
@@ -171,7 +235,7 @@ namespace CAA_CrossPlatform.UWP
                             g.hidden = Convert.ToBoolean(query[1]);
                             g.name = query[2].ToString().Replace("''", "'");
                             g.imagePath = query[3].ToString().Replace("''", "'");
-                            records.Add(g);
+                            result.Add(g);
                         }
 
                         //question record
@@ -181,7 +245,7 @@ namespace CAA_CrossPlatform.UWP
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
                             q.name = query[2].ToString().Replace("''", "'");
-                            records.Add(q);
+                            result.Add(q);
                         }
 
                         //answer record
@@ -193,7 +257,7 @@ namespace CAA_CrossPlatform.UWP
                             a.name = query[2].ToString().Replace("''", "'");
                             a.correct = Convert.ToBoolean(query[3]);
                             a.QuestionID = Convert.ToInt32(query[4]);
-                            records.Add(a);
+                            result.Add(a);
                         }
 
                         //game question record
@@ -203,7 +267,7 @@ namespace CAA_CrossPlatform.UWP
                             gq.Id = Convert.ToInt32(query[0]);
                             gq.GameID = Convert.ToInt32(query[1]);
                             gq.QuestionID = Convert.ToInt32(query[2]);
-                            records.Add(gq);
+                            result.Add(gq);
                         }
 
                         //item record
@@ -214,7 +278,7 @@ namespace CAA_CrossPlatform.UWP
                             i.hidden = Convert.ToBoolean(query[1]);
                             i.name = query[2].ToString().Replace("''", "'");
                             i.valueType = query[3].ToString().Replace("''", "'");
-                            records.Add(i);
+                            result.Add(i);
                         }
 
                         //Event item record
@@ -224,7 +288,7 @@ namespace CAA_CrossPlatform.UWP
                             ei.Id = Convert.ToInt32(query[0]);
                             ei.EventId = Convert.ToInt32(query[1]);
                             ei.ItemId = Convert.ToInt32(query[2]);
-                            records.Add(ei);
+                            result.Add(ei);
                         }
 
                         //Attendance item record
@@ -235,7 +299,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
                             ai.input = query[3].ToString().Replace("''", "'");
-                            records.Add(ai);
+                            result.Add(ai);
                         }
 
                         //attendance record
@@ -250,12 +314,9 @@ namespace CAA_CrossPlatform.UWP
                             a.firstName = query[5].ToString().Replace("''", "'");
                             a.lastName = query[6].ToString().Replace("''", "'");
                             a.EventID = Convert.ToInt32(query[7]);
-                            records.Add(a);
+                            result.Add(a);
                         }
                     }
-
-                    //return list records
-                    return records;
                 }
 
                 //single record
@@ -275,7 +336,7 @@ namespace CAA_CrossPlatform.UWP
                             e.endDate = Convert.ToDateTime(query[6]);
                             e.memberOnly = Convert.ToBoolean(query[7]);
                             e.GameID = Convert.ToInt32(query[8]);
-                            return e;
+                            result = e;
                         }
 
                         //game table
@@ -286,7 +347,7 @@ namespace CAA_CrossPlatform.UWP
                             g.hidden = Convert.ToBoolean(query[1]);
                             g.name = query[2].ToString().Replace("''", "'");
                             g.imagePath = query[3].ToString().Replace("''", "'");
-                            return g;
+                            result = g;
                         }
 
                         //question record
@@ -296,7 +357,7 @@ namespace CAA_CrossPlatform.UWP
                             q.Id = Convert.ToInt32(query[0]);
                             q.hidden = Convert.ToBoolean(query[1]);
                             q.name = query[2].ToString().Replace("''", "'");
-                            return q;
+                            result = q;
                         }
 
                         //answer record
@@ -308,7 +369,7 @@ namespace CAA_CrossPlatform.UWP
                             a.name = query[2].ToString().Replace("''", "'");
                             a.correct = Convert.ToBoolean(query[3]);
                             a.QuestionID = Convert.ToInt32(query[4]);
-                            return a;
+                            result = a;
                         }
 
                         //game question record
@@ -318,7 +379,7 @@ namespace CAA_CrossPlatform.UWP
                             gq.Id = Convert.ToInt32(query[0]);
                             gq.GameID = Convert.ToInt32(query[1]);
                             gq.QuestionID = Convert.ToInt32(query[2]);
-                            return gq;
+                            result = gq;
                         }
 
                         //item record
@@ -329,7 +390,7 @@ namespace CAA_CrossPlatform.UWP
                             i.hidden = Convert.ToBoolean(query[1]);
                             i.name = query[2].ToString().Replace("''", "'");
                             i.valueType = query[3].ToString().Replace("''", "'");
-                            return i;
+                            result = i;
                         }
 
                         //EventItem record
@@ -339,7 +400,7 @@ namespace CAA_CrossPlatform.UWP
                             ei.Id = Convert.ToInt32(query[0]);
                             ei.EventId = Convert.ToInt32(query[1]);
                             ei.ItemId = Convert.ToInt32(query[2]);
-                            return ei;
+                            result = ei;
                         }
 
                         //AttendanceItem record
@@ -350,7 +411,7 @@ namespace CAA_CrossPlatform.UWP
                             ai.AttendanceId = Convert.ToInt32(query[1]);
                             ai.EventItemId = Convert.ToInt32(query[2]);
                             ai.input = query[3].ToString().Replace("''", "'");
-                            return ai;
+                            result = ai;
                         }
 
                         //attendance record
@@ -365,13 +426,16 @@ namespace CAA_CrossPlatform.UWP
                             a.firstName = query[5].ToString().Replace("''", "'");
                             a.lastName = query[6].ToString().Replace("''", "'");
                             a.EventID = Convert.ToInt32(query[7]);
-                            return a;
+                            result = a;
                         }
                     }
 
                 //close connection
                 if (con.State == System.Data.ConnectionState.Open)
                     con.Close();
+
+                //return record(s)
+                return result;
             }
 
             //catch errors
