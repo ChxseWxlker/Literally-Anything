@@ -8,10 +8,6 @@ namespace CAA_CrossPlatform.UWP.Models
 {
     public class EnvironmentModel
     {
-        private static PageIndex _pageIndex = new PageIndex();
-
-        public static PageIndex IndexInstance { get { return _pageIndex; } set { _pageIndex = value; } }
-
         private static Answer _answer = new Answer();
         private static Attendance _attendance = new Attendance();
         private static AttendanceItem _attendanceItem = new AttendanceItem();

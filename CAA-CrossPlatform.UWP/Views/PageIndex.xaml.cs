@@ -23,7 +23,10 @@ namespace CAA_CrossPlatform.UWP
     public sealed partial class PageIndex
     {
         //setup scroller vertical offset
-        public static double scrollerVerticalOffset = 0;
+        private static double scrollerVerticalOffset = 0;
+
+        //setup index instance
+        private static PageIndex instance;
 
         public PageIndex()
         {
@@ -38,7 +41,7 @@ namespace CAA_CrossPlatform.UWP
             txtBox.Focus(FocusState.Pointer);
             txtBox.IsFocusEngaged = false;
 
-            EnvironmentModel.IndexInstance = this;
+            instance = this;
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -88,13 +91,12 @@ namespace CAA_CrossPlatform.UWP
         //show error popup
         public static void ShowError(string error)
         {
-            PageIndex index = EnvironmentModel.IndexInstance;
-            scrollerVerticalOffset = index.svIndex.VerticalOffset;
-            index.svIndex.ChangeView(index.svIndex.HorizontalOffset, 0, index.svIndex.ZoomFactor);
-            index.lblError.Text = error;
-            index.popupError.Width = Window.Current.Bounds.Width - 300;
-            index.spError.Width = Window.Current.Bounds.Width - 300;
-            index.popupError.IsOpen = true;
+            scrollerVerticalOffset = instance.svIndex.VerticalOffset;
+            instance.svIndex.ChangeView(instance.svIndex.HorizontalOffset, 0, instance.svIndex.ZoomFactor);
+            instance.lblError.Text = error;
+            instance.popupError.Width = Window.Current.Bounds.Width - 300;
+            instance.spError.Width = Window.Current.Bounds.Width - 300;
+            instance.popupError.IsOpen = true;
         }
 
         //scroll back to previous position
