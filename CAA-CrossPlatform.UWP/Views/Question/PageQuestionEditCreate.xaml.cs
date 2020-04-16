@@ -62,6 +62,25 @@ namespace CAA_CrossPlatform.UWP
                             txtAnswer.Text = answer.name;
                             chkCorrect.IsChecked = answer.correct;
                             txtAnswer.Name = $"txtAnswer_{answer.Id}";
+
+                            VisualStatePhone.Setters.Add(new Setter
+                            {
+                                Target = new TargetPropertyPath
+                                {
+                                    Path = new PropertyPath("(TextBox.Width)"),
+                                    Target = txtAnswer,
+                                },
+                                Value = 250
+                            });
+                            VisualStatePhone.Setters.Add(new Setter
+                            {
+                                Target = new TargetPropertyPath
+                                {
+                                    Path = new PropertyPath("(CheckBox.Margin)"),
+                                    Target = chkCorrect,
+                                },
+                                Value = new Thickness(20, 0, 0, 0)
+                            });
                         }
 
                         //create more textboxes
@@ -91,6 +110,25 @@ namespace CAA_CrossPlatform.UWP
                             spAnswerNew.Children.Add(txtAnswerNew);
                             spAnswerNew.Children.Add(chkCorrectNew);
                             spAnswersPanel.Children.Add(spAnswerNew);
+
+                            VisualStatePhone.Setters.Add(new Setter
+                            {
+                                Target = new TargetPropertyPath
+                                {
+                                    Path = new PropertyPath("(TextBox.Width)"),
+                                    Target = txtAnswerNew,
+                                },
+                                Value = 250
+                            });
+                            VisualStatePhone.Setters.Add(new Setter
+                            {
+                                Target = new TargetPropertyPath
+                                {
+                                    Path = new PropertyPath("(CheckBox.Margin)"),
+                                    Target = chkCorrectNew,
+                                },
+                                Value = new Thickness(20, 0, 0, 0)
+                            });
                         }
                     }
 
@@ -119,6 +157,25 @@ namespace CAA_CrossPlatform.UWP
                     spAnswerNew.Children.Add(txtAnswerNew);
                     spAnswerNew.Children.Add(chkCorrectNew);
                     spAnswersPanel.Children.Add(spAnswerNew);
+
+                    VisualStatePhone.Setters.Add(new Setter
+                    {
+                        Target = new TargetPropertyPath
+                        {
+                            Path = new PropertyPath("(TextBox.Width)"),
+                            Target = txtAnswerNew,
+                        },
+                        Value = 250
+                    });
+                    VisualStatePhone.Setters.Add(new Setter
+                    {
+                        Target = new TargetPropertyPath
+                        {
+                            Path = new PropertyPath("(CheckBox.Margin)"),
+                            Target = chkCorrectNew,
+                        },
+                        Value = new Thickness(20, 0, 0, 0)
+                    });
                 }
             }
         }

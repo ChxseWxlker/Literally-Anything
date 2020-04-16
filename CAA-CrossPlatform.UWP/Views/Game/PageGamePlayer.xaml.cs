@@ -50,12 +50,28 @@ namespace CAA_CrossPlatform.UWP
             spQuestion.Margin = new Thickness(0, 10, 0, 0);
             spQuestion.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(175, 255, 255, 255));
             spQuestion.Padding = new Thickness(5);
+            spQuestion.Width = 500;
 
             //setup question
             TextBlock tbQuestion = new TextBlock();
             tbQuestion.Text = Question.name;
+            tbQuestion.TextWrapping = TextWrapping.Wrap;
+            tbQuestion.TextAlignment = TextAlignment.Center;
+            tbQuestion.FontSize = 24;
+            tbQuestion.HorizontalAlignment = HorizontalAlignment.Center;
             tbQuestion.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
+            tbQuestion.Margin = new Thickness(0, 0, 0, 10);
             spQuestion.Children.Add(tbQuestion);
+
+            VisualStatePhone.Setters.Add(new Setter
+            {
+                Target = new TargetPropertyPath
+                {
+                    Path = new PropertyPath("(StackPanel.Width)"),
+                    Target = spQuestion,
+                },
+                Value = 300
+            });
 
             //setup answers
             foreach (Answer answer in Answers)
@@ -64,6 +80,25 @@ namespace CAA_CrossPlatform.UWP
                 chkAnswer.Content = answer.name;
                 chkAnswer.IsEnabled = isEnabled;
                 spQuestion.Children.Add(chkAnswer);
+
+                VisualStatePhone.Setters.Add(new Setter
+                {
+                    Target = new TargetPropertyPath
+                    {
+                        Path = new PropertyPath("(CheckBox.Width)"),
+                        Target = chkAnswer,
+                    },
+                    Value = 300
+                });
+                VisualStateMiddle.Setters.Add(new Setter
+                {
+                    Target = new TargetPropertyPath
+                    {
+                        Path = new PropertyPath("(CheckBox.Width)"),
+                        Target = chkAnswer,
+                    },
+                    Value = 500
+                });
             }
 
             //return stackpanel
@@ -78,15 +113,18 @@ namespace CAA_CrossPlatform.UWP
             spResults.Margin = new Thickness(0, 10, 0, 0);
             spResults.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(175, 255, 255, 255));
             spResults.Padding = new Thickness(5);
+            spResults.Width = 500;
 
             //setup answers
             foreach (Question question in questions)
             {
                 TextBlock tbQuestion = new TextBlock();
                 tbQuestion.Text = question.name;
-                tbQuestion.FontSize = 22;
+                tbQuestion.FontSize = 24;
                 tbQuestion.Margin = new Thickness(0, 10, 0, 0);
                 spResults.Children.Add(tbQuestion);
+                tbQuestion.TextWrapping = TextWrapping.Wrap;
+                tbQuestion.HorizontalAlignment = HorizontalAlignment.Center;
                 List<Answer> tempAnswers = new List<Answer>();
                 foreach (Answer answer in answers)
                     if (answer.QuestionID == question.Id)
@@ -95,12 +133,24 @@ namespace CAA_CrossPlatform.UWP
                         TextBlock tbAnswer = new TextBlock();
                         tbAnswer.FontSize = 20;
                         tbAnswer.Text = "- " + answer.name;
+                        tbQuestion.TextWrapping = TextWrapping.Wrap;
                         if (answer.correct)
                             tbAnswer.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 84, 191, 90));
                         else if (!answer.correct && userAnswers[index])
                             tbAnswer.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 214, 49, 49));
                         spResults.Children.Add(tbAnswer);
                     }
+
+                VisualStatePhone.Setters.Add(new Setter
+                {
+                    Target = new TargetPropertyPath
+                    {
+                        Path = new PropertyPath("(StackPanel.Width)"),
+                        Target = spResults,
+                    },
+                    Value = 300
+                });
+
             }
 
             //return stackpanel

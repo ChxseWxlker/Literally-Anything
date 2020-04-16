@@ -17,17 +17,16 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="chkCorrect.Margin" Value="20,0,0,0"/>
-                        <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>
-                        <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>
-                        <Setter Target="btnCreate.Width" Value="130"/>
+                        <Setter Target="btnSubmit.Width" Value="130"/>
                         <Setter Target="btnCancel.Width" Value="130"/>
-                        <Setter Target="btnCreate.FontSize" Value="20"/>
+                        <Setter Target="btnSubmit.FontSize" Value="20"/>
                         <Setter Target="btnCancel.FontSize" Value="20"/>
                         <Setter Target="txtQuestion.FontSize" Value="20"/>
-                        <Setter Target="txtQuestion.Width" Value="250"/>
-                        <Setter Target="txtAnswer.FontSize" Value="20"/>
+                        <Setter Target="txtQuestion.Width" Value="300"/>
+                        <Setter Target="txtAnswer.FontSize" Value="18"/>
                         <Setter Target="txtAnswer.Width" Value="250"/>
                         <Setter Target="lblQuestion.FontSize" Value="20"/>
+                        <Setter Target="lblAnswer.FontSize" Value="20"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -35,15 +34,12 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="chkCorrect.Margin" Value="20,0,0,0"/>
-                        <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>
-                        <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>
-                        <Setter Target="btnCreate.Width" Value="130"/>
+                        <Setter Target="btnSubmit.Width" Value="130"/>
                         <Setter Target="btnCancel.Width" Value="130"/>
-                        <Setter Target="btnCreate.FontSize" Value="20"/>
+                        <Setter Target="btnSubmit.FontSize" Value="20"/>
                         <Setter Target="btnCancel.FontSize" Value="20"/>
                         <Setter Target="txtQuestion.FontSize" Value="20"/>
-                        <Setter Target="txtQuestion.Width" Value="300"/>
+                        <Setter Target="txtQuestion.Width" Value="400"/>
                         <Setter Target="txtAnswer.FontSize" Value="20"/>
                         <Setter Target="txtAnswer.Width" Value="300"/>
                         <Setter Target="lblQuestion.FontSize" Value="20"/>
@@ -88,7 +84,7 @@
                     <TextBox x:Name="txtQuestion" TextWrapping="Wrap" FontSize="25" Width="400"/>
                 </StackPanel>
 
-                <TextBlock Text="Correct" Margin="290 0 0 0" TextWrapping="Wrap" FontSize="25" RelativePanel.LeftOf="lblAnswer" RelativePanel.Below="spQuestion"/>
+                <TextBlock Text="Correct" TextWrapping="Wrap" FontSize="20" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWith="lblAnswer"/>
 
                 <TextBlock x:Name="lblAnswer" Text="Answers" TextWrapping="Wrap" FontSize="25" RelativePanel.Below="spQuestion"/>
 

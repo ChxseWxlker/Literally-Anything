@@ -28,9 +28,10 @@
                         <Setter Target="btnCreate.FontSize" Value="20"/>
                         <Setter Target="btnEdit.FontSize" Value="20"/>
                         <Setter Target="btnDelete.FontSize" Value="20"/>
-                        <Setter Target="lstGame.Width" Value="275"/>
+                        <Setter Target="lbGame.Width" Value="275"/>
                         <Setter Target="Form.Orientation" Value="Vertical"/>
                         <Setter Target="spOutput.Margin" Value="0,0,0,0"/>
+                        <Setter Target="tbGames.HorizontalAlignment" Value="Center"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -38,6 +39,7 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="spOutput.Margin" Value="0,0,30,0"/>
                         <Setter Target="btnCreate.Margin" Value="0,20,0,0"/>
                         <Setter Target="btnEdit.Margin" Value="0,20,0,0"/>
                         <Setter Target="btnDelete.Margin" Value="0,20,0,0"/>
@@ -47,7 +49,7 @@
                         <Setter Target="btnCreate.FontSize" Value="20"/>
                         <Setter Target="btnEdit.FontSize" Value="20"/>
                         <Setter Target="btnDelete.FontSize" Value="20"/>
-                        <Setter Target="lstGame.Width" Value="300"/>
+                        <Setter Target="lbGame.Width" Value="300"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -87,13 +89,19 @@
                     <StackPanel x:Name="Form" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True">
                         <StackPanel x:Name="spOutput" Margin="0,0,50,0">
 
-                            <TextBlock Text="Games" TextWrapping="Wrap" FontSize="60"/>
+                            <TextBlock Name="tbGames" Text="Games" TextWrapping="Wrap" FontSize="60"/>
 
-                            <ListView x:Name="lbGame"  Width="500" Height="400" Background="#ddd"/>
+                            <ListView x:Name="lbGame"  Width="500" Height="400" Background="#ddd">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="10"></TextBlock>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
 
                         </StackPanel>
 
-                        <RelativePanel VerticalAlignment="Center">
+                        <RelativePanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <StackPanel x:Name="ButtonLayout">
 
                                 <Button Style="{StaticResource ButtonTemplate}" x:Name="btnCreate" Content="Create" Height="50" Width="180" FontSize="30" Margin="0,50,0,0" Click="btnControl_Click" />

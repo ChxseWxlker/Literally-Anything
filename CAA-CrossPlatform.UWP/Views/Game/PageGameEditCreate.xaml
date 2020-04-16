@@ -16,20 +16,29 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!--<Setter Target="btnCreate.Margin" Value="5,10,0,0"/>-->
-                        <!--<Setter Target="btnCancel.Margin" Value="0,10,5,0"/>-->
-                        <!--<Setter Target="btnCreate.Width" Value="130"/>-->
-                        <!--<Setter Target="btnCancel.Width" Value="130"/>-->
-                        <!--<Setter Target="btnCreate.FontSize" Value="20"/>-->
-                        <!--<Setter Target="btnSearch.FontSize" Value="26"/>-->
-                        <!--<Setter Target="btnCancel.FontSize" Value="20"/>-->
-                        <!--<Setter Target="txtGame.FontSize" Value="20"/>-->
-                        <!--<Setter Target="txtGame.Width" Value="300"/>-->
-                        <!--<Setter Target="txtSearch.FontSize" Value="20"/>-->
-                        <!--<Setter Target="txtSearch.Width" Value="250"/>-->
-                        <!--<Setter Target="lbQuestion.Width" Value="300"/>-->
-                        <!--<Setter Target="lblQuestion.FontSize" Value="20"/>-->
-                        <!--<Setter Target="lblGameName.FontSize" Value="20"/>-->
+                        <Setter Target="btnAddImage.Width" Value="150"/>
+                        <Setter Target="btnAddImage.FontSize" Value="20"/>
+                        <Setter Target="btnSubmit.Width" Value="130"/>
+                        <Setter Target="btnCancel.Width" Value="130"/>
+                        <Setter Target="btnSubmit.FontSize" Value="20"/>
+                        <Setter Target="btnSearch.FontSize" Value="26"/>
+                        <Setter Target="btnCancel.FontSize" Value="20"/>
+                        
+                        <Setter Target="txtGame.FontSize" Value="20"/>
+                        <Setter Target="txtGame.Width" Value="310"/>
+                        <Setter Target="txtSearch.FontSize" Value="20"/>
+                        <Setter Target="txtSearch.Width" Value="220"/>
+
+                        <Setter Target="btnCreateQuestion.FontSize" Value="20"/>
+                        <Setter Target="btnCreateQuestion.Width" Value="40"/>
+                        <Setter Target="btnSearch.FontSize" Value="20"/>
+                        <Setter Target="btnSearch.Width" Value="40"/>
+                        <Setter Target="lblQuestion.FontSize" Value="20"/>
+                        <Setter Target="lblGameName.FontSize" Value="20"/>
+
+                        <Setter Target="lbQuestion.Width" Value="310"/>
+                        <Setter Target="lbQuestion.FontSize" Value="20"/>
+                        <Setter Target="lblGameName.FontSize" Value="20"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
@@ -37,20 +46,13 @@
                         <AdaptiveTrigger MinWindowWidth="550"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                    <!-- <Setter Target="btnCreate.Margin" Value="5,10,0,0"/>   -->
-                    <!-- <Setter Target="btnCancel.Margin" Value="0,10,5,0"/>   -->
-                    <!-- <Setter Target="btnCreate.Width" Value="130"/>         -->
-                    <!-- <Setter Target="btnCancel.Width" Value="130"/>         -->
-                    <!-- <Setter Target="btnCreate.FontSize" Value="20"/>       -->
-                    <!-- <Setter Target="btnSearch.FontSize" Value="26"/>       -->
-                    <!-- <Setter Target="btnCancel.FontSize" Value="20"/>       -->
-                    <!-- <Setter Target="txtGame.FontSize" Value="20"/>         -->
-                    <!-- <Setter Target="txtGame.Width" Value="300"/>           -->
-                    <!-- <Setter Target="txtSearch.FontSize" Value="20"/>       -->
-                    <!-- <Setter Target="txtSearch.Width" Value="300"/>         -->
-                    <!-- <Setter Target="lbQuestion.Width" Value="500"/>        -->
-                    <!-- <Setter Target="lblQuestion.FontSize" Value="20"/>     -->
-                    <!-- <Setter Target="lblGameName.FontSize" Value="20"/>     -->
+                        <Setter Target="btnSubmit.Width" Value="130"/>
+                        <Setter Target="btnCancel.Width" Value="130"/>         
+                        <Setter Target="btnSubmit.FontSize" Value="20"/>           
+                        <Setter Target="btnCancel.FontSize" Value="20"/>       
+                        <Setter Target="lbQuestion.Width" Value="450"/>        
+                        <Setter Target="lbQuestion.FontSize" Value="20"/>
+                        <Setter Target="lbQuestion.FontSize" Value="20"/>     
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -85,12 +87,12 @@
             </Grid.ColumnDefinitions>
 
             <RelativePanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
-                <StackPanel Name="spGameName" HorizontalAlignment="Left">
+                <StackPanel Name="spGameName" HorizontalAlignment="Left" RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <TextBlock x:Name="lblGameName" Text="Game Name" TextWrapping="Wrap" FontSize="25"/>
                     <TextBox x:Name="txtGame" TextWrapping="Wrap" FontSize="25" Width="400"/>
                 </StackPanel>
 
-                <StackPanel x:Name="spSearchBar" Orientation="Vertical" RelativePanel.Below="spGameName">
+                <StackPanel x:Name="spSearchBar" Orientation="Vertical" RelativePanel.Below="spGameName" RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <TextBlock x:Name="lblQuestion" Text="Questions" TextWrapping="Wrap" FontSize="25"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="txtSearch" PlaceholderText="Search" TextWrapping="Wrap" FontSize="25" Width="300" Margin="0 0 5 0" KeyDown="txtSearch_KeyDown"/>
@@ -101,8 +103,14 @@
                     <Button Style="{StaticResource ButtonTemplate}" x:Name="btnAddImage" Content="Choose Image" Width="220" Height="50" FontSize="28" Margin="0 20 0 0" HorizontalAlignment="Center" Click="btnAddImage_Click"/>
                 </StackPanel>
 
-                <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0 20 0 0">
-                    <ListView x:Name="lbQuestion" Padding="5" Width="400" Height="300" Background="#ddd" SelectionMode="Multiple"/>
+                <StackPanel x:Name="spQuestionsList" Orientation="Horizontal" RelativePanel.Below="spSearchBar" Margin="0 20 0 0" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                    <ListView x:Name="lbQuestion" Padding="5" Width="700" Height="300" Background="#ddd" SelectionMode="Multiple">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="10"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" RelativePanel.Below="spQuestionsList" RelativePanel.AlignHorizontalCenterWithPanel="True">
