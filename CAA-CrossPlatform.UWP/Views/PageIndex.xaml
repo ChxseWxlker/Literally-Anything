@@ -87,7 +87,7 @@
 
                 <Rectangle Fill="#ccc" Grid.Row="0"/>
                 <Rectangle Fill="#00529b" Grid.Row="1"/>
-                <TextBlock x:Name="lblUsername" Margin="0 5 15 0" Grid.Row="1" Text="Username" TextWrapping="Wrap" FontSize="20" Foreground="#fff" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="lblUsername" Margin="0 5 25 0" Grid.Row="1" Text="Username" TextWrapping="Wrap" FontSize="20" Foreground="#fff" HorizontalAlignment="Right"/>
 
                 <RelativePanel x:Name="relativePanel" VerticalAlignment="Top" Height="140">
                     <Image Name="CAAImg" Height="90" Margin="20 0 0 40" Source="/Assets/caaLogo.png" RenderTransformOrigin="0.477,0.282" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>

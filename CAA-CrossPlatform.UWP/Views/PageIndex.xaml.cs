@@ -31,17 +31,22 @@ namespace CAA_CrossPlatform.UWP
         public PageIndex()
         {
             this.InitializeComponent();
+            this.Loaded += PageIndex_Loaded;
 
             //setup name
             Environment.SetEnvironmentVariable("activeUser", "Guest");
             lblUsername.Text = "Welcome Guest";
 
+            //setup instance
+            instance = this;
+        }
+
+        private void PageIndex_Loaded(object sender, RoutedEventArgs e)
+        {
             //remove focus
             TextBox txtBox = new TextBox();
             txtBox.Focus(FocusState.Pointer);
             txtBox.IsFocusEngaged = false;
-
-            instance = this;
         }
 
         private void navMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
