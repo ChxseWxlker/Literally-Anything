@@ -96,7 +96,7 @@
                 <Frame Name="TemplateFrame"/>
                 
                 <RelativePanel>
-                    <Popup x:Name="popupLogin" IsOpen="False" Height="1000" Width="300" RelativePanel.AlignRightWithPanel="True"
+                    <Popup x:Name="popupLogin" IsOpen="False" Height="auto" Width="300" RelativePanel.AlignRightWithPanel="True"
                        IsLightDismissEnabled="True"
                        LightDismissOverlayMode="On">
                         <Popup.ChildTransitions>
@@ -119,8 +119,6 @@
                     </Popup>
                 </RelativePanel>
             </Grid>
-
-            
             
             <NavigationView x:Name="navMenu" Margin="0 -40 0 0" Grid.Row="1" ItemInvoked="navMenu_Invoked" IsSettingsVisible="False"
                             IsBackButtonVisible="Collapsed" OpenPaneLength="200" IsPaneOpen="False" Loaded="navMenu_Loaded">

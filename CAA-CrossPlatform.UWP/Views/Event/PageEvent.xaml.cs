@@ -254,6 +254,7 @@ namespace CAA_CrossPlatform.UWP
             //empty active events
             if (pastEventsSearch.Count == 0)
             {
+                spPastEvents.Visibility = Visibility.Visible;
                 spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 221, 221, 221));
                 spLVPastEvent.Height = 60;
                 spLVPastEvent.Margin = new Thickness(0, 10, 0, 0);
@@ -262,6 +263,7 @@ namespace CAA_CrossPlatform.UWP
 
             else
             {
+                spPastEvents.Visibility = Visibility.Visible;
                 spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
                 spLVPastEvent.Height = 180;
                 spLVPastEvent.Margin = new Thickness(0, 0, 0, 0);
@@ -276,6 +278,7 @@ namespace CAA_CrossPlatform.UWP
             dtpStartDateSearch.SelectedDate = null;
             dtpEndDateSearch.SelectedDate = null;
 
+            spPastEvents.Visibility = Visibility.Collapsed;
             spLVPastEvent.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
             spLVPastEvent.Height = 180;
             spLVPastEvent.Margin = new Thickness(0, 0, 0, 0);

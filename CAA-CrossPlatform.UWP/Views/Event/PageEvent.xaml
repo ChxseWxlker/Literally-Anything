@@ -274,7 +274,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Name="spPastEvents" Margin="0 0 0 50" Width="1000">
+                    <StackPanel Name="spPastEvents" Margin="0 0 0 50" Width="1000" Visibility="Collapsed">
                         <StackPanel x:Name="spLVPastEvent" Height="180" Background="Transparent">
                             <TextBlock x:Name="lblPastEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No events found."/>
                             <ListView x:Name="lvPastEvent"
