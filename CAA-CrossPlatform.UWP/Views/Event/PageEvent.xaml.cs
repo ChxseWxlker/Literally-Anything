@@ -38,6 +38,9 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageEvent_Loaded(object sender, RoutedEventArgs e)
         {
+            //set visual state header
+            PageIndex.InitiateVisualState(VisualStatePhone, VisualStateMiddle, VisualStateTablet, VisualStateLaptop);
+
             //reset environment vars
             EnvironmentModel.Reset();
 
@@ -69,11 +72,8 @@ namespace CAA_CrossPlatform.UWP
                 }
 
             //go to active event
-            if (App.firstLogin == true)
+            if (App.firstLogin)
             {
-                //set visual state header
-                PageIndex.InitiateVisualState(VisualStatePhone, VisualStateMiddle, VisualStateTablet, VisualStateLaptop);
-
                 //check if one active event
                 if (activeEvents.Count == 1)
                 {
