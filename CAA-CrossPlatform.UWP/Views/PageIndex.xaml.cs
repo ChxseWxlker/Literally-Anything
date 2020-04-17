@@ -93,6 +93,116 @@ namespace CAA_CrossPlatform.UWP
             navMenu.SelectedItem = navMenu.MenuItems[0];
         }
 
+        //find element
+        public static dynamic GetElement(string elementName)
+        {
+            return instance.FindName(elementName);
+        }
+
+        //initial visual state
+        public static void InitiateVisualState(VisualState mobile, VisualState middle, VisualState tablet, VisualState desktop)
+        {
+            //mobile
+            if (Window.Current.Bounds.Width < 501)
+            {
+                instance.header.Height = 70;
+                instance.relativePanel.Height = 70;
+                instance.textBlock.FontSize = 20;
+                instance.textBlock.Margin = new Thickness(10, 0, 0, 0);
+                instance.CAAImg.Height = 60;
+                instance.CAAImg.Width = 70;
+                instance.btnLoginPopup.Height = 25;
+                instance.btnLoginPopup.Width = 75;
+                instance.btnLoginPopup.FontSize = 11;
+            }
+
+            //middle
+            else if (Window.Current.Bounds.Width < 651 && Window.Current.Bounds.Width > 500)
+            {
+                instance.header.Height = 80;
+                instance.relativePanel.Height = 80;
+                instance.textBlock.FontSize = 30;
+                instance.textBlock.Margin = new Thickness(15, 0, 0, 0);
+                instance.CAAImg.Height = 70;
+                instance.CAAImg.Width = 80;
+                instance.btnLoginPopup.Height = 30;
+                instance.btnLoginPopup.Width = 90;
+                instance.btnLoginPopup.FontSize = 14;
+            }
+
+            //tablet
+            else if (Window.Current.Bounds.Width < 951 && Window.Current.Bounds.Width > 650)
+            {
+                instance.header.Height = 90;
+                instance.relativePanel.Height = 90;
+                instance.textBlock.FontSize = 40;
+                instance.textBlock.Margin = new Thickness(20, 0, 0, 0);
+                instance.CAAImg.Height = 90;
+                instance.CAAImg.Width = 100;
+                instance.btnLoginPopup.Height = 38;
+                instance.btnLoginPopup.Width = 130;
+                instance.btnLoginPopup.FontSize = 18;
+            }
+
+            //desktop
+            else if (Window.Current.Bounds.Width > 950)
+            {
+                instance.header.Height = 100;
+                instance.relativePanel.Height = 100;
+                instance.textBlock.FontSize = 45;
+                instance.textBlock.Margin = new Thickness(20, 0, 0, 0);
+                instance.CAAImg.Height = 100;
+                instance.CAAImg.Width = 110;
+                instance.btnLoginPopup.Height = 50;
+                instance.btnLoginPopup.Width = 150;
+                instance.btnLoginPopup.FontSize = 20;
+            }
+
+            //phone visual state
+            VisualStateChange(mobile, "Rectangle.Height", "header", 70);
+            VisualStateChange(mobile, "stackpanel.Height", "relativePanel", 70);
+            VisualStateChange(mobile, "textBlock.FontSize", "textBlock", 20);
+            VisualStateChange(mobile, "textBlock.Margin", "textBlock", new Thickness(10, 0, 0, 0));
+            VisualStateChange(mobile, "Image.Height", "CAAImg", 60);
+            VisualStateChange(mobile, "Image.Width", "CAAImg", 70);
+            VisualStateChange(mobile, "Button.Height", "btnLoginPopup", 25);
+            VisualStateChange(mobile, "Button.Width", "btnLoginPopup", 75);
+            VisualStateChange(mobile, "Button.FontSize", "btnLoginPopup", 11);
+
+            //middle visual state
+            VisualStateChange(middle, "Rectangle.Height", "header", 80);
+            VisualStateChange(middle, "stackpanel.Height", "relativePanel", 80);
+            VisualStateChange(middle, "textBlock.FontSize", "textBlock", 30);
+            VisualStateChange(middle, "textBlock.Margin", "textBlock", new Thickness(15, 0, 0, 0));
+            VisualStateChange(middle, "Image.Height", "CAAImg", 70);
+            VisualStateChange(middle, "Image.Width", "CAAImg", 80);
+            VisualStateChange(middle, "Button.Height", "btnLoginPopup", 30);
+            VisualStateChange(middle, "Button.Width", "btnLoginPopup", 90);
+            VisualStateChange(middle, "Button.FontSize", "btnLoginPopup", 14);
+
+            //tablet visual state
+            VisualStateChange(tablet, "Rectangle.Height", "header", 90);
+            VisualStateChange(tablet, "stackpanel.Height", "relativePanel", 90);
+            VisualStateChange(tablet, "textBlock.Margin", "textBlock", new Thickness(20, 0, 0, 0));
+            VisualStateChange(tablet, "textBlock.FontSize", "textBlock", 40);
+            VisualStateChange(tablet, "Image.Height", "CAAImg", 90);
+            VisualStateChange(tablet, "Image.Width", "CAAImg", 100);
+            VisualStateChange(tablet, "Button.Height", "btnLoginPopup", 38);
+            VisualStateChange(tablet, "Button.Width", "btnLoginPopup", 130);
+            VisualStateChange(tablet, "Button.FontSize", "btnLoginPopup", 18);
+
+            //desktop visual state
+            VisualStateChange(desktop, "Rectangle.Height", "header", 100);
+            VisualStateChange(desktop, "stackpanel.Height", "relativePanel", 100);
+            VisualStateChange(desktop, "textBlock.Margin", "textBlock", new Thickness(20, 0, 0, 0));
+            VisualStateChange(desktop, "textBlock.FontSize", "textBlock", 45);
+            VisualStateChange(desktop, "Image.Height", "CAAImg", 100);
+            VisualStateChange(desktop, "Image.Width", "CAAImg", 110);
+            VisualStateChange(desktop, "Button.Height", "btnLoginPopup", 50);
+            VisualStateChange(desktop, "Button.Width", "btnLoginPopup", 150);
+            VisualStateChange(desktop, "Button.FontSize", "btnLoginPopup", 20);
+        }
+
         //change visual state
         public static void VisualStateChange(VisualState visualState, string propertyPath, string elementName, object value)
         {

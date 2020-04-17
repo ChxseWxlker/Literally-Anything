@@ -50,7 +50,7 @@
                 </VisualState>
                 <VisualState x:Name="VisualStateMiddle">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="621"/>
+                        <AdaptiveTrigger MinWindowWidth="620"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="lblEventName.FontSize" Value="20"/>
@@ -116,13 +116,6 @@
                         <Setter Target="spPastEvent.Width" Value="800"/>
                         <Setter Target="spFilterControls.Width" Value="800"/>
                         <Setter Target="spPastEvents.Width" Value="800"/>
-                    </VisualState.Setters>
-                 </VisualState>
-                <VisualState x:Name="VisualStateDesktop">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1100"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
