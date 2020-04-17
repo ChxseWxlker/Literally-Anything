@@ -19,6 +19,8 @@
                         <Setter Target="spInput.Orientation" Value="Vertical"/>
                         <Setter Target="trackingPanel.Margin" Value="0 20 0 0"/>
 
+                        <Setter Target="lblEventName.Width" Value="300"/>
+
                         <Setter Target="lblMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.Width" Value="300"/>
@@ -62,6 +64,8 @@
                         <Setter Target="spInput.Orientation" Value="Vertical"/>
                         <Setter Target="trackingPanel.Margin" Value="0 20 0 0"/>
 
+                        <Setter Target="lblEventName.Width" Value="400"/>
+
                         <Setter Target="lblMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.Width" Value="300"/>
@@ -99,6 +103,8 @@
                         <Setter Target="lblMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.FontSize" Value="20"/>
                         <Setter Target="txtMemberNum.Width" Value="300"/>
+
+                        <Setter Target="lblEventName.Width" Value="500"/>
 
                         <Setter Target="lblMemberFirst.FontSize" Value="20"/>
                         <Setter Target="txtMemberFirst.FontSize" Value="20"/>
@@ -153,7 +159,7 @@
 
                     <StackPanel HorizontalAlignment="Center">
                         
-                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center" Width="700" TextAlignment="Center"/>
 
                         <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                             <StackPanel Margin="0 20 0 0">

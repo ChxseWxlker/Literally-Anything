@@ -28,9 +28,11 @@
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
+                        
                         <Setter Target="lblUntil.FontSize" Value="18"/>
                         <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpStartDateSearch.Width" Value="300"/>
+                        
                         <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpEndDateSearch.Width" Value="300"/>
                         <Setter Target="lblUntil.Margin" Value="0, 0 ,10 0"/>
@@ -38,9 +40,16 @@
                         <Setter Target="lblUpcomingEvent.FontSize" Value="28"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="28"/>
                         <Setter Target="lblPastEvent.FontSize" Value="28"/>
+                        
                         <Setter Target="spLVUpcomingEvent.Height" Value="120"/>
                         <Setter Target="spLVActiveEvent.Height" Value="120"/>
                         <Setter Target="spLVPastEvent.Height" Value="120"/>
+
+                        <Setter Target="btnFilter.FontSize" Value="20"/>
+                        <Setter Target="btnFilter.Width" Value="130"/>
+                        <Setter Target="btnClearFilter.FontSize" Value="20"/>
+                        <Setter Target="btnClearFilter.Width" Value="130"/>
+
                         <Setter Target="spUpcomingEvents.Width" Value="350"/>
                         <Setter Target="spActiveEvents.Width" Value="350"/>
                         <Setter Target="spPastEvent.Width" Value="350"/>
@@ -56,18 +65,30 @@
                         <Setter Target="lblEventName.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
+
+                        <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
+                        <Setter Target="dtpStartDateSearch.Width" Value="300"/>
+
+                        <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
+                        <Setter Target="dtpEndDateSearch.Width" Value="300"/>
+
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
                         <Setter Target="lblUntil.FontSize" Value="18"/>
-                        <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
-                        <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="lblUntil.Margin" Value="0, 0 ,10 0"/>
+
+                        <Setter Target="btnFilter.FontSize" Value="20"/>
+                        <Setter Target="btnFilter.Width" Value="130"/>
+                        <Setter Target="btnClearFilter.FontSize" Value="20"/>
+                        <Setter Target="btnClearFilter.Width" Value="130"/>
 
                         <Setter Target="lblUpcomingEvent.FontSize" Value="32"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="32"/>
                         <Setter Target="lblPastEvent.FontSize" Value="32"/>
+                        
                         <Setter Target="spLVUpcomingEvent.Height" Value="140"/>
                         <Setter Target="spLVActiveEvent.Height" Value="140"/>
                         <Setter Target="spLVPastEvent.Height" Value="140"/>
+                        
                         <Setter Target="spUpcomingEvents.Width" Value="500"/>
                         <Setter Target="spActiveEvents.Width" Value="500"/>
                         <Setter Target="spPastEvent.Width" Value="500"/>
@@ -83,11 +104,16 @@
                         <Setter Target="lblEventName.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.FontSize" Value="20"/>
                         <Setter Target="txtEventSearch.Width" Value="300"/>
+                        
                         <Setter Target="lblDateFrom.FontSize" Value="18"/>
                         <Setter Target="lblUntil.FontSize" Value="18"/>
-                        <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
-                        <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="lblUntil.Margin" Value="0, 0 ,10 0"/>
+
+                        <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
+                        <Setter Target="dtpStartDateSearch.Width" Value="300"/>
+
+                        <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
+                        <Setter Target="dtpEndDateSearch.Width" Value="300"/>
 
                         <Setter Target="lblUpcomingEvent.FontSize" Value="34"/>
                         <Setter Target="lblActiveEvent.FontSize" Value="34"/>
@@ -107,8 +133,8 @@
                         <AdaptiveTrigger MinWindowWidth="900"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="dtpStartDateSearch.Width" Value="325"/>
-                        <Setter Target="dtpEndDateSearch.Width" Value="325"/>
+                        <Setter Target="dtpStartDateSearch.Width" Value="400"/>
+                        <Setter Target="dtpEndDateSearch.Width" Value="400"/>
                         <Setter Target="dtpStartDateSearch.FontSize" Value="20"/>
                         <Setter Target="dtpEndDateSearch.FontSize" Value="20"/>
                         <Setter Target="spUpcomingEvents.Width" Value="800"/>
@@ -116,6 +142,9 @@
                         <Setter Target="spPastEvent.Width" Value="800"/>
                         <Setter Target="spFilterControls.Width" Value="800"/>
                         <Setter Target="spPastEvents.Width" Value="800"/>
+                        <Setter Target="spLVUpcomingEvent.Height" Value="180"/>
+                        <Setter Target="spLVPastEvent.Height" Value="180"/>
+                        <Setter Target="spLVActiveEvent.Height" Value="180"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -222,12 +251,12 @@
 
                             <StackPanel x:Name="DatesFrom" Orientation="Vertical">
                                 <TextBlock x:Name="lblDateFrom" Text="From" TextWrapping="Wrap" Margin="0,5,10,0" FontSize="22"/>
-                                <DatePicker x:Name="dtpStartDateSearch" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
+                                <DatePicker x:Name="dtpStartDateSearch" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="400"/>
                             </StackPanel>
 
                             <StackPanel x:Name="spDateTo" Orientation="Vertical">
                                 <TextBlock x:Name="lblUntil" Text="To" TextWrapping="Wrap" Margin="0,5,10,0" FontSize="22"/>
-                                <DatePicker x:Name="dtpEndDateSearch" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="399"/>
+                                <DatePicker x:Name="dtpEndDateSearch" FontSize="25" Margin="0,5,0,0" MinWidth="0" Width="400"/>
                             </StackPanel>
 
                         </StackPanel>
