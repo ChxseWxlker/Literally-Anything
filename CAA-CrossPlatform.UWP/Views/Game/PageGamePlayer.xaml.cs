@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using System.Drawing;
+using Windows.Graphics.Imaging;
+using ColorThiefDotNet;
 
 namespace CAA_CrossPlatform.UWP
 {
@@ -180,7 +182,7 @@ namespace CAA_CrossPlatform.UWP
 
             //add answer
             spQuestions.Children.Add(CreateQuestion(question, tempAnswers, true));
-
+            
             //get image
             if (!string.IsNullOrEmpty(game.imagePath))
             {

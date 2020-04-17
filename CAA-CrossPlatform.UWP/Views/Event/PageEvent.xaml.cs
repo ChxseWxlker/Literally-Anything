@@ -78,6 +78,8 @@ namespace CAA_CrossPlatform.UWP
                 if (activeEvents.Count == 1)
                 {
                     EnvironmentModel.Event = activeEvents[0];
+                    NavigationView navMenu = PageIndex.GetElement("navMenu");
+                    navMenu.SelectedItem = null;
                     Frame.Navigate(typeof(PageEventManager));
                 }
 
@@ -174,9 +176,7 @@ namespace CAA_CrossPlatform.UWP
             lblPopupGame.Text = $"Game: {game.name}";
 
             //scroll up to popup
-            Grid gridFrame = (Grid)Frame.Parent;
-            Grid gridIndex = (Grid)gridFrame.Parent;
-            ScrollViewer scroller = (ScrollViewer)gridIndex.Parent;
+            ScrollViewer scroller = PageIndex.GetElement("svIndex");
             scrollerVerticalOffset = scroller.VerticalOffset;
             scroller.ChangeView(scroller.HorizontalOffset, 0, scroller.ZoomFactor);
 
@@ -188,9 +188,7 @@ namespace CAA_CrossPlatform.UWP
         private void popupEventClick_Closed(object sender, object e)
         {
             //scroll back to vertical offset when popup is closed
-            Grid gridFrame = (Grid)Frame.Parent;
-            Grid gridIndex = (Grid)gridFrame.Parent;
-            ScrollViewer scroller = (ScrollViewer)gridIndex.Parent;
+            ScrollViewer scroller = PageIndex.GetElement("svIndex");
             scroller.ChangeView(scroller.HorizontalOffset, scrollerVerticalOffset, scroller.ZoomFactor);
         }
 
