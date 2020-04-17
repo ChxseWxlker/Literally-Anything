@@ -50,6 +50,7 @@ namespace CAA_CrossPlatform.UWP
             //create stackpanel
             StackPanel spQuestion = new StackPanel();
             spQuestion.Margin = new Thickness(0, 10, 0, 0);
+            spQuestion.HorizontalAlignment = HorizontalAlignment.Center;
             spQuestion.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(175, 255, 255, 255));
             spQuestion.Padding = new Thickness(5);
             spQuestion.Width = 500;
@@ -60,7 +61,7 @@ namespace CAA_CrossPlatform.UWP
             tbQuestion.TextWrapping = TextWrapping.Wrap;
             tbQuestion.TextAlignment = TextAlignment.Left;
             tbQuestion.FontSize = 24;
-            tbQuestion.HorizontalAlignment = HorizontalAlignment.Center;
+            tbQuestion.HorizontalAlignment = HorizontalAlignment.Left;
             tbQuestion.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
             tbQuestion.Margin = new Thickness(0, 0, 0, 10);
             spQuestion.Children.Add(tbQuestion);
@@ -114,6 +115,7 @@ namespace CAA_CrossPlatform.UWP
             //create stackpanel
             StackPanel spResults = new StackPanel();
             spResults.Margin = new Thickness(0, 10, 0, 0);
+            spResults.HorizontalAlignment = HorizontalAlignment.Center;
             spResults.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(175, 255, 255, 255));
             spResults.Padding = new Thickness(5);
             spResults.Width = 500;
@@ -127,7 +129,8 @@ namespace CAA_CrossPlatform.UWP
                 tbQuestion.Margin = new Thickness(0, 10, 0, 0);
                 spResults.Children.Add(tbQuestion);
                 tbQuestion.TextWrapping = TextWrapping.Wrap;
-                tbQuestion.HorizontalAlignment = HorizontalAlignment.Center;
+                tbQuestion.TextAlignment = TextAlignment.Left;
+                tbQuestion.HorizontalAlignment = HorizontalAlignment.Left;
                 List<Answer> tempAnswers = new List<Answer>();
                 foreach (Answer answer in answers)
                     if (answer.QuestionID == question.Id)
@@ -223,6 +226,9 @@ namespace CAA_CrossPlatform.UWP
 
                 //get results
                 spQuestions.Children.Add(GetResults());
+
+                //remove background
+                background.ImageSource = null;
             }
 
             //submit question then go to next

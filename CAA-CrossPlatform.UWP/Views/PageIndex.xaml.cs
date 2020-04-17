@@ -105,6 +105,7 @@ namespace CAA_CrossPlatform.UWP
             //mobile
             if (Window.Current.Bounds.Width < 501)
             {
+                instance.TemplateFrame.Margin = new Thickness(-40, 0, 0, 0);
                 instance.header.Height = 70;
                 instance.relativePanel.Height = 70;
                 instance.textBlock.FontSize = 20;
@@ -119,6 +120,7 @@ namespace CAA_CrossPlatform.UWP
             //middle
             else if (Window.Current.Bounds.Width < 651 && Window.Current.Bounds.Width > 500)
             {
+                instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 80;
                 instance.relativePanel.Height = 80;
                 instance.textBlock.FontSize = 30;
@@ -133,6 +135,7 @@ namespace CAA_CrossPlatform.UWP
             //tablet
             else if (Window.Current.Bounds.Width < 951 && Window.Current.Bounds.Width > 650)
             {
+                instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 90;
                 instance.relativePanel.Height = 90;
                 instance.textBlock.FontSize = 40;
@@ -144,9 +147,10 @@ namespace CAA_CrossPlatform.UWP
                 instance.btnLoginPopup.FontSize = 18;
             }
 
-            //desktop
+            //desktop and laptop
             else if (Window.Current.Bounds.Width > 950)
             {
+                instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 100;
                 instance.relativePanel.Height = 100;
                 instance.textBlock.FontSize = 45;
@@ -159,6 +163,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //phone visual state
+            VisualStateChange(mobile, "Frame.Margin", "TemplateFrame", new Thickness(-40, 0, 0, 0));
             VisualStateChange(mobile, "Rectangle.Height", "header", 70);
             VisualStateChange(mobile, "stackpanel.Height", "relativePanel", 70);
             VisualStateChange(mobile, "textBlock.FontSize", "textBlock", 20);
@@ -170,6 +175,7 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(mobile, "Button.FontSize", "btnLoginPopup", 11);
 
             //middle visual state
+            VisualStateChange(middle, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(middle, "Rectangle.Height", "header", 80);
             VisualStateChange(middle, "stackpanel.Height", "relativePanel", 80);
             VisualStateChange(middle, "textBlock.FontSize", "textBlock", 30);
@@ -181,6 +187,7 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(middle, "Button.FontSize", "btnLoginPopup", 14);
 
             //tablet visual state
+            VisualStateChange(tablet, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(tablet, "Rectangle.Height", "header", 90);
             VisualStateChange(tablet, "stackpanel.Height", "relativePanel", 90);
             VisualStateChange(tablet, "textBlock.Margin", "textBlock", new Thickness(20, 0, 0, 0));
@@ -192,6 +199,7 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(tablet, "Button.FontSize", "btnLoginPopup", 18);
 
             //desktop visual state
+            VisualStateChange(desktop, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(desktop, "Rectangle.Height", "header", 100);
             VisualStateChange(desktop, "stackpanel.Height", "relativePanel", 100);
             VisualStateChange(desktop, "textBlock.Margin", "textBlock", new Thickness(20, 0, 0, 0));
@@ -242,8 +250,8 @@ namespace CAA_CrossPlatform.UWP
             if (btnSender.Content.ToString() == "Login")
             {
                 popupLogin.IsOpen = true;
-                popupLogin.Height = Window.Current.Bounds.Height;
-                panelPopup.Height = Window.Current.Bounds.Height;
+                popupLogin.Height = Window.Current.Bounds.Height - 140;
+                panelPopup.Height = Window.Current.Bounds.Height - 140;
                 txtUsername.Focus(FocusState.Keyboard);
             }
 
