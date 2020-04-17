@@ -288,7 +288,7 @@ namespace CAA_CrossPlatform.UWP
             spHistoryMemTime.Children.Insert(1, lblTime);
         }
 
-        private async Task<Attendance> SwipeMember(string card)
+        private Attendance SwipeMember(string card)
         {
             try
             {
@@ -455,7 +455,7 @@ namespace CAA_CrossPlatform.UWP
                 //card swipe entry
                 if (txtBox.Text.Contains("%B"))
                 {
-                    a = await SwipeMember(txtBox.Text);
+                    a = SwipeMember(txtBox.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -495,7 +495,7 @@ namespace CAA_CrossPlatform.UWP
                     else if (swipeEnter == 1)
                         swipeEnter = 0;
 
-                    a = await SwipeMember(txtBox.Text);
+                    a = SwipeMember(txtBox.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -581,7 +581,7 @@ namespace CAA_CrossPlatform.UWP
                 //card swipe entry
                 if (txtMemberNum.Text.Contains("%B"))
                 {
-                    a = await SwipeMember(txtMemberNum.Text);
+                    a = SwipeMember(txtMemberNum.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -610,7 +610,7 @@ namespace CAA_CrossPlatform.UWP
                         return;
                     }
 
-                    a = await SwipeMember(txtMemberNum.Text);
+                    a = SwipeMember(txtMemberNum.Text);
                     if (a.Id == -1)
                         return;
                 }
@@ -721,6 +721,26 @@ namespace CAA_CrossPlatform.UWP
         {
             if (this.Frame.CanGoBack)
                 this.Frame.GoBack();
+        }
+
+        private void btnWinner_Click(object sender, RoutedEventArgs e)
+        {
+            //check if members
+            if (memberCount == 0)
+            {
+                PageIndex.ShowError("There are no winners to pick! Start swiping.");
+                return;
+            }
+
+            //create randomizer
+            Random ran = new Random();
+
+            //pick winner
+            Attendance winner = attendanceHistory[ran.Next(0, memberCount)];
+
+            //display winner
+            lblWinner.Text = winner.firstName + " " + winner.lastName;
+            lblWinner.Visibility = Visibility.Visible;
         }
     }
 }

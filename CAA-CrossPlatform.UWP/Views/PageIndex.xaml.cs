@@ -93,6 +93,20 @@ namespace CAA_CrossPlatform.UWP
             navMenu.SelectedItem = navMenu.MenuItems[0];
         }
 
+        //change visual state
+        public static void VisualStateChange(VisualState visualState, string propertyPath, string elementName, object value)
+        {
+            visualState.Setters.Add(new Setter
+            {
+                Target = new TargetPropertyPath
+                {
+                    Path = new PropertyPath($"({propertyPath})"),
+                    Target = instance.FindName(elementName),
+                },
+                Value = value
+            });
+        }
+
         //show error popup
         public static void ShowError(string error)
         {

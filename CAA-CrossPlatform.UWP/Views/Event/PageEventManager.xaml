@@ -188,6 +188,10 @@
                             <Button Style="{StaticResource ButtonTemplate}" x:Name="btnPlayGame" HorizontalAlignment="Center" Content="Play Game" Width="180" Height="50" FontSize="30" Click="btnPlayGame_Click"/>
                             <CheckBox x:Name="chkPlayGameAuto" HorizontalAlignment="Center"  Margin="25 0 0 0" Content="Auto Play" Width="165" Height="50" FontSize="30" IsChecked="True" Click="chkPlayGameAuto_Click"/>
                         </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 20 0 20">
+                            <TextBlock x:Name="lblWinner" HorizontalAlignment="Center"  Margin="25 0 0 0" Text="" Visibility="Collapsed" Width="165" Height="50" FontSize="30"/>
+                            <Button Style="{StaticResource ButtonTemplate}" x:Name="btnWinner" HorizontalAlignment="Center" Content="Pick Winner" Width="180" Height="50" FontSize="30" Click="btnWinner_Click"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel Name="spMemberHistory" HorizontalAlignment="Center" Margin="0,50,0,0">

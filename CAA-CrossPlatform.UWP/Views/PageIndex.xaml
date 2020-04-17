@@ -40,6 +40,7 @@
                             <Setter Target="textBlock.Margin" Value="10,0,0,0"/>
                             <Setter Target="CAAImg.Height" Value="60"/>
                             <Setter Target="CAAImg.Width" Value="70"/>
+                            <Setter Target="textBlock.Foreground" Value="Red"/>
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="VisualStateMiddle">

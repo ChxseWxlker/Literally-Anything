@@ -56,7 +56,7 @@ namespace CAA_CrossPlatform.UWP
             TextBlock tbQuestion = new TextBlock();
             tbQuestion.Text = Question.name;
             tbQuestion.TextWrapping = TextWrapping.Wrap;
-            tbQuestion.TextAlignment = TextAlignment.Center;
+            tbQuestion.TextAlignment = TextAlignment.Left;
             tbQuestion.FontSize = 24;
             tbQuestion.HorizontalAlignment = HorizontalAlignment.Center;
             tbQuestion.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
@@ -90,6 +90,7 @@ namespace CAA_CrossPlatform.UWP
                     },
                     Value = 300
                 });
+
                 VisualStateMiddle.Setters.Add(new Setter
                 {
                     Target = new TargetPropertyPath
@@ -150,7 +151,6 @@ namespace CAA_CrossPlatform.UWP
                     },
                     Value = 300
                 });
-
             }
 
             //return stackpanel

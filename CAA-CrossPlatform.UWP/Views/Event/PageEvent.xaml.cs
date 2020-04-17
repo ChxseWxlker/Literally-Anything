@@ -38,6 +38,23 @@ namespace CAA_CrossPlatform.UWP
 
         private async void PageEvent_Loaded(object sender, RoutedEventArgs e)
         {
+            //set visual state for index
+            PageIndex.VisualStateChange(VisualStatePhone, "stackpanel.Height", "relativePanel", 70);
+            PageIndex.VisualStateChange(VisualStatePhone, "textBlock.FontSize", "textBlock", 20);
+            PageIndex.VisualStateChange(VisualStatePhone, "textBlock.Margin", "textBlock",new Thickness(10,0,0,0));
+            PageIndex.VisualStateChange(VisualStatePhone, "Image.Height", "CAAImg", 60);
+            PageIndex.VisualStateChange(VisualStatePhone, "Image.Width", "CAAImg", 70);
+            
+            PageIndex.VisualStateChange(VisualStateMiddle, "stackpanel.Height", "relativePanel", 70);
+            PageIndex.VisualStateChange(VisualStateMiddle, "textBlock.FontSize", "textBlock", 30);
+            PageIndex.VisualStateChange(VisualStateMiddle, "Image.Height", "CAAImg", 70);
+            PageIndex.VisualStateChange(VisualStateMiddle, "Image.Width", "CAAImg", 80);
+            
+            PageIndex.VisualStateChange(VisualStateTablet, "stackpanel.Height", "relativePanel", 100);
+            PageIndex.VisualStateChange(VisualStateTablet, "textBlock.FontSize", "textBlock", 45);
+            PageIndex.VisualStateChange(VisualStateTablet, "Image.Height", "CAAImg", 100);
+            PageIndex.VisualStateChange(VisualStateTablet, "Image.Width", "CAAImg", 110);
+            
             //reset environment vars
             EnvironmentModel.Reset();
 
