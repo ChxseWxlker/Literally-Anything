@@ -47,12 +47,6 @@
                         <Setter Target="btnPlayGame.Width" Value="130"/>
                         <Setter Target="chkPlayGameAuto.Width" Value="115"/>
 
-                        <Setter Target="txtSearch.FontSize" Value="20"/>
-                        <Setter Target="txtSearch.Width" Value="255"/>
-
-                        <Setter Target="btnSearch.FontSize" Value="20"/>
-                        <Setter Target="btnSearch.Width" Value="40"/>
-
                         <Setter Target="spMemberHistory.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -158,7 +152,7 @@
                 <StackPanel Grid.Row="3" Grid.Column="2" Margin="0 0 0 50">
 
                     <StackPanel HorizontalAlignment="Center">
-                        
+
                         <TextBlock x:Name="lblEventName" Text="EventName" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center" Width="700" TextAlignment="Center"/>
 
                         <StackPanel x:Name="spInput" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
@@ -182,7 +176,7 @@
                             <StackPanel x:Name="trackingPanel" Margin="20 20 0 0" HorizontalAlignment="Center">
                                 <TextBlock Name="lblTracking" Text="Tracking" TextWrapping="Wrap" FontSize="35" HorizontalAlignment="Center"/>
                             </StackPanel>
-                            
+
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -214,18 +208,9 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <StackPanel Margin="0 0 0 10">
                                     <TextBlock x:Name="lblMemberCount" Text="Total Guests: 0" FontSize="20"/>
-                                </StackPanel>
-
-                                <StackPanel x:Name="SearchBar" Orientation="Horizontal" Margin="0 0 0 10">
-
-                                    <TextBox x:Name="txtSearch" PlaceholderText="Search Member" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Height="40" Width="415" Margin="0 0 5 0" KeyDown="txtSearch_KeyDown"/>
-
-                                    <Button x:Name="btnSearch" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" FontSize="20" Height="40" Width="40" Content="&#xE1A3;" Click="btnSearch_Click"/>
-
                                 </StackPanel>
 
                                 <StackPanel x:Name="spHistory" Orientation="Horizontal" HorizontalAlignment="Center" Width="460">

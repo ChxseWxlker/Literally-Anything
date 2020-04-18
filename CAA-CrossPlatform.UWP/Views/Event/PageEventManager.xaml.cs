@@ -686,37 +686,6 @@ namespace CAA_CrossPlatform.UWP
                 btnPlayGame_Click(sender, e);
         }
 
-        private void txtSearch_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-                btnSearch_Click(sender, new RoutedEventArgs());
-        }
-
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
-        {
-            string search = txtSearch.Text.ToLower().Replace(" ", "");
-            SolidColorBrush btnBg = (SolidColorBrush)btnSearch.Background;
-
-            //change to clear
-            if (btnBg.Color.G.ToString() == "82")
-            {
-
-
-                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplateRed"];
-                btnSearch.Content = "\uE894";
-            }
-
-            //change to search
-            else if (btnBg.Color.G.ToString() == "14")
-            {
-
-
-                txtSearch.Text = "";
-                btnSearch.Style = (Style)Application.Current.Resources["ButtonTemplate"];
-                btnSearch.Content = "\uE1A3";
-            }
-        }
-
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             if (this.Frame.CanGoBack)
@@ -739,8 +708,11 @@ namespace CAA_CrossPlatform.UWP
             Attendance winner = attendanceHistory[ran.Next(0, memberCount)];
 
             //display winner
-            lblWinner.Text = winner.memberNumber + " " + winner.firstName + " " + winner.lastName;
+            lblWinner.Text = winner.firstName + " " + winner.lastName;
             lblWinner.Visibility = Visibility.Visible;
+
+            //focus membership
+            txtMemberNum.Focus(FocusState.Keyboard);
         }
     }
 }

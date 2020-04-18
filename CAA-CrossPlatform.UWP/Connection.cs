@@ -239,7 +239,7 @@ namespace CAA_CrossPlatform.UWP
                 //open connection
                 con.Open();
 
-                //select single record
+                //insert single record
                 SqliteCommand cmd = new SqliteCommand($"INSERT INTO User (username, salt, password, apiKey) VALUES " +
                     $"(@username, @salt, @password, @apiKey);", con);
                 cmd.Parameters.AddWithValue("@username", user.username);
@@ -260,7 +260,7 @@ namespace CAA_CrossPlatform.UWP
 
             catch (Exception ex)
             {
-                //username doesn't exist
+                //username taken
                 if (ex.Message.Contains("UNIQUE"))
                     return "_unable";
 
