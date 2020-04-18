@@ -211,6 +211,63 @@ namespace CAA_CrossPlatform.UWP
             }
         }
 
+        public static async Task<string> Register(string Username, string Password)
+        {
+            //verify the database exists
+            await Verify();
+
+            //try connecting to the database
+            try
+            {
+                //create user
+                Encryption enc = Encryption.CreateHashSalt(Password);
+                User user = new User();
+                user.username = Username;
+                user.salt = enc.Salt;
+                user.password = enc.Digest;
+                int hash = Username.GetHashCode();
+                if (hash < 0)
+                    hash *= -1;
+                string hashStr = hash.ToString();
+                Random rng = new Random();
+                for (int i = hashStr.Length; i < 11; i++)
+                {
+                    hashStr += rng.Next(0, 9);
+                }
+                user.apiKey = hashStr.Substring(0, 10);
+
+                //open connection
+                con.Open();
+
+                //select single record
+                SqliteCommand cmd = new SqliteCommand($"INSERT INTO User (username, salt, password, apiKey) VALUES " +
+                    $"(@username, @salt, @password, @apiKey);", con);
+                cmd.Parameters.AddWithValue("@username", user.username);
+                cmd.Parameters.AddWithValue("@salt", user.salt);
+                cmd.Parameters.AddWithValue("@password", user.password);
+                cmd.Parameters.AddWithValue("@apiKey", user.apiKey);
+
+                //insert record
+                cmd.ExecuteNonQuery();
+
+                //close connection
+                if (con.State == System.Data.ConnectionState.Open)
+                    con.Close();
+
+                //return username
+                return user.username;
+            }
+
+            catch (Exception ex)
+            {
+                //username doesn't exist
+                if (ex.Message.Contains("UNIQUE"))
+                    return "_unable";
+
+                return "_error;";
+            }
+        }
+
         //returns a specific record or all records
         public static async Task<dynamic> Get(string Table, int? Id = null)
         {

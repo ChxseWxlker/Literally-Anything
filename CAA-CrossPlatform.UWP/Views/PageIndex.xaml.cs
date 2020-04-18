@@ -105,6 +105,7 @@ namespace CAA_CrossPlatform.UWP
             //mobile
             if (Window.Current.Bounds.Width < 501)
             {
+                instance.navMenu.OpenPaneLength = 150;
                 instance.TemplateFrame.Margin = new Thickness(-40, 0, 0, 0);
                 instance.header.Height = 70;
                 instance.relativePanel.Height = 70;
@@ -120,6 +121,7 @@ namespace CAA_CrossPlatform.UWP
             //middle
             else if (Window.Current.Bounds.Width < 651 && Window.Current.Bounds.Width > 500)
             {
+                instance.navMenu.OpenPaneLength = 200;
                 instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 80;
                 instance.relativePanel.Height = 80;
@@ -135,6 +137,7 @@ namespace CAA_CrossPlatform.UWP
             //tablet
             else if (Window.Current.Bounds.Width < 951 && Window.Current.Bounds.Width > 650)
             {
+                instance.navMenu.OpenPaneLength = 200;
                 instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 90;
                 instance.relativePanel.Height = 90;
@@ -150,6 +153,7 @@ namespace CAA_CrossPlatform.UWP
             //desktop and laptop
             else if (Window.Current.Bounds.Width > 950)
             {
+                instance.navMenu.OpenPaneLength = 200;
                 instance.TemplateFrame.Margin = new Thickness(0, 0, 0, 0);
                 instance.header.Height = 100;
                 instance.relativePanel.Height = 100;
@@ -163,6 +167,7 @@ namespace CAA_CrossPlatform.UWP
             }
 
             //phone visual state
+            VisualStateChange(mobile, "NavigationView.OpenPaneLength", "navMenu", 150);
             VisualStateChange(mobile, "Frame.Margin", "TemplateFrame", new Thickness(-40, 0, 0, 0));
             VisualStateChange(mobile, "Rectangle.Height", "header", 70);
             VisualStateChange(mobile, "stackpanel.Height", "relativePanel", 70);
@@ -175,6 +180,7 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(mobile, "Button.FontSize", "btnLoginPopup", 11);
 
             //middle visual state
+            VisualStateChange(middle, "NavigationView.OpenPaneLength", "navMenu", 200);
             VisualStateChange(middle, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(middle, "Rectangle.Height", "header", 80);
             VisualStateChange(middle, "stackpanel.Height", "relativePanel", 80);
@@ -187,6 +193,7 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(middle, "Button.FontSize", "btnLoginPopup", 14);
 
             //tablet visual state
+            VisualStateChange(tablet, "NavigationView.OpenPaneLength", "navMenu", 200);
             VisualStateChange(tablet, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(tablet, "Rectangle.Height", "header", 90);
             VisualStateChange(tablet, "stackpanel.Height", "relativePanel", 90);
@@ -198,7 +205,8 @@ namespace CAA_CrossPlatform.UWP
             VisualStateChange(tablet, "Button.Width", "btnLoginPopup", 130);
             VisualStateChange(tablet, "Button.FontSize", "btnLoginPopup", 18);
 
-            //desktop visual state
+            //desktop and laptop visual state
+            VisualStateChange(desktop, "NavigationView.OpenPaneLength", "navMenu", 200);
             VisualStateChange(desktop, "Frame.Margin", "TemplateFrame", new Thickness(0, 0, 0, 0));
             VisualStateChange(desktop, "Rectangle.Height", "header", 100);
             VisualStateChange(desktop, "stackpanel.Height", "relativePanel", 100);
@@ -314,6 +322,61 @@ namespace CAA_CrossPlatform.UWP
                 popupLogin.IsOpen = false;
                 Environment.SetEnvironmentVariable("activeUser", loginRes);
                 lblUsername.Text = $"Welcome {loginRes}";
+                btnLoginPopup.Content = "Logout";
+                btnGamePage.Visibility = Visibility.Visible;
+                btnQuestionPage.Visibility = Visibility.Visible;
+                btnItemPage.Visibility = Visibility.Visible;
+                txtUsername.Text = "";
+                txtPassword.Password = "";
+                if (TemplateFrame.SourcePageType != typeof(PageEventManager))
+                    TemplateFrame.Navigate(typeof(PageEvent));
+            }
+        }
+
+        private async void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtUsername.Text))
+            {
+                lblLoginError.Text = "Please enter a username.";
+                lblLoginError.Visibility = Visibility.Visible;
+                txtUsername.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtPassword.Password))
+            {
+                lblLoginError.Text = "Please enter a password.";
+                lblLoginError.Visibility = Visibility.Visible;
+                txtPassword.Focus(FocusState.Keyboard);
+                return;
+            }
+
+            //try registering
+            string registerRes = await Connection.Register(txtUsername.Text, txtPassword.Password);
+
+            //unable to register
+            if (registerRes == "_unable")
+            {
+                lblLoginError.Text = "That username is taken, please try another.";
+                lblLoginError.Visibility = Visibility.Visible;
+                txtUsername.Focus(FocusState.Keyboard);
+            }
+
+            //error registering
+            else if (registerRes == "_error")
+            {
+                lblLoginError.Text = "There was an error trying to register, please try again. If the problem persists contact a server administrator.";
+                lblLoginError.Visibility = Visibility.Visible;
+            }
+
+            //succesful register
+            else
+            {
+                lblLoginError.Text = "";
+                lblLoginError.Visibility = Visibility.Visible;
+                popupLogin.IsOpen = false;
+                Environment.SetEnvironmentVariable("activeUser", registerRes);
+                lblUsername.Text = $"Welcome {registerRes}";
                 btnLoginPopup.Content = "Logout";
                 btnGamePage.Visibility = Visibility.Visible;
                 btnQuestionPage.Visibility = Visibility.Visible;

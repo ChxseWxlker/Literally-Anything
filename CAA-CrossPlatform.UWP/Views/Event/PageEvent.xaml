@@ -45,9 +45,9 @@
                         <Setter Target="lblActiveEvent.FontSize" Value="28"/>
                         <Setter Target="lblPastEvent.FontSize" Value="28"/>
                         
-                        <Setter Target="spLVUpcomingEvent.Height" Value="120"/>
-                        <Setter Target="spLVActiveEvent.Height" Value="120"/>
-                        <Setter Target="spLVPastEvent.Height" Value="120"/>
+                        <!--<Setter Target="spLVUpcomingEvent.Height" Value="120"/>-->
+                        <!--<Setter Target="spLVActiveEvent.Height" Value="120"/>-->
+                        <!--<Setter Target="spLVPastEvent.Height" Value="120"/>-->
 
                         <Setter Target="btnFilter.FontSize" Value="20"/>
                         <Setter Target="btnFilter.Width" Value="130"/>
@@ -93,9 +93,9 @@
                         <Setter Target="lblActiveEvent.FontSize" Value="32"/>
                         <Setter Target="lblPastEvent.FontSize" Value="32"/>
                         
-                        <Setter Target="spLVUpcomingEvent.Height" Value="140"/>
+                        <!--<Setter Target="spLVUpcomingEvent.Height" Value="140"/>
                         <Setter Target="spLVActiveEvent.Height" Value="140"/>
-                        <Setter Target="spLVPastEvent.Height" Value="140"/>
+                        <Setter Target="spLVPastEvent.Height" Value="140"/>-->
                         
                         <Setter Target="spUpcomingEvents.Width" Value="500"/>
                         <Setter Target="spActiveEvents.Width" Value="500"/>
@@ -131,9 +131,9 @@
                         <Setter Target="spPastEvent.Width" Value="650"/>
                         <Setter Target="spFilterControls.Width" Value="650"/>
                         <Setter Target="spPastEvents.Width" Value="650"/>
-                        <Setter Target="spLVUpcomingEvent.Height" Value="160"/>
+                        <!--<Setter Target="spLVUpcomingEvent.Height" Value="160"/>
                         <Setter Target="spLVPastEvent.Height" Value="160"/>
-                        <Setter Target="spLVActiveEvent.Height" Value="160"/>
+                        <Setter Target="spLVActiveEvent.Height" Value="160"/>-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateLaptop">
@@ -150,9 +150,9 @@
                         <Setter Target="spPastEvent.Width" Value="800"/>
                         <Setter Target="spFilterControls.Width" Value="800"/>
                         <Setter Target="spPastEvents.Width" Value="800"/>
-                        <Setter Target="spLVUpcomingEvent.Height" Value="180"/>
+                        <!--<Setter Target="spLVUpcomingEvent.Height" Value="180"/>
                         <Setter Target="spLVPastEvent.Height" Value="180"/>
-                        <Setter Target="spLVActiveEvent.Height" Value="180"/>
+                        <Setter Target="spLVActiveEvent.Height" Value="180"/>-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -209,7 +209,7 @@
                         <Button x:Name="btnCreateEvent" Style="{StaticResource ButtonTemplate}" FontFamily="Segoe MDL2 Assets" FontSize="18" Content="&#xE710;" Height="35" Width="35" Click="btnCreateEvent_Click" ToolTipService.ToolTip="Create an event" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
                     </RelativePanel>
 
-                    <StackPanel x:Name="spLVActiveEvent" Height="180" Background="#ddd">
+                    <StackPanel x:Name="spLVActiveEvent" Height="auto" Background="#ddd">
                         <TextBlock x:Name="lblActiveEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No active events."/>
                         <ListView Name="lvActiveEvent" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                         ScrollViewer.HorizontalScrollMode="Enabled"                  
@@ -230,7 +230,7 @@
                 <StackPanel Name="spUpcomingEvents" Width="1000">
 
                     <TextBlock Name="lblUpcomingEvent" Text="Upcoming Events" Margin="0 10 0 0" FontSize="36"/>
-                    <StackPanel x:Name="spLVUpcomingEvent" Height="180" Background="#ddd">
+                    <StackPanel x:Name="spLVUpcomingEvent" Height="auto" Background="#ddd">
                         <TextBlock x:Name="lblUpcomingEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No active events."/>
                         <ListView x:Name="lvUpcomingEvent" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                     ScrollViewer.HorizontalScrollMode="Enabled"                  
@@ -275,7 +275,7 @@
                     </StackPanel>
 
                     <StackPanel Name="spPastEvents" Margin="0 0 0 50" Width="1000" Visibility="Collapsed">
-                        <StackPanel x:Name="spLVPastEvent" Height="180" Background="Transparent">
+                        <StackPanel x:Name="spLVPastEvent" Height="auto" Background="Transparent">
                             <TextBlock x:Name="lblPastEventEmpty" Visibility="Collapsed" Margin="10 20 0 0" FontSize="15" Text="No events found."/>
                             <ListView x:Name="lvPastEvent"
                                     ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"

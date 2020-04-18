@@ -739,7 +739,7 @@ namespace CAA_CrossPlatform.UWP
             Attendance winner = attendanceHistory[ran.Next(0, memberCount)];
 
             //display winner
-            lblWinner.Text = winner.firstName + " " + winner.lastName;
+            lblWinner.Text = winner.memberNumber + " " + winner.firstName + " " + winner.lastName;
             lblWinner.Visibility = Visibility.Visible;
         }
     }

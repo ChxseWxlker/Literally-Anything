@@ -11,13 +11,11 @@ namespace CAA_CrossPlatform.UWP.Models
         public User()
         {
             //set default values
-            this.hidden = false;
             this.Id = 0;
         }
 
         //user properties
         public int Id { get; set; }
-        public bool hidden { get; set; }
         public string username { get; set; }
         public string salt { get; set; }
         public string password { get; set; }
